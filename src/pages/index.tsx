@@ -1,3 +1,4 @@
+import { Button } from '@mui/joy'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { mainActions } from '../../reducers'
@@ -9,14 +10,14 @@ export const getServerSideProps = wrapper.getServerSideProps(({ dispatch }) => a
   await dispatch(mainActions.setAppName('LEEFTUP WEB SERVICES'))
   return {
     props: {
-      
+
     }
   }
 })
 
 
 const IndexPage: NextPage = () => {
-  const appName = useAppSelector((state)=> state.MainReducer.appName)
+  const appName = useAppSelector((state) => state.MainReducer.appName)
   return (
     <div className={styles.container}>
       <Head>
@@ -25,8 +26,13 @@ const IndexPage: NextPage = () => {
       </Head>
       <header className={styles.header}>
         <p>
-         {appName}
+          {appName}
         </p>
+        <p>
+          Mui Template
+        </p>
+
+        <Button color='success' sx={{fontWeight:500}} >Login</Button>
       </header>
     </div>
   )
