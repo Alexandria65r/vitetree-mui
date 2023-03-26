@@ -11,7 +11,7 @@ import Head from 'next/head';
 import { CssVarsProvider } from '@mui/joy/styles';
 function App({ Component, pageProps }: AppProps) {
   return (
-    <CssVarsProvider>
+    <>
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
         <link
@@ -20,7 +20,7 @@ function App({ Component, pageProps }: AppProps) {
         />
       </Head>
       <Component {...pageProps} />
-    </CssVarsProvider>
+    </>
   )
 }
 
