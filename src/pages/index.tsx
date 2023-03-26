@@ -28,6 +28,7 @@ const Container = styled(Box)({
 })
 const FrontBox = styled(Box)(({theme})=>({
   display: 'flex',
+  flexWrap:'wrap',
   justifyContent: 'space-evenly',
   width: '23%',
   //border:'1px solid'
@@ -35,20 +36,17 @@ const FrontBox = styled(Box)(({theme})=>({
     width: '70%',
   }
 }))
-const CommunityButton = styled(Button)({
+const CommunityButton = styled(Button)(({theme})=>({
   textTransform: 'capitalize',
   height: 45,
-  borderRadius: 0,
-  borderTopLeftRadius: 5,
-  borderBottomLeftRadius: 5
-})
-const MeetButton = styled(Button)({
-  textTransform: 'capitalize',
-  height: 45,
-  borderRadius: 0,
-  borderTopRightRadius: 5,
-  borderBottomRightRadius: 5,
-})
+  borderRadius: 5,
+  [theme.breakpoints.down('sm')]:{
+  flexBasis: '100%',
+    borderRadius: 5,
+    margin:'6px 0'
+}
+}))
+
 
 
 
@@ -63,9 +61,9 @@ const IndexPage: NextPage = () => {
           <CommunityButton onClick={()=>router.push('/communities')} color='secondary' startIcon={<PeopleIcon />} variant='contained'>
             Communities
           </CommunityButton>
-          <MeetButton onClick={()=>router.push('/meet/meet-id')} color='info' startIcon={<VideoCallIcon />} variant='contained'>
+          <CommunityButton onClick={()=>router.push('/meet/meet-id')} color='info' startIcon={<VideoCallIcon />} variant='contained'>
             Meet now
-          </MeetButton>
+          </CommunityButton>
         </FrontBox>
       </Container>
 

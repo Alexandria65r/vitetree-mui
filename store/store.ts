@@ -1,16 +1,18 @@
 import { configureStore, ThunkAction, Action, combineReducers } from '@reduxjs/toolkit'
 import { MakeStore, createWrapper } from 'next-redux-wrapper'
 import MainReducer from '../reducers'
+import ChatReducer from '../reducers/chat-reducer'
 
 const rootReducer = combineReducers({
-   MainReducer
+  MainReducer,
+  ChatReducer
 })
 
 
-const makeStore: MakeStore<any> = ({ reduxWrapperMiddleware }: any) =>
+const makeStore = ({ reduxWrapperMiddleware }: any) =>
   configureStore({
     reducer: rootReducer,
-    devTools:true,
+    devTools: true,
     // middleware: getDefaultMiddleware =>
     //   [...getDefaultMiddleware(), reduxWrapperMiddleware].filter(Boolean) as any
   })

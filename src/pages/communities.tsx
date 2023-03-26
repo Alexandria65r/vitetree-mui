@@ -3,29 +3,12 @@ import { Box, Button, Typography, styled, OutlinedInput, IconButton } from '@mui
 import React from 'react'
 import Layout from '../components/layout'
 import { VideoCall, Add } from '@mui/icons-material';
+import { NextRouter, useRouter } from 'next/router';
+import { Container, Hero } from '../reusable/styles';
+import { cartegories } from '../reusable/helpers';
 
-const Container = styled(Box)(({ theme }) => ({
-    width: '80%',
-    margin: 'auto',
-    [theme.breakpoints.down('sm')]: {
-        width: '100%',
-    },
-}))
 
-const Hero = styled(Box)(({ theme }) => ({
-    height: 250,
-    width: '100%',
-    borderBottomLeftRadius: 25,
-    borderBottomRightRadius: 25,
-    backgroundColor: theme.palette.grey[300],
-    [theme.breakpoints.down('sm')]: {
-        height:180,
-        borderTopLeftRadius: 0,
-        borderTopRightRadius: 0,
-        borderBottomLeftRadius: 9,
-        borderBottomRightRadius: 9,
-    }
-}))
+
 
 
 const GroupHeader = styled(Box)(({ theme }) => ({
@@ -136,6 +119,7 @@ const SearchInput = styled(OutlinedInput)(({ theme }) => ({
 type Props = {}
 
 export default function communites({ }: Props) {
+    const router: NextRouter = useRouter()
     return (
         <Layout>
             <Container>
@@ -157,7 +141,7 @@ export default function communites({ }: Props) {
                         }}>
                             <VideoCall />
                         </ActionIconButton>
-                        <CreateCommunityButton color="secondary" variant="contained" startIcon={<Add />}>
+                        <CreateCommunityButton onClick={()=> router.push('/start-community')} color="secondary" variant="contained" startIcon={<Add />}>
                             Start community
                         </CreateCommunityButton>
                         <CreateCommunityButton sx={{ ml: 1 }} color="info" variant="contained" startIcon={<VideoCall />}>
@@ -174,7 +158,7 @@ export default function communites({ }: Props) {
                             </CommunityCartegoryHeader>
                             <CommunitiesWrapper>
                                 {communities.filter(com => com.cartegory === cartegory).map((community) => (
-                                    <CommunityCard>
+                                    <CommunityCard onClick={()=>router.push('/chat/community-name')}>
                                         <p style={{ fontSize: 13, fontWeight: 500, margin: 0 }} >{community.title}</p>
                                     </CommunityCard>
                                 ))}
@@ -195,7 +179,7 @@ export default function communites({ }: Props) {
 
 
 
-const cartegories = ["sports", "programming", "health", "business"];
+
 const communities = [
     { cartegory: 'business', title: 'Business model guides' },
     { cartegory: 'business', title: 'Real estate' },

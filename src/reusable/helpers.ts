@@ -1,0 +1,1 @@
+export const cartegories = ["sports", "programming", "health", "business"];
