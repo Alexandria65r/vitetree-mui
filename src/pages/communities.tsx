@@ -129,7 +129,9 @@ export default function communites({ }: Props) {
                         <SearchInput placeholder='Search community' />
                     </SearchContainer>
                     <HeaderRightCol>
-                        <ActionIconButton color="secondary" sx={{
+                        <ActionIconButton color="secondary"
+                            onClick={() => router.push('/start-community')} 
+                        sx={{
                             backgroundColor: '#9c27b0',
                             '&:hover': { backgroundColor: '#9c27b0' }
                         }}>
