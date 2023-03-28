@@ -1,4 +1,4 @@
-import {styled,Box} from '@mui/material'
+import {styled,Box, ButtonBase} from '@mui/material'
 
 export const Container = styled(Box)(({ theme }) => ({
     width: '80%',
@@ -22,4 +22,12 @@ export const Hero = styled(Box)(({ theme }) => ({
         borderBottomLeftRadius: 9,
         borderBottomRightRadius: 9,
     }
+}))
+
+export const ButtonIcon = styled(ButtonBase)(({ theme }) => ({
+    width: 45,
+    height: 45,
+    margin: '0 5px',
+    borderRadius: '50%',
+    backgroundColor: theme.palette.grey[300]
 }))
