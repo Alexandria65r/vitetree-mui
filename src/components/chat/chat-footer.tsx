@@ -11,7 +11,7 @@ import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
 import ChevronLeftOutlinedIcon from '@mui/icons-material/ChevronLeftOutlined';
 import { ButtonIcon } from '../../reusable/styles';
 import { Textarea } from '@mui/joy';
-
+import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
 
 const Container = styled(Box)(({ theme }) => ({
     width: '100%',
@@ -24,7 +24,8 @@ const Container = styled(Box)(({ theme }) => ({
     backgroundColor: theme.palette.grey[100],
     [theme.breakpoints.down('sm')]: {
         padding: '0 13px'
-    }
+    },
+
 }))
 
 const ChatTextFieldWrapper = styled(Box)(({ theme }) => ({
@@ -33,17 +34,14 @@ const ChatTextFieldWrapper = styled(Box)(({ theme }) => ({
     alignItems: 'center',
     position: 'relative',
     borderRadius: 29,
-    height: 50,
+    minHeight: 50,
     transition: '0.3s all',
-    transiformOrigin: 'left',
+    transformOrigin: 'left',
     backgroundColor: theme.palette.grey[300],
     [theme.breakpoints.down('sm')]: {
         flex: 1,
+        width: '5%',
     },
-    [theme.breakpoints.down('xs')]: {
-        // flexBasis: '20%',
-        //display:'none'
-    }
 }))
 
 const FooterRightCol = styled(Box)(({ theme }) => ({
@@ -58,61 +56,68 @@ const ChatTextField = styled(Textarea)(({ theme }) => ({
     outline: 'none!important',
     resize: 'none',
     borderRadius: 29,
-    display: 'flex',
     paddingTop: 6,
     alignItems: 'center',
     transition: '0.3s all',
-    transiformOrigin: 'left',
+    transformOrigin: 'left',
     backgroundColor: theme.palette.grey[300],
-    '&:focus': {
-        outline: 'none!important',
-        border: 0,
-    }
+
 }))
 
 const EmojiPickerButton = styled(ButtonBase)(({ theme }) => ({
-    width: 40,
-    height: 40,
-    marginLeft: '5px',
+    width: 30,
+    height: 30,
+    margin: '5px',
     borderRadius: '50%',
     backgroundColor: theme.palette.grey[300]
 }))
 const IconButton = styled(ButtonIcon)(({ theme }) => ({
-    // width: 30,
-    // height: 30,
-    // backgroundColor: 'transparent'
+    transition: '0.3s all',
 }))
 type Props = {}
 
 export default function ChatFooter({ }: Props) {
     const isMobile = useMediaQuery('(max-width:600px)')
-    const is360 = useMediaQuery('(max-width:360px)')
+    const is360 = useMediaQuery('(max-width:375px)')
     const isXs = useMediaQuery('(max-width:320px)')
     console.log(isMobile)
     const [isFocused, setIsFocused] = React.useState<boolean>(false)
+    const [typedText, setTypedText] = React.useState<string>("")
     return (
         <Container>
-            <ChatTextFieldWrapper>
+            <ChatTextFieldWrapper sx={{}}>
                 <EmojiPickerButton>
                     <SentimentSatisfiedAltIcon />
                 </EmojiPickerButton>
                 <ChatTextField
+                   // color='success'
+                    onChange={({ target }) => setTypedText(target.value)}
                     onFocus={() => setIsFocused(true)}
                     onBlur={() => setIsFocused(false)}
-                    placeholder='Write your message'
+                    placeholder={!isFocused && isMobile ? 'Message...' : 'Write your message'}
                 />
+
             </ChatTextFieldWrapper>
+
+            {typedText && (
+                <ButtonIcon sx={(theme) => ({
+                    color: typedText ? theme.palette.primary.light : ''
+                })}>
+                    <SendOutlinedIcon />
+                </ButtonIcon>
+            )}
+
             {isMobile && isFocused ? (
                 <ButtonIcon>
                     <ChevronLeftOutlinedIcon />
                 </ButtonIcon>
             ) : (
                 <FooterRightCol>
-                    {!is360 ? (
-                        <IconButton>
-                            <AddPhotoAlternateOutlinedIcon />
-                        </IconButton>
-                    ) : <></>}
+
+                    <IconButton>
+                        <AddPhotoAlternateOutlinedIcon />
+                    </IconButton>
+
 
                     {!isXs ? (
                         <IconButton>

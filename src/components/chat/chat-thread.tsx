@@ -38,7 +38,6 @@ const ThreadImage = styled(Box)(({ theme }) => ({
 const ThreadOptionButton = styled(ButtonIcon)(({ theme }) => ({
   width: 30,
   height: 30,
-
 }))
 
 
