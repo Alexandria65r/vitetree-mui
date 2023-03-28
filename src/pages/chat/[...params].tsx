@@ -9,7 +9,7 @@ import Chat from '../../components/chat/chat'
 const ChatContainer = styled(Box)(({ theme }) => ({
     display: 'flex'
 }))
-
+ 
 
 
 type Props = {}

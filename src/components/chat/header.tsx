@@ -20,7 +20,7 @@ const Avatar = styled(Box)(({ theme }) => ({
     borderRadius: '50%',
     backgroundColor: '#fff',
     boxShadow: '0 1px 3px 0 #ddd',
-    [theme.breakpoints.down('sm')]:{
+    [theme.breakpoints.down('sm')]: {
         width: 43,
         height: 43,
     }
@@ -49,8 +49,8 @@ export default function Header() {
     const dispatch = useAppDispatch()
     const isSideBarOpen = useAppSelector((state) => state.ChatReducer.isSidebarOpen)
     return (
-        <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static"
+    
+            <AppBar position="absolute"
                 color='default' sx={{ bgcolor: '#fff', zIndex: 60, boxShadow: '0 1px 3px 0 #ccc' }} elevation={0}>
                 <Toolbar >
                     <IconButton
@@ -79,6 +79,6 @@ export default function Header() {
                     </ButtonIcon>
                 </Toolbar>
             </AppBar>
-        </Box>
+        
     );
 }
