@@ -23,7 +23,7 @@ const Container = styled(Box)(({ theme }) => ({
     alignItems: 'center',
     backgroundColor: theme.palette.grey[100],
     [theme.breakpoints.down('sm')]: {
-        padding: '0 10px'
+        padding: '0 13px'
     }
 }))
 

@@ -31,3 +31,16 @@ export const ButtonIcon = styled(ButtonBase)(({ theme }) => ({
     borderRadius: '50%',
     backgroundColor: theme.palette.grey[300]
 }))
+
+
+export const Avatar = styled(Box)(({ theme }) => ({
+    width: 45,
+    height: 45,
+    borderRadius: '50%',
+    backgroundColor: '#fff',
+    boxShadow: '0 1px 3px 0 #ddd',
+    [theme.breakpoints.down('sm')]: {
+        width: 43,
+        height: 43,
+    }
+}))

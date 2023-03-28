@@ -12,19 +12,9 @@ import { chatActions } from '../../../reducers/chat-reducer';
 import { ButtonBase, styled } from '@mui/material';
 import { borderRadius } from '@mui/system';
 import SearchIcon from '@mui/icons-material/Search';
-import { ButtonIcon } from '../../reusable/styles';
+import { Avatar, ButtonIcon } from '../../reusable/styles';
 
-const Avatar = styled(Box)(({ theme }) => ({
-    width: 45,
-    height: 45,
-    borderRadius: '50%',
-    backgroundColor: '#fff',
-    boxShadow: '0 1px 3px 0 #ddd',
-    [theme.breakpoints.down('sm')]: {
-        width: 43,
-        height: 43,
-    }
-}))
+
 
 const ChatNameCol = styled(Box)(({ theme }) => ({
     flexGrow: 1,
