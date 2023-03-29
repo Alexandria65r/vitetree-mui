@@ -61,7 +61,7 @@ const IndexPage: NextPage = () => {
           <CommunityButton onClick={()=>router.push('/communities')} color='secondary' startIcon={<PeopleIcon />} variant='contained'>
             Communities
           </CommunityButton>
-          <CommunityButton onClick={()=>router.push('/meet/meet-id')} color='info' startIcon={<VideoCallIcon />} variant='contained'>
+          <CommunityButton onClick={()=>router.push('/launch-meet')} color='info' startIcon={<VideoCallIcon />} variant='contained'>
             Meet now
           </CommunityButton>
         </FrontBox>

@@ -3,6 +3,8 @@ import React from 'react'
 import { Avatar, ButtonIcon } from '../../reusable/styles'
 import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined';
 import AddReactionOutlinedIcon from '@mui/icons-material/AddReactionOutlined';
+import classes from '../../styles/thread.module.css'
+
 const ThreadContainer = styled(Box)(({ theme }) => ({
   flexBasis: '100%',
   flexWrap: 'wrap'
@@ -30,7 +32,7 @@ const ThreadHead = styled(Box)(({ theme }) => ({
   left: 0
 }))
 const ThreadOptions = styled(Box)(({ theme }) => ({
-
+  transition: '0.3s all'
 }))
 const ThreadImage = styled(Box)(({ theme }) => ({
 
@@ -55,7 +57,7 @@ type Props = {
 export default function ChatThread({ message }: Props) {
   return (
 
-    <ThreadContainer sx={{
+    <ThreadContainer className={classes.ThreadContainer} sx={{
       display: !message.owner ? 'flex' : 'grid',
       gridTemplateColumns: '1fr 30px'
     }}>
@@ -78,11 +80,11 @@ export default function ChatThread({ message }: Props) {
         <ThreadText> {message.body}</ThreadText>
       </Thread>
 
-      <ThreadOptions sx={{
+      <ThreadOptions className={classes.threadOption} sx={{
         justifySelf: message.owner ? 'right' : 'left',
         margin: message.owner ? ' 0 -5px 0 0' : 0
       }}>
-        <ThreadOptionButton>
+        <ThreadOptionButton >
           {!message.owner ? <AddReactionOutlinedIcon fontSize='inherit' /> : <MoreVertOutlinedIcon fontSize='inherit' />}
         </ThreadOptionButton>
       </ThreadOptions>

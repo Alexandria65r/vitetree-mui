@@ -68,7 +68,7 @@ const CommunityCartegoryHeader = styled(Box)(({ theme }) => ({
     backgroundColor: '#e2e6ea',
     [theme.breakpoints.down('sm')]: {
         margin: '14px 0',
-        
+
     },
 }))
 const MappedCommunity = styled(Box)(({ theme }) => ({
@@ -130,11 +130,11 @@ export default function communites({ }: Props) {
                     </SearchContainer>
                     <HeaderRightCol>
                         <ActionIconButton color="secondary"
-                            onClick={() => router.push('/start-community')} 
-                        sx={{
-                            backgroundColor: '#9c27b0',
-                            '&:hover': { backgroundColor: '#9c27b0' }
-                        }}>
+                            onClick={() => router.push('/start-community')}
+                            sx={{
+                                backgroundColor: '#9c27b0',
+                                '&:hover': { backgroundColor: '#9c27b0' }
+                            }}>
                             <Add />
                         </ActionIconButton>
                         <ActionIconButton color="info" sx={{
@@ -143,10 +143,12 @@ export default function communites({ }: Props) {
                         }}>
                             <VideoCall />
                         </ActionIconButton>
-                        <CreateCommunityButton onClick={()=> router.push('/start-community')} color="secondary" variant="contained" startIcon={<Add />}>
+                        <CreateCommunityButton onClick={() => router.push('/start-community')} color="secondary" variant="contained" startIcon={<Add />}>
                             Start community
                         </CreateCommunityButton>
-                        <CreateCommunityButton sx={{ ml: 1 }} color="info" variant="contained" startIcon={<VideoCall />}>
+                        <CreateCommunityButton
+                            onClick={() => router.push('/launch-meet')}
+                            sx={{ ml: 1 }} color="info" variant="contained" startIcon={<VideoCall />}>
                             Meet now
                         </CreateCommunityButton>
                     </HeaderRightCol>
@@ -160,7 +162,7 @@ export default function communites({ }: Props) {
                             </CommunityCartegoryHeader>
                             <CommunitiesWrapper>
                                 {communities.filter(com => com.cartegory === cartegory).map((community) => (
-                                    <CommunityCard onClick={()=>router.push('/chat/community-name')}>
+                                    <CommunityCard onClick={() => router.push('/chat/community-name')}>
                                         <p style={{ fontSize: 13, fontWeight: 500, margin: 0 }} >{community.title}</p>
                                     </CommunityCard>
                                 ))}

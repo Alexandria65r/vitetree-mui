@@ -91,6 +91,8 @@ export default function ChatFooter({ }: Props) {
                 </EmojiPickerButton>
                 <ChatTextField
                    // color='success'
+                   minRows={1}
+                   maxRows={6}
                     onChange={({ target }) => setTypedText(target.value)}
                     onFocus={() => setIsFocused(true)}
                     onBlur={() => setIsFocused(false)}
