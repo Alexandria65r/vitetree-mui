@@ -1,10 +1,10 @@
 
-import { Box, Button, Typography, styled, OutlinedInput, IconButton } from '@mui/material'
+import { Box, Button, Typography, styled, OutlinedInput, IconButton, InputBase } from '@mui/material'
 import React from 'react'
 import Layout from '../components/layout'
 import { VideoCall, Add } from '@mui/icons-material';
 import { NextRouter, useRouter } from 'next/router';
-import { Container, Hero } from '../reusable/styles';
+import { ButtonIcon, Container, Hero } from '../reusable/styles';
 import { cartegories } from '../reusable/helpers';
 
 
@@ -13,20 +13,17 @@ import { cartegories } from '../reusable/helpers';
 
 const GroupHeader = styled(Box)(({ theme }) => ({
     width: '100%',
-    display: 'grid',
-    gridTemplateColumns: 'repeat(2,1fr)',
+    display: 'flex',
     alignItems: 'center',
     height: 60,
     padding: '0 10px',
     margin: '20px 0',
     [theme.breakpoints.down('sm')]: {
-        gridTemplateColumns: '1fr 20%'
+
     }
 }))
 
 const HeaderRightCol = styled(Box)({
-    //border: '1px solid',
-    // width: '32%',
     display: 'flex',
     justifyContent: 'space-between',
     justifySelf: 'right'
@@ -39,23 +36,22 @@ const CreateCommunityButton = styled(Button)(({ theme }) => ({
         display: 'none'
     },
 }))
-const ActionIconButton = styled(Button)(({ theme }) => ({
+const ActionIconButton = styled(ButtonIcon)(({ theme }) => ({
     display: 'none',
-    width: 45,
-    height: 45,
-    color: '#fff',
     [theme.breakpoints.down('sm')]: {
         display: 'flex',
-        width: 45,
-        height: 45,
+        color: '#fff',
+        width: 48,
+        height: 48,
     },
 }))
 
 const CommunitiesWrapper = styled(Box)(({ theme }) => ({
     display: 'grid',
-    padding: 10,
     gridTemplateColumns: 'repeat(3,1fr)',
+    gap: 10,
     [theme.breakpoints.down('sm')]: {
+        gap: 0,
         padding: 5,
         gridTemplateColumns: 'repeat(2,1fr)',
     },
@@ -67,7 +63,7 @@ const CommunityCartegoryHeader = styled(Box)(({ theme }) => ({
     borderRadius: 10,
     backgroundColor: '#e2e6ea',
     [theme.breakpoints.down('sm')]: {
-        margin: '14px 0',
+        margin: '14px 10px',
 
     },
 }))
@@ -79,7 +75,6 @@ const CartegoryText = styled(Typography)(({ theme }) => ({
     userSelect: 'none',
     fontSize: 18,
     fontWeight: '600',
-    padding: '0 10px 0 20px',
     position: 'absolute',
     top: -14,
     left: 0,
@@ -88,7 +83,7 @@ const CartegoryText = styled(Typography)(({ theme }) => ({
 }))
 const CommunityCard = styled(Box)(({ theme }) => ({
     height: 180,
-    margin: 10,
+    margin: '20px 0 ',
     borderRadius: 12,
     padding: 10,
     backgroundColor: theme.palette.grey[200],
@@ -99,13 +94,17 @@ const CommunityCard = styled(Box)(({ theme }) => ({
 }))
 
 const SearchContainer = styled(Box)(({ theme }) => ({
+    flex: 1,
     [theme.breakpoints.down('sm')]: {
-        width: '70%',
+        //width: '70%',
     },
 }))
-const SearchInput = styled(OutlinedInput)(({ theme }) => ({
+const SearchInput = styled(InputBase)(({ theme }) => ({
     height: 45,
     width: '100%',
+    padding: '0 10px',
+    border: 0,
+    borderRadius: 29,
     [theme.breakpoints.up('sm')]: {
         width: 300,
     },
@@ -137,7 +136,7 @@ export default function communites({ }: Props) {
                             }}>
                             <Add />
                         </ActionIconButton>
-                        <ActionIconButton color="info" sx={{
+                        <ActionIconButton onClick={() => router.push('/launch-meet')} color="info" sx={{
                             backgroundColor: '#0288d1', ml: 1,
                             '&:hover': { backgroundColor: '#0288d1' }
                         }}>
