@@ -1,10 +1,18 @@
+@media (max-width: 600px) {
+  .ChatBody::-webkit-scrollbar {
+    display: none;
+  }
+
+  .ChatBody::-webkit-scrollbar-thumb {
+    display: none;
+  }
+}
+
 .ChatBody::-webkit-scrollbar {
-  background-color:transparent;
-  width:8px;
+  background-color: transparent;
+  width: 6px;
 }
 .ChatBody::-webkit-scrollbar-thumb {
-  background-color:#ccc;
+  background-color: #e8e8e8;
   border-radius: 10px;
 }
-
-

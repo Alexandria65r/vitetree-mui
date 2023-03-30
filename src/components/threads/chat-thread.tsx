@@ -3,7 +3,7 @@ import React from 'react'
 import { MessageThread } from '../../reusable/interfaces'
 import { ThreadAudio, ThreadHeader, ThreadImage, ThreadOption } from './thread-pieces'
 import classes from '../../styles/thread.module.css'
-
+import * as types from '../../reusable'
 export const ThreadContainer = styled(Box)(({ theme }) => ({
   flexBasis: '100%',
   flexWrap: 'wrap'
@@ -62,13 +62,14 @@ function RenderThreadType({ message }: ThreadTypeProps) {
 
 
 export default function ChatThread({ message }: Props) {
-
+  const { ReactToMessage, MessageMoreOptions } = types.REUSABLE_POPPER
+  const popperId = !message.owner ? `${message._id}${ReactToMessage.popperId}` : `${message._id}${MessageMoreOptions.popperId}`
   return (<ThreadContainer className={classes.ThreadContainer} sx={{
     display: !message.owner ? 'flex' : 'grid',
     gridTemplateColumns: '1fr 30px'
   }}>
     {!message.owner && <ChatAvatar></ChatAvatar>}
-    <ThreadBody sx={{
+    <ThreadBody  id={popperId} sx={{
       justifySelf: message.owner ? 'right' : 'left', margin: '20px 0',
       borderTopLeftRadius: !message.owner ? 0 : 10,
       borderBottomRightRadius: message.owner ? 0 : 10,

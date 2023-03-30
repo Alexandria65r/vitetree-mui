@@ -5,6 +5,9 @@ import classes from '../../styles/thread.module.css'
 import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined';
 import AddReactionOutlinedIcon from '@mui/icons-material/AddReactionOutlined';
 import { MessageThread } from '../../reusable/interfaces';
+import * as types from '../../reusable'
+import { useAppDispatch } from '../../../store/hooks';
+import { mainActions } from '../../../reducers';
 const ThreadHead = styled(Box)(({ theme }) => ({
     position: 'absolute',
     top: -22,
@@ -36,8 +39,8 @@ const ThreadAudioContainer = styled(Box)(({ theme }) => ({
 const ThreadOptionButton = styled(ButtonIcon)(({ theme }) => ({
     width: 30,
     height: 30,
-    boxShadow:'0 1px 3px 0 #ccc',
-    backgroundColor:'#fff'
+    boxShadow: '0 1px 3px 0 #ccc',
+    backgroundColor: '#fff'
 }))
 
 
@@ -46,6 +49,7 @@ type Props = {
 }
 
 export function ThreadHeader({ message }: Props) {
+
     return <ThreadHead sx={{
         left: !message.owner ? 0 : 'unset',
         right: message.owner ? 0 : 'unset',
@@ -57,18 +61,32 @@ export function ThreadHeader({ message }: Props) {
 }
 
 export function ThreadOption({ message }: Props) {
-    return <ThreadOptions className={classes.threadOption} sx={{
-        justifySelf: message.owner ? 'right' : 'left',
-        margin: message.owner ? ' 0 -5px 0 0' : 0
-    }}>
-        <ThreadOptionButton>
-            {!message.owner ? <AddReactionOutlinedIcon fontSize='inherit' /> : <MoreVertOutlinedIcon fontSize='inherit' />}
+    const dispatch = useAppDispatch()
+    const { ReactToMessage, MessageMoreOptions } = types.REUSABLE_POPPER
+    const popperId = !message.owner ? `${message._id}${ReactToMessage.popperId}` : `${message._id}${MessageMoreOptions.popperId}`
+
+    function openMessageMoreOptions() {
+        dispatch(mainActions.setPopperState({
+            component:MessageMoreOptions.component,
+            popperId,
+            placement:MessageMoreOptions.placement
+        }))
+    }
+
+    return (<ThreadOptions className={classes.threadOption}
+
+        sx={{
+            justifySelf: message.owner ? 'right' : 'left',
+            margin: message.owner ? ' 0 -5px 0 0' : 0
+        }}>
+        <ThreadOptionButton onClick={openMessageMoreOptions}>
+            <MoreVertOutlinedIcon fontSize='inherit' />
         </ThreadOptionButton>
-    </ThreadOptions>;
+    </ThreadOptions>);
 }
 
 
-export function ThreadImage({ message }:Props) {
+export function ThreadImage({ message }: Props) {
     return (
         <ThreadImageContainer sx={{
             borderTopLeftRadius: !message.owner ? 0 : 10,
@@ -78,7 +96,7 @@ export function ThreadImage({ message }:Props) {
         </ThreadImageContainer>
     )
 }
-export function ThreadAudio({ message }:Props) {
+export function ThreadAudio({ message }: Props) {
     return (
         <ThreadAudioContainer sx={{
             borderTopLeftRadius: !message.owner ? 0 : 10,

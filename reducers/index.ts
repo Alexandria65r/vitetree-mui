@@ -1,9 +1,18 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { HYDRATE } from 'next-redux-wrapper'
+import { PopperState } from '../src/reusable/interfaces'
 
-
-const initialState = {
-    appName: ''
+interface State {
+    popperState: PopperState
+    showSelectedImage: boolean
+}
+const initialState: State = {
+    popperState: {
+        component: '',
+        popperId: '',
+        placement:''
+    },
+    showSelectedImage: false
 }
 
 const mainSlice = createSlice({
@@ -11,7 +20,13 @@ const mainSlice = createSlice({
     initialState,
     reducers: {
         setAppName: (state, { payload }: PayloadAction<string>) => {
-            state.appName = payload
+
+        },
+        setPopperState: (state, { payload }: PayloadAction<PopperState>) => {
+            state.popperState = payload
+        },
+        setShowSelectedImage: (state, { payload }: PayloadAction<boolean>) => {
+            state.showSelectedImage = payload
         }
     },
 

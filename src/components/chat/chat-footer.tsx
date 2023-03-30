@@ -14,25 +14,15 @@ import { Textarea } from '@mui/joy';
 import TextareaAutosize from '@mui/base/TextareaAutosize';
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
 import emotionStyled from '@emotion/styled'
+import { useAppDispatch } from '../../../store/hooks';
+import * as types from '../../reusable'
+import { mainActions } from '../../../reducers';
 
-const Container = styled(Box)(({ theme }) => ({
-    width: '100%',
-    height: 80,
-    display: 'flex',
-    position: 'absolute',
-    bottom: 0,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f4fcff',
-    [theme.breakpoints.down('sm')]: {
-        padding: '0 13px'
-    },
-
-}))
 
 const ChatTextFieldWrapper = styled(Box)(({ theme }) => ({
     display: 'flex',
-    flexBasis: '55%',
+    //flexBasis: '55%',
+    flex: 1,
     alignItems: 'center',
     position: 'relative',
     borderRadius: 29,
@@ -40,7 +30,7 @@ const ChatTextFieldWrapper = styled(Box)(({ theme }) => ({
     transition: '0.3s all',
     transformOrigin: 'left',
     backgroundColor: '#fff',
-    boxShadow:'0 1px 3px 0 #ccc',
+    boxShadow: '0 1px 3px 0 #ccc',
     [theme.breakpoints.down('sm')]: {
         flex: 1,
         width: '5%',
@@ -55,7 +45,7 @@ const FooterRightCol = styled(Box)(({ theme }) => ({
 
 const ChatTextField = styled(TextareaAutosize)(({ theme }) => ({
     fontFamily: 'inherit',
-   // overflow: 'hidden',
+    // overflow: 'hidden',
     flex: 1,
     border: 0,
     outline: 'none!important',
@@ -76,16 +66,26 @@ const EmojiPickerButton = styled(ButtonBase)(({ theme }) => ({
     height: 30,
     margin: '5px',
     borderRadius: '50%', backgroundColor: '#fff',
-   // boxShadow: '0 1px 3px 0 #ccc',
+    // boxShadow: '0 1px 3px 0 #ccc',
 }))
 const IconButton = styled(ButtonIcon)(({ theme }) => ({
     transition: '0.3s all',
-    backgroundColor:'#fff',
-    boxShadow:'0 1px 3px 0 #ccc'
+    backgroundColor: '#fff',
+    boxShadow: '0 1px 3px 0 #ccc'
 }))
-type Props = {}
+type Props = {
+    showSendIcon?: boolean,
+    showMic?: boolean,
+    showAttatchFile?: boolean,
+    showOptionsIcon?: boolean
+}
 
-export default function ChatFooter({ }: Props) {
+export default function ChatFooter({
+    showSendIcon,
+    showMic,
+    showAttatchFile,
+    showOptionsIcon, }: Props) {
+    const dispatch = useAppDispatch()
     const isMobile = useMediaQuery('(max-width:600px)')
     const is360 = useMediaQuery('(max-width:375px)')
     const isXs = useMediaQuery('(max-width:320px)')
@@ -95,7 +95,7 @@ export default function ChatFooter({ }: Props) {
 
 
     function handleOnChange({ target }: any) {
-            setTypedText(target.value)
+        setTypedText(target.value)
         // const textFieldWrapper: any = document.getElementById("textFieldWrapper")
         // const textField: any = document.getElementById("textField");
         // textField.style.cssText = 'height:0px';
@@ -108,10 +108,14 @@ export default function ChatFooter({ }: Props) {
 
     }
 
-
+    function toggleFilesOptions() {
+        dispatch(mainActions.setPopperState({
+            ...types.REUSABLE_POPPER.FilesOptions
+        }))
+    }
 
     return (
-        <Container>
+        <>
             <ChatTextFieldWrapper id="textFieldWrapper" sx={{}}>
                 <EmojiPickerButton>
                     <SentimentSatisfiedAltIcon />
@@ -128,42 +132,48 @@ export default function ChatFooter({ }: Props) {
 
             </ChatTextFieldWrapper>
 
-            {typedText ? (
-                <ButtonIcon sx={(theme) => ({
-                    color: typedText ? theme.palette.primary.light : ''
-                })}>
-                    <SendOutlinedIcon />
-                </ButtonIcon>
+            {typedText || showSendIcon ? (
+                <FooterRightCol>
+                    <IconButton sx={(theme) => ({
+                        color: typedText || showSendIcon ? theme.palette.primary.light : ''
+                    })}>
+                        <SendOutlinedIcon />
+                    </IconButton>
+                </FooterRightCol>
+
             ) : (<>
                 {isMobile && isFocused ? (
-                    <IconButton>
-                        <ChevronLeftOutlinedIcon />
-                    </IconButton>
+                    <FooterRightCol>
+                        <IconButton>
+                            <ChevronLeftOutlinedIcon />
+                        </IconButton>
+                    </FooterRightCol>
                 ) : (
                     <FooterRightCol>
+                        {showAttatchFile ? (
+                            <IconButton id={types.REUSABLE_POPPER.FilesOptions.popperId} onClick={toggleFilesOptions}>
+                                <AddPhotoAlternateOutlinedIcon />
+                            </IconButton>
+                        ) : <></>}
 
-                        <IconButton>
-                            <AddPhotoAlternateOutlinedIcon />
-                        </IconButton>
 
-
-                        {!isXs ? (
+                        {!isXs && showMic ? (
                             <IconButton>
                                 <KeyboardVoiceOutlinedIcon />
                             </IconButton>
                         ) : <></>}
 
-                        < IconButton >
-                            <MoreHorizOutlinedIcon />
-                        </IconButton>
+
+                        {showOptionsIcon ? (
+                            < IconButton >
+                                <MoreHorizOutlinedIcon />
+                            </IconButton>
+                        ) : <></>}
+
 
                     </FooterRightCol>
-                )
-                }
+                )}
             </>)}
-
-
-
-        </Container >
+        </>
     )
 }

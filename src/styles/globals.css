@@ -19,3 +19,22 @@ a {
 .ccc{
   outline: none!important;
 }
+
+
+
+/* app animations */
+
+
+.animated-popper {
+  animation: animated-popper 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+  transform-origin: bottom;
+}
+
+@keyframes animated-popper {
+        0%{
+            transform: scale(0.9);
+        }
+        100%{
+            transform: scale(1);
+        }
+}
