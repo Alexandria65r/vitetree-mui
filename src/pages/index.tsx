@@ -11,7 +11,7 @@ import VideoCallIcon from '@mui/icons-material/VideoCall';
 import PeopleIcon from '@mui/icons-material/People';
 import { NextRouter, useRouter } from 'next/router'
 export const getServerSideProps = wrapper.getServerSideProps(({ dispatch }) => async (params) => {
-  await dispatch(mainActions.setAppName('LEEFTUP WEB SERVICES'))
+
   return {
     props: {
 
