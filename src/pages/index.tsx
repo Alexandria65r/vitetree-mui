@@ -52,7 +52,6 @@ const CommunityButton = styled(Button)(({theme})=>({
 
 
 const IndexPage: NextPage = () => {
-  const appName = useAppSelector((state) => state.MainReducer.appName)
   const router:NextRouter = useRouter()
   return (
     <Layout>
