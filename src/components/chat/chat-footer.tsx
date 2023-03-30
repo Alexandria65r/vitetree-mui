@@ -23,7 +23,7 @@ const Container = styled(Box)(({ theme }) => ({
     bottom: 0,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: theme.palette.grey[100],
+    backgroundColor: '#f4fcff',
     [theme.breakpoints.down('sm')]: {
         padding: '0 13px'
     },
@@ -39,7 +39,8 @@ const ChatTextFieldWrapper = styled(Box)(({ theme }) => ({
     height: 50,
     transition: '0.3s all',
     transformOrigin: 'left',
-    backgroundColor: theme.palette.grey[300],
+    backgroundColor: '#fff',
+    boxShadow:'0 1px 3px 0 #ccc',
     [theme.breakpoints.down('sm')]: {
         flex: 1,
         width: '5%',
@@ -65,7 +66,7 @@ const ChatTextField = styled(TextareaAutosize)(({ theme }) => ({
     alignItems: 'center',
     transition: '0.3s all',
     transformOrigin: 'left',
-    backgroundColor: theme.palette.grey[300],
+    backgroundColor: '#fff'
 
 
 }))
@@ -74,11 +75,13 @@ const EmojiPickerButton = styled(ButtonBase)(({ theme }) => ({
     width: 30,
     height: 30,
     margin: '5px',
-    borderRadius: '50%',
-    backgroundColor: theme.palette.grey[300]
+    borderRadius: '50%', backgroundColor: '#fff',
+   // boxShadow: '0 1px 3px 0 #ccc',
 }))
 const IconButton = styled(ButtonIcon)(({ theme }) => ({
     transition: '0.3s all',
+    backgroundColor:'#fff',
+    boxShadow:'0 1px 3px 0 #ccc'
 }))
 type Props = {}
 
@@ -133,9 +136,9 @@ export default function ChatFooter({ }: Props) {
                 </ButtonIcon>
             ) : (<>
                 {isMobile && isFocused ? (
-                    <ButtonIcon>
+                    <IconButton>
                         <ChevronLeftOutlinedIcon />
-                    </ButtonIcon>
+                    </IconButton>
                 ) : (
                     <FooterRightCol>
 

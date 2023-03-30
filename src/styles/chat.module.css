@@ -1,0 +1,10 @@
+.ChatBody::-webkit-scrollbar {
+  background-color:transparent;
+  width:8px;
+}
+.ChatBody::-webkit-scrollbar-thumb {
+  background-color:#ccc;
+  border-radius: 10px;
+}
+
+

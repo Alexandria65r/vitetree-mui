@@ -8,17 +8,18 @@ const SideBarContainer = styled(Box)(({ theme }) => ({
     height: '100vh',
     transition: '0.3s all',
     transformOrigin: 'left',
-    backgroundColor: theme.palette.grey[200]
+    borderRight:`1px solid ${theme.palette.grey[200]}`,
+    backgroundColor: '#fff'
 }))
 const ClosedBar = styled(Box)(({ theme }) => ({
     flexBasis: '100%',
     height: 'calc(100vh - 66px)',
-    backgroundColor: theme.palette.grey[200]
+    backgroundColor: '#fff'
 }))
 const OpenedBar = styled(Box)(({ theme }) => ({
     flexBasis: '100%',
     height: 'calc(100vh - 66px)',
-    backgroundColor: theme.palette.grey[200]
+    backgroundColor: '#fff'
 }))
 type Props = {}
 
