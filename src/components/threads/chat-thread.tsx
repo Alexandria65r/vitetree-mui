@@ -16,7 +16,7 @@ const ThreadBody = styled(Box)(({ theme }) => ({
   borderRadius: 10,
   boxShadow: '0 1px 3px 0 #ccc',
   backgroundColor: '#fff',
-  [theme.breakpoints.down("sm")]:{
+  [theme.breakpoints.down("sm")]: {
     margin: '20px 0 5px 0',
   }
 }))
@@ -35,9 +35,12 @@ const MessageTextWrap = styled(Box)(({ theme }) => ({
 
 export const ChatAvatar = styled(Avatar)(({ theme }) => ({
   margin: '0 10px 0 0',
-  color:theme.palette.grey[400],
-  backgroundColor:'#fff',
-  boxShadow:'0 1px 3px 0 #ccc'
+  color: theme.palette.grey[400],
+  backgroundColor: '#fff',
+  boxShadow: '0 1px 3px 0 #ccc',
+  [theme.breakpoints.down("sm")]: {
+    display: 'none'
+  }
 }))
 
 
@@ -68,15 +71,15 @@ export default function ChatThread({ message }: Props) {
   const { ReactToMessage, MessageMoreOptions } = types.REUSABLE_POPPER
   const popperId = !message.owner ? `${message._id}${ReactToMessage.popperId}` : `${message._id}${MessageMoreOptions.popperId}`
   return (<ThreadContainer className={classes.ThreadContainer}
-     sx={(theme)=>({
-    display: !message.owner ? 'flex' : 'grid',
-    gridTemplateColumns: '1fr 30px',
-      [theme.breakpoints.down("sm")]:{
+    sx={(theme) => ({
+      display: !message.owner ? 'flex' : 'grid',
+      gridTemplateColumns: '1fr 30px',
+      [theme.breakpoints.down("sm")]: {
         gridTemplateColumns: '1fr',
       }
-  })}>
+    })}>
     {!message.owner && <ChatAvatar></ChatAvatar>}
-    <ThreadBody  id={popperId} sx={{
+    <ThreadBody id={popperId} sx={{
       justifySelf: message.owner ? 'right' : 'left',
       borderTopLeftRadius: !message.owner ? 0 : 10,
       borderBottomRightRadius: message.owner ? 0 : 10,

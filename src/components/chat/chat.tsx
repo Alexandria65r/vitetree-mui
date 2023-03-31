@@ -46,7 +46,8 @@ const FooterContainer = styled(Box)(({ theme }) => ({
   alignItems: 'center',
   backgroundColor: '#f4fcff',
   [theme.breakpoints.down('sm')]: {
-    padding: '0 13px'
+    padding: '0 13px',
+    height: 58,
   },
   
 }))
