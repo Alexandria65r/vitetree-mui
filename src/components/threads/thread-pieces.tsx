@@ -1,5 +1,5 @@
 
-import { Box, styled, Typography } from '@mui/material'
+import { Box, styled, Typography, useMediaQuery } from '@mui/material'
 import { ButtonIcon } from '../../reusable/styles'
 import classes from '../../styles/thread.module.css'
 import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined';
@@ -64,12 +64,12 @@ export function ThreadOption({ message }: Props) {
     const dispatch = useAppDispatch()
     const { ReactToMessage, MessageMoreOptions } = types.REUSABLE_POPPER
     const popperId = !message.owner ? `${message._id}${ReactToMessage.popperId}` : `${message._id}${MessageMoreOptions.popperId}`
-
+    const isMobile = useMediaQuery('(max-width:600px)')
     function openMessageMoreOptions() {
         dispatch(mainActions.setPopperState({
-            component:MessageMoreOptions.component,
+            component: MessageMoreOptions.component,
             popperId,
-            placement:MessageMoreOptions.placement
+            placement: isMobile ? 'auto-end' : MessageMoreOptions.placement
         }))
     }
 
