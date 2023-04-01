@@ -40,7 +40,7 @@ export default function NavBar() {
                     </IconButton>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         <Link href="/">
-                            Meetberi
+                            Vitehat
                         </Link>
                     </Typography>
 

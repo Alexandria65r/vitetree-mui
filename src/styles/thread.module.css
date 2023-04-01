@@ -1,5 +1,10 @@
 .threadOption {
-  display: none;
+  visibility:hidden;
+}
+
+.ThreadHead {
+  visibility:hidden;
+  transition: 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 .threadOption {
@@ -15,6 +20,9 @@
         }
 }
 
-.ThreadContainer:hover .threadOption {
-  display: block;
+.ThreadContainer:focus .threadOption {
+  visibility: visible;
+}
+.ThreadContainer:focus .ThreadHead {
+  visibility: visible;
 }

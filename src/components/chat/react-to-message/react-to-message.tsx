@@ -15,7 +15,7 @@ const Container = styled(Box)(({ theme }) => ({
     padding: 10,
     margin:5,
     borderRadius: CSS_PROPERTIES.radius10,
-    boxShadow: colorScheme(theme).chatBoarderColor,
+    boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
     backgroundColor: colorScheme(theme).chatPrimaryColor,
     transition: '0.3s all'
 }))
@@ -24,7 +24,7 @@ const Contain = styled(Box)(({ theme }) => ({
     padding: 10,
     margin: 5,
     borderRadius: CSS_PROPERTIES.radius10,
-    boxShadow: CSS_PROPERTIES.shadow,
+    boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
     backgroundColor: '#fff',
     transition: '0.3s all'
 }))

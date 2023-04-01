@@ -12,11 +12,13 @@ import * as types from '../../../reusable'
 
 import ReplyOutlinedIcon from '@mui/icons-material/ReplyOutlined';
 import { colorScheme } from '../../../theme';
+
+
 const Container = styled(Box)(({ theme }) => ({
     padding: 10,
     margin: 5,
     borderRadius: CSS_PROPERTIES.radius10,
-    boxShadow: colorScheme(theme).chatBoarderColor,
+    boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
     backgroundColor: colorScheme(theme).chatPrimaryColor,
     transition: '0.3s all',
     [theme.breakpoints.down("sm")]:{

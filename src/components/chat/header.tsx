@@ -60,7 +60,12 @@ export default function Header() {
                     edge="start"
                     color="inherit"
                     aria-label="menu"
-                    sx={{ mr: 2 }}
+                    sx={(theme) => ({
+                        mr: 2,
+                        [theme.breakpoints.down("sm")]: {
+                            mr: 0
+                        }
+                    })}
                     onClick={() => dispatch(chatActions.toggleSideBar(!isSideBarOpen))}
                 >
                     <MenuIcon />

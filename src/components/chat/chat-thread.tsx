@@ -58,7 +58,7 @@ type Props = {
 export default function ChatThread({ message }: Props) {
   return (
 
-    <ThreadContainer className={classes.ThreadContainer} sx={{
+  <ThreadContainer tabIndex={0} className={classes.ThreadContainer} sx={{
       display: !message.owner ? 'flex' : 'grid',
       gridTemplateColumns: '1fr 30px'
     }}>

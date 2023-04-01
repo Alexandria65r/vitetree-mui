@@ -9,12 +9,12 @@ import * as types from '../../reusable'
 import { useAppDispatch } from '../../../store/hooks';
 import { mainActions } from '../../../reducers';
 import { colorScheme } from '../../theme';
-
+import chatClasses from '../../styles/chat.module.css'
 
 const ThreadHead = styled(Box)(({ theme }) => ({
     position: 'absolute',
-    top: -22,
-    left: 0
+    bottom: -22,
+    left: 0,
 }))
 const ThreadText = styled(Typography)(({ theme }) => ({
     color: theme.palette.grey[500]
@@ -54,12 +54,16 @@ type Props = {
 
 export function ThreadHeader({ message }: Props) {
 
-    return <ThreadHead sx={{
+    return <ThreadHead className={classes.ThreadHead}
+     sx={(theme)=>({
         left: !message.owner ? 0 : 'unset',
         right: message.owner ? 0 : 'unset',
-    }}>
+        [theme.breakpoints.down("sm")]:{
+            left: message.owner ? 0 : 'unset',
+        }
+    })}>
         <ThreadText sx={{ fontSize: 12 }}>
-            {!message.owner ? `${message.name}, 15:47` : '14:47'}
+            {!message.owner ? ` ${message.name}, 15:47` : 'sent at 14:47'}
         </ThreadText>
     </ThreadHead>;
 }

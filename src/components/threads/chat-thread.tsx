@@ -7,8 +7,9 @@ import * as types from '../../reusable'
 import { colorScheme } from '../../theme'
 export const ThreadContainer = styled(Box)(({ theme }) => ({
   flexBasis: '100%',
-  flexWrap: 'wrap'
-
+  flexWrap: 'wrap',
+  cursor: 'pointer',
+  outline: "none"
 }))
 const ThreadBody = styled(Box)(({ theme }) => ({
   position: 'relative',
@@ -16,7 +17,7 @@ const ThreadBody = styled(Box)(({ theme }) => ({
   margin: '20px 0',
   borderRadius: 10,
   boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
-  backgroundColor: colorScheme(theme).primaryColor,
+  backgroundColor: colorScheme(theme).chatSecondaryColor,
   [theme.breakpoints.down("sm")]: {
     margin: '20px 0 5px 0',
   }
@@ -72,7 +73,7 @@ function RenderThreadType({ message }: ThreadTypeProps) {
 export default function ChatThread({ message }: Props) {
   const { ReactToMessage, MessageMoreOptions } = types.REUSABLE_POPPER
   const popperId = !message.owner ? `${message._id}${ReactToMessage.popperId}` : `${message._id}${MessageMoreOptions.popperId}`
-  return (<ThreadContainer className={classes.ThreadContainer}
+  return (<ThreadContainer tabIndex={0} className={classes.ThreadContainer}
     sx={(theme) => ({
       display: !message.owner ? 'flex' : 'grid',
       gridTemplateColumns: '1fr 30px',
