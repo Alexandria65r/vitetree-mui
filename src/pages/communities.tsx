@@ -1,5 +1,5 @@
 
-import { Box, Button, Typography, styled, OutlinedInput, IconButton, InputBase, colors } from '@mui/material'
+import { Box, Button, Typography, styled, InputBase, colors } from '@mui/material'
 import React from 'react'
 import Layout from '../components/layout'
 import { VideoCall, Add } from '@mui/icons-material';

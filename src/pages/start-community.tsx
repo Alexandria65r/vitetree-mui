@@ -2,7 +2,7 @@ import React from 'react'
 import { styled, Box, TextField, MenuItem, Select, Button } from '@mui/material'
 import Layout from '../components/layout'
 import { Container, Hero } from '../reusable/styles'
-import { FormControl, Textarea, } from '@mui/joy'
+//import { FormControl, Textarea, } from '@mui/joy'
 import { cartegories } from '../reusable/helpers'
 import PeopleIcon from '@mui/icons-material/People';
 
@@ -38,7 +38,7 @@ export default function StartCommunity({ }: Props) {
         <Layout>
             <PageContainer>
                 <Hero></Hero>
-                <FormContainer>
+                {/* <FormContainer>
                     <FormControl>
                         <TextInput variant='standard' placeholder='Community name' label="Community name" />
                     </FormControl>
@@ -56,7 +56,7 @@ export default function StartCommunity({ }: Props) {
                     <Box sx={{width:'100%',display:'grid',gridTemplateColumns:'1fr', my: 5 }}>
                         <CreateCommunityButton startIcon={<PeopleIcon/>}  variant='contained'>Create community</CreateCommunityButton>
                     </Box>
-                </FormContainer>
+                </FormContainer> */}
             </PageContainer>
         </Layout>
     )

@@ -15,7 +15,6 @@ const AppContainer = styled(Box)(({ theme }) => ({
 }))
 
 
-
 function App({ Component, pageProps }: AppProps) {
   const themeMode: any = cookie.get('themeMode');
   const [mode, setMode] = React.useState<'dark' | 'light'>('light')

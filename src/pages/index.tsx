@@ -1,6 +1,6 @@
 
-import { styled, Button, makeStyles } from '@mui/material'
-import { Box } from '@mui/system'
+import { styled, Button,Box } from '@mui/material'
+
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { mainActions } from '../../reducers'

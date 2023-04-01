@@ -9,6 +9,8 @@ import * as types from '../../reusable'
 import { useAppDispatch } from '../../../store/hooks';
 import { mainActions } from '../../../reducers';
 import { colorScheme } from '../../theme';
+
+
 const ThreadHead = styled(Box)(({ theme }) => ({
     position: 'absolute',
     top: -22,

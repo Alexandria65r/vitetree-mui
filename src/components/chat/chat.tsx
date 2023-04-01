@@ -1,6 +1,6 @@
 
 import * as React from 'react'
-import { Box, colors, styled } from '@mui/material'
+import { Box, styled } from '@mui/material'
 import Header from './header'
 import ChatFooter from './chat-footer'
 import ChatThread from '../threads/chat-thread'

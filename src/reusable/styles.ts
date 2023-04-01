@@ -1,5 +1,5 @@
 import { styled, Box, ButtonBase, colors } from '@mui/material'
-import { colorScheme, isDarkMode } from '../theme'
+import { colorScheme } from '../theme'
 import { CSS_PROPERTIES } from '.'
 
 export const Container = styled(Box)(({ theme }) => ({
