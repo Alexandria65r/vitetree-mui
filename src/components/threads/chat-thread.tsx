@@ -4,6 +4,7 @@ import { MessageThread } from '../../reusable/interfaces'
 import { ThreadAudio, ThreadHeader, ThreadImage, ThreadOption } from './thread-pieces'
 import classes from '../../styles/thread.module.css'
 import * as types from '../../reusable'
+import { colorScheme } from '../../theme'
 export const ThreadContainer = styled(Box)(({ theme }) => ({
   flexBasis: '100%',
   flexWrap: 'wrap'
@@ -14,8 +15,8 @@ const ThreadBody = styled(Box)(({ theme }) => ({
   padding: 5,
   margin: '20px 0',
   borderRadius: 10,
-  boxShadow: '0 1px 3px 0 #ccc',
-  backgroundColor: '#fff',
+  boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
+  backgroundColor: colorScheme(theme).primaryColor,
   [theme.breakpoints.down("sm")]: {
     margin: '20px 0 5px 0',
   }
@@ -23,21 +24,22 @@ const ThreadBody = styled(Box)(({ theme }) => ({
 
 
 const ThreadText = styled(Typography)(({ theme }) => ({
-  fontSize: 15
+  fontSize: 15,
+  color: colorScheme(theme).TextColor
 }))
 const MessageTextWrap = styled(Box)(({ theme }) => ({
   width: 'inherit',
-  padding: '5px 8px',
+  padding: '2px 8px',
   marginTop: 2,
   borderRadius: 5,
-  backgroundColor: theme.palette.grey[100]
+  backgroundColor: colorScheme(theme).chatPrimaryColor
 }))
 
 export const ChatAvatar = styled(Avatar)(({ theme }) => ({
   margin: '0 10px 0 0',
   color: theme.palette.grey[400],
-  backgroundColor: '#fff',
-  boxShadow: '0 1px 3px 0 #ccc',
+  backgroundColor: colorScheme(theme).chatPrimaryColor,
+  boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
   [theme.breakpoints.down("sm")]: {
     display: 'none'
   }

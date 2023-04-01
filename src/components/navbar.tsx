@@ -1,5 +1,5 @@
 import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
+import AppNavigationBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -7,8 +7,24 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Link from 'next/link';
+import { ButtonIcon } from '../reusable/styles';
+import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
+import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
+import { Theme, colors, styled, useTheme } from '@mui/material';
+import { ColorModeContext, colorScheme, isDarkMode } from '../theme';
+
+
+
+
+const AppBar = styled(AppNavigationBar)(({ theme }) => ({
+    //  boxShadow: `0 1px 3px 0 ${isDarkMode(theme) ? colors.grey[800] :'transparent'}`,
+    borderBottom: `1px solid ${colorScheme(theme).secondaryColor}`,
+    backgroundColor:  colorScheme(theme).primaryToGrey100Color,
+}))
 
 export default function NavBar() {
+    const theme = useTheme()
+    const { toggleColorMode } = React.useContext(ColorModeContext)
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static" color='default' elevation={0}>
@@ -28,7 +44,9 @@ export default function NavBar() {
                         </Link>
                     </Typography>
 
-                    <Button color="inherit">Login</Button>
+                    <ButtonIcon onClick={toggleColorMode}>
+                        {theme.palette.mode === 'light' ? <DarkModeOutlinedIcon /> : <LightModeOutlinedIcon />}
+                    </ButtonIcon>
                 </Toolbar>
             </AppBar>
         </Box>

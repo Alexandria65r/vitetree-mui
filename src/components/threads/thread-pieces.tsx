@@ -3,11 +3,12 @@ import { Box, styled, Typography, useMediaQuery } from '@mui/material'
 import { ButtonIcon } from '../../reusable/styles'
 import classes from '../../styles/thread.module.css'
 import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined';
-import AddReactionOutlinedIcon from '@mui/icons-material/AddReactionOutlined';
+
 import { MessageThread } from '../../reusable/interfaces';
 import * as types from '../../reusable'
 import { useAppDispatch } from '../../../store/hooks';
 import { mainActions } from '../../../reducers';
+import { colorScheme } from '../../theme';
 const ThreadHead = styled(Box)(({ theme }) => ({
     position: 'absolute',
     top: -22,
@@ -26,7 +27,7 @@ const ThreadImageContainer = styled(Box)(({ theme }) => ({
     height: 160,
     padding: 8,
     borderRadius: 10,
-    backgroundColor: theme.palette.grey[100]
+    backgroundColor: colorScheme(theme).threadChildColor
 }))
 const ThreadAudioContainer = styled(Box)(({ theme }) => ({
     position: 'relative',
@@ -34,13 +35,14 @@ const ThreadAudioContainer = styled(Box)(({ theme }) => ({
     height: 40,
     padding: 8,
     borderRadius: 10,
-    backgroundColor: theme.palette.grey[100]
+    backgroundColor: colorScheme(theme).threadChildColor
 }))
 const ThreadOptionButton = styled(ButtonIcon)(({ theme }) => ({
     width: 30,
     height: 30,
-    boxShadow: '0 1px 3px 0 #ccc',
-    backgroundColor: '#fff'
+    color: colorScheme(theme).TextColor,
+    boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
+    backgroundColor: colorScheme(theme).chatPrimaryColor
 }))
 
 

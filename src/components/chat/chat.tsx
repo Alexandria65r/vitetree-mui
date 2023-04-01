@@ -1,6 +1,6 @@
 
 import * as React from 'react'
-import { Box, styled } from '@mui/material'
+import { Box, colors, styled } from '@mui/material'
 import Header from './header'
 import ChatFooter from './chat-footer'
 import ChatThread from '../threads/chat-thread'
@@ -8,6 +8,7 @@ import { MessageThread } from '../../reusable/interfaces'
 import classes from '../../styles/chat.module.css'
 import ReusablePopper from '../reusable-popper'
 import SelectedImageViewer from './selected-image-viewer/selected-image-viewer'
+import { colorScheme, isDarkMode } from '../../theme'
 
 const ChatContainer = styled(Box)(({ theme }) => ({
   position: 'relative',
@@ -21,7 +22,7 @@ const ChatBody = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexWrap: 'wrap',
   alignItems: 'flex-end',
-  backgroundColor: '#f4fcff',
+  backgroundColor: colorScheme(theme).chatBodyBGColor,
   [theme.breakpoints.down('sm')]: {
     height: 'calc(100vh - 51px)',
     marginTop: 50,
@@ -44,7 +45,7 @@ const FooterContainer = styled(Box)(({ theme }) => ({
   bottom: 0,
   justifyContent: 'center',
   alignItems: 'center',
-  backgroundColor: '#f4fcff',
+  backgroundColor: colorScheme(theme).chatBodyBGColor,
   [theme.breakpoints.down('sm')]: {
     padding: '0 13px',
     height: 58,

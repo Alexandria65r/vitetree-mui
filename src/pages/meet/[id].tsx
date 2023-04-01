@@ -13,7 +13,8 @@ import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined';
 
 const Container = styled(Box)(({ theme }) => ({
     width: '90%',
-    margin: 'auto',
+   height:'100vh',
+    margin: '0 auto',
     [theme.breakpoints.down("sm")]: {
         width: '100%',
         backgroundColor: theme.palette.grey[900]
@@ -21,8 +22,8 @@ const Container = styled(Box)(({ theme }) => ({
 }))
 
 const VideoContainer = styled(Box)(({ theme }) => ({
-    height: 500,
-    marginTop: 20,
+    height: 480,
+   // marginTop: 20,
     backgroundColor: theme.palette.grey[900],
     [theme.breakpoints.down("sm")]: {
         marginTop: 0,

@@ -24,7 +24,8 @@ const Container = styled(Box)({
   height: 'calc(100vh - 66px)',
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'center'
+  justifyContent: 'center',
+
 })
 const FrontBox = styled(Box)(({theme})=>({
   display: 'flex',

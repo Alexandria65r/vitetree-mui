@@ -1,6 +1,7 @@
 import { styled, Box } from '@mui/material'
 import React from 'react'
 import { useAppSelector } from '../../../store/hooks'
+import { colorScheme } from '../../theme'
 
 
 
@@ -8,18 +9,18 @@ const SideBarContainer = styled(Box)(({ theme }) => ({
     height: '100vh',
     transition: '0.3s all',
     transformOrigin: 'left',
-    borderRight:`1px solid ${theme.palette.grey[200]}`,
-    backgroundColor: '#fff'
+    borderRight:`1px solid ${colorScheme(theme).borderColor}`,
+    backgroundColor: colorScheme(theme).sideBarColor
 }))
 const ClosedBar = styled(Box)(({ theme }) => ({
     flexBasis: '100%',
     height: 'calc(100vh - 66px)',
-    backgroundColor: '#fff'
+    backgroundColor: colorScheme(theme).sideBarColor
 }))
 const OpenedBar = styled(Box)(({ theme }) => ({
     flexBasis: '100%',
     height: 'calc(100vh - 66px)',
-    backgroundColor: '#fff'
+    backgroundColor: colorScheme(theme).sideBarColor
 }))
 type Props = {}
 

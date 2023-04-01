@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, ButtonBase, styled, useMediaQuery } from '@mui/material'
+import { Box, ButtonBase, colors, styled, useMediaQuery } from '@mui/material'
 import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt';
 import MicIcon from '@mui/icons-material/Mic';
 import KeyboardVoiceOutlinedIcon from '@mui/icons-material/KeyboardVoiceOutlined';
@@ -17,6 +17,7 @@ import emotionStyled from '@emotion/styled'
 import { useAppDispatch } from '../../../store/hooks';
 import * as types from '../../reusable'
 import { mainActions } from '../../../reducers';
+import { colorScheme, isDarkMode } from '../../theme';
 
 
 const ChatTextFieldWrapper = styled(Box)(({ theme }) => ({
@@ -29,8 +30,8 @@ const ChatTextFieldWrapper = styled(Box)(({ theme }) => ({
     height: 50,
     transition: '0.3s all',
     transformOrigin: 'left',
-    backgroundColor: '#fff',
-    boxShadow: '0 1px 3px 0 #ccc',
+    backgroundColor: colorScheme(theme).chatPrimaryColor,
+    boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
     [theme.breakpoints.down('sm')]: {
         flex: 1,
         width: '5%',
@@ -56,7 +57,7 @@ const ChatTextField = styled(TextareaAutosize)(({ theme }) => ({
     alignItems: 'center',
     transition: '0.3s all',
     transformOrigin: 'left',
-    backgroundColor: '#fff'
+    backgroundColor: colorScheme(theme).chatPrimaryColor,
 
 
 }))
@@ -65,13 +66,16 @@ const EmojiPickerButton = styled(ButtonBase)(({ theme }) => ({
     width: 30,
     height: 30,
     margin: '5px',
-    borderRadius: '50%', backgroundColor: '#fff',
+    borderRadius: '50%',
+    color:colorScheme(theme).TextColor,
+    backgroundColor: colorScheme(theme).chatPrimaryColor
     // boxShadow: '0 1px 3px 0 #ccc',
 }))
 const IconButton = styled(ButtonIcon)(({ theme }) => ({
     transition: '0.3s all',
-    backgroundColor: '#fff',
-    boxShadow: '0 1px 3px 0 #ccc'
+    backgroundColor: colorScheme(theme).chatPrimaryColor,
+    color:colorScheme(theme).TextColor,
+    boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`
 }))
 type Props = {
     showSendIcon?: boolean,

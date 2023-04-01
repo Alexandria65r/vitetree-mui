@@ -9,13 +9,14 @@ import { mainActions } from '../../../../reducers';
 import SentimentSatisfiedSharpIcon from '@mui/icons-material/SentimentSatisfiedSharp';
 import SentimentDissatisfiedSharpIcon from '@mui/icons-material/SentimentDissatisfiedSharp';
 import Add from '@mui/icons-material/Add';
+import { colorScheme } from '../../../theme';
 
 const Container = styled(Box)(({ theme }) => ({
     padding: 10,
     margin:5,
     borderRadius: CSS_PROPERTIES.radius10,
-    boxShadow: CSS_PROPERTIES.shadow,
-    backgroundColor: '#fff',
+    boxShadow: colorScheme(theme).chatBoarderColor,
+    backgroundColor: colorScheme(theme).chatPrimaryColor,
     transition: '0.3s all'
 }))
 

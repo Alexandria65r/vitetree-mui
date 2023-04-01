@@ -4,6 +4,7 @@ import { Avatar, ButtonIcon } from '../../reusable/styles'
 import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined';
 import AddReactionOutlinedIcon from '@mui/icons-material/AddReactionOutlined';
 import classes from '../../styles/thread.module.css'
+import { colorScheme } from '../../theme';
 
 const ThreadContainer = styled(Box)(({ theme }) => ({
   flexBasis: '100%',
@@ -21,7 +22,7 @@ const Thread = styled(Box)(({ theme }) => ({
   padding: 8,
   borderRadius: 10,
   margin: '20px 0',
-  backgroundColor: theme.palette.grey[300]
+  backgroundColor: colorScheme(theme).secondaryColor
 }))
 const ChatAvatar = styled(Avatar)(({ theme }) => ({
   margin: '0 10px 0 0',

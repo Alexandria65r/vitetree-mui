@@ -8,6 +8,7 @@ import { mainActions } from '../../../../reducers'
 import AddIcon from '@mui/icons-material/Add';
 import CropSharpIcon from '@mui/icons-material/CropSharp';
 import ChatFooter from '../chat-footer'
+import { colorScheme } from '../../../theme'
 
 
 const FixedContainer = styled(Box)(({ theme }) => ({
@@ -18,7 +19,7 @@ const FixedContainer = styled(Box)(({ theme }) => ({
     bottom: 0,
     height: 'calc(100vh - 66px)',
     zIndex: 30,
-    backgroundColor: '#f4fcff',
+    backgroundColor: colorScheme(theme).primaryColor,
     [theme.breakpoints.down("sm")]: {
         width: '100vw',
         height: 'calc(100vh - 0px)',
@@ -38,7 +39,7 @@ const ImageContainer = styled(Box)(({ theme }) => ({
     position: 'relative',
     height: 400,
     borderRadius: CSS_PROPERTIES.radius10,
-    backgroundColor: theme.palette.grey[300],
+    backgroundColor: colorScheme(theme).threadChildColor,
     [theme.breakpoints.down('sm')]: {
        height:200
     }
@@ -65,7 +66,7 @@ const FooterContainer = styled(Box)(({ theme }) => ({
     bottom: 0,
 
     alignItems: 'center',
-    backgroundColor: '#f4fcff',
+    backgroundColor:colorScheme(theme).primaryColor,
     [theme.breakpoints.down('sm')]: {
         padding: '0'
     },
@@ -78,8 +79,6 @@ const CloseButton = styled(ButtonIcon)(({ theme }) => ({
     top: 5,
     right: -100,
     zIndex: 60,
-    //boxShadow: CSS_PROPERTIES.shadow,
-    backgroundColor: '#f4fcff',
     [theme.breakpoints.down('sm')]: {
         right: 0,
         top: -115,

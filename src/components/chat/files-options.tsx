@@ -6,13 +6,14 @@ import OndemandVideoOutlinedIcon from '@mui/icons-material/OndemandVideoOutlined
 import { CSS_PROPERTIES } from '../../reusable';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { mainActions } from '../../../reducers';
+import { colorScheme } from '../../theme';
 
 const Container = styled(Box)(({ theme }) => ({
     padding: 10,
     marginBottom: 10,
     borderRadius: CSS_PROPERTIES.radius10,
-    boxShadow: CSS_PROPERTIES.shadow,
-    backgroundColor: '#fff',
+    boxShadow: `0 1px 3px ${colorScheme(theme).chatBoarderColor}`,
+    backgroundColor: colorScheme(theme).chatPrimaryColor,
     transition: '0.3s all'
 }))
 

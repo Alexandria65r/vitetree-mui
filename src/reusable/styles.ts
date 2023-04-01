@@ -1,4 +1,6 @@
-import {styled,Box, ButtonBase} from '@mui/material'
+import { styled, Box, ButtonBase, colors } from '@mui/material'
+import { colorScheme, isDarkMode } from '../theme'
+import { CSS_PROPERTIES } from '.'
 
 export const Container = styled(Box)(({ theme }) => ({
     width: '80%',
@@ -12,9 +14,11 @@ export const Container = styled(Box)(({ theme }) => ({
 export const Hero = styled(Box)(({ theme }) => ({
     height: 250,
     width: '100%',
+    marginTop:10,
+    borderRadius:CSS_PROPERTIES.radius5,
     borderBottomLeftRadius: 25,
     borderBottomRightRadius: 25,
-    backgroundColor: theme.palette.grey[300],
+    backgroundColor:colorScheme(theme).secondaryColor,
     [theme.breakpoints.down('sm')]: {
         height: 180,
         borderTopLeftRadius: 0,
@@ -29,7 +33,8 @@ export const ButtonIcon = styled(ButtonBase)(({ theme }) => ({
     height: 45,
     margin: '0 5px',
     borderRadius: '50%',
-    backgroundColor: theme.palette.grey[300]
+    color: colorScheme(theme).TextColor,
+    backgroundColor: colorScheme(theme).buttonIconBGColor
 }))
 
 
@@ -37,8 +42,8 @@ export const Avatar = styled(Box)(({ theme }) => ({
     width: 45,
     height: 45,
     borderRadius: '50%',
-    backgroundColor: '#fff',
-    boxShadow: '0 1px 3px 0 #ddd',
+    backgroundColor: colorScheme(theme).chatSecondaryColor,
+    boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
     [theme.breakpoints.down('sm')]: {
         width: 43,
         height: 43,

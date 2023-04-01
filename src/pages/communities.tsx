@@ -1,14 +1,12 @@
 
-import { Box, Button, Typography, styled, OutlinedInput, IconButton, InputBase } from '@mui/material'
+import { Box, Button, Typography, styled, OutlinedInput, IconButton, InputBase, colors } from '@mui/material'
 import React from 'react'
 import Layout from '../components/layout'
 import { VideoCall, Add } from '@mui/icons-material';
 import { NextRouter, useRouter } from 'next/router';
 import { ButtonIcon, Container, Hero } from '../reusable/styles';
 import { cartegories } from '../reusable/helpers';
-
-
-
+import { colorScheme, isDarkMode } from '../theme';
 
 
 const GroupHeader = styled(Box)(({ theme }) => ({
@@ -32,6 +30,7 @@ const CreateCommunityButton = styled(Button)(({ theme }) => ({
     textTransform: 'capitalize',
     height: 45,
     borderRadius: 5,
+    color: isDarkMode(theme) ? '#fff': '#fff',
     [theme.breakpoints.down('sm')]: {
         display: 'none'
     },
@@ -61,7 +60,7 @@ const CommunityCartegoryHeader = styled(Box)(({ theme }) => ({
     position: 'relative',
     height: 1,
     borderRadius: 10,
-    backgroundColor: '#e2e6ea',
+    backgroundColor: colorScheme(theme).borderColor,
     [theme.breakpoints.down('sm')]: {
         margin: '14px 10px',
 
@@ -78,20 +77,26 @@ const CartegoryText = styled(Typography)(({ theme }) => ({
     position: 'absolute',
     top: -14,
     left: 0,
-    backgroundColor: '#fff',
-    borderRadius: 10
+    borderRadius: 10,
+    color: isDarkMode(theme) ? colors.grey[200] : colors.grey[800],
+    backgroundColor: colorScheme(theme).primaryColor,
 }))
 const CommunityCard = styled(Box)(({ theme }) => ({
     height: 180,
     margin: '20px 0 ',
     borderRadius: 12,
     padding: 10,
-    backgroundColor: theme.palette.grey[200],
+    backgroundColor: colorScheme(theme).secondaryColor,
     [theme.breakpoints.down('sm')]: {
         margin: 5,
         borderRadius: 15,
     },
 }))
+
+const CardText = styled(Typography)(({ theme }) => ({
+    color: colorScheme(theme).TextColor,
+}))
+
 
 const SearchContainer = styled(Box)(({ theme }) => ({
     flex: 1,
@@ -108,10 +113,8 @@ const SearchInput = styled(InputBase)(({ theme }) => ({
     [theme.breakpoints.up('sm')]: {
         width: 300,
     },
-    backgroundColor: theme.palette.grey[200]
+    backgroundColor: colorScheme(theme).secondaryColor,
 }))
-
-
 
 
 
@@ -162,7 +165,7 @@ export default function communites({ }: Props) {
                             <CommunitiesWrapper>
                                 {communities.filter(com => com.cartegory === cartegory).map((community) => (
                                     <CommunityCard onClick={() => router.push('/chat/community-name')}>
-                                        <p style={{ fontSize: 13, fontWeight: 500, margin: 0 }} >{community.title}</p>
+                                        <CardText style={{ fontSize: 13, fontWeight: 500, margin: 0 }} >{community.title}</CardText>
                                     </CommunityCard>
                                 ))}
                             </CommunitiesWrapper>
