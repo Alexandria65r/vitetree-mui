@@ -10,7 +10,7 @@ import Link from 'next/link';
 import { ButtonIcon } from '../reusable/styles';
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
-import { Theme, colors, styled, useTheme } from '@mui/material';
+import {styled, useTheme } from '@mui/material';
 import { ColorModeContext, colorScheme, isDarkMode } from '../theme';
 
 

@@ -1,14 +1,10 @@
 import '../styles/globals.css'
 import '@fontsource/public-sans';
-
 import React, { useEffect } from 'react'
-import { Provider } from 'react-redux'
 import type { AppProps } from 'next/app'
-
 import { wrapper } from '../../store/store'
-import { Box } from '@mui/system';
+import { Box } from '@mui/material';
 import Head from 'next/head';
-import { CssVarsProvider } from '@mui/joy/styles';
 import { ThemeProvider, createTheme, styled } from '@mui/material';
 import { ColorModeContext, colorScheme } from '../theme';
 import cookie from 'js-cookie'
@@ -34,7 +30,7 @@ function App({ Component, pageProps }: AppProps) {
 
 
   useEffect(() => {
-    cookie.set('themeMode', theme.palette.mode)
+    cookie.set('themeMode', theme?.palette.mode)
   }, [mode])
 
   useEffect(() => {

@@ -52,7 +52,6 @@ const OptionsContainer = styled(Box)(({ theme }) => ({
     marginTop: 20,
     display: 'flex',
     borderRadius: CSS_PROPERTIES.radius10,
-    //backgroundColor: theme.palette.grey[300],
     [theme.breakpoints.down('sm')]: {
         
     }
