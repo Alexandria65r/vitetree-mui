@@ -31,12 +31,14 @@ const Contain = styled(Box)(({ theme }) => ({
 
 
 
-type Props = {}
+type Props = {
+    
+}
 
 export default function ReactToMessage({ }: Props) {
     const dispatch = useAppDispatch()
     const showSelectedImage = useAppSelector((state) => state.MainReducer.showSelectedImage)
-
+    const selectedMessage = useAppSelector((state)=> state.ChatReducer.selectedMessage)
     function openSelectedImageViewer() {
         dispatch(mainActions.setShowSelectedImage(true))
         dispatch(mainActions.setPopperState({
@@ -46,7 +48,10 @@ export default function ReactToMessage({ }: Props) {
         }))
     }
     return (
-        <Container>
+        <Container sx={{
+            borderTopLeftRadius: !selectedMessage.owner ? 0 : 10,
+            borderBottomRightRadius: selectedMessage.owner ? 0 : 10,
+        }}>
             <ButtonIcon>
                 <SentimentSatisfiedSharpIcon />
             </ButtonIcon>

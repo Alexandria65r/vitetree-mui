@@ -1,9 +1,9 @@
 .threadOption {
-  visibility:hidden;
+  visibility: hidden;
 }
 
 .ThreadHead {
-  visibility:hidden;
+  visibility: hidden;
   transition: 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
@@ -12,12 +12,17 @@
 }
 
 @keyframes threadOption {
-        0%{
-            transform: scale(0.9);
-        }
-        100%{
-            transform: scale(1);
-        }
+  0% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.ThreadContainer:focus {
+ outline-color: transparent;
+background-color: inherit;
 }
 
 .ThreadContainer:focus .threadOption {

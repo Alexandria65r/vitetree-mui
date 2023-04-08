@@ -7,7 +7,7 @@ export const REUSABLE_POPPER = {
     ReactToMessage: {
         component: 'ReactToMessage',
         popperId: 'react_to_message_popper',
-        placement:'top-start'
+        placement:'bottom-start'
        
     },
     MessageMoreOptions: {

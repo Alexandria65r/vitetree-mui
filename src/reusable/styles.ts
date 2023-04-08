@@ -14,11 +14,11 @@ export const Container = styled(Box)(({ theme }) => ({
 export const Hero = styled(Box)(({ theme }) => ({
     height: 250,
     width: '100%',
-    marginTop:10,
-    borderRadius:CSS_PROPERTIES.radius5,
+    marginTop: 10,
+    borderRadius: CSS_PROPERTIES.radius5,
     borderBottomLeftRadius: 25,
     borderBottomRightRadius: 25,
-    backgroundColor:colorScheme(theme).secondaryColor,
+    backgroundColor: colorScheme(theme).secondaryColor,
     [theme.breakpoints.down('sm')]: {
         height: 180,
         borderTopLeftRadius: 0,
@@ -49,3 +49,60 @@ export const Avatar = styled(Box)(({ theme }) => ({
         height: 43,
     }
 }))
+
+export const CustomFormControl = styled(Box)(({ theme }) => ({
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    margin: '20px 0',
+    [theme.breakpoints.down("sm")]: {
+        margin: 0,
+    }
+}))
+
+
+// auth pages
+export const FormContainer = styled(Box)(({ theme }) => ({
+    position: 'relative',
+    flexBasis: '35%',
+    padding: 20,
+    backgroundColor: '#fff',
+    borderRadius: CSS_PROPERTIES.radius10,
+    boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
+    [theme.breakpoints.down("sm")]: {
+        flexBasis: '96%'
+    }
+}))
+
+export const FormLogo = styled(Box)(({ theme }) => ({
+    position: 'absolute',
+    top: -40,
+    left: '50%',
+    width: 60,
+    height: 60,
+    borderRadius: '50%',
+    backgroundColor: '#fff',
+    transform: 'translate(-50%)',
+    boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
+    //border: `1px solid ${colorScheme(theme).chatBoarderColor}`,
+}))
+export const FormHeader = styled(Box)(({ theme }) => ({
+    marginTop: 20,
+    fontSize: 20,
+    fontWeight: 700,
+    textAlign: 'center'
+}))
+export const ContinueWith = styled(Box)(({ theme }) => ({
+    flexBasis: '100%',
+    position: 'relative',
+    marginBottom: 15,
+    borderBottom: `1px solid ${colorScheme(theme).chatBoarderColor}`
+}))
+export const ContinueWithOverlayText = styled(Box)(({ theme }) => ({
+    position: 'absolute',
+    left: '50%',
+    top: -12,
+    backgroundColor: '#fff',
+    transform: 'translate(-50% )'
+}))
+

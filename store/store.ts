@@ -2,10 +2,12 @@ import { configureStore, ThunkAction, Action, combineReducers } from '@reduxjs/t
 import { MakeStore, createWrapper } from 'next-redux-wrapper'
 import MainReducer from '../reducers'
 import ChatReducer from '../reducers/chat-reducer'
+import TestReducer from '../reducers/test-reducer'
 
 const rootReducer = combineReducers({
   MainReducer,
-  ChatReducer
+  ChatReducer,
+  TestReducer
 })
 
 

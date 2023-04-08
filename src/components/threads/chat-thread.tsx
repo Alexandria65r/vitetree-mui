@@ -5,11 +5,15 @@ import { ThreadAudio, ThreadHeader, ThreadImage, ThreadOption } from './thread-p
 import classes from '../../styles/thread.module.css'
 import * as types from '../../reusable'
 import { colorScheme } from '../../theme'
+import { useAppDispatch } from '../../../store/hooks'
+import { chatActions } from '../../../reducers/chat-reducer'
 export const ThreadContainer = styled(Box)(({ theme }) => ({
   flexBasis: '100%',
   flexWrap: 'wrap',
   cursor: 'pointer',
-  outline: "none"
+  '&:focus': {
+    outline: "none",
+  }
 }))
 const ThreadBody = styled(Box)(({ theme }) => ({
   position: 'relative',
@@ -71,9 +75,11 @@ function RenderThreadType({ message }: ThreadTypeProps) {
 
 
 export default function ChatThread({ message }: Props) {
+  const dispatch = useAppDispatch()
   const { ReactToMessage, MessageMoreOptions } = types.REUSABLE_POPPER
   const popperId = !message.owner ? `${message._id}${ReactToMessage.popperId}` : `${message._id}${MessageMoreOptions.popperId}`
   return (<ThreadContainer tabIndex={0} className={classes.ThreadContainer}
+    onClick={()=> dispatch(chatActions.setSelectedMessage(message))}
     sx={(theme) => ({
       display: !message.owner ? 'flex' : 'grid',
       gridTemplateColumns: '1fr 30px',

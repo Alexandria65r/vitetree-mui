@@ -9,13 +9,13 @@ export const isDarkMode = (theme: Theme) => theme.palette.mode === 'dark';
 
 export const colorScheme = (theme: Theme) => ({
     // BASIC COLORSCHEME
-    primaryColor: isDarkMode(theme) ? '#181b34' : '#FFFFFF',
-    secondaryColor: isDarkMode(theme) ? '#292d48' : colors.grey[300],
+    primaryColor: isDarkMode(theme) ? '#181b34' : '#f4fcff',
+    secondaryColor: isDarkMode(theme) ? '#292d48' : '#fff',
     // NAVBAR
     primaryToGrey100Color: isDarkMode(theme) ? '#181b34' : colors.grey[100],
     // CHAT COLORSCHEME
     chatBGColor: isDarkMode(theme) ? colors.grey[900] : '#FFFFFF',
-    chatBodyBGColor: isDarkMode(theme) ? '#181b34' : '#f4fcff',
+    chatBodyBGColor: isDarkMode(theme) ? '#1b1d31' : '#f4fcff',
     threadChildColor: isDarkMode(theme) ? '#292d48': colors.grey[100],
     chatPrimaryColor: isDarkMode(theme) ?'#292d48' : '#FFFFFF',
     chatSecondaryColor: isDarkMode(theme) ?'#33385d' : '#FFFFFF',

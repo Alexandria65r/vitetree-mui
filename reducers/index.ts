@@ -5,14 +5,20 @@ import { PopperState } from '../src/reusable/interfaces'
 interface State {
     popperState: PopperState
     showSelectedImage: boolean
+    isMultipleChoiceEnabled: boolean;
+    isOneWordAnswerEnabled: boolean;
+    isDiagramQuestion: boolean
 }
 const initialState: State = {
     popperState: {
         component: '',
         popperId: '',
-        placement:''
+        placement: ''
     },
-    showSelectedImage: false
+    showSelectedImage: false,
+    isMultipleChoiceEnabled: false,
+    isOneWordAnswerEnabled: false,
+    isDiagramQuestion: false,
 }
 
 const mainSlice = createSlice({
@@ -27,6 +33,15 @@ const mainSlice = createSlice({
         },
         setShowSelectedImage: (state, { payload }: PayloadAction<boolean>) => {
             state.showSelectedImage = payload
+        },
+        setIsOneWordAnswer: (state, { payload }: PayloadAction<boolean>) => {
+            state.isOneWordAnswerEnabled = payload
+        },
+        setIsMultipleQuestion: (state, { payload }: PayloadAction<boolean>) => {
+            state.isMultipleChoiceEnabled = payload
+        },
+        setIsDiagramQuestion: (state, { payload }: PayloadAction<boolean>) => {
+            state.isDiagramQuestion = payload
         }
     },
 
