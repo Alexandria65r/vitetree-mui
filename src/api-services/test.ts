@@ -4,7 +4,7 @@ import { Test } from "../reusable/interfaces";
 
 export default class TestAPI {
 
-    static async fetch(testId: string) {
+    static async fetchOne(testId: string) {
         try {
             const { data } = await axios.get(`/api/test-api/fetch/${testId}`)
             if (data.success) {
@@ -14,6 +14,17 @@ export default class TestAPI {
             console.log(error)
         }
     }
+    static async fetchMany() {
+        try {
+            const { data } = await axios.get(`/api/test-api/fetch-many`)
+            if (data.success) {
+                return data.testsList as Test[]
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     static create(newTest: Test) {
         return axios.post('/api/test-api/create', newTest)
     }

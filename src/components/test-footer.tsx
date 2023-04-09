@@ -38,11 +38,7 @@ type Props = {
 }
 
 export default function TestFooter({ prevQuestion,nextQuestion }: Props) {
-    const dispatch = useAppDispatch()
-    const newTest = useAppSelector((state) => state.TestReducer.newTest)
-    const sectionIndex = useAppSelector((state) => state.TestReducer.questionIndex)
-    const questionIndex = useAppSelector((state) => state.TestReducer.questionIndex)
-    const isErr = useAppSelector((state) => state.TestReducer.isErr)
+   
 
 
 

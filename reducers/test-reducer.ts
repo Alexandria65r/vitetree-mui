@@ -17,8 +17,9 @@ const initialState: TestState = {
         sectionType: '',
         subjectOrlanguage: '',
         sections: [],
-        duration:'',
+        duration: '',
         description: '',
+    authorId: ''
     },
     sectionIndex: 0,
     questionIndex: 0,
@@ -28,7 +29,7 @@ const initialState: TestState = {
         email: '',
         reason: '',
         testId: '',
-        taken:false
+        taken: false
     },
     isPreparigPartcipant: false
 

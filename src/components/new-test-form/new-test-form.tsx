@@ -27,7 +27,7 @@ const FormControl = styled(Box)(({ theme }) => ({
     width: '100%',
     display: 'flex',
     alignItems: 'center',
-    justifyContent:'space-between',
+    justifyContent: 'space-between',
     margin: '20px 0'
 }))
 const _FormControlColBadge = styled(Box)(({ theme }) => ({
@@ -92,6 +92,7 @@ export default function NewTestForm({ }: Props) {
     const newTest = useAppSelector((state) => state.TestReducer.newTest)
     const [sections, setSelectedSections] = useState<string[]>([])
     const isErr = useAppSelector((state) => state.TestReducer.isErr)
+    const user = useAppSelector((state) => state.AuthReducer.user)
 
 
     function selectCartegory({ target }: any) {
@@ -114,6 +115,8 @@ export default function NewTestForm({ }: Props) {
                 name: 'sections',
                 value: [{
                     name: value,
+                    questions:[],
+                    wayOfAnswering: '',
                     numberOfQuestions: 0
                 }]
             }))
@@ -189,10 +192,14 @@ export default function NewTestForm({ }: Props) {
         if (error) return
         if (!isErr) {
             const testId = randomstring.generate(17)
-            const { data } = await TestAPI.create({ ...newTest, _id: testId })
+            const { data } = await TestAPI.create({
+                ...newTest,
+                _id: testId,
+                authorId: user._id ?? ''
+            })
             if (data.success) {
                 console.log(newTest)
-                router.push(`/prepare-test/${data.newTest._id}`)
+                router.push(`/prepare/${data.newTest._id}`)
             }
         }
     }
@@ -233,7 +240,7 @@ export default function NewTestForm({ }: Props) {
                         name="sectionType"
                         defaultValue='Split test into sections?'
                         value={newTest.sectionType || undefined}
-                        sx={{ flexBasis:'68%' }}>
+                        sx={{ flexBasis: '68%' }}>
                         <MenuItem value="Split test into sections?">Split into sections?</MenuItem>
                         <MenuItem value="None sectioned">None sectioned</MenuItem>
                         <MenuItem value="With sections">With sections</MenuItem>

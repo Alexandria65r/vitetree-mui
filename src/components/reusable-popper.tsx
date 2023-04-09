@@ -10,6 +10,7 @@ import * as types from '../reusable'
 import FilesOptions from './chat/files-options'
 import MessageMoreOptions from './chat/message-more-options/message-more-options'
 import ReactToMessage from './chat/react-to-message/react-to-message'
+import TestCardOptions from './test-card-options'
 
 const AlertClose = styled(IconButton)({
     position: 'absolute',
@@ -33,7 +34,7 @@ export default function ReusablePopper() {
         dispatch(mainActions.setPopperState({
             component: '',
             popperId: '',
-            placement:''
+            placement: ''
         }))
     }
 
@@ -48,13 +49,12 @@ export default function ReusablePopper() {
                 open={popperState.popperId !== ''}
                 anchorEl={anchorEl}
                 sx={{ zIndex: 1390 }}
-                placement={popperState.placement}
+            // placement={'bottom-end'}
             >
                 <Box className='animated-popper'>
                     {popperState.component === types.REUSABLE_POPPER.FilesOptions.component && <FilesOptions />}
                     {popperState.component === types.REUSABLE_POPPER.ReactToMessage.component && <ReactToMessage />}
                     {popperState.component === types.REUSABLE_POPPER.MessageMoreOptions.component && <MessageMoreOptions />}
-
                 </Box>
 
             </Popper>

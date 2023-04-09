@@ -1,12 +1,26 @@
-import { Section, Test } from "./interfaces";
+import { Section, Test, User } from "./interfaces";
 
-export const testDataSchema:Test = {
+
+export const UserSchema: User = {
+    
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    imageAsset: {
+        public_id: '',
+        imageURL: ''
+    }
+}
+
+export const testDataSchema: Test = {
     _id: '',
     cartegory: '',
     sectionType: '',
     subjectOrlanguage: '',
-    sections:[],
-    description: ''
+    sections: [],
+    description: '',
+    authorId: ""
 }
 
 

@@ -1,5 +1,26 @@
 import { PopperPlacementType } from "@mui/material"
 
+
+//auth
+
+export type User = {
+    _id?:string,
+    firstName: string
+    lastName: string,
+    email: string,
+    password: string
+    imageAsset:{
+        public_id:string
+        imageURL:string
+    }
+    createdAt?: string
+}
+
+export type Signin = {
+    email: string,
+    password: string
+}
+
 export type MessageThread = {
     _id: string,
     text: string,
@@ -24,6 +45,7 @@ export type Test = {
     sections: Section[]
     duration?: string
     description: string
+    authorId: string
 }
 
 //test preparation

@@ -1,6 +1,6 @@
 
 import { styled, Box, colors, InputBase, ButtonBase } from '@mui/material'
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import type { NextPage } from 'next'
 import { wrapper } from '../../store/store'
 import Layout from '../components/layout'
@@ -9,6 +9,9 @@ import AddIcon from '@mui/icons-material/Add';
 import { NextRouter, useRouter } from 'next/router'
 import { CustomFormControl } from '../reusable/styles'
 import { CSS_PROPERTIES } from '../reusable'
+import { Test } from '../reusable/interfaces'
+import TestAPI from '../api-services/test'
+import ReusablePopper from '../components/reusable-popper'
 export const getServerSideProps = wrapper.getServerSideProps(({ dispatch }) => async (params) => {
 
   return {
@@ -95,6 +98,7 @@ const IndexPage: NextPage = () => {
   const [code, setCode] = useState<string>('')
 
 
+
   function attend() {
     if (!code) return
     router.push(`/attendee-info/${code}`)
@@ -141,7 +145,6 @@ const IndexPage: NextPage = () => {
           </FrontBox>
         </RightCol>
       </Container>
-
     </Layout>
   )
 }

@@ -14,6 +14,7 @@ import { ButtonBase, colors, styled, useMediaQuery, useTheme } from '@mui/materi
 import { ColorModeContext, colorScheme, isDarkMode } from '../theme';
 import { CSS_PROPERTIES } from '../reusable';
 import { useRouter } from 'next/router';
+import { useAppSelector } from '../../store/hooks';
 
 
 const Button = styled(ButtonBase)(({ theme }) => ({
@@ -34,6 +35,7 @@ const AppBar = styled(AppNavigationBar)(({ theme }) => ({
 export default function NavBar() {
     const router = useRouter()
     const theme = useTheme()
+    const user = useAppSelector((state) => state.AuthReducer.user)
     const { toggleColorMode } = React.useContext(ColorModeContext)
     const isMobile = useMediaQuery('(max-width:600px)')
     return (
@@ -50,23 +52,26 @@ export default function NavBar() {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        <Link href="/">
+                        <Link href={user?._id?'/dashboard':'/'}>
                             Testdam
                         </Link>
                     </Typography>
                     <ButtonIcon onClick={toggleColorMode}>
                         {theme.palette.mode === 'light' ? <DarkModeOutlinedIcon /> : <LightModeOutlinedIcon />}
                     </ButtonIcon>
-                    <Button onClick={() => router.push('/signin')} sx={{
-                        backgroundColor: 'transparent',
-                        color: '#000',
-                        border: `1px solid ${colors.teal[400]}`
-                    }}>Signin</Button>
-                    {!isMobile && (
+                    {!user._id ? (
+                        <Button onClick={() => router.push('/signin')} sx={{
+                            backgroundColor: 'transparent',
+                            color: '#000',
+                            border: `1px solid ${colors.teal[400]}`
+                        }}>Signin</Button>
+                    ):<></>}
+
+                    {!isMobile && !user._id ? (
                         <Button onClick={() => router.push('/signup')}>
                             Signup
                         </Button>
-                    )}
+                    ):<></>}
                 </Toolbar>
             </AppBar>
         </Box>

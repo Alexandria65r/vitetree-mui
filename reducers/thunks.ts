@@ -6,12 +6,39 @@ import { questionChoices } from "../src/reusable/helpers";
 import PartcipantAPI from "../src/api-services/partcipant";
 import randomstring from 'randomstring'
 import TestAPI from "../src/api-services/test";
+import Cookies from "js-cookie";
+import AuthAPI from "../src/api-services/auth";
+import { authActions } from "./auth-reducer";
+
+
+
+export const checkAuthThunk = createAsyncThunk<'success' | 'not-authorized' | undefined, any, { state: AppState }>
+    ('authSlice/checkAuthThunk', async (_, thunkAPI) => {
+        const dispatch = thunkAPI.dispatch
+        const state = thunkAPI.getState()
+        const user = state.AuthReducer.user
+        const token = Cookies.get('testDamToken')
+        if(!token) return 'not-authorized'
+        if (!user._id && token) {
+            const { data } = await AuthAPI.DecodeToken(token)
+            if (data.success) {
+                dispatch(authActions.setAuhtUser(data.user))
+                return 'success'
+            }
+        } 
+
+
+    })
+
+
+
 
 export const updateTestQuestionThunk = createAsyncThunk
     <void, { value: string, questionIndex: number, updateKey: 'question' | 'answer' }, { state: AppState }>
     ('testSlice/updateTestQuestionThunk', async ({ value, questionIndex, updateKey }, thunkAPI) => {
         const dispatch = thunkAPI.dispatch
         const state = thunkAPI.getState()
+        console.log(questionIndex)
         const { newTest, sectionIndex } = state.TestReducer
         const clonedSections = [...newTest.sections];
         const clonedSection = { ...clonedSections[sectionIndex] }
@@ -31,7 +58,7 @@ export const updateTestQuestionThunk = createAsyncThunk
             name: 'sections',
             value: clonedSections
         }))
-        dispatch(validateSectionQuestionsThunk({}))
+       // dispatch(validateSectionQuestionsThunk({}))
     })
 
 
@@ -73,7 +100,7 @@ export const updateTestMultipleChoiceThunk = createAsyncThunk
             value: clonedSections
         }))
         //validate on values change
-        dispatch(validateSectionQuestionsThunk({}))
+       // dispatch(validateSectionQuestionsThunk({}))
     })
 
 export const setWithPreparedSections = createAsyncThunk<void, Test, { state: AppState }>
@@ -130,6 +157,7 @@ export const validateSectionQuestionsThunk = createAsyncThunk<any, any, { state:
                 if (section.wayOfAnswering === 'multiple choice') {
                     if (choices?.a.ans === "" || choices?.b.ans === "" || choices?.c.ans === "" || choices?.d.ans === "") {
                         isInvalid = { isInvalid: true }
+                        //debugger
                         dispatch(testActions.setSectionIndex(0))
                         dispatch(testActions.setQuestionIdex(0))
                     }
@@ -225,7 +253,7 @@ export const markTakenTestThunk = createAsyncThunk<string | undefined, Test, { s
 export const fetchTestDataThunk = createAsyncThunk<string | undefined, string, { state: AppState }>
     ('testSlice/fetchTestDataThunk', async (id, thunkAPI) => {
         const dispatch = thunkAPI.dispatch
-        const data = await TestAPI.fetch(id)
+        const data = await TestAPI.fetchOne(id)
         if (data) {
             dispatch(testActions.setTestData(data))
             return 'success'

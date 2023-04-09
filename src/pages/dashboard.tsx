@@ -1,13 +1,19 @@
-import React from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import Layout from '../components/layout'
-import { Box, ButtonBase, IconButton, InputBase, colors, styled } from '@mui/material'
+import { Box, ButtonBase, IconButton, InputBase, Typography, colors, styled } from '@mui/material'
 import { colorScheme } from '../theme'
 import { CSS_PROPERTIES } from '../reusable'
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
 import { useRouter } from 'next/router'
+import { Test } from '../reusable/interfaces'
+import TestAPI from '../api-services/test'
 
-
+import { useAppDispatch } from '../../store/hooks'
+import { mainActions } from '../../reducers'
+import * as types from '../reusable'
+import ReusablePopper from '../components/reusable-popper'
+import TestCardOptions from '../components/test-card-options'
 const Container = styled(Box)(({ theme }) => ({
 
 }))
@@ -21,6 +27,7 @@ const SearchContainer = styled(Box)(({ theme }) => ({
     justifyContent: 'space-between',
     [theme.breakpoints.down("sm")]: {
         width: '96%',
+        height: 85,
     }
 }))
 const SearchInputWrap = styled(Box)(({ theme }) => ({
@@ -46,19 +53,28 @@ const MappedCards = styled(Box)(({ theme }) => ({
     margin: 'auto',
     display: 'grid',
     gap: 15,
-    gridTemplateColumns: 'repeat(3,1fr)',
+    gridTemplateColumns: 'repeat(4,1fr)',
     [theme.breakpoints.down("sm")]: {
+        gap: 8,
         width: '96%',
-        gridTemplateColumns: '1fr',
+        gridTemplateColumns: 'repeat(2,1fr)',
     }
 }))
 const Card = styled(Box)(({ theme }) => ({
-    height: 200,
+    position: 'relative',
+    minHeight: 100,
     backgroundColor: '#fff',
-    borderRadius: CSS_PROPERTIES.radius5,
+    padding: 10,
+    borderRadius: CSS_PROPERTIES.radius10,
+    borderLeft: `5px solid ${colors.teal[400]}`,
     boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
+    transition: '0.3s all',
+    cursor: 'pointer',
+    '&:hover': {
+        transform: 'scale(1.03)'
+    },
     [theme.breakpoints.down("sm")]: {
-        height: 260,
+        height: 120,
     }
 }))
 
@@ -78,6 +94,7 @@ const Button = styled(ButtonBase)(({ theme }) => ({
 }))
 
 
+
 const ButtonIcon = styled(IconButton)(({ theme }) => ({
     position: 'fixed',
     width: 60,
@@ -87,10 +104,10 @@ const ButtonIcon = styled(IconButton)(({ theme }) => ({
     color: '#fff',
     borderRadius: '50%',
     backgroundColor: colors.teal[400],
-    '&:focus':{
+    '&:focus': {
         backgroundColor: colors.teal[400],
     },
-    boxShadow:`0 1px 3px 0 ${colors.teal[600]}`,
+    boxShadow: `0 1px 3px 0 ${colors.teal[600]}`,
     [theme.breakpoints.up("sm")]: {
         display: 'none',
     }
@@ -105,6 +122,37 @@ type Props = {}
 
 export default function Darshboard({ }: Props) {
     const router = useRouter()
+    const dispatch = useAppDispatch()
+    const [data, setData] = useState<Test[]>([])
+    const [isFetching, setFetching] = useState<boolean>()
+
+
+
+    const fetchDashboardData = useCallback(async () => {
+        setFetching(true)
+        const testsList = await TestAPI.fetchMany()
+        if (testsList) {
+            setFetching(false)
+            setData(testsList)
+        }
+    }, [])
+
+
+    useEffect(() => {
+        fetchDashboardData()
+    }, [router.pathname])
+
+
+
+    function handlePopper() {
+        dispatch(mainActions.setPopperState({
+            component: types.REUSABLE_POPPER.TestCardOptions.component,
+            popperId: types.REUSABLE_POPPER.TestCardOptions.popperId,
+            placement: types.REUSABLE_POPPER.TestCardOptions.placement
+        }))
+    }
+
+
     return (
         <Layout>
             <Container>
@@ -125,9 +173,14 @@ export default function Darshboard({ }: Props) {
                 </SearchContainer>
 
                 <MappedCards>
-                    {[1, 2, 3, 4, 5, 6].map((card, index) => (
+                    {data.map((card, index) => (
                         <Card key={index}>
-
+                            <Typography sx={{ fontWeight: 600 }}>{card.subjectOrlanguage}</Typography>
+                            <Typography>{card.cartegory}</Typography>
+                            <Typography sx={{ lineHeight: 1.2, fontSize: 12 }}>
+                                {card.description}
+                            </Typography>
+                            <TestCardOptions card={card} />
                         </Card>
                     ))}
                 </MappedCards>

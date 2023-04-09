@@ -1,0 +1,7 @@
+.CustomPaper {
+  padding: 5px;
+  display: grid;
+  background-color: transparent !important;
+  grid-template-columns: 1fr;
+  box-shadow: none !important;
+}

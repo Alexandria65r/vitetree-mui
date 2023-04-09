@@ -2,18 +2,23 @@ export const REUSABLE_POPPER = {
     FilesOptions: {
         component: 'FilesOptions',
         popperId: 'files_options_popper',
-        placement:'top'
+        placement: 'top'
     },
     ReactToMessage: {
         component: 'ReactToMessage',
         popperId: 'react_to_message_popper',
-        placement:'bottom-start'
-       
+        placement: 'bottom-start'
+
     },
     MessageMoreOptions: {
         component: 'MessageMoreOptions',
-        popperId:'message_more_options_popper',
-        placement:'right-start'
+        popperId: 'message_more_options_popper',
+        placement: 'right-start'
+    },
+    TestCardOptions: {
+        component: 'TestCardOptions',
+        popperId: 'test-card-options',
+        placement: 'auto'
     },
 
 }

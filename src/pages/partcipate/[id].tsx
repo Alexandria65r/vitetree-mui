@@ -26,7 +26,7 @@ const Container = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down("sm")]: {
     width: '100%',
     padding: 0,
-    marginTop:5,
+    marginTop: 5,
   }
 }))
 const TestInfoCol = styled(Box)(({ theme }) => ({
@@ -65,7 +65,7 @@ const TestHeader = styled(Box)(({ theme }) => ({
 
 const InnerTopHeader = styled(Box)(() => ({
   display: 'flex',
-  flexWrap:'wrap',
+  flexWrap: 'wrap',
   alignItems: 'center',
   flexBasis: '100%',
   padding: 10,
@@ -281,7 +281,7 @@ export default function NewTest({ }: Props) {
       dispatch(testActions.setSectionIndex(0))
       return
     } else {
-      const testData = await TestAPI.fetch(partcipant.testId)
+      const testData = await TestAPI.fetchOne(partcipant.testId)
       if (testData) {
         dispatch(markTakenTestThunk(testData))
       }
@@ -316,7 +316,7 @@ export default function NewTest({ }: Props) {
       accent = colors.red[400]
     } else if (!isTaken && isErr) {
       accent = colors.red[400]
-    }else{
+    } else {
       accent = colors.teal[400]
     }
     return accent
@@ -333,23 +333,29 @@ export default function NewTest({ }: Props) {
           <TestHeader>
             <InnerTopHeader>
               <Typography sx={{ flex: 1, fontSize: 20, fontWeight: 600 }} >{newTest?.subjectOrlanguage}</Typography>
-              <Typography sx={(theme) => ({
-                flex: 1,
-                fontSize: 18,
-                fontWeight: 600,
-                [theme.breakpoints.down("sm")]: {
-                  flexBasis: '100%',
-                  textAlign: 'center',
-                  order: 3
-                }
-              })} >Section {section?.name}</Typography>
-              <IconButton onClick={PrevSection} sx={{ justifySelf: 'flex-end' }}>
-                <ChevronLeftIcon />
-              </IconButton>
-              <IconButton hidden={sectionIndex === maxIndex} onClick={NextSection} sx={{ justifySelf: 'flex-end' }}>
-                <ChevronRightIcon />
-              </IconButton>
-              {section?.name === testSections[testSections?.length - 1]?.name && (
+              {section?.name !== 'None sectioned' && (
+                <Typography sx={(theme) => ({
+                  flex: 1,
+                  fontSize: 18,
+                  fontWeight: 600,
+                  [theme.breakpoints.down("sm")]: {
+                    flexBasis: '100%',
+                    textAlign: 'center',
+                    order: 3
+                  }
+                })} >Section {section?.name}</Typography>
+              )}
+              {section?.name !== 'None sectioned' && (<>
+
+                <IconButton onClick={PrevSection} sx={{ justifySelf: 'flex-end' }}>
+                  <ChevronLeftIcon />
+                </IconButton>
+                <IconButton hidden={sectionIndex === maxIndex} onClick={NextSection} sx={{ justifySelf: 'flex-end' }}>
+                  <ChevronRightIcon />
+                </IconButton>
+
+              </>)}
+              {!isTaken && section?.name === testSections[testSections?.length - 1]?.name && (
                 <PublishTestButton onClick={submit}>
                   Submit
                 </PublishTestButton>

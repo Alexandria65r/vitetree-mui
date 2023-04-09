@@ -156,19 +156,23 @@ export default function NewTest({ }: Props) {
     const maxIndex = testSections?.length - 1;
     const isErr = useAppSelector((state) => state.TestReducer.isErr)
 
+    const UpdateQuestionIndex = useCallback(() => dispatch(testActions.setQuestionIdex(0)), [])
+
+    useEffect(() => {
+        UpdateQuestionIndex()
+    }, [sectionIndex])
 
 
     useEffect(() => {
-        dispatch(testActions.setQuestionIdex(0))
         return () => {
             dispatch(testActions.setTestData(testDataSchema))
         }
-    }, [sectionIndex])
+    }, [])
 
 
     const fetchTestData = useCallback(async () => {
         if (typeof testId === 'string') {
-            const testData = await TestAPI.fetch(testId)
+            const testData = await TestAPI.fetchOne(testId)
             if (testData?._id) {
                 dispatch(setWithPreparedSections(testData))
             }
@@ -252,6 +256,7 @@ export default function NewTest({ }: Props) {
                 sections: newTest.sections
             });
             if (data.success) {
+                router.replace('/dashboard')
                 console.log(data.updated)
             }
         } catch (error) {
@@ -311,7 +316,7 @@ export default function NewTest({ }: Props) {
                             <HeaderButton size='medium'
                                 sx={(theme) => ({
                                     [theme.breakpoints.down("sm")]: {
-                                        flexBasis:'60%'
+                                        flexBasis: '60%'
                                     }
                                 })}
                                 onClick={() => handleQuestionType('with-diagram')}
@@ -324,7 +329,7 @@ export default function NewTest({ }: Props) {
                     <FormContainer>
                         {isDiagramQuestion && <WithDiagram />}
                         <CustomFormControl >
-                            <QuestionNumber sx={{ backgroundColor: isErr && !question.question ? colors.red[600] : colors.teal[400] }}>
+                            <QuestionNumber sx={{ backgroundColor: isErr && !question?.question ? colors.red[600] : colors.teal[400] }}>
                                 <QuestionNumberText>{questionIndex + 1}/{section.numberOfQuestions}</QuestionNumberText>
                             </QuestionNumber>
                             <TextInput fullWidth
