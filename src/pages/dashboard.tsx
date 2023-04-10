@@ -118,18 +118,20 @@ export default function Darshboard({ }: Props) {
 
 
     const fetchDashboardData = useCallback(async () => {
-        setFetching(true)
-        const testsList = await TestAPI.fetchMany(user._id ?? '')
-        if (testsList) {
-            setFetching(false)
-            setData(testsList)
+        if (user._id) {
+            setFetching(true)
+            const testsList = await TestAPI.fetchMany(user._id ?? '')
+            if (testsList) {
+                setFetching(false)
+                setData(testsList)
+            }
         }
-    }, [])
+    }, [router.pathname, user, dispatch])
 
 
     useEffect(() => {
         fetchDashboardData()
-    }, [router.pathname])
+    }, [router.pathname, user, dispatch])
 
 
 

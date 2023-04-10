@@ -1,12 +1,12 @@
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
-import connection from '../../../database/connection'
-import { Test } from "../../../database/schema";
+import connection from '../../../../database/connection'
+import { Test } from "../../../../database/schema";
 
 
 const FetchMany: NextApiHandler = async (req: NextApiRequest, res: NextApiResponse) => {
     await connection()
-    const testId = req.query.id
-    const testsList = await Test.find({}).where({testId}).exec()
+    const authorId = req.query.authorId
+    const testsList = await Test.find().where({ authorId }).exec()
     if (testsList) {
         return res.json({
             success: true,

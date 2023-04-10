@@ -138,7 +138,7 @@ export const SearchInputWrap = styled(Box)(({ theme }) => ({
 export const SearchInput = styled(InputBase)(({ theme }) => ({
     flex: 1,
     padding: '10px 10px 10px 0',
-    backgroundColor: colorScheme(theme).secondaryColor,
+    backgroundColor:'transparent',
     borderRadius: CSS_PROPERTIES.radius5,
 }))
 
