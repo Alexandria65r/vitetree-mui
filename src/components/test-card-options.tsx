@@ -56,10 +56,11 @@ const CardButton = styled(ButtonBase)(({ theme }) => ({
     padding: '2px',
     fontWeight: 400,
     borderRadius: CSS_PROPERTIES.radius5,
-    backgroundColor: colors.grey[200],
     color: colors.teal[400],
     [theme.breakpoints.down("sm")]: {
-
+        '&:focus':{
+            backgroundColor: colors.grey[200],
+        }
     }
 }))
 
@@ -103,7 +104,7 @@ export default function TestCardOptions({ card }: Props) {
                         }}
                     >
                         <Container>
-                            <MenuItemButton>
+                            <MenuItemButton onClick={() => router.push(`/update/${card._id}`)}>
                                 <MenuItemIconWrap>
                                     <EditOutlinedIcon />
                                 </MenuItemIconWrap>
@@ -115,7 +116,7 @@ export default function TestCardOptions({ card }: Props) {
                                 </MenuItemIconWrap>
                                 Prepare
                             </MenuItemButton>
-                            <MenuItemButton onClick={reactToMessage}>
+                            <MenuItemButton onClick={() => router.push(`/partcipants/${card._id}`)}>
                                 <MenuItemIconWrap>
                                     <PeopleAltOutlinedIcon />
                                 </MenuItemIconWrap>

@@ -1,24 +1,14 @@
-import React from 'react'
-import Layout from '../components/layout'
-import { Box, InputAdornment, InputLabel, OutlinedInput, MenuItem, TextField, Typography, colors, styled, Button } from '@mui/material'
-import { colorScheme } from '../theme'
-import { CSS_PROPERTIES } from '../reusable'
+import React, { useCallback, useEffect } from 'react'
+import Layout from '../../components/layout'
+import { Box, styled, Button } from '@mui/material'
+import { colorScheme } from '../../theme'
+import { CSS_PROPERTIES } from '../../reusable'
 //import Select from '@mui/joy/Select';
-import Option from '@mui/joy/Option';
-import TextareaAutosize from '@mui/base/TextareaAutosize';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import PieChartIcon from '@mui/icons-material/PieChart';
-import ShortTextIcon from '@mui/icons-material/ShortText';
-import ListIcon from '@mui/icons-material/List';
-import MultipleChoiceForm from '../components/question/multiple-choice-form'
-import WithDiagram from '../components/question/with-diagram'
-import WithOneWordAnswer from '../components/question/with-one-word-answer'
-import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import { mainActions } from '../../reducers'
-import NewTestForm from '../components/new-test-form/new-test-form'
-import TestAPI from '../api-services/test'
+import { useAppDispatch, useAppSelector } from '../../../store/hooks'
+import NewTestForm from '../../components/new-test-form/new-test-form'
+import { fetchTestDataThunk } from '../../../reducers/thunks'
 import { useRouter } from 'next/router'
-import randomstring from 'randomstring'
+import TestAPI from '../../api-services/test'
 
 const Container = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -82,25 +72,24 @@ const HeaderButton = styled(Button)(({ theme }) => ({
 type Props = {}
 
 export default function NewTest({ }: Props) {
-    const router = useRouter()
     const dispatch = useAppDispatch()
+    const router = useRouter()
+    const id: any = router.query.id || []
     const newTest = useAppSelector((state) => state.TestReducer.newTest)
-    const isErr = useAppSelector((state) => state.TestReducer.isErr)
-    const user = useAppSelector((state) => state.AuthReducer.user)
 
 
+    const fetchTestData =
+        useCallback(() => dispatch(fetchTestDataThunk(id)), [])
+    useEffect(() => {
+        fetchTestData()
+    }, [])
 
-    async function create() {
-            const testId = randomstring.generate(17)
-            const { data } = await TestAPI.create({
-                ...newTest,
-                _id: testId,
-                authorId: user._id ?? ''
-            })
-            if (data.success) {
-                console.log(newTest)
-                router.push(`/prepare/${data.newTest._id}`)
-            }
+    async function update() {
+        const { _id, __v, ...rest }:any = newTest
+        const { data } = await TestAPI.update(id, rest)
+        if (data.success) {
+            router.push(`/prepare/${data.updated._id}`)
+        }
     }
 
     return (
@@ -110,7 +99,7 @@ export default function NewTest({ }: Props) {
 
                 </TestInfoCol>
                 <TestFormContainer>
-                    <NewTestForm mode="create" submitHandler={create} />
+                    
                 </TestFormContainer>
             </Container>
         </Layout>

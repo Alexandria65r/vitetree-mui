@@ -84,9 +84,12 @@ const StyledButton = styled(Button)(({ theme }) => ({
 
 
 
-type Props = {}
+type Props = {
+    mode: 'create' | "update",
+    submitHandler: () => void
+}
 
-export default function NewTestForm({ }: Props) {
+export default function NewTestForm({ mode, submitHandler }: Props) {
     const dispatch = useAppDispatch()
     const router = useRouter()
     const newTest = useAppSelector((state) => state.TestReducer.newTest)
@@ -115,7 +118,7 @@ export default function NewTestForm({ }: Props) {
                 name: 'sections',
                 value: [{
                     name: value,
-                    questions:[],
+                    questions: [],
                     wayOfAnswering: '',
                     numberOfQuestions: 0
                 }]
@@ -176,33 +179,19 @@ export default function NewTestForm({ }: Props) {
     }
 
 
-    function handleValidations() {
+    function handleSubmit() {
         if (!(newTest.cartegory && newTest.description && newTest.subjectOrlanguage)) {
             console.log('rrr')
             dispatch(testActions.setError(true))
             return true
         } else {
             dispatch(testActions.setError(false))
+            submitHandler()
             return false
         }
     }
 
-    async function createTest() {
-        const error = handleValidations()
-        if (error) return
-        if (!isErr) {
-            const testId = randomstring.generate(17)
-            const { data } = await TestAPI.create({
-                ...newTest,
-                _id: testId,
-                authorId: user._id ?? ''
-            })
-            if (data.success) {
-                console.log(newTest)
-                router.push(`/prepare/${data.newTest._id}`)
-            }
-        }
-    }
+
 
     return (
         <FormContainer>
@@ -352,8 +341,8 @@ export default function NewTestForm({ }: Props) {
                         placeholder={`${newTest.cartegory} description`} />
                 </FormControl>
 
-                <FormControl onClick={createTest} sx={{ justifyContent: 'flex-end' }}>
-                    <StyledButton variant='contained'>Create</StyledButton>
+                <FormControl onClick={handleSubmit} sx={{ justifyContent: 'flex-end' }}>
+                    <StyledButton variant='contained'>{mode}</StyledButton>
                 </FormControl>
             </ChoicesContainer>
         </FormContainer>

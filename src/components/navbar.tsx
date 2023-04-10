@@ -51,9 +51,9 @@ export default function NavBar() {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                    <Typography variant="h6" component="div" sx={{ flexGrow: 1,color:colors.teal[400] }}>
                         <Link href={user?._id?'/dashboard':'/'}>
-                            Testdam
+                            Schooyard
                         </Link>
                     </Typography>
                     <ButtonIcon onClick={toggleColorMode}>
