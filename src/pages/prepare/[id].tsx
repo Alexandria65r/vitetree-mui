@@ -40,7 +40,7 @@ const TestInfoCol = styled(Box)(({ theme }) => ({
     flexBasis: '33%',
     height: 200,
     borderRadius: CSS_PROPERTIES.radius5,
-    backgroundColor: '#fff',
+    backgroundColor: colorScheme(theme).secondaryColor,
     boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
     [theme.breakpoints.down("sm")]: {
         display: 'none'

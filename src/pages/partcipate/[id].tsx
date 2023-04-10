@@ -17,7 +17,7 @@ import { useRouter } from 'next/router'
 import TestAPI from '../../api-services/test'
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
-import PartcipantCard from '../../components/partcipants'
+import PartcipantCard from '../../components/partcipant-card'
 
 const Container = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -73,10 +73,10 @@ const InnerTopHeader = styled(Box)(() => ({
   //borderBottom: `1px solid ${colorScheme(theme).chatBoarderColor}`
 }))
 
-const QuestionContainer = styled(Box)(() => ({
+const QuestionContainer = styled(Box)(({theme}) => ({
   userSelect: 'none',
   padding: 10,
-  borderBottom: `1px solid ${colors.grey[200]}`,
+  borderBottom: `1px solid ${colorScheme(theme).chatBoarderColor}`,
 }))
 
 const QuestionFlexWrap = styled(Box)(() => ({

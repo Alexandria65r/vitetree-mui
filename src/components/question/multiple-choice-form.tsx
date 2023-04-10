@@ -1,13 +1,11 @@
-import { Box, Button, MenuItem, Select, TextField, Typography, colors, styled } from '@mui/material'
+import { Box, Button, MenuItem, Select, colors, styled } from '@mui/material'
 import React from 'react'
 import { CSS_PROPERTIES } from '../../reusable'
 import TextareaAutosize from '@mui/base/TextareaAutosize'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
-import { Choice, ChoiceTarget, Question } from '../../reusable/interfaces'
-import { testActions } from '../../../reducers/test-reducer'
-import { questionChoices } from '../../reusable/helpers'
+import { ChoiceTarget, Question } from '../../reusable/interfaces'
 import { updateTestMultipleChoiceThunk, updateTestQuestionThunk } from '../../../reducers/thunks'
-import { CustomFormControl } from '../../reusable/styles'
+import { CustomFormControl, Textarea, } from '../../reusable/styles'
 
 
 
@@ -22,6 +20,7 @@ const MultipleChoiceBadge = styled(Box)(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    flexBasis:40,
     width: 40,
     height: 40,
     margin: 5,
@@ -31,19 +30,13 @@ const MultipleChoiceBadge = styled(Box)(({ theme }) => ({
     borderRadius: '50%',
     backgroundColor: colors.blue[400]
 }))
-
-
-const Textarea = styled(TextareaAutosize)(({ theme }) => ({
+const TextAreaStyled = styled(Textarea)(({ theme }) => ({
     flexBasis: '50%',
-    padding: 10,
-    resize: 'none',
-    fontFamily: 'inherit',
-    outline: 'none',
-    borderRadius: CSS_PROPERTIES.radius5,
-    [theme.breakpoints.down("sm")]:{
-        flex:1
-    }
+    
 }))
+
+
+
 
 
 
@@ -62,7 +55,7 @@ export default function MultipleChoiceForm({ }: Props) {
     const isErr = useAppSelector((state) => state.TestReducer.isErr)
 
     function handleOnChage(value: string, updateKey: 'question' | 'answer') {
-        dispatch(updateTestQuestionThunk({ value,questionIndex, updateKey }))
+        dispatch(updateTestQuestionThunk({ value, questionIndex, updateKey }))
     }
 
 
@@ -70,7 +63,7 @@ export default function MultipleChoiceForm({ }: Props) {
         dispatch(updateTestMultipleChoiceThunk({
             value,
             targetKey,
-            updateKey:'ans'
+            updateKey: 'ans'
         }))
     }
 
@@ -82,12 +75,12 @@ export default function MultipleChoiceForm({ }: Props) {
                 <MultipleChoiceBadge>
                     A
                 </MultipleChoiceBadge>
-                <Textarea
+                <TextAreaStyled
                     onChange={({ target: { value } }: any) => handleChoiceOnChange(value, 'a')}
                     minRows={2}
                     value={question?.choices?.a.ans}
                     sx={{
-                       
+
                         borderColor: isErr && !choices.a.ans ? colors.red[400] : colors.grey[400]
                     }} placeholder="Choice A" />
             </CustomFormControl>
@@ -95,12 +88,12 @@ export default function MultipleChoiceForm({ }: Props) {
                 <MultipleChoiceBadge>
                     B
                 </MultipleChoiceBadge>
-                <Textarea minRows={2}
+                <TextAreaStyled minRows={2}
                     onChange={({ target: { value } }: any) => handleChoiceOnChange(value, 'b')}
 
                     value={question?.choices?.b.ans}
                     sx={{
-                       
+
                         borderColor: isErr && !choices.b.ans ? colors.red[400] : colors.grey[400]
                     }}
                     placeholder="Choice B" />
@@ -109,11 +102,11 @@ export default function MultipleChoiceForm({ }: Props) {
                 <MultipleChoiceBadge>
                     C
                 </MultipleChoiceBadge>
-                <Textarea minRows={2}
+                <TextAreaStyled minRows={2}
                     onChange={({ target: { value } }: any) => handleChoiceOnChange(value, 'c')}
                     value={question?.choices?.c.ans}
                     sx={{
-                        
+
                         borderColor: isErr && !choices.c.ans ? colors.red[400] : colors.grey[400]
                     }}
                     placeholder="Choice C" />
@@ -122,12 +115,12 @@ export default function MultipleChoiceForm({ }: Props) {
                 <MultipleChoiceBadge>
                     D
                 </MultipleChoiceBadge>
-                <Textarea minRows={2}
+                <TextAreaStyled minRows={2}
                     onChange={({ target: { value } }: any) => handleChoiceOnChange(value, 'd')}
 
                     value={question?.choices?.d.ans}
                     sx={{
-                       
+
                         borderColor: isErr && !choices.d.ans ? colors.red[400] : colors.grey[400]
                     }}
                     placeholder="Choice D" />

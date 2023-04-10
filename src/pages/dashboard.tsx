@@ -9,11 +9,12 @@ import { useRouter } from 'next/router'
 import { Test } from '../reusable/interfaces'
 import TestAPI from '../api-services/test'
 
-import { useAppDispatch } from '../../store/hooks'
+import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { mainActions } from '../../reducers'
 import * as types from '../reusable'
 import ReusablePopper from '../components/reusable-popper'
 import TestCardOptions from '../components/test-card-options'
+import { SearchInput, SearchInputWrap } from '../reusable/styles'
 const Container = styled(Box)(({ theme }) => ({
 
 }))
@@ -30,23 +31,7 @@ const SearchContainer = styled(Box)(({ theme }) => ({
         height: 85,
     }
 }))
-const SearchInputWrap = styled(Box)(({ theme }) => ({
-    flexBasis: '78%',
-    display: 'flex',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    borderRadius: CSS_PROPERTIES.radius5,
-    border: `1px solid ${colorScheme(theme).chatBoarderColor}`,
-    [theme.breakpoints.down("sm")]: {
-        flex: 1
-    }
-}))
-const SearchInput = styled(InputBase)(({ theme }) => ({
-    flex: 1,
-    padding: '10px 10px 10px 0',
-    backgroundColor: '#fff',
-    borderRadius: CSS_PROPERTIES.radius5,
-}))
+
 
 const MappedCards = styled(Box)(({ theme }) => ({
     width: '80%',
@@ -63,10 +48,10 @@ const MappedCards = styled(Box)(({ theme }) => ({
 const Card = styled(Box)(({ theme }) => ({
     position: 'relative',
     minHeight: 100,
-    backgroundColor: '#fff',
     padding: 10,
     borderRadius: CSS_PROPERTIES.radius10,
     borderLeft: `5px solid ${colors.teal[400]}`,
+    backgroundColor: colorScheme(theme).secondaryColor,
     boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
     transition: '0.3s all',
     cursor: 'pointer',
@@ -125,12 +110,16 @@ export default function Darshboard({ }: Props) {
     const dispatch = useAppDispatch()
     const [data, setData] = useState<Test[]>([])
     const [isFetching, setFetching] = useState<boolean>()
+    const user = useAppSelector((state) => state.AuthReducer.user)
+
+
+
 
 
 
     const fetchDashboardData = useCallback(async () => {
         setFetching(true)
-        const testsList = await TestAPI.fetchMany()
+        const testsList = await TestAPI.fetchMany(user._id ?? '')
         if (testsList) {
             setFetching(false)
             setData(testsList)

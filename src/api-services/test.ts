@@ -14,9 +14,9 @@ export default class TestAPI {
             console.log(error)
         }
     }
-    static async fetchMany() {
+    static async fetchMany(authorId:string) {
         try {
-            const { data } = await axios.get(`/api/test-api/fetch-many`)
+            const { data } = await axios.get(`/api/test-api/fetch-many/${authorId}`)
             if (data.success) {
                 return data.testsList as Test[]
             }

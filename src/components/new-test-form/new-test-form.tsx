@@ -9,11 +9,16 @@ import { Section } from '../../reusable/interfaces'
 import { useRouter } from 'next/router'
 import randomstring from 'randomstring'
 import TestAPI from '../../api-services/test'
+import { colorScheme } from '../../theme'
+import { Textarea } from '../../reusable/styles'
 
 
 
 const ChoicesContainer = styled(Box)(({ theme }) => ({
-    marginLeft: 20
+    marginLeft: 20,
+    [theme.breakpoints.down('sm')]:{
+        marginLeft:0
+    }
 }))
 
 const TextInput = styled(TextField)(({ theme }) => ({
@@ -62,14 +67,7 @@ const FormControlColBadge = styled(Box)(({ theme }) => ({
 }))
 
 
-const Textarea = styled(TextareaAutosize)(({ theme }) => ({
-    padding: 10,
-    resize: 'none',
-    fontFamily: 'inherit',
-    outline: 'none',
-    borderRadius: CSS_PROPERTIES.radius5,
-    borderColor: theme.palette.grey[400]
-}))
+
 
 const StyledButton = styled(Button)(({ theme }) => ({
     textTransform: 'capitalize',
@@ -252,13 +250,16 @@ export default function NewTestForm({ mode, submitHandler }: Props) {
 
                 {newTest.sectionType === 'None sectioned' && (
                     <FormControl>
-                        <FormControlColBadge sx={{
+                        <FormControlColBadge sx={(theme)=>({
                             fontSize: 16,
                             borderRadius: 1,
                             padding: '0 10px',
                             width: 'fit-content',
-                            height: 55
-                        }} >
+                            height: 55,
+                            [theme.breakpoints.down("sm")]:{
+                                display:'none'
+                            }
+                        })} >
                             {newTest.sectionType}
                         </FormControlColBadge>
                         <TextInput

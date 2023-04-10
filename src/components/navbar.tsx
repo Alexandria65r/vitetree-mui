@@ -51,7 +51,7 @@ export default function NavBar() {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1,color:colors.teal[400] }}>
+                    <Typography variant="h6" component="div" sx={{fontWeight:600, flexGrow: 1,color:colors.teal[400] }}>
                         <Link href={user?._id?'/dashboard':'/'}>
                             Schooyard
                         </Link>

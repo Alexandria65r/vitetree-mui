@@ -5,8 +5,8 @@ import { Test } from "../../../database/schema";
 
 const FetchMany: NextApiHandler = async (req: NextApiRequest, res: NextApiResponse) => {
     await connection()
- 
-    const testsList = await Test.find({})
+    const testId = req.query.id
+    const testsList = await Test.find({}).where({testId}).exec()
     if (testsList) {
         return res.json({
             success: true,

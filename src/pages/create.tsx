@@ -36,7 +36,7 @@ const TestInfoCol = styled(Box)(({ theme }) => ({
     flexBasis: '33%',
     height: 200,
     borderRadius: CSS_PROPERTIES.radius5,
-    backgroundColor: '#fff',
+    backgroundColor: colorScheme(theme).secondaryColor,
     boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
     [theme.breakpoints.down("sm")]: {
         display: 'none'
@@ -53,30 +53,7 @@ const TestFormContainer = styled(Box)(({ theme }) => ({
         marginLeft: 0,
     }
 }))
-const TestHeader = styled(Box)(({ theme }) => ({
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
-    flex: 1,
-    minHeight: 60,
-    backgroundColor: colorScheme(theme).secondaryColor,
-    padding: 10,
-    borderRadius: CSS_PROPERTIES.radius5,
-    borderEndEndRadius: 0,
-    borderBottomLeftRadius: 0,
-    boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`
-}))
 
-const HeaderButton = styled(Button)(({ theme }) => ({
-    textTransform: 'capitalize',
-    height: 45,
-    borderRadius: 5,
-    [theme.breakpoints.down('sm')]: {
-        flexBasis: '100%',
-        borderRadius: 5,
-        margin: '6px 0'
-    }
-}))
 
 
 type Props = {}

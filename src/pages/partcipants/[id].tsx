@@ -10,7 +10,8 @@ import TestAPI from '../../api-services/test'
 import SearchIcon from '@mui/icons-material/Search';
 import PartcipantsOptions from '../../components/menus/partcipant-menu'
 import moment from 'moment'
-import PartcipantCard from '../../components/partcipants'
+import PartcipantCard from '../../components/partcipant-card'
+import { SearchInput, SearchInputWrap } from '../../reusable/styles'
 
 
 
@@ -29,7 +30,7 @@ const TestInfoCol = styled(Box)(({ theme }) => ({
     flexBasis: '33%',
     height: 200,
     borderRadius: CSS_PROPERTIES.radius5,
-    backgroundColor: '#fff',
+    backgroundColor: colorScheme(theme).secondaryColor,
     boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
     [theme.breakpoints.down("sm")]: {
         display: 'none'
@@ -43,34 +44,13 @@ const PartcipantsContainer = styled(Box)(({ theme }) => ({
     }
 }))
 const MappedPartcipants = styled(Box)(({ theme }) => ({
+    marginTop:15,
     display: 'grid',
     gap: 10,
     gridTemplateColumns: 'repeat(2,1fr)',
     [theme.breakpoints.down("sm")]: {
         gridTemplateColumns: '1fr',
     }
-}))
-
-
-
-
-const SearchInputWrap = styled(Box)(({ theme }) => ({
-    flexBasis: '100%',
-    display: 'flex',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    marginBottom: 10,
-    borderRadius: CSS_PROPERTIES.radius5,
-    border: `1px solid ${colorScheme(theme).chatBoarderColor}`,
-    [theme.breakpoints.down("sm")]: {
-        flex: 1
-    }
-}))
-const SearchInput = styled(InputBase)(({ theme }) => ({
-    flex: 1,
-    padding: '10px 10px 10px 0',
-    backgroundColor: '#fff',
-    borderRadius: CSS_PROPERTIES.radius5,
 }))
 
 

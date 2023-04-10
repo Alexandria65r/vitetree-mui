@@ -21,7 +21,7 @@ export default function Layout({ children }: Props) {
     const checkAuth = React.useCallback(async () => {
         const { payload } = await dispatch(checkAuthThunk({}))
         console.log(payload)
-        if (payload === 'not-authorized') {
+        if (payload === 'not-authorized' && router.pathname!=='/') {
             router.push('/signin')
         }
     }, [router.pathname])

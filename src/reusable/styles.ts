@@ -1,4 +1,4 @@
-import { styled, Box, ButtonBase, colors } from '@mui/material'
+import { styled, Box, ButtonBase, colors, TextareaAutosize, InputBase } from '@mui/material'
 import { colorScheme } from '../theme'
 import { CSS_PROPERTIES } from '.'
 
@@ -56,7 +56,7 @@ export const CustomFormControl = styled(Box)(({ theme }) => ({
     alignItems: 'center',
     margin: '20px 0',
     [theme.breakpoints.down("sm")]: {
-        margin: 0,
+        margin: '10px 0',
     }
 }))
 
@@ -104,5 +104,41 @@ export const ContinueWithOverlayText = styled(Box)(({ theme }) => ({
     top: -12,
     backgroundColor: '#fff',
     transform: 'translate(-50% )'
+}))
+
+export const Textarea = styled(TextareaAutosize)(({ theme }) => ({
+    padding: 10,
+    resize: 'none',
+    fontFamily: 'inherit',
+    outline: 'none',
+    borderRadius: CSS_PROPERTIES.radius5,
+    color: colorScheme(theme).TextColor,
+    backgroundColor: colorScheme(theme).secondaryColor,
+    borderColor: theme.palette.grey[400],
+    [theme.breakpoints.down("sm")]:{
+        flex:1
+    }
+}))
+
+export const SearchInputWrap = styled(Box)(({ theme }) => ({
+    flexBasis: '78%',
+    display: 'flex',
+    alignItems: 'center',
+    transition:'0.3s all',
+    backgroundColor: colorScheme(theme).secondaryColor,
+    borderRadius: CSS_PROPERTIES.radius5,
+    border: `1px solid ${colorScheme(theme).chatBoarderColor}`,
+    '&:hover':{
+        borderBottom:`2px solid ${colors.teal[400]}`
+    },
+    [theme.breakpoints.down("sm")]: {
+        flex: 1
+    }
+}))
+export const SearchInput = styled(InputBase)(({ theme }) => ({
+    flex: 1,
+    padding: '10px 10px 10px 0',
+    backgroundColor: colorScheme(theme).secondaryColor,
+    borderRadius: CSS_PROPERTIES.radius5,
 }))
 
