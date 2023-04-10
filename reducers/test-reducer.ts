@@ -9,6 +9,7 @@ type TestState = {
     isErr: boolean,
     partcipant: Participant,
     isPreparigPartcipant: boolean
+    partcipants: Participant[]
 }
 const initialState: TestState = {
     newTest: {
@@ -19,7 +20,7 @@ const initialState: TestState = {
         sections: [],
         duration: '',
         description: '',
-    authorId: ''
+        authorId: ''
     },
     sectionIndex: 0,
     questionIndex: 0,
@@ -31,7 +32,8 @@ const initialState: TestState = {
         testId: '',
         taken: false
     },
-    isPreparigPartcipant: false
+    isPreparigPartcipant: false,
+    partcipants: []
 
 }
 
@@ -62,6 +64,9 @@ const testSlice = createSlice({
         },
         setIsPreparigPartcipant: (state, { payload }: PayloadAction<boolean>) => {
             state.isPreparigPartcipant = payload
+        },
+        setPartcipants: (state, { payload }: PayloadAction<Participant[]>) => {
+            state.partcipants = payload
         }
     },
 

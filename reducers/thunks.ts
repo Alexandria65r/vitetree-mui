@@ -270,6 +270,15 @@ export const fetchPartcipantThunk = createAsyncThunk<string | undefined, string,
             return 'success'
         }
     })
+export const fetchTestPartcipantsThunk = createAsyncThunk<string | undefined, string, { state: AppState }>
+    ('testSlice/fetchPartcipantThunk', async (id, thunkAPI) => {
+        const dispatch = thunkAPI.dispatch
+        const data = await PartcipantAPI.fetchMany(id)
+        if (data) {
+            dispatch(testActions.setPartcipants(data))
+            return 'success'
+        }
+    })
 
 
 

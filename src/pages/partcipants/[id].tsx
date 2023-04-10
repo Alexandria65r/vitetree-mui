@@ -4,11 +4,13 @@ import { Box, styled, InputBase, ButtonBase, Typography, colors } from '@mui/mat
 import { colorScheme } from '../../theme'
 import { CSS_PROPERTIES } from '../../reusable'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
-import { fetchTestDataThunk } from '../../../reducers/thunks'
+import { fetchTestDataThunk, fetchTestPartcipantsThunk } from '../../../reducers/thunks'
 import { useRouter } from 'next/router'
 import TestAPI from '../../api-services/test'
 import SearchIcon from '@mui/icons-material/Search';
 import PartcipantsOptions from '../../components/menus/partcipant-menu'
+import moment from 'moment'
+import PartcipantCard from '../../components/partcipants'
 
 
 
@@ -49,18 +51,7 @@ const MappedPartcipants = styled(Box)(({ theme }) => ({
     }
 }))
 
-const PartcipantCard = styled(Box)(({ theme }) => ({
-    position: 'relative',
-    minHeight: 260,
-    display: 'flex',
-    flexWrap: 'wrap',
-    backgroundColor: colorScheme(theme).secondaryColor,
-    borderRadius: CSS_PROPERTIES.radius5,
-    boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
-    [theme.breakpoints.down("sm")]: {
-        marginLeft: 0,
-    }
-}))
+
 
 
 const SearchInputWrap = styled(Box)(({ theme }) => ({
@@ -82,48 +73,7 @@ const SearchInput = styled(InputBase)(({ theme }) => ({
     borderRadius: CSS_PROPERTIES.radius5,
 }))
 
-const ScoreCircle = styled(Box)(({ theme }) => ({
-    position: 'absolute',
-    left: '50%',
-    top: '30%',
-    width: 140,
-    height: 140,
-    borderRadius: '50%',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontSize: 25,
-    fontWeight: '600',
-    cursor: 'pointer',
-    transform: 'translateX(-50%)',
-    color: '#fff',
-    backgroundColor: colors.teal[400],
-    transition: '0.3s all',
-    boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
-    '&:hover': {
-        backgroundColor: colors.teal[400],
-    }
-}))
 
-const CardFooter = styled(Box)(() => ({
-    flexBasis: '100%',
-    alignSelf: 'flex-end',
-    display: 'flex',
-    justifyContent: 'center',
-    margin: '8px 0',
-}))
-
-const Button = styled(ButtonBase)(({ theme }) => ({
-    padding: '4px 10px',
-    width: '60%',
-    fontSize: 12,
-    fontWeight: 500,
-    border: `1px solid ${colors.teal[200]}`,
-    borderRadius: CSS_PROPERTIES.radius5,
-    [theme.breakpoints.down("sm")]: {
-        width: '40%',
-    }
-}))
 
 type Props = {}
 
@@ -132,21 +82,16 @@ export default function NewTest({ }: Props) {
     const router = useRouter()
     const id: any = router.query.id || []
     const newTest = useAppSelector((state) => state.TestReducer.newTest)
+    const partcipants = useAppSelector((state) => state.TestReducer.partcipants)
 
 
     const fetchTestData =
-        useCallback(() => dispatch(fetchTestDataThunk(id)), [])
+        useCallback(() => dispatch(fetchTestPartcipantsThunk(id)), [])
     useEffect(() => {
         fetchTestData()
     }, [])
 
-    async function update() {
-        const { _id, __v, ...rest }: any = newTest
-        const { data } = await TestAPI.update(id, rest)
-        if (data.success) {
-            router.push(`/prepare/${data.updated._id}`)
-        }
-    }
+
 
     return (
         <Layout>
@@ -165,20 +110,11 @@ export default function NewTest({ }: Props) {
                         <SearchInput placeholder='Search' />
                     </SearchInputWrap>
                     <MappedPartcipants>
-                        {[1, 2, 3, 4].map((partcipant, index) => (
-                            <PartcipantCard key={index}>
-                                <PartcipantsOptions  />
-                                <Box sx={{ padding: 2, flexBasis: '100%' }}>
-                                    <Typography sx={{ textAlign: 'center', fontWeight: 600 }}>ROBERT CHING'AMBU</Typography>
-                                    <Typography sx={{ fontSize: 13, textAlign: 'center' }} >12/05/2023</Typography>
-                                </Box>
-                                <ScoreCircle>
-                                    100%
-                                </ScoreCircle>
-                                <CardFooter>
-                                    <Button>View details</Button>
-                                </CardFooter>
-                            </PartcipantCard>
+                        {partcipants.map((partcipant, index) => (
+                            <PartcipantCard key={index}
+                                partcipant={partcipant}
+                                showDetailsButton={true}
+                            />
                         ))}
                     </MappedPartcipants>
                 </PartcipantsContainer>

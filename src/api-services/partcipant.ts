@@ -13,6 +13,16 @@ export default class PartcipantAPI {
             console.log(error)
         }
     }
+    static async fetchMany(id: string) {
+        try {
+            const { data } = await axios.get(`/api/partcipate-api/fetch-many/${id}`)
+            if (data.success) {
+                return data.partcipants as Participant[]
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     static create(partcipant: Participant) {
         return axios.post('/api/partcipate-api/create', partcipant)

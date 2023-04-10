@@ -17,6 +17,7 @@ import { useRouter } from 'next/router'
 import TestAPI from '../../api-services/test'
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
+import PartcipantCard from '../../components/partcipants'
 
 const Container = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -327,8 +328,9 @@ export default function NewTest({ }: Props) {
     <Layout>
       <Container>
         <TestInfoCol>
-
+          <PartcipantCard partcipant={partcipant} />
         </TestInfoCol>
+
         <TestContainer>
           <TestHeader>
             <InnerTopHeader>
