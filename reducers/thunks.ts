@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AppState } from "../store/store";
 import { testActions } from "./test-reducer";
-import { Choice, ChoiceTarget, Participant, Question, Section, Test } from "../src/reusable/interfaces";
+import { Choice, ChoiceTarget, Participant, Question, Section, Signin, Test } from "../src/reusable/interfaces";
 import { questionChoices } from "../src/reusable/helpers";
 import PartcipantAPI from "../src/api-services/partcipant";
 import randomstring from 'randomstring'
@@ -9,6 +9,32 @@ import TestAPI from "../src/api-services/test";
 import Cookies from "js-cookie";
 import AuthAPI from "../src/api-services/auth";
 import { authActions } from "./auth-reducer";
+import { SCHOOYARD_AUTH_TOKEN } from "../src/reusable";
+import Router from "next/router";
+
+
+
+
+export const SignInThunk = createAsyncThunk<void, Signin, { state: AppState }>
+    ('authSlice/SigninThunk', async (signInData, thunkAPI) => {
+        const dispatch = thunkAPI.dispatch
+        const { data } = await AuthAPI.signin(signInData)
+        if (data.success) {
+            Cookies.set(SCHOOYARD_AUTH_TOKEN, data.token)
+            dispatch(authActions.setAuhtUser(data.user))
+            Router.replace('/dashboard')
+        } else {
+            console.log(data)
+            console.log(signInData.provider)
+            if (data.message === `user doesn't exist` && signInData.provider === 'google-provider') {
+                Router.push('/signup?redirect=true&&authProvider=google')
+            }
+        }
+
+    })
+
+
+
 
 
 
@@ -17,15 +43,15 @@ export const checkAuthThunk = createAsyncThunk<'success' | 'not-authorized' | un
         const dispatch = thunkAPI.dispatch
         const state = thunkAPI.getState()
         const user = state.AuthReducer.user
-        const token = Cookies.get('testDamToken')
-        if(!token) return 'not-authorized'
+        const token = Cookies.get(SCHOOYARD_AUTH_TOKEN)
+        if (!token) return 'not-authorized'
         if (!user._id && token) {
             const { data } = await AuthAPI.DecodeToken(token)
             if (data.success) {
                 dispatch(authActions.setAuhtUser(data.user))
                 return 'success'
             }
-        } 
+        }
 
 
     })
@@ -58,7 +84,7 @@ export const updateTestQuestionThunk = createAsyncThunk
             name: 'sections',
             value: clonedSections
         }))
-       // dispatch(validateSectionQuestionsThunk({}))
+        // dispatch(validateSectionQuestionsThunk({}))
     })
 
 
@@ -100,7 +126,7 @@ export const updateTestMultipleChoiceThunk = createAsyncThunk
             value: clonedSections
         }))
         //validate on values change
-       // dispatch(validateSectionQuestionsThunk({}))
+        // dispatch(validateSectionQuestionsThunk({}))
     })
 
 export const setWithPreparedSections = createAsyncThunk<void, Test, { state: AppState }>

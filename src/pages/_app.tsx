@@ -11,6 +11,34 @@ import cookie from 'js-cookie'
 import { useRouter } from 'next/router';
 import { CssVarsProvider } from '@mui/joy/styles';
 
+
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyDhcKQQyiWP97RBue6OUXDCNRZoRdZZg0c",
+  authDomain: "schooyard-109e5.firebaseapp.com",
+  projectId: "schooyard-109e5",
+  storageBucket: "schooyard-109e5.appspot.com",
+  messagingSenderId: "859216923743",
+  appId: "1:859216923743:web:dd64450764fd4edcb9dfea",
+  measurementId: "G-1XRY1SEZTY"
+};
+
+// Initialize Firebase
+if (typeof window !== "undefined") {
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+}
+
+
+
+
 function App({ Component, pageProps }: AppProps) {
   const themeMode: any = cookie.get('themeMode');
   const [mode, setMode] = React.useState<'dark' | 'light'>('light')
@@ -60,14 +88,14 @@ function App({ Component, pageProps }: AppProps) {
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
-          <Head>
-            <meta name="viewport" content="initial-scale=1, width=device-width" />
-            <link
-              rel="stylesheet"
-              href="https://fonts.googleapis.com/css?family=Public+Sans&display=swap"
-            />
-          </Head>
-          <Component {...pageProps} />
+        <Head>
+          <meta name="viewport" content="initial-scale=1, width=device-width" />
+          <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css?family=Public+Sans&display=swap"
+          />
+        </Head>
+        <Component {...pageProps} />
       </ThemeProvider>
     </ColorModeContext.Provider>
   )

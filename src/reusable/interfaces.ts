@@ -4,21 +4,23 @@ import { PopperPlacementType } from "@mui/material"
 //auth
 
 export type User = {
-    _id?:string,
+    _id?: string,
     firstName: string
     lastName: string,
     email: string,
     password: string
-    imageAsset:{
-        public_id:string
-        imageURL:string
+    imageAsset?: {
+        public_id: string
+        imageURL: string
     }
     createdAt?: string
 }
 
 export type Signin = {
+    provider: 'google-provider' | 'schooyard-provider'
     email: string,
-    password: string
+    password?: string
+    photoURL?: string
 }
 
 export type MessageThread = {

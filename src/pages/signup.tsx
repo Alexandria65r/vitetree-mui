@@ -1,9 +1,6 @@
 import React, { useState } from 'react'
-import Layout from '../components/layout'
-import { Box, ButtonBase, TextField, colors, styled } from '@mui/material'
-import { colorScheme } from '../theme'
-import { CSS_PROPERTIES } from '../reusable'
-import GoogleIcon from '@mui/icons-material/Google';
+import { Box, ButtonBase, CircularProgress, TextField, Typography, colors, styled } from '@mui/material'
+import { CSS_PROPERTIES, SCHOOYARD_AUTH_TOKEN } from '../reusable'
 import { ContinueWith, ContinueWithOverlayText, FormContainer, FormHeader, FormLogo } from '../reusable/styles'
 import AuthAPI from '../api-services/auth'
 import { User } from '../reusable/interfaces'
@@ -12,6 +9,11 @@ import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
 import { authActions } from '../../reducers/auth-reducer'
 import cookies from 'js-cookie'
+import { getAuth } from "firebase/auth";
+import SignInWithGoogleButton from '../components/auth/google-button'
+import { useAppSelector } from '../../store/hooks'
+import { RedirectingCard } from './signin'
+
 
 const Container = styled(Box)(() => ({
   height: '100vh',
@@ -52,7 +54,12 @@ export default function Signup({ }: Props) {
   const dispatch = useDispatch()
   const router = useRouter()
   const [signUpData, setSignUpData] = useState<User>(UserSchema)
+  const isRedirecting = useAppSelector((state) => state.AuthReducer.isRedirecting)
 
+  React.useEffect(() => {
+    console.log(router.query)
+    completeGoogleSignup()
+  }, [router.query])
 
   function handleOnChange({ target: { value, name } }: any) {
     setSignUpData({
@@ -61,11 +68,25 @@ export default function Signup({ }: Props) {
     })
   }
 
+
+  function completeGoogleSignup() {
+    if (router.query.authProvider === 'google') {
+      const { currentUser } = getAuth()
+      const splitedName: any = currentUser?.displayName?.split(' ');
+      console.log(currentUser)
+      setSignUpData({
+        firstName: splitedName[0] ?? '',
+        lastName: splitedName[1] ?? '',
+        email: currentUser?.email ?? '',
+        password: ''
+      })
+    }
+  }
+
   async function handleSignUp() {
     const { data } = await AuthAPI.signUp(signUpData)
-
     if (data.success) {
-      cookies.set('testDamToken', data.token)
+      cookies.set(SCHOOYARD_AUTH_TOKEN, data.token)
       dispatch(authActions.setAuhtUser(data.user))
       router.replace('/dashboard')
     }
@@ -74,32 +95,44 @@ export default function Signup({ }: Props) {
   return (
 
     <Container>
-      <FormContainer>
-        <FormLogo></FormLogo>
-        <FormHeader>Sign Up</FormHeader>
-        <FormControl>
-          <TextInput name="firstName" onChange={handleOnChange} sx={{ flexBasis: '48%' }} label="first name" placeholder="first name" />
-          <TextInput name="lastName" onChange={handleOnChange} sx={{ flexBasis: '48%' }} label="last name" placeholder="last name" />
-        </FormControl>
-        <FormControl>
-          <TextInput name="email" onChange={handleOnChange} sx={{ flex: 1 }} label="Email" placeholder="Email" />
-        </FormControl>
-        <FormControl>
-          <TextInput name="password" onChange={handleOnChange} sx={{ flex: 1 }} label="Password" placeholder="Password" />
-        </FormControl>
-        <FormControl>
-          <Button onClick={handleSignUp} sx={{ flexBasis: '100%' }}>Sign Up</Button>
-        </FormControl>
-        <FormControl sx={{ marginTop: 3 }}>
-          <ContinueWith>
-            <ContinueWithOverlayText>Continue with</ContinueWithOverlayText>
-          </ContinueWith>
-          <Button sx={{ flexBasis: '100%' }}>
-            <span style={{ marginRight: 8 }}><GoogleIcon /></span>
-            Signin with Google
-          </Button>
-        </FormControl>
-      </FormContainer>
+
+      {isRedirecting ? (
+        <FormContainer>
+          <FormLogo></FormLogo>
+          <RedirectingCard>
+            <Box>
+              <Typography sx={{ textAlign: 'center' }}>One moment...</Typography>
+              <Box sx={{ mt: 3, display: 'flex', justifyContent: 'center' }}>
+                <CircularProgress sx={{ color: colors.teal[400] }} />
+              </Box>
+            </Box>
+          </RedirectingCard>
+        </FormContainer>
+      ) : (
+        <FormContainer>
+          <FormLogo></FormLogo>
+          <FormHeader>Sign Up</FormHeader>
+          <FormControl>
+            <TextInput name="firstName" value={signUpData.firstName} onChange={handleOnChange} sx={{ flexBasis: '48%' }} label="first name" placeholder="first name" />
+            <TextInput name="lastName" value={signUpData.lastName} onChange={handleOnChange} sx={{ flexBasis: '48%' }} label="last name" placeholder="last name" />
+          </FormControl>
+          <FormControl>
+            <TextInput name="email" value={signUpData.email} onChange={handleOnChange} sx={{ flex: 1 }} label="Email" placeholder="Email" />
+          </FormControl>
+          <FormControl>
+            <TextInput name="password" value={signUpData.password} onChange={handleOnChange} sx={{ flex: 1 }} label="Password" placeholder="Password" />
+          </FormControl>
+          <FormControl>
+            <Button onClick={handleSignUp} sx={{ flexBasis: '100%' }}>Sign Up</Button>
+          </FormControl>
+          <FormControl sx={{ marginTop: 3 }}>
+            <ContinueWith>
+              <ContinueWithOverlayText>Continue with</ContinueWithOverlayText>
+            </ContinueWith>
+            <SignInWithGoogleButton
+              disabled={router.query?.authProvider === 'google'} />
+          </FormControl>
+        </FormContainer>
+      )}
     </Container>
-  )
-}
+  )}

@@ -14,12 +14,13 @@ import { ButtonBase, colors, styled, useMediaQuery, useTheme } from '@mui/materi
 import { ColorModeContext, colorScheme, isDarkMode } from '../theme';
 import { CSS_PROPERTIES } from '../reusable';
 import { useRouter } from 'next/router';
-import { useAppSelector } from '../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { mainActions } from '../../reducers';
 
 
 const Button = styled(ButtonBase)(({ theme }) => ({
     padding: '10px 15px',
-    color: '#fff',
+    color: colorScheme(theme).TextColor,
     margin: '0 5px',
     fontSize: 16,
     borderRadius: CSS_PROPERTIES.radius5,
@@ -33,16 +34,24 @@ const AppBar = styled(AppNavigationBar)(({ theme }) => ({
 }))
 
 export default function NavBar() {
+    const dispatch = useAppDispatch()
     const router = useRouter()
     const theme = useTheme()
     const user = useAppSelector((state) => state.AuthReducer.user)
     const { toggleColorMode } = React.useContext(ColorModeContext)
     const isMobile = useMediaQuery('(max-width:600px)')
+    const isSidebarOpen = useAppSelector((state) => state.MainReducer.isSidebarOpen)
+
+    function toggleSideBar() {
+        dispatch(mainActions.setIsSideBarOpen(!isSidebarOpen))
+    }
+
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static" color='default' elevation={0}>
                 <Toolbar >
                     <IconButton
+                        onClick={toggleSideBar}
                         size="large"
                         edge="start"
                         color="inherit"
@@ -51,8 +60,8 @@ export default function NavBar() {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" component="div" sx={{fontWeight:600, flexGrow: 1,color:colors.teal[400] }}>
-                        <Link href={user?._id?'/dashboard':'/'}>
+                    <Typography variant="h6" component="div" sx={{ fontWeight: 600, flexGrow: 1, color: colors.teal[400] }}>
+                        <Link href={user?._id ? '/dashboard' : '/'}>
                             Schooyard
                         </Link>
                     </Typography>
@@ -62,16 +71,15 @@ export default function NavBar() {
                     {!user._id ? (
                         <Button onClick={() => router.push('/signin')} sx={{
                             backgroundColor: 'transparent',
-                            color: '#000',
                             border: `1px solid ${colors.teal[400]}`
                         }}>Signin</Button>
-                    ):<></>}
+                    ) : <></>}
 
                     {!isMobile && !user._id ? (
                         <Button onClick={() => router.push('/signup')}>
                             Signup
                         </Button>
-                    ):<></>}
+                    ) : <></>}
                 </Toolbar>
             </AppBar>
         </Box>

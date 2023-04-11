@@ -1,18 +1,16 @@
 import React, { useState } from 'react'
-import Layout from '../components/layout'
-import { Box, ButtonBase, TextField, colors, styled } from '@mui/material'
-import { colorScheme } from '../theme'
+import { Box, ButtonBase, CircularProgress, TextField, Typography, colors, styled } from '@mui/material'
 import { CSS_PROPERTIES } from '../reusable'
-import GoogleIcon from '@mui/icons-material/Google';
 import { ContinueWith, ContinueWithOverlayText, FormContainer, FormHeader, FormLogo } from '../reusable/styles'
 import { Signin } from '../reusable/interfaces'
 import { useRouter } from 'next/router'
-import AuthAPI from '../api-services/auth'
-import { useAppDispatch } from '../../store/hooks'
-import cookies from 'js-cookie'
-import { authActions } from '../../reducers/auth-reducer'
+import { useAppDispatch, useAppSelector } from '../../store/hooks'
+import SignInWithGoogleButton from '../components/auth/google-button'
+import { SignInThunk } from '../../reducers/thunks'
 
-const Container = styled(Box)(() => ({
+
+
+const Container = styled(Box)(({ theme }) => ({
     height: '100vh',
     display: 'flex',
     alignItems: 'center',
@@ -32,6 +30,17 @@ const FormControl = styled(Box)(({ theme }) => ({
     justifyContent: 'space-between',
     margin: '20px 0'
 }))
+export const RedirectingCard = styled(Box)(({ theme }) => ({
+    width: '100%',
+    height: 200,
+    fontSize: 20,
+    fontWeight: 600,
+    display: 'flex',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: colors.teal[400]
+}))
 
 const Button = styled(ButtonBase)(({ theme }) => ({
     flex: 1,
@@ -47,36 +56,41 @@ const Button = styled(ButtonBase)(({ theme }) => ({
 
 type Props = {}
 
-export default function signin({ }: Props) {
+export default function SigninPage({ }: Props) {
     const dispatch = useAppDispatch()
     const router = useRouter()
-    const [signInData, setSignInData] = useState<Signin>({
-        email: '',
-        password: ''
-    })
+  
+    const isRedirecting = useAppSelector((state) => state.AuthReducer.isRedirecting)
 
+    const [schooyardProvider, setSignInData] = useState<Signin>({
+        email: '',
+        password: '',
+        provider: 'schooyard-provider',
+    })
 
     function handleOnChange({ target: { value, name } }: any) {
         setSignInData({
-            ...signInData,
+            ...schooyardProvider,
             [name]: value
         })
     }
 
-    async function handleSignIn() {
-        const {data} = await AuthAPI.signin(signInData)
-        if(data.success){
-            cookies.set('testDamToken', data.token)
-            dispatch(authActions.setAuhtUser(data.user))
-            router.replace('/dashboard')
-        }
-        console.log(signInData)
-    }
-
-
     return (
         <Container>
-            <FormContainer>
+            {isRedirecting ? (
+                <FormContainer>
+                    <FormLogo></FormLogo>
+                    <RedirectingCard>
+                        <Box>
+                            <Typography sx={{ textAlign: 'center' }}>One moment...</Typography>
+                            <Box sx={{ mt: 3, display: 'flex', justifyContent: 'center' }}>
+                                <CircularProgress sx={{ color: colors.teal[400] }} />
+                            </Box>
+                        </Box>
+                    </RedirectingCard>
+                </FormContainer>
+
+            ) : (<FormContainer>
                 <FormLogo></FormLogo>
                 <FormHeader>Sign In</FormHeader>
                 <FormControl>
@@ -86,18 +100,18 @@ export default function signin({ }: Props) {
                     <TextInput sx={{ flex: 1 }} name="password" onChange={handleOnChange} label="Password" placeholder="Password" />
                 </FormControl>
                 <FormControl>
-                    <Button onClick={handleSignIn}>Sign in</Button>
+                    <Button onClick={() => dispatch(SignInThunk(schooyardProvider))}>
+                        Sign in
+                    </Button>
                 </FormControl>
                 <FormControl sx={{ marginTop: 3 }}>
                     <ContinueWith >
                         <ContinueWithOverlayText>Continue with</ContinueWithOverlayText>
                     </ContinueWith>
-                    <Button>
-                        <span style={{ marginRight: 8 }}><GoogleIcon /></span>
-                        Signin with Google
-                    </Button>
+                    <SignInWithGoogleButton disabled={false} />
                 </FormControl>
-            </FormContainer>
+            </FormContainer >)}
+
         </Container>
     )
 }

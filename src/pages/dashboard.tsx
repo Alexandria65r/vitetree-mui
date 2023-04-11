@@ -15,8 +15,15 @@ import * as types from '../reusable'
 import ReusablePopper from '../components/reusable-popper'
 import TestCardOptions from '../components/test-card-options'
 import { SearchInput, SearchInputWrap } from '../reusable/styles'
-const Container = styled(Box)(({ theme }) => ({
+import SideBar from '../components/chat/side-bar'
 
+
+
+const FlexContainer = styled(Box)(({ theme }) => ({
+    display: 'flex'
+}))
+const Container = styled(Box)(({ theme }) => ({
+    flex:1
 }))
 
 const SearchContainer = styled(Box)(({ theme }) => ({
@@ -146,39 +153,44 @@ export default function Darshboard({ }: Props) {
 
     return (
         <Layout>
-            <Container>
-                <SearchContainer>
-                    <SearchInputWrap>
-                        <SearchIcon sx={(theme) => ({
-                            flexBasis: '6%',
-                            [theme.breakpoints.down("sm")]: {
-                                flexBasis: '10%',
-                            }
-                        })} />
-                        <SearchInput placeholder='Search' />
-                    </SearchInputWrap>
-                    <Button onClick={() => router.push('/create')}>
-                        <AddIcon></AddIcon>
-                        Create
-                    </Button>
-                </SearchContainer>
+            <FlexContainer>
 
-                <MappedCards>
-                    {data.map((card, index) => (
-                        <Card key={index}>
-                            <Typography sx={{ fontWeight: 600 }}>{card.subjectOrlanguage}</Typography>
-                            <Typography>{card.cartegory}</Typography>
-                            <Typography sx={{ lineHeight: 1.2, fontSize: 12 }}>
-                                {card.description}
-                            </Typography>
-                            <TestCardOptions card={card} />
-                        </Card>
-                    ))}
-                </MappedCards>
-                <ButtonIcon onClick={() => router.push('/create')}>
-                    <AddIcon fontSize="medium" />
-                </ButtonIcon>
-            </Container>
+
+                <SideBar />
+                <Container>
+                    <SearchContainer>
+                        <SearchInputWrap>
+                            <SearchIcon sx={(theme) => ({
+                                flexBasis: '6%',
+                                [theme.breakpoints.down("sm")]: {
+                                    flexBasis: '10%',
+                                }
+                            })} />
+                            <SearchInput placeholder='Search' />
+                        </SearchInputWrap>
+                        <Button onClick={() => router.push('/create')}>
+                            <AddIcon></AddIcon>
+                            Create
+                        </Button>
+                    </SearchContainer>
+
+                    <MappedCards>
+                        {data.map((card, index) => (
+                            <Card key={index}>
+                                <Typography sx={{ fontWeight: 600 }}>{card.subjectOrlanguage}</Typography>
+                                <Typography>{card.cartegory}</Typography>
+                                <Typography sx={{ lineHeight: 1.2, fontSize: 12 }}>
+                                    {card.description}
+                                </Typography>
+                                <TestCardOptions card={card} />
+                            </Card>
+                        ))}
+                    </MappedCards>
+                    <ButtonIcon onClick={() => router.push('/create')}>
+                        <AddIcon fontSize="medium" />
+                    </ButtonIcon>
+                </Container>
+            </FlexContainer>
         </Layout>
     )
 }

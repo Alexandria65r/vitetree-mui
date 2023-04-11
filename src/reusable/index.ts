@@ -29,3 +29,5 @@ export const CSS_PROPERTIES = {
     radius10: 10,
     radius5: 5,
 }
+
+export const SCHOOYARD_AUTH_TOKEN = 'SCHOOYARD_AUTH_TOKEN'

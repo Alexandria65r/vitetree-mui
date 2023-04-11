@@ -7,7 +7,8 @@ interface State {
     showSelectedImage: boolean
     isMultipleChoiceEnabled: boolean;
     isOneWordAnswerEnabled: boolean;
-    isDiagramQuestion: boolean
+    isDiagramQuestion: boolean;
+    isSidebarOpen: boolean
 }
 const initialState: State = {
     popperState: {
@@ -19,6 +20,7 @@ const initialState: State = {
     isMultipleChoiceEnabled: false,
     isOneWordAnswerEnabled: false,
     isDiagramQuestion: false,
+    isSidebarOpen: false
 }
 
 const mainSlice = createSlice({
@@ -42,6 +44,9 @@ const mainSlice = createSlice({
         },
         setIsDiagramQuestion: (state, { payload }: PayloadAction<boolean>) => {
             state.isDiagramQuestion = payload
+        },
+        setIsSideBarOpen: (state, { payload }: PayloadAction<boolean>) => {
+            state.isSidebarOpen = payload
         }
     },
 

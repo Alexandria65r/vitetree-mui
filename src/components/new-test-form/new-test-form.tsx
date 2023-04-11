@@ -92,7 +92,6 @@ const StyledButton = styled(ButtonBase)(({ theme }) => ({
     backgroundColor: colors.teal[400],
     [theme.breakpoints.down("sm")]: {
         flexBasis: '25%',
-        display: 'none'
     }
 }))
 

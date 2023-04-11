@@ -66,7 +66,7 @@ export const FormContainer = styled(Box)(({ theme }) => ({
     position: 'relative',
     flexBasis: '35%',
     padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: colorScheme(theme).secondaryColor,
     borderRadius: CSS_PROPERTIES.radius10,
     boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
     [theme.breakpoints.down("sm")]: {
@@ -81,10 +81,9 @@ export const FormLogo = styled(Box)(({ theme }) => ({
     width: 60,
     height: 60,
     borderRadius: '50%',
-    backgroundColor: '#fff',
+    backgroundColor: colorScheme(theme).secondaryColor,
     transform: 'translate(-50%)',
     boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
-    //border: `1px solid ${colorScheme(theme).chatBoarderColor}`,
 }))
 export const FormHeader = styled(Box)(({ theme }) => ({
     marginTop: 20,
@@ -102,7 +101,7 @@ export const ContinueWithOverlayText = styled(Box)(({ theme }) => ({
     position: 'absolute',
     left: '50%',
     top: -12,
-    backgroundColor: '#fff',
+    backgroundColor: colorScheme(theme).secondaryColor,
     transform: 'translate(-50% )'
 }))
 
@@ -142,3 +141,13 @@ export const SearchInput = styled(InputBase)(({ theme }) => ({
     borderRadius: CSS_PROPERTIES.radius5,
 }))
 
+
+export const StyledButton = styled(ButtonBase)(({ theme }) => ({
+    textTransform: 'capitalize',
+    fontWeight: 600,
+    height: 50,
+    color: '#fff',
+    fontSize: 16,
+    borderRadius: CSS_PROPERTIES.radius5,
+    backgroundColor: colors.teal[400],
+}))

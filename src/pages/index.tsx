@@ -12,6 +12,7 @@ import { CSS_PROPERTIES } from '../reusable'
 import { Test } from '../reusable/interfaces'
 import TestAPI from '../api-services/test'
 import ReusablePopper from '../components/reusable-popper'
+import { colorScheme } from '../theme'
 export const getServerSideProps = wrapper.getServerSideProps(({ dispatch }) => async (params) => {
 
   return {
@@ -32,7 +33,7 @@ const Container = styled(Box)({
 const IllustratorCol = styled(Box)(({ theme }) => ({
   flex: 1,
   height: 'calc(100vh - 66px)',
-  backgroundColor: '#fff',
+  backgroundColor: colorScheme(theme).secondaryColor,
   [theme.breakpoints.down('sm')]: {
     display: 'none'
   }
