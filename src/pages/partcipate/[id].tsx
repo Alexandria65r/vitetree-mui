@@ -18,6 +18,7 @@ import TestAPI from '../../api-services/test'
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import PartcipantCard from '../../components/partcipant-card'
+import { participantSchema, testDataSchema } from '../../reusable/schemas'
 
 const Container = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -197,6 +198,13 @@ export default function NewTest({ }: Props) {
         }
       }
     }
+
+    return () => {
+      dispatch(testActions.setTestData(testDataSchema))
+      dispatch(testActions.setPartcipant(participantSchema))
+      dispatch(testActions.setQuestionIdex(0))
+      dispatch(testActions.setSectionIndex(0))
+    }
   }, [id])
 
 
@@ -372,7 +380,7 @@ export default function NewTest({ }: Props) {
                 <QuestionNumber sx={{ backgroundColor: getQuestionBadgeAccent(question) }}>
                   <QuestionNumberText>{index + 1}</QuestionNumberText>
                 </QuestionNumber>
-                <QuestionText sx={{fontWeight:600, color: isErr && !question.answer ? colors.red[400] : '' }}>
+                <QuestionText sx={{ fontWeight: 600, color: isErr && !question.answer ? colors.red[400] : '' }}>
                   {question?.question}
                 </QuestionText>
               </QuestionFlexWrap>

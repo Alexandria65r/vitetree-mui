@@ -1,4 +1,4 @@
-import { Section, Test, User } from "./interfaces";
+import { Participant, Section, Test, User } from "./interfaces";
 
 
 export const UserSchema: User = {
@@ -29,4 +29,13 @@ export const sectionSchems: Section = {
     questions: [],
     wayOfAnswering: '',
     numberOfQuestions: 0
+}
+
+export const participantSchema: Participant = {
+    fullname: "",
+    email: "",
+    reason:  '',
+    testId: "",
+    score: "",
+    taken: false
 }

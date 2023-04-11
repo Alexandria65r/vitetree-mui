@@ -12,6 +12,8 @@ import PartcipantsOptions from '../../components/menus/partcipant-menu'
 import moment from 'moment'
 import PartcipantCard from '../../components/partcipant-card'
 import { SearchInput, SearchInputWrap } from '../../reusable/styles'
+import { testActions } from '../../../reducers/test-reducer'
+import { participantSchema, testDataSchema } from '../../reusable/schemas'
 
 
 
@@ -69,6 +71,12 @@ export default function NewTest({ }: Props) {
         useCallback(() => dispatch(fetchTestPartcipantsThunk(id)), [])
     useEffect(() => {
         fetchTestData()
+        return () => {
+            dispatch(testActions.setTestData(testDataSchema))
+            dispatch(testActions.setPartcipant(participantSchema))
+            dispatch(testActions.setQuestionIdex(0))
+            dispatch(testActions.setSectionIndex(0))
+        }
     }, [])
 
 

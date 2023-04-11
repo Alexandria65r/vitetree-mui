@@ -19,7 +19,7 @@ import { testActions } from '../../../reducers/test-reducer'
 import { setWithPreparedSections, updateTestQuestionThunk, validateSectionQuestionsThunk } from '../../../reducers/thunks'
 import TestAPI from '../../api-services/test'
 import { useRouter } from 'next/router'
-import { sectionSchems, testDataSchema } from '../../reusable/schemas'
+import { participantSchema, sectionSchems, testDataSchema } from '../../reusable/schemas'
 import { CustomFormControl } from '../../reusable/styles'
 
 
@@ -128,7 +128,7 @@ const QuestionNumberText = styled(Typography)(() => ({
 const PublishTestButton = styled(ButtonBase)(({ theme }) => ({
     padding: 10,
     color: '#fff',
-    fontWeight:600,
+    fontWeight: 600,
     borderRadius: CSS_PROPERTIES.radius5,
     backgroundColor: colors.teal[400]
 }))
@@ -167,6 +167,9 @@ export default function NewTest({ }: Props) {
     useEffect(() => {
         return () => {
             dispatch(testActions.setTestData(testDataSchema))
+            dispatch(testActions.setPartcipant(participantSchema))
+            dispatch(testActions.setQuestionIdex(0))
+            dispatch(testActions.setSectionIndex(0))
         }
     }, [])
 
