@@ -6,6 +6,7 @@ import GoogleIcon from '@mui/icons-material/Google';
 import { useAppDispatch } from '../../../store/hooks';
 import { SignInThunk } from '../../../reducers/thunks';
 import { authActions } from '../../../reducers/auth-reducer';
+import { fireBaseApp } from '../../pages/_app';
 
 
 
@@ -37,16 +38,19 @@ export default function SignInWithGoogleButton({disabled }: Props) {
     }, [])
     
     async function handleRedirectData() {
-        const auth = getAuth()
-        const authData = await getRedirectResult(auth)
-        if (authData) {
-            dispatch(authActions.setRedirecting(true))
-            dispatch(SignInThunk({
-                provider: 'google-provider',
-                email: authData?.user.email ?? '',
-                photoURL: authData?.user.photoURL ?? ''
-            }))
-          
+        if (fireBaseApp) {
+            const auth = getAuth(fireBaseApp)
+            const authData = await getRedirectResult(auth)
+            if (authData) {
+                dispatch(authActions.setRedirecting(true))
+                dispatch(SignInThunk({
+                    provider: 'google-provider',
+                    email: authData?.user.email ?? '',
+                    photoURL: authData?.user.photoURL ?? ''
+                }))
+              
+            }
+
         }
     }
 

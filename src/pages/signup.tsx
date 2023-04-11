@@ -13,6 +13,7 @@ import { getAuth } from "firebase/auth";
 import SignInWithGoogleButton from '../components/auth/google-button'
 import { useAppSelector } from '../../store/hooks'
 import { RedirectingCard } from './signin'
+import { fireBaseApp } from './_app'
 
 
 const Container = styled(Box)(() => ({
@@ -71,15 +72,17 @@ export default function Signup({ }: Props) {
 
   function completeGoogleSignup() {
     if (router.query.authProvider === 'google') {
-      const { currentUser } = getAuth()
-      const splitedName: any = currentUser?.displayName?.split(' ');
-      console.log(currentUser)
-      setSignUpData({
-        firstName: splitedName[0] ?? '',
-        lastName: splitedName[1] ?? '',
-        email: currentUser?.email ?? '',
-        password: ''
-      })
+      if (fireBaseApp) {
+        const { currentUser } = getAuth(fireBaseApp)
+        const splitedName: any = currentUser?.displayName?.split(' ');
+        console.log(currentUser)
+        setSignUpData({
+          firstName: splitedName[0] ?? '',
+          lastName: splitedName[1] ?? '',
+          email: currentUser?.email ?? '',
+          password: ''
+        })
+      }
     }
   }
 
@@ -135,4 +138,5 @@ export default function Signup({ }: Props) {
         </FormContainer>
       )}
     </Container>
-  )}
+  )
+}

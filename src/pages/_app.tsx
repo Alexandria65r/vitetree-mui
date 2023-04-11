@@ -10,7 +10,7 @@ import { ColorModeContext } from '../theme';
 import cookie from 'js-cookie'
 import { useRouter } from 'next/router';
 import { CssVarsProvider } from '@mui/joy/styles';
-
+import { getAuth } from "firebase/auth";
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
@@ -31,15 +31,18 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-if (typeof window !== "undefined") {
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
+
+const isServer = typeof window !== "undefined"
+
+export const fireBaseApp = isServer ? initializeApp(firebaseConfig) : null;
+if (fireBaseApp) {
+  getAnalytics(fireBaseApp);
 }
 
 
 
-
 function App({ Component, pageProps }: AppProps) {
+
   const themeMode: any = cookie.get('themeMode');
   const [mode, setMode] = React.useState<'dark' | 'light'>('light')
 
