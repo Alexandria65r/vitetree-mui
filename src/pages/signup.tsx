@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Box, ButtonBase, CircularProgress, TextField, Typography, colors, styled } from '@mui/material'
 import { CSS_PROPERTIES, SCHOOYARD_AUTH_TOKEN } from '../reusable'
-import { ContinueWith, ContinueWithOverlayText, FormContainer, FormHeader, FormLogo } from '../reusable/styles'
+import { ContinueWith, ContinueWithOverlayText, FormContainer, FormHeader, FormLogo, RedirectingCard } from '../reusable/styles'
 import AuthAPI from '../api-services/auth'
 import { User } from '../reusable/interfaces'
 import { UserSchema } from '../reusable/schemas'
@@ -12,7 +12,6 @@ import cookies from 'js-cookie'
 import { getAuth } from "firebase/auth";
 import SignInWithGoogleButton from '../components/auth/google-button'
 import { useAppSelector } from '../../store/hooks'
-import { RedirectingCard } from './signin'
 import { fireBaseApp } from './_app'
 
 

@@ -151,3 +151,16 @@ export const StyledButton = styled(ButtonBase)(({ theme }) => ({
     borderRadius: CSS_PROPERTIES.radius5,
     backgroundColor: colors.teal[400],
 }))
+
+
+export const RedirectingCard = styled(Box)(({ theme }) => ({
+    width: '100%',
+    height: 200,
+    fontSize: 20,
+    fontWeight: 600,
+    display: 'flex',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: colors.teal[400]
+}))

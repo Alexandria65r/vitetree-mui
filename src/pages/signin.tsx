@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Box, ButtonBase, CircularProgress, TextField, Typography, colors, styled } from '@mui/material'
 import { CSS_PROPERTIES } from '../reusable'
-import { ContinueWith, ContinueWithOverlayText, FormContainer, FormHeader, FormLogo } from '../reusable/styles'
+import { ContinueWith, ContinueWithOverlayText, FormContainer, FormHeader, FormLogo, RedirectingCard } from '../reusable/styles'
 import { Signin } from '../reusable/interfaces'
 import { useRouter } from 'next/router'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
@@ -30,17 +30,7 @@ const FormControl = styled(Box)(({ theme }) => ({
     justifyContent: 'space-between',
     margin: '20px 0'
 }))
-export const RedirectingCard = styled(Box)(({ theme }) => ({
-    width: '100%',
-    height: 200,
-    fontSize: 20,
-    fontWeight: 600,
-    display: 'flex',
-    flexWrap: 'wrap',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: colors.teal[400]
-}))
+
 
 const Button = styled(ButtonBase)(({ theme }) => ({
     flex: 1,

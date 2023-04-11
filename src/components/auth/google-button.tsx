@@ -27,7 +27,7 @@ type Props = {
     disabled: boolean
 }
 
-export default function SignInWithGoogleButton({disabled }: Props) {
+export default function SignInWithGoogleButton({ disabled }: Props) {
     const dispatch = useAppDispatch()
 
     React.useEffect(() => {
@@ -36,7 +36,7 @@ export default function SignInWithGoogleButton({disabled }: Props) {
             dispatch(authActions.setRedirecting(true))
         }
     }, [])
-    
+
     async function handleRedirectData() {
         if (fireBaseApp) {
             const auth = getAuth(fireBaseApp)
@@ -48,18 +48,22 @@ export default function SignInWithGoogleButton({disabled }: Props) {
                     email: authData?.user.email ?? '',
                     photoURL: authData?.user.photoURL ?? ''
                 }))
-              
+
             }
 
         }
     }
 
-    const auth = getAuth()
+
     async function signInWithGoogle() {
-        try {
-            await signInWithRedirect(auth, provider)
-        } catch (error) {
-            console.log(error)
+        if (fireBaseApp) {
+            const auth = getAuth(fireBaseApp)
+            try {
+                await signInWithRedirect(auth, provider)
+            } catch (error) {
+                console.log(error)
+            }
+
         }
 
     }
