@@ -359,7 +359,7 @@ export default function NewTestForm({ mode, submitHandler }: Props) {
                 </FormControl>
 
                 <FormControl onClick={handleSubmit} sx={{ justifyContent: 'flex-end' }}>
-                    <StyledButton variant='contained'>{mode}</StyledButton>
+                    <StyledButton>{mode}</StyledButton>
                 </FormControl>
             </ChoicesContainer>
         </FormContainer>
