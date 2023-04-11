@@ -30,6 +30,7 @@ const initialState: TestState = {
         email: '',
         reason: '',
         testId: '',
+        score: '0%',
         taken: false
     },
     isPreparigPartcipant: false,

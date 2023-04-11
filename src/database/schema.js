@@ -13,7 +13,6 @@ const UserSchema = new mongoose.Schema({
 
 export const User = mongoose.model("user", UserSchema);
 
-
 const TestSchema = new mongoose.Schema({
   _id: String,
   cartegory: String,
@@ -35,7 +34,7 @@ const partcipantSchema = new mongoose.Schema({
   testId: String,
   taken: Boolean,
   test: { type: Object, required: false },
-  results: { type: Object, required: false },
+  score: String,
   reason: String,
   createdAt: { type: Date, default: Date.now },
 });

@@ -55,7 +55,7 @@ const Button = styled(ButtonBase)(({ theme }) => ({
     padding: '4px 10px',
     width: '60%',
     fontSize: 12,
-    fontWeight: 500,
+    fontWeight: 600,
     border: `1px solid ${colors.teal[200]}`,
     borderRadius: CSS_PROPERTIES.radius5,
     [theme.breakpoints.down("sm")]: {
@@ -91,7 +91,7 @@ export default function PartcipantCard({ partcipant, showDetailsButton }: Props)
                 </Typography>
             </Box>
             <ScoreCircle>
-                100%
+                {partcipant.score}
             </ScoreCircle>
             <CardFooter>
                 <Button

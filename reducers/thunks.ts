@@ -22,7 +22,7 @@ export const SignInThunk = createAsyncThunk<void, Signin, { state: AppState }>
         if (data.success) {
             Cookies.set(SCHOOYARD_AUTH_TOKEN, data.token)
             dispatch(authActions.setAuhtUser(data.user))
-            if(signInData.provider === 'google-provider') {
+            if (signInData.provider === 'google-provider') {
                 localStorage.removeItem('redirectFlag')
             }
             Router.replace('/dashboard')
@@ -248,9 +248,13 @@ export const markTakenTestThunk = createAsyncThunk<string | undefined, Test, { s
         const partcipant = state.TestReducer.partcipant
         const clonedSections = [...testTaken.sections]
         const markingKeySections = testData.sections;
+
+        let totalQuestion = 0
+
         for (let sectionPos = 0; sectionPos < clonedSections.length; sectionPos++) {
             const clonedSection: Section = { ...clonedSections[sectionPos] }
             const markingKeySection = markingKeySections[sectionPos]
+            totalQuestion += clonedSection.numberOfQuestions
             for (let questionCount = 0; questionCount < clonedSection.questions.length; questionCount++) {
                 const questionsList = [...clonedSection.questions]
                 const question = { ...questionsList[questionCount] }
@@ -263,9 +267,13 @@ export const markTakenTestThunk = createAsyncThunk<string | undefined, Test, { s
             }
         }
 
+
+        const score = calculateScore(totalQuestion, clonedSections)
+
         const update: Participant | any = {
             ...partcipant,
             taken: true,
+            score,
             test: { ...partcipant.test, sections: clonedSections }
         }
 
@@ -279,6 +287,26 @@ export const markTakenTestThunk = createAsyncThunk<string | undefined, Test, { s
             return 'success'
         }
     })
+
+
+
+function calculateScore(totalQuestion: number, clonedSections: Section[]) {
+    let numOfCorrectQuestions = 0
+    for (let sectionPos = 0; sectionPos < clonedSections.length; sectionPos++) {
+        const clonedSection: Section = { ...clonedSections[sectionPos] }
+        for (let questionCount = 0; questionCount < clonedSection.questions.length; questionCount++) {
+            if (clonedSection.questions[questionCount].isCorrect) {
+                numOfCorrectQuestions += 1
+            }
+        }
+    }
+    const score = (numOfCorrectQuestions * 100) / totalQuestion
+    console.log(`score ${score}`)
+
+    return `${score}%`
+}
+
+
 
 export const fetchTestDataThunk = createAsyncThunk<string | undefined, string, { state: AppState }>
     ('testSlice/fetchTestDataThunk', async (id, thunkAPI) => {

@@ -73,7 +73,7 @@ const InnerTopHeader = styled(Box)(() => ({
   //borderBottom: `1px solid ${colorScheme(theme).chatBoarderColor}`
 }))
 
-const QuestionContainer = styled(Box)(({theme}) => ({
+const QuestionContainer = styled(Box)(({ theme }) => ({
   userSelect: 'none',
   padding: 10,
   borderBottom: `1px solid ${colorScheme(theme).chatBoarderColor}`,
@@ -119,6 +119,7 @@ const AnswerContainer = styled(Box)(() => ({
 }))
 
 const ChoiceFlexWrap = styled(Box)(() => ({
+  position: 'relative',
   width: 'calc(100% - 30px)',
   display: 'flex',
   alignItems: 'center',
@@ -151,6 +152,7 @@ const MultipleChoiceBadge = styled(Box)(() => ({
 const PublishTestButton = styled(ButtonBase)(() => ({
   padding: 10,
   color: '#fff',
+  fontWeight: 600,
   borderRadius: CSS_PROPERTIES.radius5,
   backgroundColor: colors.teal[400]
 }))
@@ -370,9 +372,12 @@ export default function NewTest({ }: Props) {
                 <QuestionNumber sx={{ backgroundColor: getQuestionBadgeAccent(question) }}>
                   <QuestionNumberText>{index + 1}</QuestionNumberText>
                 </QuestionNumber>
-                <QuestionText sx={{ color: isErr && !question.answer ? colors.red[400] : '' }}>{question?.question}</QuestionText>
+                <QuestionText sx={{fontWeight:600, color: isErr && !question.answer ? colors.red[400] : '' }}>
+                  {question?.question}
+                </QuestionText>
               </QuestionFlexWrap>
               <AnswerContainer>
+
 
 
                 {section.wayOfAnswering === 'word answer' && (<>
@@ -403,6 +408,11 @@ export default function NewTest({ }: Props) {
                         },
                         borderColor: question.answer === choice.choice ? getAccent(question, choice) : 'transparent'
                       }}>
+                      {isTaken && question.answer === choice.choice && (
+                        <Mark sx={{ color: question.isCorrect ? colors.teal[400] : colors.red[400] }}>
+                          {question.isCorrect ? <CheckIcon /> : <CloseIcon />}
+                        </Mark>
+                      )}
                       <MultipleChoiceBadge sx={{
                         textTransform: 'uppercase',
                         borderColor: getAccent(question, choice),
@@ -416,7 +426,9 @@ export default function NewTest({ }: Props) {
               </AnswerContainer>
             </QuestionContainer>
           ))}
-          <TestFooter nextQuestion={nextQuestion} prevQuestion={prevQuestion} />
+          {!partcipant._id && (
+            <TestFooter nextQuestion={nextQuestion} prevQuestion={prevQuestion} />
+          )}
         </TestContainer>
       </Container>
     </Layout>

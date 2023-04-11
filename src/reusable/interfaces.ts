@@ -81,13 +81,13 @@ export type Question = {
 // take test
 
 export type Participant = {
-    _id?: string,
-    fullname: string,
-    email: string,
-    reason: 'school test' | 'survey' | '',
-    testId: string,
-    test?: Test,
-    results?: {},
+    _id?: string
+    fullname: string
+    email: string
+    reason: 'school test' | 'survey' | ''
+    testId: string
+    test?: Test
+    score: string
     taken: boolean
     createdAt?: string
 }

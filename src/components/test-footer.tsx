@@ -1,10 +1,7 @@
 import { Box, Button, styled } from '@mui/material'
-import React, { useState } from 'react'
+import React from 'react'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { Section } from '../reusable/interfaces';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { testActions } from '../../reducers/test-reducer';
 
 
 const FooterContainer = styled(Box)(({ theme }) => ({
@@ -22,6 +19,7 @@ const FormControl = styled(Box)(({ theme }) => ({
 
 const StyledButton = styled(Button)(({ theme }) => ({
     textTransform: 'capitalize',
+    fontWeight:600,
     height: 45,
     borderRadius: 5,
     [theme.breakpoints.down('sm')]: {
@@ -39,9 +37,6 @@ type Props = {
 
 export default function TestFooter({ prevQuestion,nextQuestion }: Props) {
    
-
-
-
     return (
         <FooterContainer>
             <FormControl >

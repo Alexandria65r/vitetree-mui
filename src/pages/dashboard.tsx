@@ -23,7 +23,7 @@ const FlexContainer = styled(Box)(({ theme }) => ({
     display: 'flex'
 }))
 const Container = styled(Box)(({ theme }) => ({
-    flex:1
+    flex: 1
 }))
 
 const SearchContainer = styled(Box)(({ theme }) => ({
@@ -121,8 +121,8 @@ export default function Darshboard({ }: Props) {
 
 
     const fetchDashboardData = useCallback(async () => {
+        setFetching(true)
         if (user._id) {
-            setFetching(true)
             const testsList = await TestAPI.fetchMany(user._id ?? '')
             if (testsList) {
                 setFetching(false)
@@ -171,16 +171,26 @@ export default function Darshboard({ }: Props) {
                     </SearchContainer>
 
                     <MappedCards>
-                        {data.map((card, index) => (
-                            <Card key={index}>
-                                <Typography sx={{ fontWeight: 600 }}>{card.subjectOrlanguage}</Typography>
-                                <Typography>{card.cartegory}</Typography>
-                                <Typography sx={{ lineHeight: 1.2, fontSize: 12 }}>
-                                    {card.description}
-                                </Typography>
-                                <TestCardOptions card={card} />
-                            </Card>
-                        ))}
+                        {isFetching ? (<>
+                            {[1, 2, 3, 4, 5, 6].map((index) => (
+                                <Card sx={(theme) => ({
+                                    boxShadow:'none',
+                                    backgroundColor: theme.palette.mode === 'light' ? '#dcdcdc' : colorScheme(theme).secondaryColor
+                                })} key={index}></Card>
+                            ))}
+                        </>
+                        ) : (<>
+                            {data.map((card, index) => (
+                                <Card key={index}>
+                                    <Typography sx={{ fontWeight: 600 }}>{card.subjectOrlanguage}</Typography>
+                                    <Typography>{card.cartegory}</Typography>
+                                    <Typography sx={{ lineHeight: 1.2, fontSize: 12 }}>
+                                        {card.description}
+                                    </Typography>
+                                    <TestCardOptions card={card} />
+                                </Card>
+                            ))}
+                        </>)}
                     </MappedCards>
                     <ButtonIcon onClick={() => router.push('/create')}>
                         <AddIcon fontSize="medium" />
