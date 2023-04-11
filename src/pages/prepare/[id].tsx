@@ -128,6 +128,7 @@ const QuestionNumberText = styled(Typography)(() => ({
 const PublishTestButton = styled(ButtonBase)(({ theme }) => ({
     padding: 10,
     color: '#fff',
+    fontWeight:600,
     borderRadius: CSS_PROPERTIES.radius5,
     backgroundColor: colors.teal[400]
 }))

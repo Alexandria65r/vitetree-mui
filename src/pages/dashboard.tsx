@@ -40,7 +40,7 @@ const MappedCards = styled(Box)(({ theme }) => ({
     gap: 15,
     gridTemplateColumns: 'repeat(4,1fr)',
     [theme.breakpoints.down("sm")]: {
-        gap: 8,
+        gap: 5,
         width: '96%',
         gridTemplateColumns: 'repeat(2,1fr)',
     }
@@ -49,7 +49,7 @@ const Card = styled(Box)(({ theme }) => ({
     position: 'relative',
     minHeight: 100,
     padding: 10,
-    borderRadius: CSS_PROPERTIES.radius10,
+    borderRadius: CSS_PROPERTIES.radius5,
     borderLeft: `5px solid ${colors.teal[400]}`,
     backgroundColor: colorScheme(theme).secondaryColor,
     boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,

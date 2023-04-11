@@ -1,4 +1,4 @@
-import { Box, Button, MenuItem, Select, TextField, Typography, colors, styled } from '@mui/material'
+import { Box, Button, ButtonBase, MenuItem, Select, TextField, Typography, colors, styled } from '@mui/material'
 import React, { useState } from 'react'
 import { CSS_PROPERTIES } from '../../reusable'
 import TextareaAutosize from '@mui/base/TextareaAutosize'
@@ -69,14 +69,30 @@ const FormControlColBadge = styled(Box)(({ theme }) => ({
 
 
 
-const StyledButton = styled(Button)(({ theme }) => ({
-    textTransform: 'capitalize',
-    height: 45,
-    borderRadius: 5,
-    [theme.breakpoints.down('sm')]: {
-        flexBasis: '100%',
-        borderRadius: 5,
-        margin: '6px 0'
+// const StyledButton = styled(Button)(({ theme }) => ({
+//     textTransform: 'capitalize',
+//     height: 45,
+//     borderRadius: 5,
+//     [theme.breakpoints.down('sm')]: {
+//         flexBasis: '100%',
+//         borderRadius: 5,
+//         margin: '6px 0'
+//     }
+// }))
+
+const StyledButton = styled(ButtonBase)(({ theme }) => ({
+    textTransform:'capitalize',
+    flexBasis: '20%',
+    justifySelf: 'flex-end',
+    fontWeight: 600,
+    height: 50,
+    color: '#fff',
+    fontSize: 16,
+    borderRadius: CSS_PROPERTIES.radius5,
+    backgroundColor: colors.teal[400],
+    [theme.breakpoints.down("sm")]: {
+        flexBasis: '25%',
+        display: 'none'
     }
 }))
 

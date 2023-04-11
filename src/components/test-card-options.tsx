@@ -59,7 +59,7 @@ const CardButton = styled(ButtonBase)(({ theme }) => ({
     color: colors.teal[400],
     [theme.breakpoints.down("sm")]: {
         '&:focus':{
-            backgroundColor: colors.grey[200],
+            backgroundColor: colorScheme(theme).secondaryColor,
         }
     }
 }))
@@ -98,6 +98,10 @@ export default function TestCardOptions({ card }: Props) {
                         <MoreVertIcon fontSize='small' />
                     </CardButton>
                     <Popover {...bindPopover(popupState)}
+                        anchorOrigin={{
+                            vertical:  'top',
+                            horizontal: 'right',
+                        }}
                         classes={{
                             root: classes.PopperContainer,
                             paper: classes.CustomPaper
