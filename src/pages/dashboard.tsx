@@ -56,7 +56,7 @@ const Card = styled(Box)(({ theme }) => ({
     position: 'relative',
     minHeight: 100,
     padding: 10,
-    borderRadius: CSS_PROPERTIES.radius5,
+    borderRadius: CSS_PROPERTIES.radius10,
     borderLeft: `5px solid ${colors.teal[400]}`,
     backgroundColor: colorScheme(theme).secondaryColor,
     boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
@@ -118,10 +118,6 @@ export default function Darshboard({ }: Props) {
     const [data, setData] = useState<Test[]>([])
     const [isFetching, setFetching] = useState<boolean>()
     const user = useAppSelector((state) => state.AuthReducer.user)
-
-
-
-
 
 
     const fetchDashboardData = useCallback(async () => {

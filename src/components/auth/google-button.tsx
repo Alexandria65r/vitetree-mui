@@ -32,9 +32,6 @@ export default function SignInWithGoogleButton({ disabled }: Props) {
 
     React.useEffect(() => {
         handleRedirectData()
-        return () => {
-            dispatch(authActions.setRedirecting(true))
-        }
     }, [])
 
     async function handleRedirectData() {
@@ -56,6 +53,7 @@ export default function SignInWithGoogleButton({ disabled }: Props) {
 
 
     async function signInWithGoogle() {
+        localStorage.setItem('redirectFlag', JSON.stringify({ isRedirecting: true }))
         if (fireBaseApp) {
             const auth = getAuth(fireBaseApp)
             try {

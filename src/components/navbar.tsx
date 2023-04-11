@@ -76,7 +76,9 @@ export default function NavBar() {
                     ) : <></>}
 
                     {!isMobile && !user._id ? (
-                        <Button onClick={() => router.push('/signup')}>
+                        <Button sx={(theme)=> ({
+                            color:'#fff'
+                        }) } onClick={() => router.push('/signup')}>
                             Signup
                         </Button>
                     ) : <></>}

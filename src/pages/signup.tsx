@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Box, ButtonBase, CircularProgress, TextField, Typography, colors, styled } from '@mui/material'
 import { CSS_PROPERTIES, SCHOOYARD_AUTH_TOKEN } from '../reusable'
 import { ContinueWith, ContinueWithOverlayText, FormContainer, FormHeader, FormLogo, RedirectingCard } from '../reusable/styles'
@@ -60,6 +60,17 @@ export default function Signup({ }: Props) {
     console.log(router.query)
     completeGoogleSignup()
   }, [router.query])
+
+
+
+  useEffect(() => {
+    const sd = localStorage.getItem('redirectFlag')
+    if (sd !== null) {
+      const res: any = JSON.parse(sd)
+      dispatch(authActions.setRedirecting(res.isRedirecting))
+    }
+  }, [])
+
 
   function handleOnChange({ target: { value, name } }: any) {
     setSignUpData({

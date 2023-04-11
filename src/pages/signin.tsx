@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Box, ButtonBase, CircularProgress, TextField, Typography, colors, styled } from '@mui/material'
 import { CSS_PROPERTIES } from '../reusable'
 import { ContinueWith, ContinueWithOverlayText, FormContainer, FormHeader, FormLogo, RedirectingCard } from '../reusable/styles'
@@ -7,6 +7,8 @@ import { useRouter } from 'next/router'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import SignInWithGoogleButton from '../components/auth/google-button'
 import { SignInThunk } from '../../reducers/thunks'
+import { mainActions } from '../../reducers'
+import { authActions } from '../../reducers/auth-reducer'
 
 
 
@@ -49,8 +51,15 @@ type Props = {}
 export default function SigninPage({ }: Props) {
     const dispatch = useAppDispatch()
     const router = useRouter()
-  
     const isRedirecting = useAppSelector((state) => state.AuthReducer.isRedirecting)
+
+    useEffect(() => {
+        const sd = localStorage.getItem('redirectFlag')
+        if (sd !== null) {
+            const res: any = JSON.parse(sd)
+            dispatch(authActions.setRedirecting(res.isRedirecting))
+        }
+    }, [])
 
     const [schooyardProvider, setSignInData] = useState<Signin>({
         email: '',

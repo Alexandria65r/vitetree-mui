@@ -22,11 +22,15 @@ export const SignInThunk = createAsyncThunk<void, Signin, { state: AppState }>
         if (data.success) {
             Cookies.set(SCHOOYARD_AUTH_TOKEN, data.token)
             dispatch(authActions.setAuhtUser(data.user))
+            if(signInData.provider === 'google-provider') {
+                localStorage.removeItem('redirectFlag')
+            }
             Router.replace('/dashboard')
         } else {
             console.log(data)
             console.log(signInData.provider)
             if (data.message === `user doesn't exist` && signInData.provider === 'google-provider') {
+                localStorage.removeItem('redirectFlag')
                 Router.push('/signup?redirect=true&&authProvider=google')
             }
         }
