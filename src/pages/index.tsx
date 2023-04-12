@@ -16,13 +16,13 @@ import { colorScheme } from '../theme'
 import { BsDot } from 'react-icons/bs'
 
 
-const Container = styled(Box)(({theme})=>({
+const Container = styled(Box)(({ theme }) => ({
   height: 'calc(100vh - 66px)',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   [theme.breakpoints.down('sm')]: {
-      flexWrap:'wrap'
+    flexWrap: 'wrap'
   }
 
 }))
@@ -37,7 +37,7 @@ const IllustratorCol = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down('sm')]: {
     flexBasis: '100%',
     order: 1,
-    height:'auto'
+    height: 'auto'
   }
 }))
 
@@ -61,7 +61,7 @@ const TextWrap = styled(Box)(({ theme }) => ({
   flexBasis: '70%',
   [theme.breakpoints.down('sm')]: {
     flexBasis: '90%',
-    marginBottom:22,
+    marginBottom: 22,
   }
 }))
 
@@ -131,7 +131,7 @@ const IndexPage: NextPage = () => {
           <TextWrap>
             <Typography sx={{
               fontWeight: 800, fontSize: 30, lineHeight: 1.2,
-              textAlign:'center',
+              textAlign: 'center',
               backgroundClip: 'text',
               color: 'transparent',
               backgroundImage: `linear-gradient(45deg,${colors.teal[400]},${colors.blue[400]})`
@@ -139,23 +139,30 @@ const IndexPage: NextPage = () => {
               The easiest  way to prepare school tests and test your students
 
             </Typography>
-            <Typography sx={(theme) => ({ my: 1, textAlign: 'center', fontWeight: 400,
-             color: theme.palette.mode === 'light' ? '#5f6368':'#ffff' , fontSize: 16, lineHeight: 1.2 })}>
+            <Typography sx={(theme) => ({
+              my: 1, textAlign: 'center', fontWeight: 400,
+              color: theme.palette.mode === 'light' ? '#5f6368' : '#ffff', fontSize: 16, lineHeight: 1.2
+            })}>
               The professional way of conducting school tests and get instant
               results without sacrificing your time in marking every paper.
             </Typography>
-            <Typography sx={{fontWeight: 600, fontSize: 16, lineHeight: 1.2,
+            <Typography sx={{
+              fontWeight: 600, fontSize: 16, lineHeight: 1.2,
               backgroundClip: 'text', textAlign: 'center',
               color: 'transparent',
               backgroundImage: `linear-gradient(45deg,${colors.teal[400]},${colors.blue[400]})`
-          }}>
+            }}>
               Save time, Reduce workload and Instant results
             </Typography>
           </TextWrap>
 
 
           <FrontBox>
-            <CommunityButton sx={{ flexBasis: '30%' }} onClick={() => router.push('/create')}
+            <CommunityButton sx={{
+              flexBasis: '30%', fontWeight: 600,
+              borderBottom: `4px solid ${colors.teal[500]}`,
+              backgroundImage: `linear-gradient(45deg,${colors.teal[400]},${colors.blue[400]})`
+            }} onClick={() => router.push('/create')}
               color='secondary'>
               <AddIcon /> New Test
             </CommunityButton>
