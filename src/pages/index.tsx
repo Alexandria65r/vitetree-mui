@@ -1,5 +1,5 @@
 
-import { styled, Box, colors, InputBase, ButtonBase } from '@mui/material'
+import { styled, Box, colors, InputBase, ButtonBase, Typography } from '@mui/material'
 import { useCallback, useEffect, useState } from 'react'
 import type { NextPage } from 'next'
 import { wrapper } from '../../store/store'
@@ -23,24 +23,34 @@ export const getServerSideProps = wrapper.getServerSideProps(({ dispatch }) => a
 })
 
 
-const Container = styled(Box)({
+const Container = styled(Box)(({theme})=>({
   height: 'calc(100vh - 66px)',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  [theme.breakpoints.down('sm')]: {
+      flexWrap:'wrap'
+  }
 
-})
+}))
 const IllustratorCol = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  order: 2,
   flex: 1,
   height: 'calc(100vh - 66px)',
-  backgroundColor: colorScheme(theme).secondaryColor,
+  backgroundColor: '#fff',
   [theme.breakpoints.down('sm')]: {
-    display: 'none'
+    flexBasis: '100%',
+    order: 1,
+    height:'auto'
   }
 }))
 
 
 const RightCol = styled(Box)(({ theme }) => ({
+  order: 1,
   flexBasis: '55%',
   display: 'flex',
   flexWrap: 'wrap',
@@ -49,8 +59,20 @@ const RightCol = styled(Box)(({ theme }) => ({
   //border:'1px solid red',
   [theme.breakpoints.down('sm')]: {
     flexBasis: '100%',
+    order: 2,
   }
 }))
+
+
+const TextWrap = styled(Box)(({ theme }) => ({
+  flexBasis: '70%',
+  [theme.breakpoints.down('sm')]: {
+    flexBasis: '90%',
+    marginBottom:22,
+  }
+}))
+
+
 const FrontBox = styled(Box)(({ theme }) => ({
   flexBasis: '70%',
   display: 'flex',
@@ -59,7 +81,8 @@ const FrontBox = styled(Box)(({ theme }) => ({
   justifyContent: 'space-between',
   //border:'1px solid red',
   [theme.breakpoints.down('sm')]: {
-    width: '70%',
+    flexBasis: '90%',
+    marginBottom: 10
   }
 }))
 const CommunityButton = styled(ButtonBase)(({ theme }) => ({
@@ -80,7 +103,7 @@ const TextInput = styled(InputBase)(({ theme }) => ({
   flexBasis: '60%',
   height: 46,
   padding: '0 10px',
-  backgroundColor: '#fff',
+  backgroundColor: colorScheme(theme).secondaryColor,
   borderRadius: CSS_PROPERTIES.radius5,
   borderTopRightRadius: 0,
   borderBottomRightRadius: 0,
@@ -109,9 +132,34 @@ const IndexPage: NextPage = () => {
     <Layout>
       <Container>
         <IllustratorCol>
-
+          <img src='/prepare.png' height='400px' />
         </IllustratorCol>
         <RightCol>
+          <TextWrap>
+            <Typography sx={{
+              fontWeight: 600, fontSize: 30, lineHeight: 1.2,
+              textAlign:'center',
+              backgroundClip: 'text',
+              color: 'transparent',
+              backgroundImage: `linear-gradient(45deg,${colors.teal[400]},${colors.blue[400]})`
+            }}>
+              The easiest  way to prepare school tests and test your students
+
+            </Typography>
+            <Typography sx={{ my: 1, textAlign: 'center', fontWeight: 400, color: '#5f6368', fontSize: 18, lineHeight: 1.2 }}>
+              The professional way of conducting school tests and get instant
+              results without sacrificing your time in marking every paper.
+            </Typography>
+            <Typography sx={{fontWeight: 500, fontSize: 18, lineHeight: 1.2,
+              backgroundClip: 'text', textAlign: 'center',
+              color: 'transparent',
+              backgroundImage: `linear-gradient(45deg,${colors.teal[400]},${colors.blue[400]})`
+          }}>
+              Save time, Reduce workload, Instant results
+            </Typography>
+          </TextWrap>
+
+
           <FrontBox>
             <CommunityButton sx={{ flexBasis: '30%' }} onClick={() => router.push('/create')}
               color='secondary'>

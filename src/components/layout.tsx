@@ -31,6 +31,13 @@ export default function Layout({ children }: Props) {
         checkAuth()
     }, [router.pathname])
 
+
+    React.useEffect(() => {
+        localStorage.removeItem('redirectFlag')
+        return () => {
+        }
+    }, [])
+
     return (
         <Box>
             <NavBar />
