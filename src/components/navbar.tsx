@@ -19,10 +19,12 @@ import { mainActions } from '../../reducers';
 
 
 const Button = styled(ButtonBase)(({ theme }) => ({
-    padding: '10px 15px',
+    padding: '8px 15px',
     color: colorScheme(theme).TextColor,
     margin: '0 5px',
-    fontSize: 16,
+    fontSize: 14,
+    fontWeight:600,
+    border: `2px solid ${colors.teal[400]}`,
     borderRadius: CSS_PROPERTIES.radius5,
     backgroundColor: colors.teal[400]
 }))
@@ -60,7 +62,12 @@ export default function NavBar() {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" component="div" sx={{ fontWeight: 600, flexGrow: 1, color: colors.teal[400] }}>
+                    <Typography variant="h6" component="div"
+                        sx={{
+                            textAlign: isMobile ? 'center' : 'left',
+                            fontWeight: 600,
+                            flexGrow: 1, color: colors.teal[400]
+                        }}>
                         <Link href={user?._id ? '/dashboard' : '/'}>
                             Schooyard
                         </Link>
@@ -68,22 +75,22 @@ export default function NavBar() {
                     <ButtonIcon onClick={toggleColorMode}>
                         {theme.palette.mode === 'light' ? <DarkModeOutlinedIcon /> : <LightModeOutlinedIcon />}
                     </ButtonIcon>
-                    {!user._id ? (
+                    {!isMobile && !user._id ? (
                         <Button onClick={() => router.push('/signin')} sx={{
                             backgroundColor: 'transparent',
-                            border: `1px solid ${colors.teal[400]}`
+                        
                         }}>Signin</Button>
                     ) : <></>}
 
                     {!isMobile && !user._id ? (
-                        <Button sx={(theme)=> ({
-                            color:'#fff'
-                        }) } onClick={() => router.push('/signup')}>
+                        <Button sx={(theme) => ({
+                            color: '#fff'
+                        })} onClick={() => router.push('/signup')}>
                             Signup
                         </Button>
                     ) : <></>}
                 </Toolbar>
             </AppBar>
-        </Box>
+        </Box >
     );
 }

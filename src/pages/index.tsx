@@ -41,6 +41,13 @@ const IllustratorCol = styled(Box)(({ theme }) => ({
   }
 }))
 
+const Image = styled('img')(({ theme }) => ({
+  height: 400,
+  [theme.breakpoints.down("sm")]: {
+    height: 320
+  }
+}))
+
 
 const RightCol = styled(Box)(({ theme }) => ({
   order: 1,
@@ -103,6 +110,9 @@ const TextInput = styled(InputBase)(({ theme }) => ({
   border: `2px solid ${colors.teal[400]}`,
   '&:focus': {
     border: `2px solid ${colors.teal[400]}`,
+  },
+  [theme.breakpoints.down("sm")]: {
+    height: 50,
   }
 }))
 
@@ -125,7 +135,7 @@ const IndexPage: NextPage = () => {
     <Layout>
       <Container>
         <IllustratorCol>
-          <img src='/prepare.png' height='400px' />
+          <Image src='/prepare.png' />
         </IllustratorCol>
         <RightCol>
           <TextWrap>
@@ -158,11 +168,14 @@ const IndexPage: NextPage = () => {
 
 
           <FrontBox>
-            <CommunityButton sx={{
+            <CommunityButton sx={(theme) => ({
               flexBasis: '30%', fontWeight: 600,
               borderBottom: `4px solid ${colors.teal[500]}`,
-              backgroundImage: `linear-gradient(45deg,${colors.teal[400]},${colors.blue[400]})`
-            }} onClick={() => router.push('/create')}
+              backgroundImage: `linear-gradient(45deg,${colors.teal[400]},${colors.blue[400]})`,
+              [theme.breakpoints.down("sm")]: {
+                height: 50,
+              }
+            })} onClick={() => router.push('/create')}
               color='secondary'>
               <AddIcon /> New Test
             </CommunityButton>
@@ -186,6 +199,9 @@ const IndexPage: NextPage = () => {
                     borderTopLeftRadius: 0,
                     borderBottomLeftRadius: 0,
                     flexBasis: '18%',
+                    [theme.breakpoints.down("sm")]: {
+                      height: 50,
+                    }
                   }
                 })}
                 color='info'>
