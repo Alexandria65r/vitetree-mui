@@ -13,6 +13,7 @@ import { Test } from '../reusable/interfaces'
 import TestAPI from '../api-services/test'
 import ReusablePopper from '../components/reusable-popper'
 import { colorScheme } from '../theme'
+import { BsDot } from 'react-icons/bs'
 export const getServerSideProps = wrapper.getServerSideProps(({ dispatch }) => async (params) => {
 
   return {
@@ -137,7 +138,7 @@ const IndexPage: NextPage = () => {
         <RightCol>
           <TextWrap>
             <Typography sx={{
-              fontWeight: 600, fontSize: 30, lineHeight: 1.2,
+              fontWeight: 800, fontSize: 30, lineHeight: 1.2,
               textAlign:'center',
               backgroundClip: 'text',
               color: 'transparent',
@@ -146,16 +147,17 @@ const IndexPage: NextPage = () => {
               The easiest  way to prepare school tests and test your students
 
             </Typography>
-            <Typography sx={{ my: 1, textAlign: 'center', fontWeight: 400, color: '#5f6368', fontSize: 18, lineHeight: 1.2 }}>
+            <Typography sx={(theme) => ({ my: 1, textAlign: 'center', fontWeight: 400,
+             color: theme.palette.mode === 'light' ? '#5f6368':'#ffff' , fontSize: 18, lineHeight: 1.2 })}>
               The professional way of conducting school tests and get instant
               results without sacrificing your time in marking every paper.
             </Typography>
-            <Typography sx={{fontWeight: 500, fontSize: 18, lineHeight: 1.2,
+            <Typography sx={{fontWeight: 400, fontSize: 18, lineHeight: 1.2,
               backgroundClip: 'text', textAlign: 'center',
               color: 'transparent',
               backgroundImage: `linear-gradient(45deg,${colors.teal[400]},${colors.blue[400]})`
           }}>
-              Save time, Reduce workload, Instant results
+              Save time, Reduce workload and Instant results
             </Typography>
           </TextWrap>
 
