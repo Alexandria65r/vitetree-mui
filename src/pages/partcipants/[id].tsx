@@ -77,7 +77,7 @@ export default function NewTest({ }: Props) {
             dispatch(testActions.setQuestionIdex(0))
             dispatch(testActions.setSectionIndex(0))
         }
-    }, [])
+    }, [id])
 
 
 

@@ -89,7 +89,7 @@ const CommunityButton = styled(ButtonBase)(({ theme }) => ({
   textTransform: 'capitalize',
   //flex:1,
   fontSize: 17,
-  height: 45,
+  height: 50,
   borderRadius: 5,
   color: '#fff',
   backgroundColor: colors.teal[400],
@@ -101,7 +101,7 @@ const CommunityButton = styled(ButtonBase)(({ theme }) => ({
 }))
 const TextInput = styled(InputBase)(({ theme }) => ({
   flexBasis: '60%',
-  height: 46,
+  height: 50,
   padding: '0 10px',
   backgroundColor: colorScheme(theme).secondaryColor,
   borderRadius: CSS_PROPERTIES.radius5,
@@ -128,7 +128,7 @@ const IndexPage: NextPage = () => {
 
   function attend() {
     if (!code) return
-    router.push(`/attendee-info/${code}`)
+    router.push(`/test_info/${code}`)
   }
 
   return (
@@ -146,7 +146,7 @@ const IndexPage: NextPage = () => {
               color: 'transparent',
               backgroundImage: `linear-gradient(45deg,${colors.teal[400]},${colors.blue[400]})`
             }}>
-              The easiest  way to prepare school tests and test your students
+              The easiest  way to prepare school tests and test your students.
 
             </Typography>
             <Typography sx={(theme) => ({
@@ -154,7 +154,7 @@ const IndexPage: NextPage = () => {
               color: theme.palette.mode === 'light' ? '#5f6368' : '#ffff', fontSize: 16, lineHeight: 1.2
             })}>
               The professional way of conducting school tests and get instant
-              results without sacrificing your time in marking every paper.
+              results without sacrificing your time in <b>marking</b> every paper.
             </Typography>
             <Typography sx={{
               fontWeight: 600, fontSize: 16, lineHeight: 1.2,
@@ -162,14 +162,14 @@ const IndexPage: NextPage = () => {
               color: 'transparent',
               backgroundImage: `linear-gradient(45deg,${colors.teal[400]},${colors.blue[400]})`
             }}>
-              Save time, Reduce workload and Instant results
+              Save time, Reduce workload and Instant results.
             </Typography>
           </TextWrap>
 
 
           <FrontBox>
             <CommunityButton sx={(theme) => ({
-              flexBasis: '30%', fontWeight: 600,
+              flexBasis: '37%', fontWeight: 600,
               borderBottom: `4px solid ${colors.teal[500]}`,
               backgroundImage: `linear-gradient(45deg,${colors.teal[400]},${colors.blue[400]})`,
               [theme.breakpoints.down("sm")]: {
@@ -177,11 +177,11 @@ const IndexPage: NextPage = () => {
               }
             })} onClick={() => router.push('/create')}
               color='secondary'>
-              <AddIcon /> New Test
+              <AddIcon /> Getting started
             </CommunityButton>
 
             <CustomFormControl sx={(theme) => ({
-              flexBasis: '65%',
+              flexBasis: '58%',
               flexWrap: 'wrap',
               [theme.breakpoints.down("sm")]: {
                 flex: 1
@@ -192,7 +192,6 @@ const IndexPage: NextPage = () => {
                 onClick={attend}
                 sx={(theme) => ({
                   flexBasis: '15%',
-                  height: 46,
                   borderTopLeftRadius: 0,
                   borderBottomLeftRadius: 0,
                   [theme.breakpoints.down("sm")]: {

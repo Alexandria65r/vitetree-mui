@@ -18,18 +18,24 @@ import { useAppSelector } from '../../../store/hooks'
 import { fetchTestDataThunk, prepareForPartcipant } from '../../../reducers/thunks'
 
 
-const Container = styled(Box)({
+const Container = styled(Box)(({ theme }) => ({
     height: 'calc(100vh - 66px)',
     display: 'flex',
+    flexWrap: 'wrap',
     alignItems: 'center',
     justifyContent: 'center',
 
-})
-const IllustratorCol = styled(Box)({
+}))
+const IllustratorCol = styled(Box)(({ theme }) => ({
     flex: 1,
     height: 'calc(100vh - 66px)',
-    backgroundColor: '#fff'
-})
+    padding: 20,
+    borderRight: `1px solid ${colorScheme(theme).secondaryColor}`,
+    backgroundColor: theme.palette.mode === 'light' ? '#fff' : colorScheme(theme).primaryColor,
+    [theme.breakpoints.down('sm')]: {
+        height: 'auto'
+    }
+}))
 
 const RightCol = styled(Box)(({ theme }) => ({
     flexBasis: '50%',
@@ -39,7 +45,7 @@ const RightCol = styled(Box)(({ theme }) => ({
     justifyContent: 'center',
     //border:'1px solid red',
     [theme.breakpoints.down('sm')]: {
-        width: '70%',
+        flexBasis: '95%',
     }
 }))
 const FrontBox = styled(Box)(({ theme }) => ({
@@ -50,11 +56,11 @@ const FrontBox = styled(Box)(({ theme }) => ({
     padding: 10,
     justifyContent: 'space-between',
     //  border:'1px solid red',
-    backgroundColor: '#fff',
+    backgroundColor: colorScheme(theme).secondaryColor,
     borderRadius: CSS_PROPERTIES.radius5,
     boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
     [theme.breakpoints.down('sm')]: {
-        width: '70%',
+        flexBasis: '100%',
     }
 }))
 const Header = styled(Box)(() => ({
@@ -99,17 +105,17 @@ const IndexPage: NextPage = () => {
     const dispatch = useDispatch()
     const router: NextRouter = useRouter()
     const id: any = router.query.id || []
-    const [code, setCode] = useState<string>('')
     const [isErr, setIsError] = useState<boolean>(false)
     const participant = useAppSelector((state) => state.TestReducer.partcipant)
     const isPreparigPartcipant = useAppSelector((state) => state.TestReducer.isPreparigPartcipant)
+    const testData = useAppSelector((state) => state.TestReducer.newTest)
 
 
     const fetchTestData = async () => dispatch(fetchTestDataThunk(id))
 
     useEffect(() => {
         fetchTestData()
-    }, [])
+    }, [id])
 
     function handleOnChage({ target: { value, name } }: any) {
         dispatch(testActions.setPartcipant({
@@ -145,7 +151,26 @@ const IndexPage: NextPage = () => {
         <Layout>
             <Container>
                 <IllustratorCol>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <Typography sx={{ fontSize: 18, fontWeight: 600 }}>
+                            {testData.subjectOrlanguage}
+                        </Typography>
+                        <Typography sx={{ fontSize: 18, fontWeight: 600 }}>
+                            Duration: {testData.duration}
+                        </Typography>
+                    </Box>
 
+
+
+                    <Typography sx={{ mt: 1, fontSize: 14 }}>Description</Typography>
+                    <Typography sx={{ fontSize: 15 }}>{testData.description}</Typography>
+
+                    <Typography sx={{ lineHeight: 1.5, fontSize: 16, my: 1 }}>
+                        Hi, partcipant this {testData.subjectOrlanguage} test has {testData.duration}{" "} 
+                         to finish once you start you cant pause make sure you have a stable internet.
+                         Note that your answer sheet will be submited on time up keep the time in mind.
+                        once you are ready click the start button to take part in the test. All the best 🎉
+                    </Typography>
                 </IllustratorCol>
                 <RightCol>
                     {participant?._id ? (
@@ -196,7 +221,7 @@ const IndexPage: NextPage = () => {
                                 </Select>
                             </CustomFormControl>
                             <CustomFormControl>
-                                <CommunityButton sx={{ flex: 1 }} onClick={partcipateNow}
+                                <CommunityButton sx={{ flex: 1, fontWeight: 600 }} onClick={partcipateNow}
                                     color='secondary'>
                                     {isPreparigPartcipant ? 'Please wait...' : 'submit info'}
                                 </CommunityButton>

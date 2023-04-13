@@ -16,6 +16,7 @@ import { CSS_PROPERTIES } from '../reusable';
 import { useRouter } from 'next/router';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { mainActions } from '../../reducers';
+import Timer from './timer';
 
 
 const Button = styled(ButtonBase)(({ theme }) => ({
@@ -23,7 +24,7 @@ const Button = styled(ButtonBase)(({ theme }) => ({
     color: colorScheme(theme).TextColor,
     margin: '0 5px',
     fontSize: 14,
-    fontWeight:600,
+    fontWeight: 600,
     border: `2px solid ${colors.teal[400]}`,
     borderRadius: CSS_PROPERTIES.radius5,
     backgroundColor: colors.teal[400]
@@ -43,13 +44,16 @@ export default function NavBar() {
     const { toggleColorMode } = React.useContext(ColorModeContext)
     const isMobile = useMediaQuery('(max-width:600px)')
     const isSidebarOpen = useAppSelector((state) => state.MainReducer.isSidebarOpen)
+    const newTest = useAppSelector((state) => state.TestReducer.newTest)
+    const showTestTimer = useAppSelector((state) => state.TestReducer.showTestTimer)
 
     function toggleSideBar() {
         dispatch(mainActions.setIsSideBarOpen(!isSidebarOpen))
     }
 
     return (
-        <Box sx={{ flexGrow: 1 }}>
+        <Box sx={{ flexGrow: 1, position: 'relative' }}>
+             <Timer/>
             <AppBar position="static" color='default' elevation={0}>
                 <Toolbar >
                     <IconButton
@@ -78,7 +82,7 @@ export default function NavBar() {
                     {!isMobile && !user._id ? (
                         <Button onClick={() => router.push('/signin')} sx={{
                             backgroundColor: 'transparent',
-                        
+
                         }}>Signin</Button>
                     ) : <></>}
 

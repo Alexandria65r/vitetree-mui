@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Layout from '../../components/layout'
 import { Box, TextField, Typography, colors, styled, ButtonBase, Button, IconButton } from '@mui/material'
 import { colorScheme } from '../../theme'
@@ -21,8 +21,9 @@ import TestAPI from '../../api-services/test'
 import { useRouter } from 'next/router'
 import { participantSchema, sectionSchems, testDataSchema } from '../../reusable/schemas'
 import { CustomFormControl } from '../../reusable/styles'
-
-
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import CheckIcon from '@mui/icons-material/Check';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 const Container = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -39,6 +40,7 @@ const Container = styled(Box)(({ theme }) => ({
 const TestInfoCol = styled(Box)(({ theme }) => ({
     flexBasis: '33%',
     height: 200,
+    padding: 20,
     borderRadius: CSS_PROPERTIES.radius5,
     backgroundColor: colorScheme(theme).secondaryColor,
     boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
@@ -46,6 +48,28 @@ const TestInfoCol = styled(Box)(({ theme }) => ({
         display: 'none'
     }
 }))
+
+const LinkContainer = styled(Box)(({ theme }) => ({
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    height: 45,
+    padding: '0 10px',
+    borderRadius: CSS_PROPERTIES.radius5,
+    background: theme.palette.mode === 'light' ? '#eee' : colorScheme(theme).primaryColor
+}))
+const LinkWrap = styled(Box)(({ theme }) => ({
+    width: 240
+
+}))
+
+
+const CopyButton = styled(ButtonBase)(({ theme }) => ({
+    padding: 5,
+    borderRadius: CSS_PROPERTIES.radius5,
+    background: theme.palette.mode === 'light' ? '#eee' : colorScheme(theme).secondaryColor
+}))
+
 const TestContainer = styled(Box)(({ theme }) => ({
     flex: 1,
     marginLeft: 20,
@@ -156,6 +180,8 @@ export default function NewTest({ }: Props) {
     const section = testSections?.length ? testSections[sectionIndex] : sectionSchems;
     const maxIndex = testSections?.length - 1;
     const isErr = useAppSelector((state) => state.TestReducer.isErr)
+
+    const [isCopied, setIsCopied] = useState<boolean>(false)
 
     const UpdateQuestionIndex = useCallback(() => dispatch(testActions.setQuestionIdex(0)), [])
 
@@ -268,11 +294,52 @@ export default function NewTest({ }: Props) {
         }
     }
 
+
+
+    let linkToCopy: any
+
+    if (typeof window !== 'undefined' && router.query.id) {
+        linkToCopy = `${window?.location.host}/test_info/${router.query.id}`
+    }
+
     return (
         <Layout>
             <Container>
                 <TestInfoCol>
+                    <Typography sx={{ fontSize: 18, fontWeight: 600 }}>
+                        {newTest.subjectOrlanguage}</Typography>
+                    <Typography sx={{ mt: 1, fontSize: 12 }}>Description</Typography>
+                    <Typography sx={{ fontSize: 13 }}>{newTest.description}</Typography>
 
+                    <Typography sx={{ lineHeight: 1.3, fontSize: 14, my: 1 }}>
+                        Share this test link to your partcipants of your test
+                        Copy the link of the test below</Typography>
+                    <LinkContainer>
+                        <LinkWrap>
+                                 <Typography sx={{
+                                    fontSize: 15,
+                                    textOverflow: 'ellipsis',
+                                    overflow: 'hidden',
+                                    color: colors.blue[400]
+                                }}>
+                                    {linkToCopy}
+                                </Typography>
+                        
+
+                        </LinkWrap>
+                        <CopyToClipboard text={linkToCopy}
+                            onCopy={() => {
+                                setIsCopied(true)
+                                setTimeout(() => {
+                                    setIsCopied(false)
+                                }, 3000)
+                            }}
+                        >
+                            <CopyButton sx={{ color: isCopied ? colors.teal[400] : '' }}>
+                                {isCopied ? <CheckIcon /> : <ContentCopyIcon fontSize='small' />}
+                            </CopyButton>
+                        </CopyToClipboard>
+                    </LinkContainer>
                 </TestInfoCol>
                 <TestContainer>
                     <TestHeader>

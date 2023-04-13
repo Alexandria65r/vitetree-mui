@@ -28,15 +28,12 @@ export default function Layout({ children }: Props) {
 
 
     React.useEffect(() => {
+        localStorage.removeItem('redirectFlag')
         checkAuth()
     }, [router.pathname])
 
 
-    React.useEffect(() => {
-        localStorage.removeItem('redirectFlag')
-        return () => {
-        }
-    }, [])
+
 
     return (
         <Box>

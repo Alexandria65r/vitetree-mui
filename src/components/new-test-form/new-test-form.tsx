@@ -255,10 +255,10 @@ export default function NewTestForm({ mode, submitHandler }: Props) {
                             defaultValue='Duration'
                             sx={{ flexBasis: '30%' }}>
                             <MenuItem value="Duration">Duration</MenuItem>
-                            <MenuItem value="30mins">30mins</MenuItem>
-                            <MenuItem value="40mins">40mins</MenuItem>
-                            <MenuItem value="1hr">1hr</MenuItem>
-                            <MenuItem value="2hrs">2hrs</MenuItem>
+                            <MenuItem value="30mins">30Mins</MenuItem>
+                            <MenuItem value="40mins">40Mins</MenuItem>
+                            <MenuItem value="1hr">1Hr</MenuItem>
+                            <MenuItem value="2hrs">2Hrs</MenuItem>
                         </Select>
                     )}
                 </FormControl>

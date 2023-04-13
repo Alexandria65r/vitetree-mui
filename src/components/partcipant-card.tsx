@@ -35,11 +35,10 @@ const ScoreCircle = styled(Box)(({ theme }) => ({
     cursor: 'pointer',
     transform: 'translateX(-50%)',
     color: '#fff',
-    backgroundColor: colors.teal[400],
     transition: '0.3s all',
     boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
     '&:hover': {
-        backgroundColor: colors.teal[400],
+        //backgroundColor: colors.teal[400],
     }
 }))
 
@@ -90,7 +89,9 @@ export default function PartcipantCard({ partcipant, showDetailsButton }: Props)
                     {moment(partcipant.createdAt).format('DD/MM/YYYY')}
                 </Typography>
             </Box>
-            <ScoreCircle>
+            <ScoreCircle sx={{
+                backgroundColor: parseInt(partcipant.score) >= 50 ? colors.teal[400] : colors.red[400]
+            }}>
                 {partcipant.score}
             </ScoreCircle>
             <CardFooter>

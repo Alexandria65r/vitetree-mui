@@ -211,10 +211,8 @@ export default function NewTest({ }: Props) {
 
   useEffect(() => {
     fetchTestData()
+
   }, [id])
-
-
-
 
   // function handleOnChage(value: string, updateKey: 'question' | 'answer') {
   //   dispatch(updateTestQuestionThunk({ value, updateKey }))
@@ -292,11 +290,7 @@ export default function NewTest({ }: Props) {
       dispatch(testActions.setSectionIndex(0))
       return
     } else {
-      const testData = await TestAPI.fetchOne(partcipant.testId)
-      if (testData) {
-        dispatch(markTakenTestThunk(testData))
-      }
-
+      dispatch(markTakenTestThunk())
     }
   }
 
@@ -377,7 +371,8 @@ export default function NewTest({ }: Props) {
           {section?.questions.map((question, index) => (
             <QuestionContainer key={index}>
               <QuestionFlexWrap>
-                <QuestionNumber sx={{ backgroundColor: getQuestionBadgeAccent(question) }}>
+                <QuestionNumber
+                  sx={{ backgroundColor: isTaken && !question.isCorrect ? colors.red[400] : colors.teal[400] }}>
                   <QuestionNumberText>{index + 1}</QuestionNumberText>
                 </QuestionNumber>
                 <QuestionText sx={{ fontWeight: 600, color: isErr && !question.answer ? colors.red[400] : '' }}>
