@@ -3,10 +3,7 @@ import Layout from '../../components/layout'
 import { Box, TextField, Typography, colors, styled, ButtonBase, Button, IconButton } from '@mui/material'
 import { colorScheme } from '../../theme'
 import { CSS_PROPERTIES } from '../../reusable'
-//import Select from '@mui/joy/Select';
 import PieChartIcon from '@mui/icons-material/PieChart';
-import ShortTextIcon from '@mui/icons-material/ShortText';
-import ListIcon from '@mui/icons-material/List';
 import MultipleChoiceForm from '../../components/question/multiple-choice-form'
 import WithDiagram from '../../components/question/with-diagram'
 import WithOneWordAnswer from '../../components/question/with-one-word-answer'
@@ -233,12 +230,14 @@ export default function NewTest({ }: Props) {
     function NextSection() {
         if (sectionIndex === newTest.sections.length - 1) return;
         console.log(sectionIndex)
+        dispatch(testActions.setQuestionIdex(0))
         dispatch(testActions.setSectionIndex(sectionIndex + 1))
 
     }
     function PrevSection() {
         if (sectionIndex <= 0) return;
         console.log(sectionIndex)
+        dispatch(testActions.setQuestionIdex(0))
         dispatch(testActions.setSectionIndex(sectionIndex - 1))
     }
 

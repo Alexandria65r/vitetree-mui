@@ -139,35 +139,52 @@ export const setWithPreparedSections = createAsyncThunk<void, Test, { state: App
         const clonedSections = [...testData.sections]
         for (let sectionPos = 0; sectionPos < clonedSections.length; sectionPos++) {
             const clonedSection: Section = { ...clonedSections[sectionPos] }
-            if (clonedSection.questions.length > 0) {
+
+            if (clonedSection.questions.length === clonedSection.numberOfQuestions) {
                 dispatch(testActions.setTestData(testData))
                 return
+            } else if (clonedSection.numberOfQuestions > clonedSection.questions.length) {
+                console.log('time to update')
+                const diff = clonedSection.numberOfQuestions - clonedSection.questions.length
+                fillQuestion(clonedSections, diff, clonedSection, sectionPos)
+            } else if (clonedSection.numberOfQuestions < clonedSection.questions.length) {
+                console.log(`attention required!! in Section ${clonedSection.name} alert user`)
+                console.log(`expected ${clonedSection.numberOfQuestions} questions`)
+                console.log(`existing question ${clonedSection.questions.length}`)
+                // const diff = clonedSection.numberOfQuestions - clonedSection.questions.length
+                // fillQuestion(clonedSections, diff, clonedSection, sectionPos)
             } else {
-                for (let questionCount = 0; questionCount < clonedSection.numberOfQuestions; questionCount++) {
-                    if (clonedSection.questions.length === clonedSection.numberOfQuestions) return
-
-                    const updatedSections: Question = {
-                        question: '',
-                        answer: '',
-                        section: `section ${clonedSection.name}`
-                    }
-                    // choices if way of ansering is multiple choice
-                    if (clonedSection.wayOfAnswering === 'multiple choice') {
-                        updatedSections.choices = questionChoices
-                    }
-
-                    if (!clonedSection.questions.length) {
-                        clonedSection.questions = [updatedSections]
-                    } else {
-                        clonedSection.questions.push(updatedSections)
-                    }
-
-                    clonedSections[sectionPos] = clonedSection
-                }
+                fillQuestion(clonedSections, clonedSection.numberOfQuestions, clonedSection, sectionPos)
             }
         }
         dispatch(testActions.setTestData({ ...testData, sections: clonedSections }))
     })
+
+
+
+
+function fillQuestion(clonedSections: Section[], iterator: number, clonedSection: Section, sectionPos: number) {
+    for (let questionCount = 0; questionCount < iterator; questionCount++) {
+        if (clonedSection.numberOfQuestions === clonedSection.questions.length) return
+        const updatedSections: Question = {
+            question: '',
+            answer: '',
+            section: `section ${clonedSection.name}`
+        }
+        // choices if way of ansering is multiple choice
+        if (clonedSection.wayOfAnswering === 'multiple choice') {
+            updatedSections.choices = questionChoices
+        }
+
+        if (!clonedSection.questions.length) {
+            clonedSection.questions = [updatedSections]
+        } else {
+            clonedSection.questions.push(updatedSections)
+        }
+
+        clonedSections[sectionPos] = clonedSection
+    }
+}
 
 
 
@@ -241,60 +258,60 @@ export const prepareForPartcipant = createAsyncThunk<string | undefined, any, { 
 
 
 export const markTakenTestThunk =
- createAsyncThunk<'success' | 'error' | undefined, undefined, { state: AppState }>
-    ('testSlice/prepareForPartcipant', async (_, thunkAPI) => {
-        const dispatch = thunkAPI.dispatch
-        const state = thunkAPI.getState()
-        const testTaken = state.TestReducer.newTest
-        const partcipant = state.TestReducer.partcipant
-        const clonedSections = [...testTaken.sections]
+    createAsyncThunk<'success' | 'error' | undefined, undefined, { state: AppState }>
+        ('testSlice/prepareForPartcipant', async (_, thunkAPI) => {
+            const dispatch = thunkAPI.dispatch
+            const state = thunkAPI.getState()
+            const testTaken = state.TestReducer.newTest
+            const partcipant = state.TestReducer.partcipant
+            const clonedSections = [...testTaken.sections]
 
 
-        const testData = await TestAPI.fetchOne(partcipant.testId)
+            const testData = await TestAPI.fetchOne(partcipant.testId)
 
-        if (testData !== undefined) {
+            if (testData !== undefined) {
 
-            const markingKeySections = testData.sections;
-            let totalQuestion = 0
+                const markingKeySections = testData.sections;
+                let totalQuestion = 0
 
-            for (let sectionPos = 0; sectionPos < clonedSections.length; sectionPos++) {
-                const clonedSection: Section = { ...clonedSections[sectionPos] }
-                const markingKeySection = markingKeySections[sectionPos]
-                totalQuestion += clonedSection.numberOfQuestions
-                for (let questionCount = 0; questionCount < clonedSection.questions.length; questionCount++) {
-                    const questionsList = [...clonedSection.questions]
-                    const question = { ...questionsList[questionCount] }
-                    const margingKeyQuestion = markingKeySection.questions[questionCount]
-                    console.log(`taken ans: ${question.answer} | markingKey ans: ${margingKeyQuestion.answer}`)
-                    question.isCorrect = question.answer.toLowerCase() === margingKeyQuestion.answer.toLowerCase()
-                    questionsList[questionCount] = question
-                    clonedSection.questions = questionsList
-                    clonedSections[sectionPos] = clonedSection
+                for (let sectionPos = 0; sectionPos < clonedSections.length; sectionPos++) {
+                    const clonedSection: Section = { ...clonedSections[sectionPos] }
+                    const markingKeySection = markingKeySections[sectionPos]
+                    totalQuestion += clonedSection.numberOfQuestions
+                    for (let questionCount = 0; questionCount < clonedSection.questions.length; questionCount++) {
+                        const questionsList = [...clonedSection.questions]
+                        const question = { ...questionsList[questionCount] }
+                        const margingKeyQuestion = markingKeySection.questions[questionCount]
+                        console.log(`taken ans: ${question.answer} | markingKey ans: ${margingKeyQuestion.answer}`)
+                        question.isCorrect = question.answer.toLowerCase() === margingKeyQuestion.answer.toLowerCase()
+                        questionsList[questionCount] = question
+                        clonedSection.questions = questionsList
+                        clonedSections[sectionPos] = clonedSection
+                    }
                 }
-            }
 
-            const score = calculateScore(totalQuestion, clonedSections)
-            const update: Participant | any = {
-                ...partcipant,
-                taken: true,
-                score,
-                test: { ...partcipant.test, sections: clonedSections }
-            }
+                const score = calculateScore(totalQuestion, clonedSections)
+                const update: Participant | any = {
+                    ...partcipant,
+                    taken: true,
+                    score,
+                    test: { ...partcipant.test, sections: clonedSections }
+                }
 
-            const { data } = await PartcipantAPI.update(partcipant?._id ?? '', update)
-            dispatch(testActions.setPartcipant(update))
-            dispatch(testActions.setTestData(update.test))
-            
-            if (data.success) {
-                localStorage.removeItem('timer-state')
-                console.log('🎉😍')
-                return 'success'
-            } else {
-                return 'error'
-            }
+                const { data } = await PartcipantAPI.update(partcipant?._id ?? '', update)
+                dispatch(testActions.setPartcipant(update))
+                dispatch(testActions.setTestData(update.test))
 
-        }
-    })
+                if (data.success) {
+                    localStorage.removeItem('timer-state')
+                    console.log('🎉😍')
+                    return 'success'
+                } else {
+                    return 'error'
+                }
+
+            }
+        })
 
 
 
@@ -316,13 +333,13 @@ function calculateScore(totalQuestion: number, clonedSections: Section[]) {
 
 
 
-export const fetchTestDataThunk = createAsyncThunk<string | undefined, string, { state: AppState }>
+export const fetchTestDataThunk = createAsyncThunk<Test | undefined, string, { state: AppState }>
     ('testSlice/fetchTestDataThunk', async (id, thunkAPI) => {
         const dispatch = thunkAPI.dispatch
         const data = await TestAPI.fetchOne(id)
         if (data) {
             dispatch(testActions.setTestData(data))
-            return 'success'
+            return data
         }
     })
 

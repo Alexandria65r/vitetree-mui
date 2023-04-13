@@ -9,6 +9,8 @@ import NewTestForm from '../../components/new-test-form/new-test-form'
 import { fetchTestDataThunk } from '../../../reducers/thunks'
 import { useRouter } from 'next/router'
 import TestAPI from '../../api-services/test'
+import { testActions } from '../../../reducers/test-reducer'
+import { Section } from '../../reusable/interfaces'
 
 const Container = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -78,14 +80,32 @@ export default function NewTest({ }: Props) {
     const newTest = useAppSelector((state) => state.TestReducer.newTest)
 
 
-    const fetchTestData =
-        useCallback(() => dispatch(fetchTestDataThunk(id)), [])
+    const fetchTestData = useCallback(async () => {
+        const res = await dispatch(fetchTestDataThunk(id))
+        if (res.payload?._id) {
+            handleControlledSectionSelect(res.payload.sections)
+        }
+
+    }, [id])
+
+    // this to have the multiple select sections controlled
+    function handleControlledSectionSelect(sections: Section[]) {
+        const controlledSections: string[] = []
+        if (sections.length) {
+            sections.forEach((section) => {
+                controlledSections.push(`section ${section.name}`)
+            })
+            dispatch(testActions.setSelectedSections(controlledSections))
+        }
+    }
+
+
     useEffect(() => {
         fetchTestData()
-    }, [])
+    }, [id])
 
     async function update() {
-        const { _id, __v, ...rest }:any = newTest
+        const { _id, __v, ...rest }: any = newTest
         const { data } = await TestAPI.update(id, rest)
         if (data.success) {
             router.push(`/prepare/${data.updated._id}`)

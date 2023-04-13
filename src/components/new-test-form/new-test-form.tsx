@@ -1,58 +1,37 @@
-import { Box, Button, ButtonBase, MenuItem, Select, TextField, Typography, colors, styled } from '@mui/material'
-import React, { useState } from 'react'
+import { Box, ButtonBase, MenuItem, Select, TextField, colors, styled } from '@mui/material'
+import React, { } from 'react'
 import { CSS_PROPERTIES } from '../../reusable'
-import TextareaAutosize from '@mui/base/TextareaAutosize'
 import SelectWithCheckMarks from '../form-inputs/select-with-checkmarks'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import { testActions } from '../../../reducers/test-reducer'
 import { Section } from '../../reusable/interfaces'
-import { useRouter } from 'next/router'
-import randomstring from 'randomstring'
-import TestAPI from '../../api-services/test'
-import { colorScheme } from '../../theme'
 import { Textarea } from '../../reusable/styles'
-
 
 
 const ChoicesContainer = styled(Box)(({ theme }) => ({
     marginLeft: 20,
-    [theme.breakpoints.down('sm')]:{
-        marginLeft:0
+    [theme.breakpoints.down('sm')]: {
+        marginLeft: 0
     }
 }))
 
-const TextInput = styled(TextField)(({ theme }) => ({
+const TextInput = styled(TextField)(() => ({
     flex: 1
 }))
-const FormContainer = styled(Box)(({ theme }) => ({
+const FormContainer = styled(Box)(() => ({
     width: '100%',
     padding: 10,
 }))
-const FormControl = styled(Box)(({ theme }) => ({
+const FormControl = styled(Box)(() => ({
     width: '100%',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
     margin: '20px 0'
 }))
-const _FormControlColBadge = styled(Box)(({ theme }) => ({
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 50,
-    height: 50,
-    margin: 5,
-    borderRadius: '50%',
-    backgroundColor: colors.grey[300]
-}))
 
-const BadgeText = styled(Typography)(() => ({
-    fontSize: 20,
-    fontWeight: 500,
-    color: '#ffff'
-}))
 
-const FormControlColBadge = styled(Box)(({ theme }) => ({
+const FormControlColBadge = styled(Box)(() => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -81,7 +60,7 @@ const FormControlColBadge = styled(Box)(({ theme }) => ({
 // }))
 
 const StyledButton = styled(ButtonBase)(({ theme }) => ({
-    textTransform:'capitalize',
+    textTransform: 'capitalize',
     flexBasis: '20%',
     justifySelf: 'flex-end',
     fontWeight: 600,
@@ -104,11 +83,10 @@ type Props = {
 
 export default function NewTestForm({ mode, submitHandler }: Props) {
     const dispatch = useAppDispatch()
-    const router = useRouter()
     const newTest = useAppSelector((state) => state.TestReducer.newTest)
-    const [sections, setSelectedSections] = useState<string[]>([])
+    const sections = useAppSelector((state) => state.TestReducer.sections)
     const isErr = useAppSelector((state) => state.TestReducer.isErr)
-    const user = useAppSelector((state) => state.AuthReducer.user)
+
 
 
     function selectCartegory({ target }: any) {
@@ -143,24 +121,65 @@ export default function NewTestForm({ mode, submitHandler }: Props) {
         }))
     }
 
-    let newSections: Section[] = []
+    let newSections: Section[] = [...newTest.sections]
     function handleSelectedSection({ target: { name, ...rest } }: any) {
         const value: string[] = rest.value
         console.log(value)
-        setSelectedSections(value)
+        
+        if(!value.length) {
+            newSections = []
+        }
 
-        value.forEach((section) => {
-            newSections.push({
-                name: section.split(' ')[1],
-                numberOfQuestions: 0,
-                wayOfAnswering: '',
-                questions: []
-            })
-        })
-        dispatch(testActions.setNewTestProperties({
-            name,
-            value: newSections
-        }))
+        dispatch(testActions.setSelectedSections(value))
+        if (value.length > 0 && !newSections.length) {
+            console.log('called!!')
+            dispatch(testActions.setNewTestProperties({
+                name,
+                value: [{
+                    name: value[0].split(' ')[1],
+                    numberOfQuestions: 0,
+                    wayOfAnswering: '',
+                    questions: []
+                }]
+            }))
+        } else {
+            for (let currentIndex = 0; currentIndex < newSections.length; currentIndex++) {
+                const sectionName = newTest.sections[currentIndex]?.name
+                for (let newIndex = 0; newIndex < value.length; newIndex++) {
+                    if (value.length < newSections.length) {
+                        const exists = value.find((removedSec) => removedSec === `section ${sectionName}`)
+                        if (!exists) {
+                            console.log(exists)
+                            console.log(`section ${sectionName}`)
+                            const removed = newSections.find((remo) => remo.name === sectionName)
+                            if (removed) {
+                                newSections.splice(newSections.indexOf(removed), 1)
+                            }
+                        }
+                    } else {
+                        if (`section ${sectionName}` !== value[newIndex]) {
+                            console.log(`sections exists: ${sectionName}`)
+                            const isExists = newSections.find((newSec) => newSec.name === value[newIndex].split(' ')[1])
+                            console.log(isExists)
+                            if (!isExists) {
+                                newSections.push({
+                                    name: value[newIndex].split(' ')[1],
+                                    numberOfQuestions: 0,
+                                    wayOfAnswering: '',
+                                    questions: []
+                                })
+                            }
+                        }
+                    }
+                }
+            }
+            dispatch(testActions.setNewTestProperties({
+                name,
+                value: newSections
+            }))
+        }
+
+
         console.log(newTest)
     }
 
@@ -265,14 +284,14 @@ export default function NewTestForm({ mode, submitHandler }: Props) {
 
                 {newTest.sectionType === 'None sectioned' && (
                     <FormControl>
-                        <FormControlColBadge sx={(theme)=>({
+                        <FormControlColBadge sx={(theme) => ({
                             fontSize: 16,
                             borderRadius: 1,
                             padding: '0 10px',
                             width: 'fit-content',
                             height: 55,
-                            [theme.breakpoints.down("sm")]:{
-                                display:'none'
+                            [theme.breakpoints.down("sm")]: {
+                                display: 'none'
                             }
                         })} >
                             {newTest.sectionType}

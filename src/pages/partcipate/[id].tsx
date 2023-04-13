@@ -1,11 +1,9 @@
 import React, { useCallback, useEffect } from 'react'
 import Layout from '../../components/layout'
-import { Box, TextField, Typography, colors, styled, Button, IconButton, ButtonBase } from '@mui/material'
+import { Box, TextField, Typography, colors, styled, IconButton, ButtonBase } from '@mui/material'
 import { colorScheme } from '../../theme'
 import { CSS_PROPERTIES } from '../../reusable'
-//import Select from '@mui/joy/Select';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
-import { mainActions } from '../../../reducers'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import TestFooter from '../../components/test-footer'
@@ -14,7 +12,6 @@ import { markTakenTestThunk, updateTestQuestionThunk, validateSectionQuestionsTh
 import { Choice, ChoiceTarget, Question } from '../../reusable/interfaces'
 import PartcipantAPI from '../../api-services/partcipant'
 import { useRouter } from 'next/router'
-import TestAPI from '../../api-services/test'
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import PartcipantCard from '../../components/partcipant-card'

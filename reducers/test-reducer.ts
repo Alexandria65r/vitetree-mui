@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { HYDRATE } from 'next-redux-wrapper'
-import {Participant, Test } from '../src/reusable/interfaces'
+import { Participant, Test } from '../src/reusable/interfaces'
 
 type TestState = {
     newTest: Test,
@@ -10,7 +10,8 @@ type TestState = {
     partcipant: Participant,
     isPreparigPartcipant: boolean
     partcipants: Participant[],
-    showTestTimer:boolean
+    showTestTimer: boolean
+    sections: string[]
 }
 const initialState: TestState = {
     newTest: {
@@ -36,7 +37,8 @@ const initialState: TestState = {
     },
     isPreparigPartcipant: false,
     partcipants: [],
-    showTestTimer:false
+    showTestTimer: false,
+    sections: []
 
 }
 
@@ -73,6 +75,9 @@ const testSlice = createSlice({
         },
         setShowTestTimer: (state, { payload }: PayloadAction<boolean>) => {
             state.showTestTimer = payload
+        },
+        setSelectedSections: (state, { payload }: PayloadAction<string[]>) => {
+            state.sections = payload
         }
     },
 

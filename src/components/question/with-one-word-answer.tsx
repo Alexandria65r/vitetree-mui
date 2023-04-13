@@ -52,8 +52,8 @@ export default function WithOneWordAnswer({ }: Props) {
             </MultipleChoiceBadge>
             <TextInput
                 variant='outlined'
-                error={isErr && !question.answer}
-                value={question.answer}
+                error={isErr && !question?.answer}
+                value={question?.answer}
                 onChange={({ target: { value } }: any) => handleOnChage(value, 'answer')}
                 size='small'
                 sx={{ flexBasis: '60%' }}
