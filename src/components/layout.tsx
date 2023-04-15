@@ -9,6 +9,8 @@ import { authActions } from '../../reducers/auth-reducer'
 import { checkAuthThunk } from '../../reducers/thunks'
 import { useRouter } from 'next/router'
 import ReusablePopper from './reusable-popper'
+import DuplicateTestModal from './modals/duplicate-test-modal'
+import DeleteTestModal from './modals/delete-test-modal'
 
 type Props = {
     children: any
@@ -40,6 +42,8 @@ export default function Layout({ children }: Props) {
             <NavBar />
             <Box>{children}</Box>
             <ReusablePopper />
+            <DuplicateTestModal />
+            <DeleteTestModal />
         </Box>
     )
 }

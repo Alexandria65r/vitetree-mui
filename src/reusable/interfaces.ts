@@ -102,6 +102,18 @@ export type Participant = {
     createdAt?: string
 }
 
+export type ModalComponent = 'duplicate-test' | 'delete-test' | ''
+
+export type DuplicateTestModal = {
+    component: 'duplicate-test' | 'close',
+    testData?: Test
+}
+export type DeleteTestModal = {
+    component: 'delete-test' | 'close',
+    testId: string,
+    subject: string
+}
+
 
 
 

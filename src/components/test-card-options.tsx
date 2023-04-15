@@ -25,7 +25,7 @@ import AddToPhotosOutlinedIcon from '@mui/icons-material/AddToPhotosOutlined';
 
 const Container = styled(Box)(({ theme }) => ({
     padding: 10,
-    margin:1,
+    margin: 1,
     borderRadius: CSS_PROPERTIES.radius5,
     boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
     backgroundColor: colorScheme(theme).chatPrimaryColor,
@@ -62,7 +62,7 @@ const CardButton = styled(ButtonBase)(({ theme }) => ({
     borderRadius: CSS_PROPERTIES.radius5,
     color: colors.teal[400],
     [theme.breakpoints.down("sm")]: {
-        '&:focus':{
+        '&:focus': {
             backgroundColor: colorScheme(theme).secondaryColor,
         }
     }
@@ -94,6 +94,21 @@ export default function TestCardOptions({ card }: Props) {
             placement: ReactToMessage.placement
         }))
     }
+
+    function duplicateTestData() {
+        dispatch(mainActions.setDuplicateTestModal({
+            component: 'duplicate-test',
+            testData: card
+        }))
+    }
+    function deleteTestData() {
+        dispatch(mainActions.setDeleteTestModal({
+            component: 'delete-test',
+            testId: card._id,
+            subject: card.subjectOrlanguage
+        }))
+    }
+
     return (
         <PopupState variant='popper' popupId='test-card-options'>
             {((popupState) => (
@@ -103,7 +118,7 @@ export default function TestCardOptions({ card }: Props) {
                     </CardButton>
                     <Popover {...bindPopover(popupState)}
                         anchorOrigin={{
-                            vertical:  'top',
+                            vertical: 'top',
                             horizontal: 'right',
                         }}
                         classes={{
@@ -114,29 +129,29 @@ export default function TestCardOptions({ card }: Props) {
                         <Container>
                             <MenuItemButton onClick={() => router.push(`/update/${card._id}`)}>
                                 <MenuItemIconWrap>
-                                    <EditOutlinedIcon fontSize='small'/>
+                                    <EditOutlinedIcon fontSize='small' />
                                 </MenuItemIconWrap>
                                 Edit
                             </MenuItemButton>
                             <MenuItemButton onClick={() => router.push(`/prepare/${card._id}`)}>
                                 <MenuItemIconWrap>
-                                    <AppRegistrationOutlinedIcon fontSize='small'/>
+                                    <AppRegistrationOutlinedIcon fontSize='small' />
                                 </MenuItemIconWrap>
                                 Prepare
                             </MenuItemButton>
                             <MenuItemButton onClick={() => router.push(`/partcipants/${card._id}`)}>
                                 <MenuItemIconWrap>
-                                    <PeopleAltOutlinedIcon fontSize='small'/>
+                                    <PeopleAltOutlinedIcon fontSize='small' />
                                 </MenuItemIconWrap>
                                 Partcipants
                             </MenuItemButton>
-                            <MenuItemButton onClick={() => router.push(`/partcipants/${card._id}`)}>
+                            <MenuItemButton onClick={duplicateTestData}>
                                 <MenuItemIconWrap>
                                     <AddToPhotosOutlinedIcon fontSize='small' />
                                 </MenuItemIconWrap>
                                 Duplicate
                             </MenuItemButton>
-                            <MenuItemButton onClick={reactToMessage}>
+                            <MenuItemButton onClick={deleteTestData}>
                                 <MenuItemIconWrap>
                                     <DeleteOutlineOutlinedIcon />
                                 </MenuItemIconWrap>

@@ -14,7 +14,7 @@ import { mainActions } from '../../reducers'
 import * as types from '../reusable'
 import ReusablePopper from '../components/reusable-popper'
 import TestCardOptions from '../components/test-card-options'
-import { SearchInput, SearchInputWrap } from '../reusable/styles'
+import { SearchInput, SearchInputWrap, StyledButton } from '../reusable/styles'
 import SideBar from '../components/chat/side-bar'
 
 
@@ -70,15 +70,9 @@ const Card = styled(Box)(({ theme }) => ({
     }
 }))
 
-const Button = styled(ButtonBase)(({ theme }) => ({
+const Button = styled(StyledButton)(({ theme }) => ({
     flexBasis: '20%',
-    justifySelf: 'flex-end',
-    fontWeight: 600,
-    height: 50,
-    color: '#fff',
-    fontSize: 16,
-    borderRadius: CSS_PROPERTIES.radius5,
-    backgroundColor: colors.teal[400],
+    height:47,
     [theme.breakpoints.down("sm")]: {
         flexBasis: '25%',
         display: 'none'
@@ -165,7 +159,7 @@ export default function Darshboard({ }: Props) {
                             <SearchInput placeholder='Search' />
                         </SearchInputWrap>
                         <Button onClick={() => router.push('/create')}>
-                            <AddIcon></AddIcon>
+                            <AddIcon sx={{ mr: 1 }} />
                             Create
                         </Button>
                     </SearchContainer>
@@ -174,7 +168,7 @@ export default function Darshboard({ }: Props) {
                         {isFetching ? (<>
                             {[1, 2, 3, 4, 5, 6].map((index) => (
                                 <Card sx={(theme) => ({
-                                    boxShadow:'none',
+                                    boxShadow: 'none',
                                     backgroundColor: theme.palette.mode === 'light' ? '#dcdcdc' : colorScheme(theme).secondaryColor
                                 })} key={index}></Card>
                             ))}

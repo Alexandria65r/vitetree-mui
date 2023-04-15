@@ -136,7 +136,7 @@ export const SearchInputWrap = styled(Box)(({ theme }) => ({
 }))
 export const SearchInput = styled(InputBase)(({ theme }) => ({
     flex: 1,
-    padding: '10px 10px 10px 0',
+    padding: '8px 10px 8px 0',
     backgroundColor:'transparent',
     borderRadius: CSS_PROPERTIES.radius5,
 }))
@@ -145,7 +145,7 @@ export const SearchInput = styled(InputBase)(({ theme }) => ({
 export const StyledButton = styled(ButtonBase)(({ theme }) => ({
     textTransform: 'capitalize',
     fontWeight: 600,
-    height: 50,
+    height: 40,
     color: '#fff',
     fontSize: 16,
     borderRadius: CSS_PROPERTIES.radius5,

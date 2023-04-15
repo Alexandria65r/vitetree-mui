@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { HYDRATE } from 'next-redux-wrapper'
-import { PopperState } from '../src/reusable/interfaces'
+import { DeleteTestModal, DuplicateTestModal, ModalComponent, PopperState } from '../src/reusable/interfaces'
 
 interface State {
     popperState: PopperState
@@ -9,6 +9,8 @@ interface State {
     isOneWordAnswerEnabled: boolean;
     isDiagramQuestion: boolean;
     isSidebarOpen: boolean
+    duplicateTestModal: DuplicateTestModal
+    deleteTestModal: DeleteTestModal
 }
 const initialState: State = {
     popperState: {
@@ -20,7 +22,15 @@ const initialState: State = {
     isMultipleChoiceEnabled: false,
     isOneWordAnswerEnabled: false,
     isDiagramQuestion: false,
-    isSidebarOpen: false
+    isSidebarOpen: false,
+    duplicateTestModal: {
+        component: 'close'
+    },
+    deleteTestModal: {
+        component: 'close',
+        testId: '',
+        subject:''
+    }
 }
 
 const mainSlice = createSlice({
@@ -47,6 +57,12 @@ const mainSlice = createSlice({
         },
         setIsSideBarOpen: (state, { payload }: PayloadAction<boolean>) => {
             state.isSidebarOpen = payload
+        },
+        setDuplicateTestModal: (state, { payload }: PayloadAction<DuplicateTestModal>) => {
+            state.duplicateTestModal = payload
+        },
+        setDeleteTestModal: (state, { payload }: PayloadAction<DeleteTestModal>) => {
+            state.deleteTestModal = payload
         }
     },
 
