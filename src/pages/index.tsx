@@ -1,5 +1,5 @@
 
-import { styled, Box, colors, InputBase, ButtonBase, Typography } from '@mui/material'
+import { styled, Box, colors, InputBase, ButtonBase, Typography, useTheme } from '@mui/material'
 import { useCallback, useEffect, useState } from 'react'
 import type { NextPage } from 'next'
 import { wrapper } from '../../store/store'
@@ -33,7 +33,7 @@ const IllustratorCol = styled(Box)(({ theme }) => ({
   order: 2,
   flex: 1,
   height: 'calc(100vh - 66px)',
-  backgroundColor: '#fff',
+  backgroundColor: theme.palette.mode === 'light' ? '#fff' : colorScheme(theme).primaryColor,
   [theme.breakpoints.down('sm')]: {
     flexBasis: '100%',
     order: 1,
@@ -131,11 +131,13 @@ const IndexPage: NextPage = () => {
     router.push(`/test_info/${code}`)
   }
 
+  const theme = useTheme()
+
   return (
     <Layout>
       <Container>
         <IllustratorCol>
-          <Image src='/prepare.png' />
+          <Image src={theme.palette.mode === 'light' ? '/prepare-light.png' : '/prepare-dark.png'} />
         </IllustratorCol>
         <RightCol>
           <TextWrap>

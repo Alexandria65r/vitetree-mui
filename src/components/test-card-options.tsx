@@ -17,6 +17,10 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import classes from '../styles/reusable.module.css'
 import { Test } from '../reusable/interfaces';
 import { useRouter } from 'next/router';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
+import AddToPhotosOutlinedIcon from '@mui/icons-material/AddToPhotosOutlined';
+
 
 
 const Container = styled(Box)(({ theme }) => ({
@@ -110,21 +114,27 @@ export default function TestCardOptions({ card }: Props) {
                         <Container>
                             <MenuItemButton onClick={() => router.push(`/update/${card._id}`)}>
                                 <MenuItemIconWrap>
-                                    <EditOutlinedIcon />
+                                    <EditOutlinedIcon fontSize='small'/>
                                 </MenuItemIconWrap>
                                 Edit
                             </MenuItemButton>
                             <MenuItemButton onClick={() => router.push(`/prepare/${card._id}`)}>
                                 <MenuItemIconWrap>
-                                    <AppRegistrationOutlinedIcon />
+                                    <AppRegistrationOutlinedIcon fontSize='small'/>
                                 </MenuItemIconWrap>
                                 Prepare
                             </MenuItemButton>
                             <MenuItemButton onClick={() => router.push(`/partcipants/${card._id}`)}>
                                 <MenuItemIconWrap>
-                                    <PeopleAltOutlinedIcon />
+                                    <PeopleAltOutlinedIcon fontSize='small'/>
                                 </MenuItemIconWrap>
                                 Partcipants
+                            </MenuItemButton>
+                            <MenuItemButton onClick={() => router.push(`/partcipants/${card._id}`)}>
+                                <MenuItemIconWrap>
+                                    <AddToPhotosOutlinedIcon fontSize='small' />
+                                </MenuItemIconWrap>
+                                Duplicate
                             </MenuItemButton>
                             <MenuItemButton onClick={reactToMessage}>
                                 <MenuItemIconWrap>
