@@ -3,6 +3,7 @@ import React from 'react'
 import { CSS_PROPERTIES } from '../../reusable'
 import TextareaAutosize from '@mui/base/TextareaAutosize'
 import { colorScheme } from '../../theme'
+import { Question } from '../../reusable/interfaces'
 
 
 
@@ -77,22 +78,29 @@ const StyledButton = styled(Button)(({ theme }) => ({
 
 
 
-type Props = {}
+type Props = {
+    question: Question
+}
 
-export default function WithDiagram({ }: Props) {
+export default function WithDiagram({ question }: Props) {
     return (
         <FormContainer>
             <FormControl >
                 <QuestionNumber>
                     <QuestionNumberText>1</QuestionNumberText>
                 </QuestionNumber>
-                <TextInput fullWidth variant='outlined' placeholder='Diagram description' label="Diagram description" />
+                <TextInput
+                    value={question.diagram?.description ?? ''}
+                    fullWidth
+                    variant='outlined'
+                    placeholder='Diagram description'
+                    label="Diagram description" />
             </FormControl>
 
             <DiagramContainer>
                 <Diagram />
             </DiagramContainer>
-            
+
         </FormContainer>
     )
 }

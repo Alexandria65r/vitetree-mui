@@ -65,7 +65,17 @@ export type Choice = {
 }
 export type ChoiceTarget = 'a' | 'b' | 'c' | 'd'
 
+export type Diagram = {
+    description?: string
+    assets: {
+        imageURL: string
+        publidId: string
+    },
+}
+
 export type Question = {
+    diagram?: Diagram,
+    withDiagram?: boolean,
     question: string;
     answer: string,
     section: string,

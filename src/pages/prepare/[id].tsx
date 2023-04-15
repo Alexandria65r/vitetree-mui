@@ -13,15 +13,15 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import TestFooter from '../../components/test-footer'
 import { testActions } from '../../../reducers/test-reducer'
-import { setWithPreparedSections, updateTestQuestionThunk, validateSectionQuestionsThunk } from '../../../reducers/thunks'
+import { setWithPreparedSections, updateQuestionThunk, updateTestQuestionThunk, validateSectionQuestionsThunk } from '../../../reducers/thunks'
 import TestAPI from '../../api-services/test'
 import { useRouter } from 'next/router'
 import { participantSchema, sectionSchems, testDataSchema } from '../../reusable/schemas'
-import { CustomFormControl } from '../../reusable/styles'
+import { ButtonIcon, CustomFormControl } from '../../reusable/styles'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import CheckIcon from '@mui/icons-material/Check';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-
+import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 const Container = styled(Box)(({ theme }) => ({
     display: 'flex',
     width: '90%',
@@ -35,10 +35,12 @@ const Container = styled(Box)(({ theme }) => ({
     }
 }))
 const TestInfoCol = styled(Box)(({ theme }) => ({
+    position: 'relative',
     flexBasis: '33%',
     height: 200,
     padding: 20,
-    borderRadius: CSS_PROPERTIES.radius5,
+    borderLeft: `3px solid ${colors.teal[400]}`,
+   // borderRadius: CSS_PROPERTIES.radius5,
     backgroundColor: colorScheme(theme).secondaryColor,
     boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
     [theme.breakpoints.down("sm")]: {
@@ -55,7 +57,7 @@ const LinkContainer = styled(Box)(({ theme }) => ({
     borderRadius: CSS_PROPERTIES.radius5,
     background: theme.palette.mode === 'light' ? '#eee' : colorScheme(theme).primaryColor
 }))
-const LinkWrap = styled(Box)(({ theme }) => ({
+const LinkWrap = styled(Box)(() => ({
     width: 240
 
 }))
@@ -121,16 +123,16 @@ const HeaderButton = styled(Button)(({ theme }) => ({
         margin: '6px 0'
     }
 }))
-const FormContainer = styled(Box)(({ theme }) => ({
+const FormContainer = styled(Box)(() => ({
     padding: 10,
 }))
 
 
 
-const TextInput = styled(TextField)(({ theme }) => ({
+const TextInput = styled(TextField)(() => ({
     flex: 1
 }))
-const QuestionNumber = styled(Box)(({ theme }) => ({
+const QuestionNumber = styled(Box)(() => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -146,7 +148,7 @@ const QuestionNumberText = styled(Typography)(() => ({
     fontWeight: 500,
     color: '#ffff'
 }))
-const PublishTestButton = styled(ButtonBase)(({ theme }) => ({
+const PublishTestButton = styled(ButtonBase)(() => ({
     padding: 10,
     color: '#fff',
     fontWeight: 600,
@@ -211,17 +213,23 @@ export default function NewTest({ }: Props) {
     }, [testId])
 
 
-    function handleQuestionType(target: string) {
-        if (target === 'with-diagram') {
-            dispatch(mainActions.setIsDiagramQuestion(!isDiagramQuestion))
-        } else if (target === 'one-word') {
-            dispatch(mainActions.setIsOneWordAnswer(!isOneWordAnswerEnabled))
-        } else if (target === 'multiple-choice') {
-            dispatch(mainActions.setIsMultipleQuestion(!isMultipleChoiceEnabled))
-            dispatch(mainActions.setIsDiagramQuestion(false))
-            dispatch(mainActions.setIsOneWordAnswer(false))
+
+
+
+    function AddDiagram() {
+        const update = { ...question }
+        update.withDiagram = true
+        update.diagram = {
+            description: 'Description of the diagram...',
+            assets: {
+                imageURL: '',
+                publidId: ''
+            }
         }
+   
+        dispatch(updateQuestionThunk(update))
     }
+
 
     function handleOnChage(value: string, updateKey: 'question' | 'answer') {
         dispatch(updateTestQuestionThunk({ value, questionIndex, updateKey }))
@@ -305,6 +313,20 @@ export default function NewTest({ }: Props) {
         <Layout>
             <Container>
                 <TestInfoCol>
+                    <ButtonIcon onClick={() => router.push(`/update/${testId}`)}
+                        sx={(theme) => ({
+                            position: 'absolute', top: 5, right: 2,
+                            backgroundColor: 'transparent',
+                            transition: '0.3s all',
+                            color: colors.teal[400],
+                            height: 40,
+                            width: 40,
+                            '&:hover': {
+                                backgroundColor: colorScheme(theme).buttonIconBGColor
+                            }
+                        })}>
+                        <ModeEditOutlineOutlinedIcon fontSize='small' />
+                    </ButtonIcon>
                     <Typography sx={{ fontSize: 18, fontWeight: 600 }}>
                         {newTest.subjectOrlanguage}</Typography>
                     <Typography sx={{ mt: 1, fontSize: 12 }}>Description</Typography>
@@ -315,15 +337,15 @@ export default function NewTest({ }: Props) {
                         Copy the link of the test below</Typography>
                     <LinkContainer>
                         <LinkWrap>
-                                 <Typography sx={{
-                                    fontSize: 15,
-                                    textOverflow: 'ellipsis',
-                                    overflow: 'hidden',
-                                    color: colors.blue[400]
-                                }}>
-                                    {linkToCopy}
-                                </Typography>
-                        
+                            <Typography sx={{
+                                fontSize: 15,
+                                textOverflow: 'ellipsis',
+                                overflow: 'hidden',
+                                color: colors.teal[400]
+                            }}>
+                                {linkToCopy}
+                            </Typography>
+
 
                         </LinkWrap>
                         <CopyToClipboard text={linkToCopy}
@@ -343,7 +365,7 @@ export default function NewTest({ }: Props) {
                 <TestContainer>
                     <TestHeader>
                         <InnerTopHeader>
-                            <Typography sx={(theme) => ({
+                            <Typography sx={() => ({
                                 flex: 1,
                                 fontSize: 20,
                                 fontWeight: 600,
@@ -389,7 +411,7 @@ export default function NewTest({ }: Props) {
                                         flexBasis: '60%'
                                     }
                                 })}
-                                onClick={() => handleQuestionType('with-diagram')}
+                                onClick={AddDiagram}
                                 startIcon={<PieChartIcon />}
                                 variant='outlined'>
                                 Diagram question
@@ -397,7 +419,7 @@ export default function NewTest({ }: Props) {
                         </TestHeaderActions>
                     </TestHeader>
                     <FormContainer>
-                        {isDiagramQuestion && <WithDiagram />}
+                        {question?.withDiagram && <WithDiagram question={question} />}
                         <CustomFormControl >
                             <QuestionNumber sx={{ backgroundColor: isErr && !question?.question ? colors.red[600] : colors.teal[400] }}>
                                 <QuestionNumberText>{questionIndex + 1}/{section.numberOfQuestions}</QuestionNumberText>

@@ -88,7 +88,7 @@ export const updateTestQuestionThunk = createAsyncThunk
             name: 'sections',
             value: clonedSections
         }))
-        // dispatch(validateSectionQuestionsThunk({}))
+        
     })
 
 
@@ -140,10 +140,12 @@ export const setWithPreparedSections = createAsyncThunk<void, Test, { state: App
         for (let sectionPos = 0; sectionPos < clonedSections.length; sectionPos++) {
             const clonedSection: Section = { ...clonedSections[sectionPos] }
 
-            if (clonedSection.questions.length === clonedSection.numberOfQuestions) {
-                dispatch(testActions.setTestData(testData))
-                return
-            } else if (clonedSection.numberOfQuestions > clonedSection.questions.length) {
+            // if (clonedSection.questions.length === clonedSection.numberOfQuestions) {
+            //     dispatch(testActions.setTestData(testData))
+            //     return
+            // } 
+
+            if (clonedSection.numberOfQuestions > clonedSection.questions.length) {
                 console.log('time to update')
                 const diff = clonedSection.numberOfQuestions - clonedSection.questions.length
                 fillQuestion(clonedSections, diff, clonedSection, sectionPos)
@@ -361,6 +363,26 @@ export const fetchTestPartcipantsThunk = createAsyncThunk<string | undefined, st
             dispatch(testActions.setPartcipants(data))
             return 'success'
         }
+    })
+
+
+export const updateQuestionThunk = createAsyncThunk<void, Question, { state: AppState }>
+    ('testSlice/updateQuestionThunk', async (updated, thunkAPI) => {
+        const dispatch = thunkAPI.dispatch
+        const state = thunkAPI.getState()
+        const { newTest, sectionIndex, questionIndex } = state.TestReducer
+        const clonedSections = [...newTest.sections]
+        const clonedSection = { ...clonedSections[sectionIndex] }
+        const clonedQuestions = [...clonedSections[sectionIndex].questions]
+     
+        clonedQuestions[questionIndex] = updated
+        clonedSection.questions = clonedQuestions
+        clonedSections[sectionIndex] = clonedSection
+
+        dispatch(testActions.setNewTestProperties({
+            name: 'sections',
+            value: clonedSections
+        }))
     })
 
 
