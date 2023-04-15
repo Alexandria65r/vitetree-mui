@@ -196,20 +196,32 @@ export default function NewTest({ }: Props) {
       }
     }
 
-    return () => {
-      dispatch(testActions.setTestData(testDataSchema))
-      dispatch(testActions.setPartcipant(participantSchema))
-      dispatch(testActions.setQuestionIdex(0))
-      dispatch(testActions.setSectionIndex(0))
-    }
   }, [id])
 
 
 
   useEffect(() => {
     fetchTestData()
-
   }, [id])
+
+  
+  useEffect(() => {
+    // router.events.on('routeChangeStart', (e) => {
+    //   console.log(e)
+    //   console.log('change starts')
+    //   if(partcipant.taken){
+    //     router.back()
+    //   }
+    // })
+
+    return () => {
+      dispatch(testActions.setTestData(testDataSchema))
+      dispatch(testActions.setPartcipant(participantSchema))
+      localStorage.removeItem('timer-state')
+      dispatch(testActions.setQuestionIdex(0))
+      dispatch(testActions.setSectionIndex(0))
+    }
+  }, [])
 
   // function handleOnChage(value: string, updateKey: 'question' | 'answer') {
   //   dispatch(updateTestQuestionThunk({ value, updateKey }))

@@ -53,7 +53,7 @@ export default function NavBar() {
 
     return (
         <Box sx={{ flexGrow: 1, position: 'relative' }}>
-             <Timer/>
+            {router.pathname.includes('/partcipate') && <Timer pathName={router.pathname}/>  }
             <AppBar position="static" color='default' elevation={0}>
                 <Toolbar >
                     <IconButton

@@ -90,7 +90,7 @@ export default function PartcipantCard({ partcipant, showDetailsButton }: Props)
                 </Typography>
             </Box>
             <ScoreCircle sx={{
-                backgroundColor: parseInt(partcipant.score) >= 50 ? colors.teal[400] : colors.red[400]
+                backgroundColor: partcipant.taken && parseInt(partcipant.score) < 50 ? colors.red[400] : colors.teal[400]
             }}>
                 {partcipant.score}
             </ScoreCircle>

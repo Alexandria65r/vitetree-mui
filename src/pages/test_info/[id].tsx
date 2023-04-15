@@ -109,7 +109,7 @@ const IndexPage: NextPage = () => {
     const participant = useAppSelector((state) => state.TestReducer.partcipant)
     const isPreparigPartcipant = useAppSelector((state) => state.TestReducer.isPreparigPartcipant)
     const testData = useAppSelector((state) => state.TestReducer.newTest)
-
+    const [partcipantId, setPartcipantId] = useState<string>('')
 
     const fetchTestData = async () => dispatch(fetchTestDataThunk(id))
 
@@ -137,14 +137,16 @@ const IndexPage: NextPage = () => {
     async function partcipateNow() {
         const error = validateForm()
         if (error || isErr) return
-        const preparedData = await dispatch(prepareForPartcipant())
+        const preparedData:any = await dispatch(prepareForPartcipant())
+        setPartcipantId(preparedData.payload)
         console.log(preparedData)
     }
 
 
 
     async function startTest() {
-        router.push(`/partcipate/${participant._id}`)
+        if (!partcipantId) return 
+        router.push(`/partcipate/${partcipantId}`)
     }
 
     return (
@@ -166,14 +168,14 @@ const IndexPage: NextPage = () => {
                     <Typography sx={{ fontSize: 15 }}>{testData.description}</Typography>
 
                     <Typography sx={{ lineHeight: 1.5, fontSize: 16, my: 1 }}>
-                        Hi, partcipant this {testData.subjectOrlanguage} test has {testData.duration}{" "} 
-                         to finish once you start you cant pause make sure you have a stable internet.
-                         Note that your answer sheet will be submited on time up keep the time in mind.
+                        Hi, partcipant this {testData.subjectOrlanguage} test has {testData.duration}{" "}
+                        to finish once you start you cant pause make sure you have a stable internet.
+                        Note that your answer sheet will be submited on time up keep the time in mind.
                         once you are ready click the start button to take part in the test. All the best 🎉
                     </Typography>
                 </IllustratorCol>
                 <RightCol>
-                    {participant?._id ? (
+                    {partcipantId ? (
                         <FrontBox>
                             <Header>
                                 <HeaderText>Ready</HeaderText>

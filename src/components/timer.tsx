@@ -53,6 +53,7 @@ const TimerText = styled(Typography)(() => ({
 
 
 interface Props {
+    pathName: string
     newTest: Test
     partcipant: Participant
     showTestTimer: boolean,
@@ -103,7 +104,7 @@ class Timer extends React.Component<Props, State>{
         console.log(timer)
         // withing minutes
         if (TestDuration?.includes('mins')) {
-            if (this.state.minute >= timer) {
+            if (this.state.minute === timer || this.state.minute >= timer) {
                 this.setState({
                     isTimeUp: true
                 })
@@ -112,16 +113,26 @@ class Timer extends React.Component<Props, State>{
             }
             //within hours
         } else if (TestDuration?.includes('hr')) {
-            if (this.state.hour >= timer) {
+            if (this.state.hour === timer || this.state.hour >= timer) {
                 this.setState({
                     isTimeUp: true
                 })
                 this.props.dispatch(markTakenTestThunk())
                 clearInterval(this.interval)
+
             }
         }
     }
 
+    componentWillUnmount(): void {
+        clearInterval(this.interval)
+        localStorage.removeItem('timer-state')
+        // check if the test has been updated if not
+        // mark it and update it
+        if (!this.props.partcipant.taken) {
+            this.props.dispatch(markTakenTestThunk())
+        }
+    }
 
     componentDidMount(): void {
         const timerStateStorage = localStorage.getItem('timer-state')
@@ -153,7 +164,7 @@ class Timer extends React.Component<Props, State>{
         const _minute = minute < 10 ? `0${minute}` : minute
         const _hour = hour < 10 ? `0${hour}` : hour
 
-        if (!partcipant._id || partcipant.taken && !isTimeUp) return
+        if (!partcipant?._id || partcipant.taken && !isTimeUp) return
 
         return (
             <Container>

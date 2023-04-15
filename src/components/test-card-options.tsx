@@ -1,24 +1,20 @@
-import { Box, Button, ButtonBase, MenuItem, Popover, colors, styled } from '@mui/material'
+import { Box, ButtonBase, MenuItem, Popover, colors, styled } from '@mui/material'
 import React, { useState } from 'react'
 import { CSS_PROPERTIES } from '../reusable';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { mainActions } from '../../reducers';
-import { HiReply } from 'react-icons/hi'
-import AddReactionOutlinedIcon from '@mui/icons-material/AddReactionOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import * as types from '../reusable'
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import AppRegistrationOutlinedIcon from '@mui/icons-material/AppRegistrationOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import ReplyOutlinedIcon from '@mui/icons-material/ReplyOutlined';
 import { colorScheme } from '../theme';
-import PopupState, { bindPopover, bindPopper, bindTrigger } from 'material-ui-popup-state'
+import PopupState, { bindPopover, bindTrigger } from 'material-ui-popup-state'
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import classes from '../styles/reusable.module.css'
 import { Test } from '../reusable/interfaces';
 import { useRouter } from 'next/router';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
 import AddToPhotosOutlinedIcon from '@mui/icons-material/AddToPhotosOutlined';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import CheckIcon from '@mui/icons-material/Check';
@@ -72,36 +68,19 @@ const CardButton = styled(ButtonBase)(({ theme }) => ({
 
 
 type Props = {
-    card: Test
+    testData: Test
 }
 
-export default function TestCardOptions({ card }: Props) {
+export default function TestCardOptions({ testData }: Props) {
     const dispatch = useAppDispatch()
-    const showSelectedImage = useAppSelector((state) => state.MainReducer.showSelectedImage)
-    const { ReactToMessage, MessageMoreOptions } = types.REUSABLE_POPPER
     const router = useRouter()
     const [isCopied, setIsCopied] = useState<boolean>(false)
 
-    function openSelectedImageViewer() {
-        dispatch(mainActions.setShowSelectedImage(true))
-        dispatch(mainActions.setPopperState({
-            component: '',
-            popperId: ''
-        }))
-    }
-
-    function reactToMessage() {
-        dispatch(mainActions.setPopperState({
-            component: ReactToMessage.component,
-            popperId: ReactToMessage.popperId,
-            placement: ReactToMessage.placement
-        }))
-    }
 
     function duplicateTestData() {
         dispatch(mainActions.setDuplicateTestModal({
             component: 'duplicate-test',
-            testData: card
+            testData
         }))
         dispatch(mainActions.setPopperState({
             component: '',
@@ -111,16 +90,16 @@ export default function TestCardOptions({ card }: Props) {
     function deleteTestData() {
         dispatch(mainActions.setDeleteTestModal({
             component: 'delete-test',
-            testId: card._id,
-            subject: card.subjectOrlanguage
+            testId: testData._id,
+            subject: testData.subjectOrlanguage
         }))
 
     }
 
     let linkToCopy: any
 
-    if (typeof window !== 'undefined' && router.query.id) {
-        linkToCopy = `${window?.location.host}/test_info/${router.query.id}`
+    if (typeof window !== 'undefined' && testData._id) {
+        linkToCopy = `${types.protocal}${window?.location.host}/test_info/${testData._id}`
     }
 
     return (
@@ -141,13 +120,13 @@ export default function TestCardOptions({ card }: Props) {
                         }}
                     >
                         <Container>
-                            <MenuItemButton onClick={() => router.push(`/update/${card._id}`)}>
+                            <MenuItemButton onClick={() => router.push(`/update/${testData._id}`)}>
                                 <MenuItemIconWrap>
                                     <EditOutlinedIcon fontSize='small' />
                                 </MenuItemIconWrap>
                                 Edit
                             </MenuItemButton>
-                            <MenuItemButton onClick={() => router.push(`/prepare/${card._id}`)}>
+                            <MenuItemButton onClick={() => router.push(`/prepare/${testData._id}`)}>
                                 <MenuItemIconWrap>
                                     <AppRegistrationOutlinedIcon fontSize='small' />
                                 </MenuItemIconWrap>
@@ -159,8 +138,8 @@ export default function TestCardOptions({ card }: Props) {
                                     setIsCopied(true)
                                     setTimeout(() => {
                                         setIsCopied(false)
+                                        popupState.close()
                                     }, 3000)
-                                    //popupState.close()
                                 }}
                             >
 
@@ -172,7 +151,7 @@ export default function TestCardOptions({ card }: Props) {
                                 </MenuItemButton>
                             </CopyToClipboard>
 
-                            <MenuItemButton onClick={() => router.push(`/partcipants/${card._id}`)}>
+                            <MenuItemButton onClick={() => router.push(`/partcipants/${testData._id}`)}>
                                 <MenuItemIconWrap>
                                     <PeopleAltOutlinedIcon fontSize='small' />
                                 </MenuItemIconWrap>

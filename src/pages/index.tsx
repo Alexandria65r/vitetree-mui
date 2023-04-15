@@ -122,13 +122,13 @@ const TextInput = styled(InputBase)(({ theme }) => ({
 
 const IndexPage: NextPage = () => {
   const router: NextRouter = useRouter()
-  const [code, setCode] = useState<string>('')
+  const [URL, setCode] = useState<string>('')
 
 
 
   function attend() {
-    if (!code) return
-    window.open(code, '_blank')
+    if (!URL) return
+    window.open(URL, '_blank')
   }
 
 

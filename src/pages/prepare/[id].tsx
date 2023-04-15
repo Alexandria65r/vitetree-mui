@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import Layout from '../../components/layout'
 import { Box, TextField, Typography, colors, styled, ButtonBase, Button, IconButton } from '@mui/material'
 import { colorScheme } from '../../theme'
-import { CSS_PROPERTIES } from '../../reusable'
+import { CSS_PROPERTIES, devENV, protocal } from '../../reusable'
 import PieChartIcon from '@mui/icons-material/PieChart';
 import MultipleChoiceForm from '../../components/question/multiple-choice-form'
 import WithDiagram from '../../components/question/with-diagram'
@@ -309,7 +309,8 @@ export default function NewTest({ }: Props) {
     let linkToCopy: any
 
     if (typeof window !== 'undefined' && router.query.id) {
-        linkToCopy = `${window?.location.host}/test_info/${router.query.id}`
+      
+        linkToCopy = `${protocal}${window?.location.host}/test_info/${router.query.id}`
     }
 
     return (

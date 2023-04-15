@@ -174,14 +174,14 @@ export default function Darshboard({ }: Props) {
                             ))}
                         </>
                         ) : (<>
-                            {data.map((card, index) => (
+                            {data.map((testData, index) => (
                                 <Card key={index}>
-                                    <Typography sx={{ fontWeight: 600 }}>{card.subjectOrlanguage}</Typography>
-                                    <Typography>{card.cartegory}</Typography>
+                                    <Typography sx={{ fontWeight: 600 }}>{testData.subjectOrlanguage}</Typography>
+                                    <Typography>{testData.cartegory}</Typography>
                                     <Typography sx={{ lineHeight: 1.2, fontSize: 12 }}>
-                                        {card.description}
+                                        {testData.description}
                                     </Typography>
-                                    <TestCardOptions card={card} />
+                                    <TestCardOptions testData={testData} />
                                 </Card>
                             ))}
                         </>)}

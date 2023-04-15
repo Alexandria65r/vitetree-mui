@@ -1,3 +1,7 @@
+
+export const devENV = process.env.NODE_ENV !== 'production'
+export const protocal = devENV ? 'http://' : 'https://'
+
 export const REUSABLE_POPPER = {
     FilesOptions: {
         component: 'FilesOptions',

@@ -251,9 +251,9 @@ export const prepareForPartcipant = createAsyncThunk<string | undefined, undefin
             test: preparedData
         })
         if (data.partcipant) {
-            dispatch(testActions.setPartcipant(data.partcipant))
+           // dispatch(testActions.setPartcipant(data.partcipant))
             dispatch(testActions.setIsPreparigPartcipant(false))
-            return 'success'
+            return data.partcipant._id
         }
     })
 

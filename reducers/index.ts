@@ -33,7 +33,7 @@ const initialState: State = {
         subject: ''
     },
     deletePartcipantModal: {
-        component: 'delete-partcipnat',
+        component: 'close',
         partcipantId: '',
         fullname: '',
     }

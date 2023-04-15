@@ -4,7 +4,7 @@ import { Partcipant } from "../../../../database/schema";
 const FetchPartcipant: NextApiHandler = async (req: NextApiRequest, res: NextApiResponse) => {
     await connection()
     const _id = req.query.id;
-    const partcipant = await Partcipant.findById({ _id }).where({status:'published'}).exec()
+    const partcipant = await Partcipant.findById({ _id })
     
     if (partcipant) {
         return res.json({

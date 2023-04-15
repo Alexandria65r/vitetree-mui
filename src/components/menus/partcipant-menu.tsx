@@ -38,7 +38,7 @@ const MenuItemButton = styled(MenuItem)(({ theme }) => ({
         backgroundColor: colorScheme(theme).menuItemHoverColor
     }
 }))
-const MenuItemIconWrap = styled(Box)(({ theme }) => ({
+const MenuItemIconWrap = styled(Box)(() => ({
     marginRight: 5
 }))
 
@@ -68,16 +68,6 @@ type Props = {
 
 export default function PartcipantsOptions({ participant }: Props) {
     const dispatch = useAppDispatch()
-    const showSelectedImage = useAppSelector((state) => state.MainReducer.showSelectedImage)
-    const { ReactToMessage, MessageMoreOptions } = types.REUSABLE_POPPER
-    const router = useRouter()
-    function openSelectedImageViewer() {
-        dispatch(mainActions.setShowSelectedImage(true))
-        dispatch(mainActions.setPopperState({
-            component: '',
-            popperId: ''
-        }))
-    }
 
     function deletePartcipant() {
         dispatch(mainActions.setDeletePartcipantModal({
