@@ -32,6 +32,18 @@ const Container = styled(Box)(({ theme }) => ({
         padding: 0,
     }
 }))
+const TestHeader = styled(Box)(({ theme }) => ({
+    flex: 1,
+    minHeight: 60,
+    display: 'flex',
+    alignItems: 'center',
+    padding:'0 10px',
+    backgroundColor: colorScheme(theme).secondaryColor,
+    borderRadius: CSS_PROPERTIES.radius5,
+    borderEndEndRadius: 0,
+    borderBottomLeftRadius: 0,
+    boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`
+}))
 const TestInfoCol = styled(Box)(({ theme }) => ({
     flexBasis: '33%',
     height: 200,
@@ -68,16 +80,16 @@ export default function NewTest({ }: Props) {
 
 
     async function create() {
-            const testId = randomstring.generate(17)
-            const { data } = await TestAPI.create({
-                ...newTest,
-                _id: testId,
-                authorId: user._id ?? ''
-            })
-            if (data.success) {
-                console.log(newTest)
-                router.push(`/prepare/${data.newTest._id}`)
-            }
+        const testId = randomstring.generate(17)
+        const { data } = await TestAPI.create({
+            ...newTest,
+            _id: testId,
+            authorId: user._id ?? ''
+        })
+        if (data.success) {
+            console.log(newTest)
+            router.push(`/prepare/${data.newTest._id}`)
+        }
     }
 
     return (
@@ -87,6 +99,9 @@ export default function NewTest({ }: Props) {
 
                 </TestInfoCol>
                 <TestFormContainer>
+                    <TestHeader>
+                        <Typography variant='h6' sx={{fontWeight:600}}>Create new test</Typography>
+                    </TestHeader>
                     <NewTestForm mode="create" submitHandler={create} />
                 </TestFormContainer>
             </Container>

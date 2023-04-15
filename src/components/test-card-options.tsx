@@ -1,5 +1,5 @@
 import { Box, Button, ButtonBase, MenuItem, Popover, colors, styled } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 import { CSS_PROPERTIES } from '../reusable';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { mainActions } from '../../reducers';
@@ -20,7 +20,8 @@ import { useRouter } from 'next/router';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
 import AddToPhotosOutlinedIcon from '@mui/icons-material/AddToPhotosOutlined';
-
+import CopyToClipboard from 'react-copy-to-clipboard';
+import CheckIcon from '@mui/icons-material/Check';
 
 
 const Container = styled(Box)(({ theme }) => ({
@@ -79,6 +80,8 @@ export default function TestCardOptions({ card }: Props) {
     const showSelectedImage = useAppSelector((state) => state.MainReducer.showSelectedImage)
     const { ReactToMessage, MessageMoreOptions } = types.REUSABLE_POPPER
     const router = useRouter()
+    const [isCopied, setIsCopied] = useState<boolean>(false)
+
     function openSelectedImageViewer() {
         dispatch(mainActions.setShowSelectedImage(true))
         dispatch(mainActions.setPopperState({
@@ -100,6 +103,10 @@ export default function TestCardOptions({ card }: Props) {
             component: 'duplicate-test',
             testData: card
         }))
+        dispatch(mainActions.setPopperState({
+            component: '',
+            popperId: ''
+        }))
     }
     function deleteTestData() {
         dispatch(mainActions.setDeleteTestModal({
@@ -107,6 +114,13 @@ export default function TestCardOptions({ card }: Props) {
             testId: card._id,
             subject: card.subjectOrlanguage
         }))
+
+    }
+
+    let linkToCopy: any
+
+    if (typeof window !== 'undefined' && router.query.id) {
+        linkToCopy = `${window?.location.host}/test_info/${router.query.id}`
     }
 
     return (
@@ -139,19 +153,44 @@ export default function TestCardOptions({ card }: Props) {
                                 </MenuItemIconWrap>
                                 Prepare
                             </MenuItemButton>
+
+                            <CopyToClipboard text={linkToCopy}
+                                onCopy={() => {
+                                    setIsCopied(true)
+                                    setTimeout(() => {
+                                        setIsCopied(false)
+                                    }, 3000)
+                                    //popupState.close()
+                                }}
+                            >
+
+                                <MenuItemButton>
+                                    <MenuItemIconWrap>
+                                        {isCopied ? <CheckIcon /> : <ContentCopyIcon fontSize='small' />}
+                                    </MenuItemIconWrap>
+                                    {isCopied ? 'Copied' : 'Copy link'}
+                                </MenuItemButton>
+                            </CopyToClipboard>
+
                             <MenuItemButton onClick={() => router.push(`/partcipants/${card._id}`)}>
                                 <MenuItemIconWrap>
                                     <PeopleAltOutlinedIcon fontSize='small' />
                                 </MenuItemIconWrap>
                                 Partcipants
                             </MenuItemButton>
-                            <MenuItemButton onClick={duplicateTestData}>
+                            <MenuItemButton onClick={() => {
+                                duplicateTestData()
+                                popupState.close()
+                            }}>
                                 <MenuItemIconWrap>
                                     <AddToPhotosOutlinedIcon fontSize='small' />
                                 </MenuItemIconWrap>
                                 Duplicate
                             </MenuItemButton>
-                            <MenuItemButton onClick={deleteTestData}>
+                            <MenuItemButton onClick={() => {
+                                deleteTestData()
+                                popupState.close()
+                            }}>
                                 <MenuItemIconWrap>
                                     <DeleteOutlineOutlinedIcon />
                                 </MenuItemIconWrap>

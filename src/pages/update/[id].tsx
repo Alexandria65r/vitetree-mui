@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from 'react'
 import Layout from '../../components/layout'
-import { Box, styled, Button } from '@mui/material'
+import { Box, styled, Button, Typography } from '@mui/material'
 import { colorScheme } from '../../theme'
 import { CSS_PROPERTIES } from '../../reusable'
 //import Select from '@mui/joy/Select';
@@ -48,7 +48,6 @@ const TestFormContainer = styled(Box)(({ theme }) => ({
 const TestHeader = styled(Box)(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-evenly',
     flex: 1,
     minHeight: 60,
     backgroundColor: colorScheme(theme).secondaryColor,
@@ -106,7 +105,8 @@ export default function NewTest({ }: Props) {
 
     async function update() {
         const { _id, __v, ...rest }: any = newTest
-        const { data } = await TestAPI.update(id, rest)
+       
+        const { data } = await TestAPI.update(id, {...rest, status:'dirty'})
         if (data.success) {
             router.push(`/prepare/${data.updated._id}`)
         }
@@ -119,6 +119,9 @@ export default function NewTest({ }: Props) {
 
                 </TestInfoCol>
                 <TestFormContainer>
+                    <TestHeader>
+                        <Typography variant='h6' sx={{ fontWeight: 600 }}>Update Test</Typography>
+                    </TestHeader>
                     <NewTestForm mode="update" submitHandler={update} />
                 </TestFormContainer>
             </Container>

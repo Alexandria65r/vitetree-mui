@@ -16,7 +16,7 @@ import { useRouter } from 'next/router';
 
 
 const Container = styled(Box)(({ theme }) => ({
-    margin:1,
+    margin: 1,
     padding: 10,
     borderRadius: CSS_PROPERTIES.radius5,
     boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
@@ -63,10 +63,10 @@ const CardButton = styled(ButtonBase)(({ theme }) => ({
 
 
 type Props = {
-    card?: Participant
+    participant: Participant
 }
 
-export default function PartcipantsOptions({ card }: Props) {
+export default function PartcipantsOptions({ participant }: Props) {
     const dispatch = useAppDispatch()
     const showSelectedImage = useAppSelector((state) => state.MainReducer.showSelectedImage)
     const { ReactToMessage, MessageMoreOptions } = types.REUSABLE_POPPER
@@ -79,11 +79,13 @@ export default function PartcipantsOptions({ card }: Props) {
         }))
     }
 
-    function reactToMessage() {
-        dispatch(mainActions.setPopperState({
-            component: ReactToMessage.component,
-            popperId: ReactToMessage.popperId,
-            placement: ReactToMessage.placement
+    function deletePartcipant() {
+        dispatch(mainActions.setDeletePartcipantModal({
+            component: 'delete-partcipnat',
+            fullname: participant?.fullname ?? '',
+            partcipantId: participant?._id ?? ''
+
+
         }))
     }
     return (
@@ -112,7 +114,10 @@ export default function PartcipantsOptions({ card }: Props) {
                                 </MenuItemIconWrap>
                                 Partcipants
                             </MenuItemButton>
-                            <MenuItemButton onClick={reactToMessage}>
+                            <MenuItemButton onClick={() => {
+                                deletePartcipant()
+                                popupState.close()
+                            }}>
                                 <MenuItemIconWrap>
                                     <DeleteOutlineOutlinedIcon />
                                 </MenuItemIconWrap>

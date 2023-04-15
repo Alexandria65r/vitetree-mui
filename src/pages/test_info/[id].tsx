@@ -137,7 +137,7 @@ const IndexPage: NextPage = () => {
     async function partcipateNow() {
         const error = validateForm()
         if (error || isErr) return
-        const preparedData = await dispatch(prepareForPartcipant({}))
+        const preparedData = await dispatch(prepareForPartcipant())
         console.log(preparedData)
     }
 

@@ -81,7 +81,7 @@ export default function MultipleChoiceForm({ }: Props) {
                     value={question?.choices?.a.ans}
                     sx={{
 
-                        borderColor: isErr && !choices.a.ans ? colors.red[400] : colors.grey[400]
+                        borderColor: isErr && !choices?.a?.ans ? colors.red[400] : colors.grey[400]
                     }} placeholder="Choice A" />
             </CustomFormControl>
             <CustomFormControl>
@@ -94,7 +94,7 @@ export default function MultipleChoiceForm({ }: Props) {
                     value={question?.choices?.b.ans}
                     sx={{
 
-                        borderColor: isErr && !choices.b.ans ? colors.red[400] : colors.grey[400]
+                        borderColor: isErr && !choices?.b?.ans ? colors.red[400] : colors.grey[400]
                     }}
                     placeholder="Choice B" />
             </CustomFormControl>
@@ -107,7 +107,7 @@ export default function MultipleChoiceForm({ }: Props) {
                     value={question?.choices?.c.ans}
                     sx={{
 
-                        borderColor: isErr && !choices.c.ans ? colors.red[400] : colors.grey[400]
+                        borderColor: isErr && !choices?.c?.ans ? colors.red[400] : colors.grey[400]
                     }}
                     placeholder="Choice C" />
             </CustomFormControl>
@@ -121,7 +121,7 @@ export default function MultipleChoiceForm({ }: Props) {
                     value={question?.choices?.d.ans}
                     sx={{
 
-                        borderColor: isErr && !choices.d.ans ? colors.red[400] : colors.grey[400]
+                        borderColor: isErr && !choices?.d?.ans ? colors.red[400] : colors.grey[400]
                     }}
                     placeholder="Choice D" />
             </CustomFormControl>

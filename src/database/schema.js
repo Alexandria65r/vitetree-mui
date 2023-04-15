@@ -22,6 +22,7 @@ const TestSchema = new mongoose.Schema({
   sections: [],
   duration: { type: String, required: false },
   description: String,
+  status:String
 });
 
 mongoose.models = {};

@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { HYDRATE } from 'next-redux-wrapper'
 import { Participant, Test } from '../src/reusable/interfaces'
+import { testDataSchema } from '../src/reusable/schemas'
 
 type TestState = {
     newTest: Test,
@@ -14,16 +15,7 @@ type TestState = {
     sections: string[]
 }
 const initialState: TestState = {
-    newTest: {
-        _id: '',
-        cartegory: '',
-        sectionType: '',
-        subjectOrlanguage: '',
-        sections: [],
-        duration: '',
-        description: '',
-        authorId: ''
-    },
+    newTest:testDataSchema,
     sectionIndex: 0,
     questionIndex: 0,
     isErr: false,

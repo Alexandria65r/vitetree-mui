@@ -48,6 +48,7 @@ export type Test = {
     duration?: string
     description: string
     authorId: string
+    status: 'published' | 'dirty' | ''
 }
 
 //test preparation
@@ -112,6 +113,11 @@ export type DeleteTestModal = {
     component: 'delete-test' | 'close',
     testId: string,
     subject: string
+}
+export type DeletePartcipantModal = {
+    component: 'delete-partcipnat' | 'close',
+    partcipantId: string,
+    fullname: string
 }
 
 

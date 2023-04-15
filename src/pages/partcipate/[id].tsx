@@ -280,7 +280,7 @@ export default function NewTest({ }: Props) {
   }
 
   async function submit() {
-    const { payload } = await dispatch(validateSectionQuestionsThunk({}))
+    const { payload } = await dispatch(validateSectionQuestionsThunk())
     dispatch(testActions.setError(payload?.isInvalid))
     console.log(payload)
     if (payload?.isInvalid) {
@@ -307,21 +307,6 @@ export default function NewTest({ }: Props) {
 
     return accent
 
-  }
-  function getQuestionBadgeAccent(question: Question) {
-    let accent = ''
-    if (isTaken && question.isCorrect) {
-      accent = colors.teal[400]
-    } else if (isTaken && !question.isCorrect) {
-      accent = colors.red[400]
-    } else if (!isTaken && !question.answer) {
-      accent = colors.red[400]
-    } else if (!isTaken && isErr) {
-      accent = colors.red[400]
-    } else {
-      accent = colors.teal[400]
-    }
-    return accent
   }
 
 

@@ -20,7 +20,8 @@ export const testDataSchema: Test = {
     subjectOrlanguage: '',
     sections: [],
     description: '',
-    authorId: ""
+    authorId: "",
+    status:''
 }
 
 

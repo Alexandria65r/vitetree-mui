@@ -128,8 +128,10 @@ const IndexPage: NextPage = () => {
 
   function attend() {
     if (!code) return
-    router.push(`/test_info/${code}`)
+    window.open(code, '_blank')
   }
+
+
 
   const theme = useTheme()
 
@@ -189,7 +191,10 @@ const IndexPage: NextPage = () => {
                 flex: 1
               }
             })}>
-              <TextInput sx={{ flex: 1 }} onChange={({ target: { value } }) => setCode(value)} placeholder="Enter code or link" />
+              <TextInput sx={{ flex: 1 }}
+                onChange={({ target: { value } }) => setCode(value)}
+                placeholder="Enter code or link"
+              />
               <CommunityButton
                 onClick={attend}
                 sx={(theme) => ({

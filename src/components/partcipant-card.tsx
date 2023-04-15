@@ -80,7 +80,7 @@ export default function PartcipantCard({ partcipant, showDetailsButton }: Props)
     }
     return (
         <CardContainer>
-            <PartcipantsOptions />
+            <PartcipantsOptions participant={partcipant} />
             <Box sx={{ padding: 2, flexBasis: '100%' }}>
                 <Typography sx={{ textAlign: 'center', fontWeight: 600 }}>
                     {partcipant.fullname}

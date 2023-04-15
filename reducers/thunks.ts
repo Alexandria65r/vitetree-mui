@@ -190,7 +190,7 @@ function fillQuestion(clonedSections: Section[], iterator: number, clonedSection
 
 
 
-export const validateSectionQuestionsThunk = createAsyncThunk<any, any, { state: AppState }>
+export const validateSectionQuestionsThunk = createAsyncThunk<any, undefined, { state: AppState }>
     ('testSlice/validateSectionQuestionsThunk', (_, thunkAPI) => {
         const dispatch = thunkAPI.dispatch
         const { TestReducer: {
@@ -221,7 +221,7 @@ export const validateSectionQuestionsThunk = createAsyncThunk<any, any, { state:
 
 
 
-export const prepareForPartcipant = createAsyncThunk<string | undefined, any, { state: AppState }>
+export const prepareForPartcipant = createAsyncThunk<string | undefined, undefined, { state: AppState }>
     ('testSlice/prepareForPartcipant', async (_, thunkAPI) => {
         const dispatch = thunkAPI.dispatch
         const state = thunkAPI.getState()

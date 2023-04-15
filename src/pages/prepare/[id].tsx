@@ -21,7 +21,9 @@ import { ButtonIcon, CustomFormControl } from '../../reusable/styles'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import CheckIcon from '@mui/icons-material/Check';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
+
 const Container = styled(Box)(({ theme }) => ({
     display: 'flex',
     width: '90%',
@@ -40,7 +42,7 @@ const TestInfoCol = styled(Box)(({ theme }) => ({
     height: 200,
     padding: 20,
     borderLeft: `3px solid ${colors.teal[400]}`,
-   // borderRadius: CSS_PROPERTIES.radius5,
+    // borderRadius: CSS_PROPERTIES.radius5,
     backgroundColor: colorScheme(theme).secondaryColor,
     boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
     [theme.breakpoints.down("sm")]: {
@@ -226,7 +228,7 @@ export default function NewTest({ }: Props) {
                 publidId: ''
             }
         }
-   
+
         dispatch(updateQuestionThunk(update))
     }
 
@@ -284,12 +286,13 @@ export default function NewTest({ }: Props) {
     //publish test
 
     async function publishTest() {
-        const { payload } = await dispatch(validateSectionQuestionsThunk({}))
+        const { payload } = await dispatch(validateSectionQuestionsThunk())
         dispatch(testActions.setError(payload?.isInvalid))
         console.log(payload)
         if (payload?.isInvalid) return
         try {
             const { data } = await TestAPI.update(newTest._id, {
+                status: 'published',
                 sections: newTest.sections
             });
             if (data.success) {

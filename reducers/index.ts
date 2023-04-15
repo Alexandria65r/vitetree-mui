@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { HYDRATE } from 'next-redux-wrapper'
-import { DeleteTestModal, DuplicateTestModal, ModalComponent, PopperState } from '../src/reusable/interfaces'
+import { DeletePartcipantModal, DeleteTestModal, DuplicateTestModal, ModalComponent, PopperState } from '../src/reusable/interfaces'
 
 interface State {
     popperState: PopperState
@@ -11,6 +11,7 @@ interface State {
     isSidebarOpen: boolean
     duplicateTestModal: DuplicateTestModal
     deleteTestModal: DeleteTestModal
+    deletePartcipantModal: DeletePartcipantModal
 }
 const initialState: State = {
     popperState: {
@@ -29,7 +30,12 @@ const initialState: State = {
     deleteTestModal: {
         component: 'close',
         testId: '',
-        subject:''
+        subject: ''
+    },
+    deletePartcipantModal: {
+        component: 'delete-partcipnat',
+        partcipantId: '',
+        fullname: '',
     }
 }
 
@@ -63,6 +69,9 @@ const mainSlice = createSlice({
         },
         setDeleteTestModal: (state, { payload }: PayloadAction<DeleteTestModal>) => {
             state.deleteTestModal = payload
+        },
+        setDeletePartcipantModal: (state, { payload }: PayloadAction<DeletePartcipantModal>) => {
+            state.deletePartcipantModal = payload
         }
     },
 
