@@ -50,7 +50,7 @@ const MappedCards = styled(Box)(({ theme }) => ({
     [theme.breakpoints.down("sm")]: {
         gap: 5,
         width: '96%',
-        gridTemplateColumns: 'repeat(2,1fr)',
+        gridTemplateColumns: '1fr',
     }
 }))
 const Card = styled(Box)(({ theme }) => ({
@@ -166,7 +166,15 @@ export default function Darshboard({ }: Props) {
                         ) : (<>
                             {testsList.map((testData, index) => (
                                 <Card key={index}>
-                                    <Box sx={{width:180,}}>
+                                    <Box sx={(theme) => ({
+                                        width: 180,
+                                        [theme.breakpoints.down('sm')]: {
+                                            width: 230,
+                                        },
+                                        // [theme.breakpoints.down('xs')]: {
+                                        //     width: 230,
+                                        // },
+                                    })}>
                                         <Typography sx={{
                                             fontWeight: 600,
                                             whiteSpace: 'nowrap',
