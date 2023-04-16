@@ -5,10 +5,12 @@ import { mainActions } from '../../../reducers';
 
 import ReusableAlert from '../reusable-alert';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import { deletTestDataThunk } from '../../../reducers/thunks';
 
 export default function DuplicateTestModal() {
     const dispatch = useAppDispatch()
     const deleteTestModal = useAppSelector((state) => state.MainReducer.deleteTestModal)
+    const isDeleting = useAppSelector((state) => state.TestReducer.isDeleting)
     function handleClose() {
         dispatch(mainActions.setDeleteTestModal({
             component: 'close',
@@ -27,8 +29,9 @@ export default function DuplicateTestModal() {
                 <ReusableAlert
                     title='Delete'
                     cancelHandler={handleClose}
-                    procceedAction={() => { }}
+                    procceedAction={() => dispatch(deletTestDataThunk())}
                     type='delete'
+                    loading={isDeleting}
                     proccedIcon={<DeleteOutlineOutlinedIcon fontSize='small' sx={{ mr: 1 }} />}
                     message={`
                     This test data will be deleted. Are you sure you want to delete

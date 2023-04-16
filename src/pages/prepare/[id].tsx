@@ -23,6 +23,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
+import { partcipantActions } from '../../../reducers/partcipant-reducer'
 
 const Container = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -194,7 +195,7 @@ export default function NewTest({ }: Props) {
     useEffect(() => {
         return () => {
             dispatch(testActions.setTestData(testDataSchema))
-            dispatch(testActions.setPartcipant(participantSchema))
+            dispatch(partcipantActions.setPartcipant(participantSchema))
             dispatch(testActions.setQuestionIdex(0))
             dispatch(testActions.setSectionIndex(0))
         }

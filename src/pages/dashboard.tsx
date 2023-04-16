@@ -16,6 +16,7 @@ import ReusablePopper from '../components/reusable-popper'
 import TestCardOptions from '../components/test-card-options'
 import { SearchInput, SearchInputWrap, StyledButton } from '../reusable/styles'
 import SideBar from '../components/chat/side-bar'
+import { testActions } from '../../reducers/test-reducer'
 
 
 
@@ -72,7 +73,7 @@ const Card = styled(Box)(({ theme }) => ({
 
 const Button = styled(StyledButton)(({ theme }) => ({
     flexBasis: '20%',
-    height:47,
+    height: 47,
     [theme.breakpoints.down("sm")]: {
         flexBasis: '25%',
         display: 'none'
@@ -109,9 +110,9 @@ type Props = {}
 export default function Darshboard({ }: Props) {
     const router = useRouter()
     const dispatch = useAppDispatch()
-    const [data, setData] = useState<Test[]>([])
     const [isFetching, setFetching] = useState<boolean>()
     const user = useAppSelector((state) => state.AuthReducer.user)
+    const testsList = useAppSelector((state) => state.TestReducer.testList)
 
 
     const fetchDashboardData = useCallback(async () => {
@@ -120,7 +121,7 @@ export default function Darshboard({ }: Props) {
             const testsList = await TestAPI.fetchMany(user._id ?? '')
             if (testsList) {
                 setFetching(false)
-                setData(testsList)
+                dispatch(testActions.setTestList(testsList))
             }
         }
     }, [router.pathname, user, dispatch])
@@ -129,17 +130,6 @@ export default function Darshboard({ }: Props) {
     useEffect(() => {
         fetchDashboardData()
     }, [router.pathname, user, dispatch])
-
-
-
-    function handlePopper() {
-        dispatch(mainActions.setPopperState({
-            component: types.REUSABLE_POPPER.TestCardOptions.component,
-            popperId: types.REUSABLE_POPPER.TestCardOptions.popperId,
-            placement: types.REUSABLE_POPPER.TestCardOptions.placement
-        }))
-    }
-
 
     return (
         <Layout>
@@ -174,9 +164,16 @@ export default function Darshboard({ }: Props) {
                             ))}
                         </>
                         ) : (<>
-                            {data.map((testData, index) => (
+                            {testsList.map((testData, index) => (
                                 <Card key={index}>
-                                    <Typography sx={{ fontWeight: 600 }}>{testData.subjectOrlanguage}</Typography>
+                                    <Box sx={{width:180,}}>
+                                        <Typography sx={{
+                                            fontWeight: 600,
+                                            whiteSpace: 'nowrap',
+                                            textOverflow: 'ellipsis',
+                                            overflow: 'hidden'
+                                        }}>{testData.subjectOrlanguage}</Typography>
+                                    </Box>
                                     <Typography>{testData.cartegory}</Typography>
                                     <Typography sx={{ lineHeight: 1.2, fontSize: 12 }}>
                                         {testData.description}

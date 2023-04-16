@@ -16,6 +16,7 @@ import { useDispatch } from 'react-redux'
 import { testActions } from '../../../reducers/test-reducer'
 import { useAppSelector } from '../../../store/hooks'
 import { fetchTestDataThunk, prepareForPartcipant } from '../../../reducers/thunks'
+import { partcipantActions } from '../../../reducers/partcipant-reducer'
 
 
 const Container = styled(Box)(({ theme }) => ({
@@ -106,8 +107,8 @@ const IndexPage: NextPage = () => {
     const router: NextRouter = useRouter()
     const id: any = router.query.id || []
     const [isErr, setIsError] = useState<boolean>(false)
-    const participant = useAppSelector((state) => state.TestReducer.partcipant)
-    const isPreparigPartcipant = useAppSelector((state) => state.TestReducer.isPreparigPartcipant)
+    const participant = useAppSelector((state) => state.PartcipantReducer.partcipant)
+    const isPreparigPartcipant = useAppSelector((state) => state.PartcipantReducer.isPreparigPartcipant)
     const testData = useAppSelector((state) => state.TestReducer.newTest)
     const [partcipantId, setPartcipantId] = useState<string>('')
 
@@ -118,7 +119,7 @@ const IndexPage: NextPage = () => {
     }, [id])
 
     function handleOnChage({ target: { value, name } }: any) {
-        dispatch(testActions.setPartcipant({
+        dispatch(partcipantActions.setPartcipant({
             ...participant,
             [name]: value
         }))

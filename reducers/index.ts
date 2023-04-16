@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { HYDRATE } from 'next-redux-wrapper'
 import { DeletePartcipantModal, DeleteTestModal, DuplicateTestModal, ModalComponent, PopperState } from '../src/reusable/interfaces'
+import { testDataSchema } from '../src/reusable/schemas'
 
 interface State {
     popperState: PopperState
@@ -25,7 +26,8 @@ const initialState: State = {
     isDiagramQuestion: false,
     isSidebarOpen: false,
     duplicateTestModal: {
-        component: 'close'
+        component: 'close',
+        testData:testDataSchema
     },
     deleteTestModal: {
         component: 'close',

@@ -11,6 +11,9 @@ import AuthAPI from "../src/api-services/auth";
 import { authActions } from "./auth-reducer";
 import { SCHOOYARD_AUTH_TOKEN } from "../src/reusable";
 import Router from "next/router";
+import { mainActions } from ".";
+import { testDataSchema } from "../src/reusable/schemas";
+import { partcipantActions } from "./partcipant-reducer";
 
 
 
@@ -88,7 +91,7 @@ export const updateTestQuestionThunk = createAsyncThunk
             name: 'sections',
             value: clonedSections
         }))
-        
+
     })
 
 
@@ -140,24 +143,19 @@ export const setWithPreparedSections = createAsyncThunk<void, Test, { state: App
         for (let sectionPos = 0; sectionPos < clonedSections.length; sectionPos++) {
             const clonedSection: Section = { ...clonedSections[sectionPos] }
 
-            // if (clonedSection.questions.length === clonedSection.numberOfQuestions) {
-            //     dispatch(testActions.setTestData(testData))
-            //     return
-            // } 
-
-            if (clonedSection.numberOfQuestions > clonedSection.questions.length) {
-                console.log('time to update')
-                const diff = clonedSection.numberOfQuestions - clonedSection.questions.length
-                fillQuestion(clonedSections, diff, clonedSection, sectionPos)
-            } else if (clonedSection.numberOfQuestions < clonedSection.questions.length) {
-                console.log(`attention required!! in Section ${clonedSection.name} alert user`)
-                console.log(`expected ${clonedSection.numberOfQuestions} questions`)
-                console.log(`existing question ${clonedSection.questions.length}`)
-                // const diff = clonedSection.numberOfQuestions - clonedSection.questions.length
-                // fillQuestion(clonedSections, diff, clonedSection, sectionPos)
-            } else {
-                fillQuestion(clonedSections, clonedSection.numberOfQuestions, clonedSection, sectionPos)
-            }
+                if (clonedSection.numberOfQuestions > clonedSection.questions.length) {
+                    console.log('time to update')
+                    const diff = clonedSection.numberOfQuestions - clonedSection.questions.length
+                    fillQuestion(clonedSections, diff, clonedSection, sectionPos)
+                } else if (clonedSection.numberOfQuestions < clonedSection.questions.length) {
+                    console.log(`attention required!! in Section ${clonedSection.name} alert user`)
+                    console.log(`expected ${clonedSection.numberOfQuestions} questions`)
+                    console.log(`existing question ${clonedSection.questions.length}`)
+                    // const diff = clonedSection.numberOfQuestions - clonedSection.questions.length
+                    // fillQuestion(clonedSections, diff, clonedSection, sectionPos)
+                } else {
+                    fillQuestion(clonedSections, clonedSection.numberOfQuestions, clonedSection, sectionPos)
+                }
         }
         dispatch(testActions.setTestData({ ...testData, sections: clonedSections }))
     })
@@ -177,12 +175,14 @@ function fillQuestion(clonedSections: Section[], iterator: number, clonedSection
         if (clonedSection.wayOfAnswering === 'multiple choice') {
             updatedSections.choices = questionChoices
         }
-
+        console.log(updatedSections)
         if (!clonedSection.questions.length) {
             clonedSection.questions = [updatedSections]
         } else {
             clonedSection.questions.push(updatedSections)
         }
+
+        console.log(clonedSection)
 
         clonedSections[sectionPos] = clonedSection
     }
@@ -227,7 +227,7 @@ export const prepareForPartcipant = createAsyncThunk<string | undefined, undefin
         const state = thunkAPI.getState()
         const testData = state.TestReducer.newTest
         const partcipantId = randomstring.generate(19)
-        const partcipant = state.TestReducer.partcipant
+        const partcipant = state.PartcipantReducer.partcipant
         const clonedSections = [...testData.sections]
         for (let sectionPos = 0; sectionPos < clonedSections.length; sectionPos++) {
             const clonedSection: Section = { ...clonedSections[sectionPos] }
@@ -240,7 +240,7 @@ export const prepareForPartcipant = createAsyncThunk<string | undefined, undefin
                 clonedSections[sectionPos] = clonedSection
             }
         }
-        dispatch(testActions.setIsPreparigPartcipant(true))
+        dispatch(partcipantActions.setIsPreparigPartcipant(true))
         const { _id, __v, ...rest }: any = testData
         const preparedData = { ...rest, _id, sections: clonedSections }
 
@@ -251,8 +251,8 @@ export const prepareForPartcipant = createAsyncThunk<string | undefined, undefin
             test: preparedData
         })
         if (data.partcipant) {
-           // dispatch(testActions.setPartcipant(data.partcipant))
-            dispatch(testActions.setIsPreparigPartcipant(false))
+            // dispatch(testActions.setPartcipant(data.partcipant))
+            dispatch(partcipantActions.setIsPreparigPartcipant(false))
             return data.partcipant._id
         }
     })
@@ -265,7 +265,7 @@ export const markTakenTestThunk =
             const dispatch = thunkAPI.dispatch
             const state = thunkAPI.getState()
             const testTaken = state.TestReducer.newTest
-            const partcipant = state.TestReducer.partcipant
+            const partcipant = state.PartcipantReducer.partcipant
             const clonedSections = [...testTaken.sections]
 
 
@@ -301,7 +301,7 @@ export const markTakenTestThunk =
                 }
 
                 const { data } = await PartcipantAPI.update(partcipant?._id ?? '', update)
-                dispatch(testActions.setPartcipant(update))
+                dispatch(partcipantActions.setPartcipant(update))
                 dispatch(testActions.setTestData(update.test))
 
                 if (data.success) {
@@ -350,7 +350,7 @@ export const fetchPartcipantThunk = createAsyncThunk<string | undefined, string,
         const dispatch = thunkAPI.dispatch
         const data = await PartcipantAPI.fetch(id)
         if (data && data?.test) {
-            dispatch(testActions.setPartcipant(data))
+            dispatch(partcipantActions.setPartcipant(data))
             dispatch(testActions.setTestData(data.test))
             return 'success'
         }
@@ -360,7 +360,7 @@ export const fetchTestPartcipantsThunk = createAsyncThunk<string | undefined, st
         const dispatch = thunkAPI.dispatch
         const data = await PartcipantAPI.fetchMany(id)
         if (data) {
-            dispatch(testActions.setPartcipants(data))
+            dispatch(partcipantActions.setPartcipants(data))
             return 'success'
         }
     })
@@ -374,7 +374,7 @@ export const updateQuestionThunk = createAsyncThunk<void, Question, { state: App
         const clonedSections = [...newTest.sections]
         const clonedSection = { ...clonedSections[sectionIndex] }
         const clonedQuestions = [...clonedSections[sectionIndex].questions]
-     
+
         clonedQuestions[questionIndex] = updated
         clonedSection.questions = clonedQuestions
         clonedSections[sectionIndex] = clonedSection
@@ -383,6 +383,70 @@ export const updateQuestionThunk = createAsyncThunk<void, Question, { state: App
             name: 'sections',
             value: clonedSections
         }))
+    })
+
+
+export const duplicateTestThunk = createAsyncThunk<void, Test, { state: AppState }>
+    ('testSlice/duplicateTestThunk', async (testData, thunkAPI) => {
+        const dispatch = thunkAPI.dispatch
+        const state = thunkAPI.getState()
+        const testList = state.TestReducer.testList
+        const clonedTestData = { ...testData }
+        const duplicatedId = randomstring.generate(19)
+        clonedTestData._id = duplicatedId;
+        clonedTestData.status = 'dirty'
+        clonedTestData.subjectOrlanguage = `[Duplicated-${clonedTestData.subjectOrlanguage}]`
+        dispatch(testActions.setIsDuplicating(true))
+        const duplicatedTest = await TestAPI.create(clonedTestData)
+
+        if (duplicatedTest) {
+            dispatch(testActions.setIsDuplicating(false))
+            dispatch(testActions.setTestList([...testList, duplicatedTest]))
+            dispatch(mainActions.setDuplicateTestModal({
+                component: 'close',
+                testData: testDataSchema
+            }))
+        }
+    })
+
+
+export const deletTestDataThunk = createAsyncThunk<void, undefined, { state: AppState }>
+    ('testSlice/deletTestDataThunk', async (_, thunkAPI) => {
+        const dispatch = thunkAPI.dispatch
+        const state = thunkAPI.getState()
+        const testId = state.MainReducer.deleteTestModal.testId
+        const testList = [...state.TestReducer.testList]
+        dispatch(testActions.setIsDeleting(true))
+        const { data } = await TestAPI.delete(testId ?? '');
+        if (data.success) {
+            const newTestList = testList.filter((testItem) => testItem._id !== testId)
+            dispatch(testActions.setTestList(newTestList))
+            dispatch(testActions.setIsDeleting(false))
+            dispatch(mainActions.setDeleteTestModal({
+                component: 'close',
+                testId: '',
+                subject: ''
+            }))
+        }
+    })
+export const deletTestPartcipantThunk = createAsyncThunk<void, undefined, { state: AppState }>
+    ('testSlice/deletTestDataThunk', async (_, thunkAPI) => {
+        const dispatch = thunkAPI.dispatch
+        const state = thunkAPI.getState()
+        const partcipantId = state.MainReducer.deletePartcipantModal.partcipantId
+        const partcipants = [...state.PartcipantReducer.partcipants]
+        dispatch(partcipantActions.setIsPartcipantDeleting(true))
+        const { data } = await PartcipantAPI.delete(partcipantId ?? '');
+        if (data.success) {
+            const newTestList = partcipants.filter((partcipant) => partcipant._id !== partcipantId)
+            dispatch(partcipantActions.setPartcipants(newTestList))
+            dispatch(partcipantActions.setIsPartcipantDeleting(false))
+            dispatch(mainActions.setDeletePartcipantModal({
+                component: 'close',
+                partcipantId: '',
+                fullname: ''
+            }))
+        }
     })
 
 

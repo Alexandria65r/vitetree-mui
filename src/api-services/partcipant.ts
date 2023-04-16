@@ -32,7 +32,7 @@ export default class PartcipantAPI {
         return axios.put(`/api/partcipate-api/update/${id}`, update)
     }
     
-    static delete() {
-        return axios.post('/api/partcipate-api/delete')
+    static delete(partcipantId:string) {
+        return axios.delete(`/api/partcipate-api/delete/${partcipantId}`)
     }
 }

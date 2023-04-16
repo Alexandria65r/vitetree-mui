@@ -8,30 +8,22 @@ type TestState = {
     sectionIndex: number
     questionIndex: number,
     isErr: boolean,
-    partcipant: Participant,
-    isPreparigPartcipant: boolean
-    partcipants: Participant[],
     showTestTimer: boolean
     sections: string[]
+    testList: Test[],
+    isDuplicating: boolean
+    isDeleting: boolean
 }
 const initialState: TestState = {
-    newTest:testDataSchema,
+    newTest: testDataSchema,
     sectionIndex: 0,
     questionIndex: 0,
     isErr: false,
-    partcipant: {
-        fullname: '',
-        email: '',
-        reason: '',
-        testId: '',
-        score: '0%',
-        taken: false
-    },
-    isPreparigPartcipant: false,
-    partcipants: [],
     showTestTimer: false,
-    sections: []
-
+    sections: [],
+    testList: [],
+    isDuplicating: false,
+    isDeleting: false,
 }
 
 const testSlice = createSlice({
@@ -41,9 +33,7 @@ const testSlice = createSlice({
         setTestData: (state, { payload }: PayloadAction<Test>) => {
             state.newTest = payload
         },
-        setPartcipant: (state, { payload }: PayloadAction<Participant>) => {
-            state.partcipant = payload
-        },
+   
         setNewTestProperties: (state, { payload }: PayloadAction<{ name: string, value: any }>) => {
             state.newTest = {
                 ...state.newTest,
@@ -59,18 +49,22 @@ const testSlice = createSlice({
         setError: (state, { payload }: PayloadAction<boolean>) => {
             state.isErr = payload
         },
-        setIsPreparigPartcipant: (state, { payload }: PayloadAction<boolean>) => {
-            state.isPreparigPartcipant = payload
-        },
-        setPartcipants: (state, { payload }: PayloadAction<Participant[]>) => {
-            state.partcipants = payload
-        },
+   
         setShowTestTimer: (state, { payload }: PayloadAction<boolean>) => {
             state.showTestTimer = payload
         },
         setSelectedSections: (state, { payload }: PayloadAction<string[]>) => {
             state.sections = payload
-        }
+        },
+        setTestList: (state, { payload }: PayloadAction<Test[]>) => {
+            state.testList = payload
+        },
+        setIsDuplicating: (state, { payload }: PayloadAction<boolean>) => {
+            state.isDuplicating = payload
+        },
+        setIsDeleting: (state, { payload }: PayloadAction<boolean>) => {
+            state.isDeleting = payload
+        },
     },
 
     extraReducers: {

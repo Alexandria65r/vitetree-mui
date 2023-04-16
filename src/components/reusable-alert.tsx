@@ -1,4 +1,4 @@
-import { Box, Typography, colors, styled } from '@mui/material'
+import { Box, CircularProgress, Typography, colors, styled } from '@mui/material'
 import React from 'react'
 import { colorScheme } from '../theme'
 import { CSS_PROPERTIES } from '../reusable'
@@ -21,11 +21,11 @@ const Container = styled(Box)(({ theme }) => ({
     borderRadius: CSS_PROPERTIES.radius10,
     backgroundColor: colorScheme(theme).secondaryColor,
     padding: 10,
-    [theme.breakpoints.down("sm")]:{
+    [theme.breakpoints.down("sm")]: {
         width: '96%',
         transform: 'translate(-50%, 0%)',
-        top:'unset',
-        bottom:10
+        top: 'unset',
+        bottom: 10
     }
 }))
 
@@ -34,23 +34,24 @@ type Props = {
     title: string,
     message: string,
     type: 'delete' | 'duplicate',
-    proccedIcon:any,
+    proccedIcon: any,
     cancelHandler: () => void
     procceedAction: () => void
+    loading: boolean
 }
 
 
-export default function ReusableAlert({ title, message, type, cancelHandler, procceedAction,proccedIcon }: Props) {
+export default function ReusableAlert({ title, message, type, cancelHandler, procceedAction, proccedIcon, loading }: Props) {
 
     return (
         <Container sx={{ boxShadow: 24 }}>
             <Typography id="modal-modal-title" sx={{ fontWeight: 600, }} variant="h6" component="h2">
                 {title}
             </Typography>
-            <Typography    id="modal-modal-description" sx={{ mt: 1, lineHeight: 1.2 }}
-                dangerouslySetInnerHTML={{__html:message}}
+            <Typography id="modal-modal-description" sx={{ mt: 1, lineHeight: 1.2 }}
+                dangerouslySetInnerHTML={{ __html: message }}
             />
-    
+
             <Box sx={{ display: 'flex', mt: 2, justifyContent: 'space-between' }}>
                 <StyledButton
                     onClick={cancelHandler}
@@ -69,6 +70,7 @@ export default function ReusableAlert({ title, message, type, cancelHandler, pro
                     }}>
                     {proccedIcon}
                     {type}
+                    {loading && <CircularProgress size={20} sx={{ ml: 1, color: '#fff' }} />}
                 </StyledButton>
             </Box>
         </Container>

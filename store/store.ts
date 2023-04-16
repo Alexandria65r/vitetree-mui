@@ -3,13 +3,15 @@ import { MakeStore, createWrapper } from 'next-redux-wrapper'
 import MainReducer from '../reducers'
 import ChatReducer from '../reducers/chat-reducer'
 import TestReducer from '../reducers/test-reducer'
+import PartcipantReducer from '../reducers/partcipant-reducer'
 import AuthReducer from '../reducers/auth-reducer'
 
 const rootReducer = combineReducers({
   AuthReducer,
   MainReducer,
   ChatReducer,
-  TestReducer
+  TestReducer,
+  PartcipantReducer
 })
 
 

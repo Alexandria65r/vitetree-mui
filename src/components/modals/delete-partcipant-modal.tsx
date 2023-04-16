@@ -5,19 +5,23 @@ import { mainActions } from '../../../reducers';
 
 import ReusableAlert from '../reusable-alert';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import { deletTestPartcipantThunk } from '../../../reducers/thunks';
 
 export default function DeletePartcipantModal() {
     const dispatch = useAppDispatch()
     const deletePartcipantModal = useAppSelector((state) => state.MainReducer.deletePartcipantModal)
+    const isPartcipantDeleting = useAppSelector((state) => state.PartcipantReducer.isPartcipantDeleting)
 
 
     function handleClose() {
         dispatch(mainActions.setDeletePartcipantModal({
             component: 'close',
-            partcipantId:'',
-            fullname:''
+            partcipantId: '',
+            fullname: ''
         }))
     }
+
+
 
     return (
         <div>
@@ -30,8 +34,9 @@ export default function DeletePartcipantModal() {
                 <ReusableAlert
                     title='Delete Partcipant'
                     cancelHandler={handleClose}
-                    procceedAction={() => { }}
+                    procceedAction={() => dispatch(deletTestPartcipantThunk())}
                     type='delete'
+                    loading={isPartcipantDeleting}
                     proccedIcon={<DeleteOutlineOutlinedIcon fontSize='small' sx={{ mr: 1 }} />}
                     message={`
                     This Partcipant will be deleted. Are you sure you want to delete

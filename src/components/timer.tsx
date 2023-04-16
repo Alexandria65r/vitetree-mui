@@ -190,7 +190,7 @@ class Timer extends React.Component<Props, State>{
 const mapStateToProps = (state: AppState) => {
     return {
         newTest: state.TestReducer.newTest,
-        partcipant: state.TestReducer.partcipant,
+        partcipant: state.PartcipantReducer.partcipant,
         showTestTimer: state.TestReducer.showTestTimer,
     }
 }

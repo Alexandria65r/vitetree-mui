@@ -16,6 +16,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import PartcipantCard from '../../components/partcipant-card'
 import { participantSchema, testDataSchema } from '../../reusable/schemas'
+import { partcipantActions } from '../../../reducers/partcipant-reducer'
 
 const Container = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -170,7 +171,7 @@ export default function NewTest({ }: Props) {
   const newTest = useAppSelector((state) => state.TestReducer.newTest);
   const sectionIndex = useAppSelector((state) => state.TestReducer.sectionIndex);
   const questionIndex = useAppSelector((state) => state.TestReducer.questionIndex);
-  const partcipant = useAppSelector((state) => state.TestReducer.partcipant);
+  const partcipant = useAppSelector((state) => state.PartcipantReducer.partcipant);
   const isTaken = partcipant.taken
 
   const testSections = newTest.sections;
@@ -189,7 +190,7 @@ export default function NewTest({ }: Props) {
     if (typeof id === 'string') {
       const partcipant = await PartcipantAPI.fetch(id)
       if (partcipant?._id) {
-        dispatch(testActions.setPartcipant(partcipant))
+        dispatch(partcipantActions.setPartcipant(partcipant))
         if (partcipant.test) {
           dispatch(testActions.setTestData(partcipant?.test))
         }
@@ -216,7 +217,7 @@ export default function NewTest({ }: Props) {
 
     return () => {
       dispatch(testActions.setTestData(testDataSchema))
-      dispatch(testActions.setPartcipant(participantSchema))
+      dispatch(partcipantActions.setPartcipant(participantSchema))
       localStorage.removeItem('timer-state')
       dispatch(testActions.setQuestionIdex(0))
       dispatch(testActions.setSectionIndex(0))
@@ -280,8 +281,10 @@ export default function NewTest({ }: Props) {
 
 
   const choicesList = (choices: any) => {
+    console.log(choices)
+    if (!choices) return []
     const resArr = Object.keys(choices).map((key) => [choices[key]])
-    return resArr.flat()
+    return  resArr.flat()
   }
   function handleWordAnswer(value: string, questionIndex: number) {
     dispatch(updateTestQuestionThunk({

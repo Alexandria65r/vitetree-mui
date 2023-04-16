@@ -74,8 +74,6 @@ export default function PartcipantsOptions({ participant }: Props) {
             component: 'delete-partcipnat',
             fullname: participant?.fullname ?? '',
             partcipantId: participant?._id ?? ''
-
-
         }))
     }
     return (

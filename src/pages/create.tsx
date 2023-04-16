@@ -73,22 +73,23 @@ type Props = {}
 export default function NewTest({ }: Props) {
     const router = useRouter()
     const dispatch = useAppDispatch()
-    const newTest = useAppSelector((state) => state.TestReducer.newTest)
+    const testData = useAppSelector((state) => state.TestReducer.newTest)
     const isErr = useAppSelector((state) => state.TestReducer.isErr)
     const user = useAppSelector((state) => state.AuthReducer.user)
 
 
 
     async function create() {
-        const testId = randomstring.generate(17)
-        const { data } = await TestAPI.create({
-            ...newTest,
+        const testId = randomstring.generate(19)
+        const newTest = await TestAPI.create({
+            ...testData,
             _id: testId,
             authorId: user._id ?? ''
         })
-        if (data.success) {
+
+        if (newTest) {
             console.log(newTest)
-            router.push(`/prepare/${data.newTest._id}`)
+            router.push(`/prepare/${newTest._id}`)
         }
     }
 

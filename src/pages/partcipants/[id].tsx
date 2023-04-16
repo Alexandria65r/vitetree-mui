@@ -14,6 +14,7 @@ import PartcipantCard from '../../components/partcipant-card'
 import { SearchInput, SearchInputWrap } from '../../reusable/styles'
 import { testActions } from '../../../reducers/test-reducer'
 import { participantSchema, testDataSchema } from '../../reusable/schemas'
+import { partcipantActions } from '../../../reducers/partcipant-reducer'
 
 
 
@@ -64,16 +65,16 @@ export default function NewTest({ }: Props) {
     const router = useRouter()
     const id: any = router.query.id || []
     const newTest = useAppSelector((state) => state.TestReducer.newTest)
-    const partcipants = useAppSelector((state) => state.TestReducer.partcipants)
+    const partcipants = useAppSelector((state) => state.PartcipantReducer.partcipants)
 
 
     const fetchTestData =
-        useCallback(() => dispatch(fetchTestPartcipantsThunk(id)), [])
+        useCallback(() => dispatch(fetchTestPartcipantsThunk(id)), [id])
     useEffect(() => {
         fetchTestData()
         return () => {
             dispatch(testActions.setTestData(testDataSchema))
-            dispatch(testActions.setPartcipant(participantSchema))
+            dispatch(partcipantActions.setPartcipant(participantSchema))
             dispatch(testActions.setQuestionIdex(0))
             dispatch(testActions.setSectionIndex(0))
         }

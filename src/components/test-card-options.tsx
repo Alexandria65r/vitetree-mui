@@ -142,7 +142,6 @@ export default function TestCardOptions({ testData }: Props) {
                                     }, 3000)
                                 }}
                             >
-
                                 <MenuItemButton>
                                     <MenuItemIconWrap>
                                         {isCopied ? <CheckIcon /> : <ContentCopyIcon fontSize='small' />}

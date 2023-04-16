@@ -14,7 +14,7 @@ export default class TestAPI {
             console.log(error)
         }
     }
-    static async fetchMany(authorId:string) {
+    static async fetchMany(authorId: string) {
         try {
             const { data } = await axios.get(`/api/test-api/fetch-many/${authorId}`)
             if (data.success) {
@@ -25,13 +25,19 @@ export default class TestAPI {
         }
     }
 
-    static create(newTest: Test) {
-        return axios.post('/api/test-api/create', newTest)
+    static async create(newTest: Test) {
+        try {
+            const { data } = await axios.post('/api/test-api/create', newTest)
+            return data.newTest as Test
+
+        } catch (error) {
+            console.log(error)
+        }
     }
-    static update(id:string, update: any) {
+    static update(id: string, update: any) {
         return axios.put(`/api/test-api/update/${id}`, update)
     }
-    static delete() {
-        return axios.post('/api/test-api/delete')
+    static delete(id:string) {
+        return axios.delete(`/api/test-api/delete/${id}`)
     }
 }
