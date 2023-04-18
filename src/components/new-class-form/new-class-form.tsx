@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import { testActions } from '../../../reducers/test-reducer'
 import { Section } from '../../reusable/interfaces'
 import { Textarea } from '../../reusable/styles'
-
+import AddIcon from '@mui/icons-material/Add';
 
 const ChoicesContainer = styled(Box)(({ theme }) => ({
     //marginLeft: 20,
@@ -15,14 +15,14 @@ const ChoicesContainer = styled(Box)(({ theme }) => ({
     }
 }))
 
-const TextInput = styled(TextField)(({theme}) => ({
+const TextInput = styled(TextField)(({ theme }) => ({
     flex: 1
 }))
-const FormContainer = styled(Box)(({theme}) => ({
+const FormContainer = styled(Box)(({ theme }) => ({
     width: '100%',
     padding: 10,
 }))
-const FormControl = styled(Box)(({theme}) => ({
+const FormControl = styled(Box)(({ theme }) => ({
     width: '100%',
     display: 'flex',
     alignItems: 'center',
@@ -61,12 +61,13 @@ const FormControlColBadge = styled(Box)(() => ({
 
 const StyledButton = styled(ButtonBase)(({ theme }) => ({
     textTransform: 'capitalize',
-    flexBasis: '20%',
+    //flexBasis: '20%',
     justifySelf: 'flex-end',
     fontWeight: 600,
     height: 50,
     color: '#fff',
     fontSize: 16,
+    padding: '0 10px',
     borderRadius: CSS_PROPERTIES.radius5,
     backgroundColor: colors.teal[400],
     [theme.breakpoints.down("sm")]: {
@@ -81,7 +82,7 @@ type Props = {
     submitHandler: () => void
 }
 
-export default function NewTestForm({ mode, submitHandler }: Props) {
+export default function NewClassForm({ mode, submitHandler }: Props) {
     const dispatch = useAppDispatch()
     const newTest = useAppSelector((state) => state.TestReducer.newTest)
     const sections = useAppSelector((state) => state.TestReducer.sections)
@@ -125,8 +126,8 @@ export default function NewTestForm({ mode, submitHandler }: Props) {
     function handleSelectedSection({ target: { name, ...rest } }: any) {
         const value: string[] = rest.value
         console.log(value)
-        
-        if(!value.length) {
+
+        if (!value.length) {
             newSections = []
         }
 
@@ -227,59 +228,50 @@ export default function NewTestForm({ mode, submitHandler }: Props) {
 
     return (
         <FormContainer>
-            <FormControl>
-                <Select fullWidth onChange={selectCartegory}
-                    error={isErr && !newTest.cartegory}
-                    value={newTest.cartegory || undefined}
-                    name='cartegory' defaultValue='Select cartegory' >
-                    <MenuItem value="Select cartegory">Select cartegory</MenuItem>
-                    <MenuItem value="School">School Test</MenuItem>
-                    <MenuItem value="Coding">Coding Challenge</MenuItem>
-                    <MenuItem value="Survey">Survey Feedback</MenuItem>
-                </Select>
-            </FormControl>
+
 
             <ChoicesContainer>
 
-                {newTest.cartegory && (
-                    <FormControl>
-                        <TextInput sx={{ flexBasis: '50%' }}
-                            error={isErr && !newTest.subjectOrlanguage
-                            }
-                            value={newTest.subjectOrlanguage}
-                            onChange={handleOnChange}
-                            name="subjectOrlanguage"
-                            label={newTest.cartegory === 'School' ? 'Subject' : newTest.cartegory === 'Survey' ? 'Survey Name' : 'Language'}
-                            placeholder={newTest.cartegory === 'School' ? 'Subject' : newTest.cartegory === 'Survey' ? 'Survey Name' : 'Language'} />
-                    </FormControl>
-                )}
+
+                <FormControl>
+                    <TextInput sx={{ flexBasis: '50%' }}
+                        error={isErr && !newTest.subjectOrlanguage
+                        }
+                        value={newTest.subjectOrlanguage}
+                        onChange={handleOnChange}
+                        name="subjectOrlanguage"
+                        label='Name or Topic'
+                        placeholder='Name or Topic' />
+                </FormControl>
+
 
 
                 <FormControl>
-                    <Select onChange={selectSectionType}
+                    <Select onChange={handleOnChange}
                         error={isErr && !newTest.sectionType}
-                        name="sectionType"
-                        defaultValue='Split test into sections?'
-                        value={newTest.sectionType || undefined}
-                        sx={{ flexBasis: '68%' }}>
-                        <MenuItem value="Split test into sections?">Split into sections?</MenuItem>
-                        <MenuItem value="None sectioned">None sectioned</MenuItem>
-                        <MenuItem value="With sections">With sections</MenuItem>
+                        value={newTest.duration || undefined}
+                        name="duration"
+                        defaultValue='Partcipants'
+                        sx={{ flexBasis: '48%' }}>
+                        <MenuItem value="Partcipants">Partcipants</MenuItem>
+                        <MenuItem value="1 - 5">1 - 5 Partcipants</MenuItem>
+                        <MenuItem value="1 - 10">1 - 10 Partcipants</MenuItem>
+                        <MenuItem value="1 - 15">1 - 15 Partcipants</MenuItem>
+
                     </Select>
-                    {newTest.cartegory !== 'Survey' && (
-                        <Select onChange={handleOnChange}
-                            error={isErr && !newTest.sectionType}
-                            value={newTest.duration || undefined}
-                            name="duration"
-                            defaultValue='Duration'
-                            sx={{ flexBasis: '30%' }}>
-                            <MenuItem value="Duration">Duration</MenuItem>
-                            <MenuItem value="30mins">30Mins</MenuItem>
-                            <MenuItem value="40mins">40Mins</MenuItem>
-                            <MenuItem value="1hr">1Hr</MenuItem>
-                            <MenuItem value="2hrs">2Hrs</MenuItem>
-                        </Select>
-                    )}
+
+                    <Select onChange={handleOnChange}
+                        error={isErr && !newTest.sectionType}
+                        value={newTest.duration || undefined}
+                        name="duration"
+                        defaultValue='Duration'
+                        sx={{ flexBasis: '48%' }}>
+                        <MenuItem value="Duration">Duration</MenuItem>
+                        <MenuItem value="30mins">30Mins</MenuItem>
+                        <MenuItem value="40mins">40Mins</MenuItem>
+                        <MenuItem value="1hr">1Hr</MenuItem>
+                        <MenuItem value="2hrs">2Hrs</MenuItem>
+                    </Select>
                 </FormControl>
 
                 {newTest.sectionType === 'None sectioned' && (
@@ -373,11 +365,14 @@ export default function NewTestForm({ mode, submitHandler }: Props) {
                         name="description"
                         onChange={handleOnChange}
                         sx={{ flex: 1, borderColor: isErr && !newTest.description ? colors.red[400] : colors.grey[400] }}
-                        placeholder={`${newTest.cartegory} description`} />
+                        placeholder={`Class Description`} />
                 </FormControl>
 
                 <FormControl onClick={handleSubmit} sx={{ justifyContent: 'flex-end' }}>
-                    <StyledButton>{mode}</StyledButton>
+                    <StyledButton>
+                        <AddIcon fontSize='small'  />
+                        {mode}
+                    </StyledButton>
                 </FormControl>
             </ChoicesContainer>
         </FormContainer>

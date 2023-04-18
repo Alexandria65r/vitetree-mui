@@ -1,24 +1,14 @@
 import React from 'react'
 import Layout from '../components/layout'
-import { Box, InputAdornment, InputLabel, OutlinedInput, MenuItem, TextField, Typography, colors, styled, Button } from '@mui/material'
+import { Box, Typography, styled } from '@mui/material'
 import { colorScheme } from '../theme'
 import { CSS_PROPERTIES } from '../reusable'
-//import Select from '@mui/joy/Select';
-import Option from '@mui/joy/Option';
-import TextareaAutosize from '@mui/base/TextareaAutosize';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import PieChartIcon from '@mui/icons-material/PieChart';
-import ShortTextIcon from '@mui/icons-material/ShortText';
-import ListIcon from '@mui/icons-material/List';
-import MultipleChoiceForm from '../components/question/multiple-choice-form'
-import WithDiagram from '../components/question/with-diagram'
-import WithOneWordAnswer from '../components/question/with-one-word-answer'
+
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import { mainActions } from '../../reducers'
-import NewTestForm from '../components/new-test-form/new-test-form'
 import TestAPI from '../api-services/test'
 import { useRouter } from 'next/router'
 import randomstring from 'randomstring'
+import NewClassForm from '../components/new-class-form/new-class-form'
 
 const Container = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -101,9 +91,9 @@ export default function NewTest({ }: Props) {
                 </TestInfoCol>
                 <TestFormContainer>
                     <TestHeader>
-                        <Typography variant='h6' sx={{fontWeight:600}}>Create new test</Typography>
+                        <Typography variant='h6' sx={{fontWeight:600}}>New Class</Typography>
                     </TestHeader>
-                    <NewTestForm mode="create" submitHandler={create} />
+                    <NewClassForm mode="create" submitHandler={create} />
                 </TestFormContainer>
             </Container>
         </Layout>

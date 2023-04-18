@@ -1,10 +1,7 @@
 import React from 'react'
-import { styled, Box, TextField, MenuItem, Select, Button } from '@mui/material'
+import { styled, TextField, Button } from '@mui/material'
 import Layout from '../components/layout'
 import { Container, Hero } from '../reusable/styles'
-//import { FormControl, Textarea, } from '@mui/joy'
-import { cartegories } from '../reusable/helpers'
-import PeopleIcon from '@mui/icons-material/People';
 
 const PageContainer = styled(Container)(({ theme }) => ({
     width: '60%'

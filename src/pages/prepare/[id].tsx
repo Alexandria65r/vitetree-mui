@@ -239,6 +239,7 @@ export default function NewTest({ }: Props) {
     }
 
     function NextSection() {
+        
         if (sectionIndex === newTest.sections.length - 1) return;
         console.log(sectionIndex)
         dispatch(testActions.setQuestionIdex(0))
@@ -254,6 +255,7 @@ export default function NewTest({ }: Props) {
 
 
     function validateInputs() {
+        if (!newTest.sections[sectionIndex]?.questions.length) return
         const { question, answer, choices } =
             { ...newTest.sections[sectionIndex].questions[questionIndex] }
         if (section.wayOfAnswering === 'multiple choice') {
@@ -274,6 +276,7 @@ export default function NewTest({ }: Props) {
     }
 
     function nextQuestion() {
+        if (!newTest.sections[sectionIndex]?.questions.length) return
         const error = validateInputs()
         if (error) return
         if (questionIndex === section.numberOfQuestions - 1) return
@@ -310,7 +313,7 @@ export default function NewTest({ }: Props) {
     let linkToCopy: any
 
     if (typeof window !== 'undefined' && router.query.id) {
-      
+
         linkToCopy = `${protocal}${window?.location.host}/test_info/${router.query.id}`
     }
 
@@ -378,18 +381,20 @@ export default function NewTest({ }: Props) {
                             })} >
                                 {newTest?.subjectOrlanguage}
                             </Typography>
-                            <Typography sx={(theme) => ({
-                                flex: 1,
-                                fontSize: 18,
-                                fontWeight: 600,
-                                [theme.breakpoints.down("sm")]: {
-                                    flexBasis: '100%',
-                                    textAlign: 'center',
-                                    order: 3
-                                }
-                            })} >
-                                Section {section?.name}
-                            </Typography>
+                            {section?.name !== 'None sectioned' && (
+                                <Typography sx={(theme) => ({
+                                    flex: 1,
+                                    fontSize: 18,
+                                    fontWeight: 600,
+                                    [theme.breakpoints.down("sm")]: {
+                                        flexBasis: '100%',
+                                        textAlign: 'center',
+                                        order: 3
+                                    }
+                                })} >
+                                    Section {section?.name}
+                                </Typography>
+                            )}
                             <IconButton onClick={PrevSection} sx={{ justifySelf: 'flex-end' }}>
                                 <ChevronLeftIcon />
                             </IconButton>

@@ -44,8 +44,6 @@ export default function NavBar() {
     const { toggleColorMode } = React.useContext(ColorModeContext)
     const isMobile = useMediaQuery('(max-width:600px)')
     const isSidebarOpen = useAppSelector((state) => state.MainReducer.isSidebarOpen)
-    const newTest = useAppSelector((state) => state.TestReducer.newTest)
-    const showTestTimer = useAppSelector((state) => state.TestReducer.showTestTimer)
 
     function toggleSideBar() {
         dispatch(mainActions.setIsSideBarOpen(!isSidebarOpen))
@@ -87,7 +85,7 @@ export default function NavBar() {
                     ) : <></>}
 
                     {!isMobile && !user._id ? (
-                        <Button sx={(theme) => ({
+                        <Button sx={() => ({
                             color: '#fff'
                         })} onClick={() => router.push('/signup')}>
                             Signup

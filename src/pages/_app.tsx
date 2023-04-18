@@ -3,14 +3,11 @@ import '@fontsource/public-sans';
 import React, { useEffect } from 'react'
 import type { AppProps } from 'next/app'
 import { wrapper } from '../../store/store'
-import { Box } from '@mui/material';
 import Head from 'next/head';
 import { ThemeProvider, createTheme } from '@mui/material';
 import { ColorModeContext } from '../theme';
 import cookie from 'js-cookie'
 import { useRouter } from 'next/router';
-import { CssVarsProvider } from '@mui/joy/styles';
-import { getAuth } from "firebase/auth";
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";

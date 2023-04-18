@@ -1,7 +1,5 @@
-import { Box, Button, MenuItem, Select, colors, styled } from '@mui/material'
+import { Box, MenuItem, Select, colors, styled } from '@mui/material'
 import React from 'react'
-import { CSS_PROPERTIES } from '../../reusable'
-import TextareaAutosize from '@mui/base/TextareaAutosize'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import { ChoiceTarget, Question } from '../../reusable/interfaces'
 import { updateTestMultipleChoiceThunk, updateTestQuestionThunk } from '../../../reducers/thunks'

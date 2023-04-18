@@ -7,7 +7,6 @@ import { useRouter } from 'next/router'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import SignInWithGoogleButton from '../components/auth/google-button'
 import { SignInThunk } from '../../reducers/thunks'
-import { mainActions } from '../../reducers'
 import { authActions } from '../../reducers/auth-reducer'
 
 

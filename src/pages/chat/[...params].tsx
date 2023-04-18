@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box, styled } from '@mui/material'
-import SideBar from '../../components/chat/side-bar'
+import SideBar from '../../components/side-bar'
 import Chat from '../../components/chat/chat'
 
 

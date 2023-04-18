@@ -1,23 +1,18 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import Layout from '../components/layout'
-import { Box, ButtonBase, IconButton, InputBase, Typography, colors, styled } from '@mui/material'
+import { Box, IconButton, Typography, colors, styled } from '@mui/material'
 import { colorScheme } from '../theme'
 import { CSS_PROPERTIES } from '../reusable'
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
 import { useRouter } from 'next/router'
-import { Test } from '../reusable/interfaces'
 import TestAPI from '../api-services/test'
-
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import { mainActions } from '../../reducers'
-import * as types from '../reusable'
-import ReusablePopper from '../components/reusable-popper'
 import TestCardOptions from '../components/test-card-options'
 import { SearchInput, SearchInputWrap, StyledButton } from '../reusable/styles'
-import SideBar from '../components/chat/side-bar'
+import SideBar from '../components/side-bar'
 import { testActions } from '../../reducers/test-reducer'
-
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 
 const FlexContainer = styled(Box)(({ theme }) => ({
@@ -151,6 +146,7 @@ export default function Darshboard({ }: Props) {
                         <Button onClick={() => router.push('/create')}>
                             <AddIcon sx={{ mr: 1 }} />
                             Create
+                            <KeyboardArrowDownIcon sx={{ ml: 2 }} />
                         </Button>
                     </SearchContainer>
 
