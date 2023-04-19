@@ -9,10 +9,11 @@ import { useRouter } from 'next/router'
 import TestAPI from '../api-services/test'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import TestCardOptions from '../components/test-card-options'
-import { SearchInput, SearchInputWrap, StyledButton } from '../reusable/styles'
+import { SearchInput, SearchInputWrap } from '../reusable/styles'
 import SideBar from '../components/side-bar'
 import { testActions } from '../../reducers/test-reducer'
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import CreateButtonOptions from '../components/menus/create-button-options'
+
 
 
 const FlexContainer = styled(Box)(({ theme }) => ({
@@ -66,14 +67,7 @@ const Card = styled(Box)(({ theme }) => ({
     }
 }))
 
-const Button = styled(StyledButton)(({ theme }) => ({
-    flexBasis: '20%',
-    height: 47,
-    [theme.breakpoints.down("sm")]: {
-        flexBasis: '25%',
-        display: 'none'
-    }
-}))
+
 
 
 
@@ -129,8 +123,6 @@ export default function Darshboard({ }: Props) {
     return (
         <Layout>
             <FlexContainer>
-
-
                 <SideBar />
                 <Container>
                     <SearchContainer>
@@ -138,16 +130,12 @@ export default function Darshboard({ }: Props) {
                             <SearchIcon sx={(theme) => ({
                                 flexBasis: '6%',
                                 [theme.breakpoints.down("sm")]: {
-                                    flexBasis: '10%',
+                                    flexBasis: '16%',
                                 }
                             })} />
                             <SearchInput placeholder='Search' />
                         </SearchInputWrap>
-                        <Button onClick={() => router.push('/create')}>
-                            <AddIcon sx={{ mr: 1 }} />
-                            Create
-                            <KeyboardArrowDownIcon sx={{ ml: 2 }} />
-                        </Button>
+                        <CreateButtonOptions />
                     </SearchContainer>
 
                     <MappedCards>
@@ -187,7 +175,7 @@ export default function Darshboard({ }: Props) {
                             ))}
                         </>)}
                     </MappedCards>
-                    <ButtonIcon onClick={() => router.push('/create')}>
+                    <ButtonIcon onClick={() => router.push('/create-new-test')}>
                         <AddIcon fontSize="medium" />
                     </ButtonIcon>
                 </Container>

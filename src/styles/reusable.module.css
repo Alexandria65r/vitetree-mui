@@ -1,9 +1,14 @@
+.PopperContainer {
+  margin-top: 5px;
+}
+
 .CustomPaper {
   padding: 0px;
   background-color: transparent !important;
   grid-template-columns: 1fr;
-  box-shadow: none !important;
-  border-radius: 5px;
+  border-radius: 10px;
+  border:0!important;
+  /* border-left: 4px solid #26a96a; */
 }
 
 /* .dark .CustomPaper {

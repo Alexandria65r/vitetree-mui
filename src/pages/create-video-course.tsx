@@ -19,14 +19,17 @@ import NewTestForm from '../components/new-test-form/new-test-form'
 import TestAPI from '../api-services/test'
 import { useRouter } from 'next/router'
 import randomstring from 'randomstring'
+import UploadCourseForm from '../components/upload-course-form/upload-course-form'
+import { StyledButton } from '../reusable/styles'
 
 const Container = styled(Box)(({ theme }) => ({
     display: 'flex',
+    flexWrap: 'wrap',
     width: '75%',
     padding: 20,
     margin: '0 auto',
     [theme.breakpoints.down("sm")]: {
-        height: 'calc(100vh - 60px)',
+        margin: '10px auto',
         alignItems: 'center',
         width: '95%',
         padding: 0,
@@ -37,7 +40,7 @@ const TestHeader = styled(Box)(({ theme }) => ({
     minHeight: 60,
     display: 'flex',
     alignItems: 'center',
-    padding:'0 10px',
+    padding: '0 10px',
     backgroundColor: colorScheme(theme).secondaryColor,
     borderRadius: CSS_PROPERTIES.radius5,
     borderEndEndRadius: 0,
@@ -51,19 +54,36 @@ const TestInfoCol = styled(Box)(({ theme }) => ({
     backgroundColor: colorScheme(theme).secondaryColor,
     boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
     [theme.breakpoints.down("sm")]: {
-        display: 'none'
+        flexBasis: '100%',
+        marginBottom: 10
     }
 }))
 const TestFormContainer = styled(Box)(({ theme }) => ({
-    flexBasis:'55%',
+    flexBasis: '55%',
     marginLeft: 20,
     minHeight: 200,
     backgroundColor: colorScheme(theme).secondaryColor,
     borderRadius: CSS_PROPERTIES.radius5,
     boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
     [theme.breakpoints.down("sm")]: {
+        flexBasis: '100%',
         marginLeft: 0,
     }
+}))
+
+const VideoContainer = styled(Box)(({ theme }) => ({
+    height: 200,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: CSS_PROPERTIES.radius5,
+    backgroundColor: colorScheme(theme).secondaryColor
+}))
+
+const BrowseButton = styled(StyledButton)(() => ({
+    padding: '0 13px',
+    fontSize: 13,
+    backgroundColor: colors.blue[500]
 }))
 
 
@@ -97,13 +117,23 @@ export default function NewTest({ }: Props) {
         <Layout>
             <Container>
                 <TestInfoCol>
-
+                    <VideoContainer>
+                        <BrowseButton>Browse Thumbnail</BrowseButton>
+                    </VideoContainer>
                 </TestInfoCol>
                 <TestFormContainer>
                     <TestHeader>
-                        <Typography variant='h6' sx={{fontWeight:600}}>Create new test</Typography>
+                        <Typography variant='h6'
+                            sx={(theme) => ({
+                                fontWeight: 600,
+                                [theme.breakpoints.down("sm")]: {
+                                    fontSize:15
+                                }
+                            })}>
+                            Upload Course
+                        </Typography>
                     </TestHeader>
-                    <NewTestForm mode="create" submitHandler={create} />
+                    <UploadCourseForm mode="create" submitHandler={create} />
                 </TestFormContainer>
             </Container>
         </Layout>

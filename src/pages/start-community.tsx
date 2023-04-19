@@ -1,8 +1,9 @@
 import React from 'react'
-import { styled, TextField, Button } from '@mui/material'
+import { styled, TextField, Button, MenuItem, Box, Select } from '@mui/material'
 import Layout from '../components/layout'
-import { Container, Hero } from '../reusable/styles'
-
+import { Container, CustomFormControl, Hero, Textarea } from '../reusable/styles'
+import PeopleIcon from '@mui/icons-material/People'
+import { cartegories } from '../reusable/helpers'
 const PageContainer = styled(Container)(({ theme }) => ({
     width: '60%'
 }))
@@ -35,25 +36,25 @@ export default function StartCommunity({ }: Props) {
         <Layout>
             <PageContainer>
                 <Hero></Hero>
-                {/* <FormContainer>
-                    <FormControl>
-                        <TextInput variant='standard' placeholder='Community name' label="Community name" />
-                    </FormControl>
-                    <FormControl sx={{ mt: 5 }}>
-                        <Select variant='standard' label='Choose cartegory'>
+                <FormContainer>
+                    <CustomFormControl>
+                        <TextInput sx={{flex:1}} variant='standard' placeholder='Community name' label="Community name" />
+                    </CustomFormControl>
+                    <CustomFormControl sx={{ mt: 5 }}>
+                        <Select sx={{ flex: 1 }} variant='standard' label='Choose cartegory'>
                             <MenuItem value="Choose cartegory">Choose cartegory</MenuItem>
                             {cartegories.map((cart) => (
                                 <MenuItem key={cart} value={cart}>{cart}</MenuItem>
                             ))}
                         </Select>
-                    </FormControl>
-                    <FormControl sx={{ mt: 5 }}>
-                        <Textarea minRows={3} placeholder='Description' />
-                    </FormControl>
+                    </CustomFormControl>
+                    <CustomFormControl sx={{ mt: 5 }}>
+                        <Textarea sx={{ flex: 1 }} minRows={3} placeholder='Description' />
+                    </CustomFormControl>
                     <Box sx={{width:'100%',display:'grid',gridTemplateColumns:'1fr', my: 5 }}>
                         <CreateCommunityButton startIcon={<PeopleIcon/>}  variant='contained'>Create community</CreateCommunityButton>
                     </Box>
-                </FormContainer> */}
+                </FormContainer> 
             </PageContainer>
         </Layout>
     )
