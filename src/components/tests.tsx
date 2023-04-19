@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import Layout from '../components/layout'
+import Layout from './layout'
 import { Box, IconButton, Typography, colors, styled } from '@mui/material'
 import { colorScheme } from '../theme'
 import { CSS_PROPERTIES } from '../reusable'
@@ -8,14 +8,12 @@ import AddIcon from '@mui/icons-material/Add';
 import { useRouter } from 'next/router'
 import TestAPI from '../api-services/test'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import TestCardOptions from '../components/test-card-options'
+import TestCardOptions from './test-card-options'
 import { SearchInput, SearchInputWrap } from '../reusable/styles'
-import SideBar from '../components/side-bar'
+import SideBar from './side-bar'
 import { testActions } from '../../reducers/test-reducer'
-import CreateButtonOptions from '../components/menus/create-button-options'
-import Link from 'next/link'
-import { SlGraduation } from 'react-icons/sl'
-import { BiDetail } from 'react-icons/bi'
+import CreateButtonOptions from './menus/create-button-options'
+
 
 
 const FlexContainer = styled(Box)(({ theme }) => ({
@@ -44,19 +42,16 @@ const MappedCards = styled(Box)(({ theme }) => ({
     margin: 'auto',
     display: 'grid',
     gap: 15,
-    gridTemplateColumns: 'repeat(3,1fr)',
+    gridTemplateColumns: 'repeat(4,1fr)',
     [theme.breakpoints.down("sm")]: {
-        gap: 10,
+        gap: 5,
         width: '96%',
-        gridTemplateColumns: 'repeat(2,1fr)',
+        gridTemplateColumns: '1fr',
     }
 }))
-const DashCard = styled(Box)(({ theme }) => ({
-    display:'flex',
-    alignItems:'center',
-    justifyContent:'center',
+const Card = styled(Box)(({ theme }) => ({
     position: 'relative',
-    height: 180,
+    minHeight: 100,
     padding: 10,
     borderRadius: CSS_PROPERTIES.radius10,
     borderLeft: `5px solid ${colors.teal[400]}`,
@@ -101,13 +96,13 @@ const ButtonIcon = styled(IconButton)(({ theme }) => ({
 
 type Props = {}
 
-export default function Darshboard({ }: Props) {
+export default function Tests({ }: Props) {
     const router = useRouter()
     const dispatch = useAppDispatch()
     const [isFetching, setFetching] = useState<boolean>()
     const user = useAppSelector((state) => state.AuthReducer.user)
     const testsList = useAppSelector((state) => state.TestReducer.testList)
-    const params: any = router.query.params || []
+
 
     const fetchDashboardData = useCallback(async () => {
         setFetching(true)
@@ -124,7 +119,6 @@ export default function Darshboard({ }: Props) {
     useEffect(() => {
         fetchDashboardData()
     }, [router.pathname, user, dispatch])
-    console.log(router)
 
     return (
         <Layout>
@@ -143,55 +137,49 @@ export default function Darshboard({ }: Props) {
                         </SearchInputWrap>
                         <CreateButtonOptions />
                     </SearchContainer>
+
                     <MappedCards>
-                        {dashCardList.map((card, index) => (
-                            <Link key={index} href={card.route}>
-                                <DashCard sx={{ borderColor: card.accent }} >
+                        {isFetching ? (<>
+                            {[1, 2, 3, 4, 5, 6].map((index) => (
+                                <Card sx={(theme) => ({
+                                    boxShadow: 'none',
+                                    backgroundColor: theme.palette.mode === 'light' ? '#dcdcdc' : colorScheme(theme).secondaryColor
+                                })} key={index}></Card>
+                            ))}
+                        </>
+                        ) : (<>
+                            {testsList.map((testData, index) => (
+                                <Card key={index}>
                                     <Box sx={(theme) => ({
-                                        // width: 180,
+                                        width: 180,
                                         [theme.breakpoints.down('sm')]: {
-                                            //width: 230,
+                                            width: 230,
                                         },
+                                        // [theme.breakpoints.down('xs')]: {
+                                        //     width: 230,
+                                        // },
                                     })}>
-                                     
-                                            {card.icon}
-                                            <Typography sx={{
-                                                fontWeight: 600,
-                                                textOverflow: 'ellipsis',
-                                                overflow: 'hidden'
-                                            }}>{card.title}</Typography>
-                                      
+                                        <Typography sx={{
+                                            fontWeight: 600,
+                                            whiteSpace: 'nowrap',
+                                            textOverflow: 'ellipsis',
+                                            overflow: 'hidden'
+                                        }}>{testData.subjectOrlanguage}</Typography>
                                     </Box>
-                                </DashCard>
-
-                            </Link>
-                        ))}
+                                    <Typography>{testData.cartegory}</Typography>
+                                    <Typography sx={{ lineHeight: 1.2, fontSize: 12 }}>
+                                        {testData.description}
+                                    </Typography>
+                                    <TestCardOptions testData={testData} />
+                                </Card>
+                            ))}
+                        </>)}
                     </MappedCards>
-
-                    {/* <ButtonIcon onClick={() => router.push('/create-new-test')}>
+                    <ButtonIcon onClick={() => router.push('/create-new-test')}>
                         <AddIcon fontSize="medium" />
-                    </ButtonIcon> */}
+                    </ButtonIcon>
                 </Container>
             </FlexContainer>
         </Layout>
     )
 }
-
-
-const dashCardList = [
-    {
-        title: 'Tests', route: '/yard/tests',
-        accent: colors.teal[400],
-        icon: <SlGraduation size={40} color={colors.teal[400]} />
-    },
-    {
-        title: 'Courses', route: '/yard/courses',
-        accent: colors.deepOrange[400],
-        icon: <SlGraduation size={40} color={colors.deepOrange[400]} />
-    },
-    {
-        title: 'Bids', route: '/yard/courses',
-        accent: colors.cyan[400],
-        icon: <BiDetail size={40} color={colors.cyan[400]} />
-    }
-]
