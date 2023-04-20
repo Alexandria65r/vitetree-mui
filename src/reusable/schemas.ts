@@ -48,6 +48,7 @@ export const VideoCourseSchema: VideoCourse = {
     price: '9.60',
     title: '',
     type: '',
+    authorId: '',
     vidAsset: {
         publicId: '',
         secureURL: ''
