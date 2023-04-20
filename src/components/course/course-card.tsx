@@ -43,7 +43,7 @@ export default function CourseCard({course}: Props) {
               alignItems: 'center',
               backgroundColor: theme.palette.mode === 'light' ? colors.grey[200] : colorScheme(theme).chatSecondaryColor,
               padding: 2,
-              borderRadius: 3,
+              borderRadius:'10px',
           })}>
 
               <Avatar>
