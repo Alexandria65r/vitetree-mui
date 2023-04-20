@@ -122,5 +122,25 @@ export type DeletePartcipantModal = {
 
 
 
+export type Asset = {
+    publicId: string,
+    secureURL: string
+}
+
+
+export type VideoCourse = {
+    type: 'introduction' | 'course' | ''
+    _id: string
+    title: string
+    description: string
+    courseId?: string
+    authorId:string
+    price: '14.60' | '9.60',
+    vidAsset: Asset,
+    imageAsset: Asset,
+}
+
+
+
 
 

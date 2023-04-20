@@ -138,7 +138,7 @@ export default function CreateButtonOptions({ }: Props) {
                                 </MenuItemIconWrap>
                                 New Test
                             </MenuItemButton>
-                            <MenuItemButton onClick={() => router.push('/create-video-course')}>
+                            <MenuItemButton onClick={() => router.push('/create-course')}>
                                 <MenuItemIconWrap>
                                     <OndemandVideoIcon />
                                 </MenuItemIconWrap>

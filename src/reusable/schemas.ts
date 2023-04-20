@@ -1,8 +1,8 @@
-import { Participant, Section, Test, User } from "./interfaces";
+import { Participant, Section, Test, User, VideoCourse } from "./interfaces";
 
 
 export const UserSchema: User = {
-    
+
     firstName: '',
     lastName: '',
     email: '',
@@ -21,7 +21,7 @@ export const testDataSchema: Test = {
     sections: [],
     description: '',
     authorId: "",
-    status:''
+    status: ''
 }
 
 
@@ -35,8 +35,26 @@ export const sectionSchems: Section = {
 export const participantSchema: Participant = {
     fullname: "",
     email: "",
-    reason:  '',
+    reason: '',
     testId: "",
     score: "",
     taken: false
+}
+
+
+export const VideoCourseSchema: VideoCourse = {
+    _id: '',
+    description: '',
+    price: '9.60',
+    title: '',
+    type: '',
+    vidAsset: {
+        publicId: '',
+        secureURL: ''
+    },
+    imageAsset: {
+        publicId: '',
+        secureURL: ''
+    }
+
 }

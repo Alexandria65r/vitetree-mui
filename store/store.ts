@@ -5,13 +5,15 @@ import ChatReducer from '../reducers/chat-reducer'
 import TestReducer from '../reducers/test-reducer'
 import PartcipantReducer from '../reducers/partcipant-reducer'
 import AuthReducer from '../reducers/auth-reducer'
+import CourseReducer from '../reducers/course-reducer'
 
 const rootReducer = combineReducers({
   AuthReducer,
   MainReducer,
   ChatReducer,
   TestReducer,
-  PartcipantReducer
+  PartcipantReducer,
+  CourseReducer
 })
 
 

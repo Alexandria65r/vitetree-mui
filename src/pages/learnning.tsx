@@ -1,12 +1,18 @@
 
 import { Box, Button, Typography, styled, InputBase, colors } from '@mui/material'
-import React from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Layout from '../components/layout'
 import { VideoCall, Add } from '@mui/icons-material';
 import { NextRouter, useRouter } from 'next/router';
 import { ButtonIcon, Container, Hero } from '../reusable/styles';
 import { cartegories } from '../reusable/helpers';
 import { colorScheme, isDarkMode } from '../theme';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import CourseAPI from '../api-services/course';
+import { courseActions } from '../../reducers/course-reducer';
+import CourseCard from '../components/course/course-card';
+import RenderCourses from '../components/render-courses';
+
 
 
 const GroupHeader = styled(Box)(({ theme }) => ({
@@ -30,7 +36,7 @@ const CreateCommunityButton = styled(Button)(({ theme }) => ({
     textTransform: 'capitalize',
     height: 45,
     borderRadius: 5,
-    color: isDarkMode(theme) ? '#fff': '#fff',
+    color: isDarkMode(theme) ? '#fff' : '#fff',
     [theme.breakpoints.down('sm')]: {
         display: 'none'
     },
@@ -45,16 +51,7 @@ const ActionIconButton = styled(ButtonIcon)(({ theme }) => ({
     },
 }))
 
-const CommunitiesWrapper = styled(Box)(({ theme }) => ({
-    display: 'grid',
-    gridTemplateColumns: 'repeat(3,1fr)',
-    gap: 10,
-    [theme.breakpoints.down('sm')]: {
-        gap: 0,
-        padding: 5,
-        gridTemplateColumns: 'repeat(2,1fr)',
-    },
-}))
+
 
 const CommunityCartegoryHeader = styled(Box)(({ theme }) => ({
     position: 'relative',
@@ -121,7 +118,28 @@ const SearchInput = styled(InputBase)(({ theme }) => ({
 type Props = {}
 
 export default function communites({ }: Props) {
-    const router: NextRouter = useRouter()
+    const dispatch = useAppDispatch()
+    const router = useRouter()
+    const [isFetching, setFetching] = useState<boolean>(false)
+    const user = useAppSelector((state) => state.AuthReducer.user)
+    const courses = useAppSelector((state) => state.CourseReducer.courses)
+
+    const fetchDashboardData = useCallback(async () => {
+        setFetching(true)
+        if (user._id) {
+            const courses = await CourseAPI.fetchAll('introduction')
+            if (courses) {
+                setFetching(false)
+                dispatch(courseActions.setCourses(courses))
+            }
+        }
+    }, [router.pathname, user, dispatch])
+
+
+    useEffect(() => {
+        fetchDashboardData()
+    }, [router.pathname, user, dispatch])
+
     return (
         <Layout>
             <Container>
@@ -146,7 +164,7 @@ export default function communites({ }: Props) {
                             <VideoCall />
                         </ActionIconButton>
                         <CreateCommunityButton onClick={() => router.push('/start-community')} color="secondary" variant="contained" startIcon={<Add />}>
-                           Hire Tutor
+                            Hire Tutor
                         </CreateCommunityButton>
                         <CreateCommunityButton
                             onClick={() => router.push('/launch-meet')}
@@ -157,19 +175,12 @@ export default function communites({ }: Props) {
                 </GroupHeader>
 
                 <MappedCommunity>
-                    {cartegories.map((cartegory) => (
+                    {["School"].map((cartegory) => (
                         <Box sx={{ margin: '10px 0' }}>
                             <CommunityCartegoryHeader>
                                 <CartegoryText>{cartegory}</CartegoryText>
                             </CommunityCartegoryHeader>
-                            <CommunitiesWrapper>
-                                {communities.filter(com => com.cartegory === cartegory).map((community) => (
-                                    <CommunityCard onClick={() => router.push('/chat/community-name')}>
-                                        <CardText style={{ fontSize: 13, fontWeight: 500, margin: 0 }} >{community.title}</CardText>
-                                    </CommunityCard>
-                                ))}
-                            </CommunitiesWrapper>
-
+                            <RenderCourses courses={courses} />
 
                         </Box>
                     ))}

@@ -31,6 +31,7 @@ const OpenedBar = styled(Box)(({ theme }) => ({
 const ReusableButton = styled(StyledButton)(({ theme }) => ({
     flexBasis: '90%',
     alignSelf: 'flex-end',
+    marginBottom:5,
     fontWeight: 600,
     fontSize: 16,
     [theme.breakpoints.down("sm")]: {

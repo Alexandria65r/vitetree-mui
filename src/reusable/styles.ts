@@ -20,6 +20,7 @@ export const Hero = styled(Box)(({ theme }) => ({
     borderBottomRightRadius: 25,
     backgroundColor: colorScheme(theme).secondaryColor,
     [theme.breakpoints.down('sm')]: {
+           marginTop: 0,
         height: 180,
         borderTopLeftRadius: 0,
         borderTopRightRadius: 0,

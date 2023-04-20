@@ -22,7 +22,7 @@ const TestSchema = new mongoose.Schema({
   sections: [],
   duration: { type: String, required: false },
   description: String,
-  status:String
+  status: String,
 });
 
 mongoose.models = {};
@@ -41,3 +41,23 @@ const partcipantSchema = new mongoose.Schema({
 });
 
 export const Partcipant = mongoose.model("partcipant", partcipantSchema);
+
+const courseSchema = new mongoose.Schema({
+  _id: String,
+  authorId: String,
+  description: String,
+  price: String,
+  title: String,
+  type: String,
+  courseId: { type: String, required: false },
+  vidAsset: {
+    publicId: String,
+    secureURL: String,
+  },
+  imageAsset: {
+    publicId: String,
+    secureURL: String,
+  },
+});
+
+export const Course = mongoose.model("course", courseSchema);

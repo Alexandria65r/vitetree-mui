@@ -9,10 +9,14 @@ import { useRouter } from 'next/router'
 import TestAPI from '../api-services/test'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import TestCardOptions from './test-card-options'
-import { SearchInput, SearchInputWrap } from '../reusable/styles'
+import { Avatar, SearchInput, SearchInputWrap } from '../reusable/styles'
 import SideBar from './side-bar'
 import { testActions } from '../../reducers/test-reducer'
 import CreateButtonOptions from './menus/create-button-options'
+import CourseAPI from '../api-services/course'
+import { courseActions } from '../../reducers/course-reducer'
+import CourseCard from './course/course-card'
+import RenderCourses from './render-courses'
 
 
 
@@ -40,19 +44,16 @@ const SearchContainer = styled(Box)(({ theme }) => ({
 const MappedCards = styled(Box)(({ theme }) => ({
     width: '80%',
     margin: 'auto',
-    display: 'grid',
-    gap: 15,
-    gridTemplateColumns: 'repeat(3,1fr)',
     [theme.breakpoints.down("sm")]: {
-        gap: 5,
-        width: '96%',
-        gridTemplateColumns: 'repeat(2,1fr)',
+        width: '100%',
     }
 }))
+
+
 const Card = styled(Box)(({ theme }) => ({
     position: 'relative',
     minHeight: 180,
-    padding: 10,
+    // padding: 10,
     borderRadius: CSS_PROPERTIES.radius10,
     //borderLeft: `5px solid ${colors.teal[400]}`,
     backgroundColor: colorScheme(theme).secondaryColor,
@@ -66,8 +67,6 @@ const Card = styled(Box)(({ theme }) => ({
         height: 120,
     }
 }))
-
-
 
 
 
@@ -96,21 +95,21 @@ const ButtonIcon = styled(IconButton)(({ theme }) => ({
 
 type Props = {}
 
-export default function RenderCourses({ }: Props) {
+export default function RenderOwnCourses({ }: Props) {
     const router = useRouter()
     const dispatch = useAppDispatch()
     const [isFetching, setFetching] = useState<boolean>()
     const user = useAppSelector((state) => state.AuthReducer.user)
-    const testsList = useAppSelector((state) => state.TestReducer.testList)
+    const courses = useAppSelector((state) => state.CourseReducer.courses)
 
 
     const fetchDashboardData = useCallback(async () => {
         setFetching(true)
         if (user._id) {
-            const testsList = await TestAPI.fetchMany(user._id ?? '')
-            if (testsList) {
+            const courses = await CourseAPI.fetchOwnCourses(user._id ?? '', 'introduction')
+            if (courses) {
                 setFetching(false)
-                dispatch(testActions.setTestList(testsList))
+                dispatch(courseActions.setCourses(courses))
             }
         }
     }, [router.pathname, user, dispatch])
@@ -137,43 +136,8 @@ export default function RenderCourses({ }: Props) {
                         </SearchInputWrap>
                         <CreateButtonOptions />
                     </SearchContainer>
-
                     <MappedCards>
-                        {isFetching ? (<>
-                            {[1, 2, 3, 4, 5, 6].map((index) => (
-                                <Card sx={(theme) => ({
-                                    boxShadow: 'none',
-                                    backgroundColor: theme.palette.mode === 'light' ? '#dcdcdc' : colorScheme(theme).secondaryColor
-                                })} key={index}></Card>
-                            ))}
-                        </>
-                        ) : (<>
-                            {testsList.map((testData, index) => (
-                                <Card key={index}>
-                                    <Box sx={(theme) => ({
-                                      //  width: 180,
-                                        [theme.breakpoints.down('sm')]: {
-                                         //   width: 230,
-                                        },
-                                        // [theme.breakpoints.down('xs')]: {
-                                        //     width: 230,
-                                        // },
-                                    })}>
-                                        <Typography sx={{
-                                            fontWeight: 600,
-                                           
-                                            textOverflow: 'ellipsis',
-                                            overflow: 'hidden'
-                                        }}>{testData.subjectOrlanguage}</Typography>
-                                    </Box>
-                                    <Typography>{testData.cartegory}</Typography>
-                                    <Typography sx={{ lineHeight: 1.2, fontSize: 12 }}>
-                                        {testData.description}
-                                    </Typography>
-                                    <TestCardOptions testData={testData} />
-                                </Card>
-                            ))}
-                        </>)}
+                        <RenderCourses courses={courses} />
                     </MappedCards>
                     <ButtonIcon onClick={() => router.push('/create-new-test')}>
                         <AddIcon fontSize="medium" />
