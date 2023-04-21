@@ -134,8 +134,8 @@ export type VideoCourse = {
     title: string
     description: string
     courseId?: string
-    authorId:string
-    price: '14.60' | '9.60',
+    authorId: string
+    price: '',
     vidAsset: Asset,
     imageAsset: Asset,
 }

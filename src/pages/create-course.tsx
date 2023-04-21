@@ -13,6 +13,9 @@ import UploadAPI from '../api-services/upload'
 import { courseActions } from '../../reducers/course-reducer'
 import CourseAPI from '../api-services/course'
 import { VideoCourseSchema } from '../reusable/schemas'
+import AddPhotoAlternateOutlinedIcon from '@mui/icons-material/AddPhotoAlternateOutlined';
+
+
 
 const Container = styled(Box)(({ theme }) => ({
     width: '75%',
@@ -44,11 +47,11 @@ const TestHeader = styled(Box)(({ theme }) => ({
     alignItems: 'center',
     padding: '0 10px',
     marginBottom: 10,
-    backgroundColor: colorScheme(theme).secondaryColor,
+    //backgroundColor: colorScheme(theme).secondaryColor,
     borderRadius: CSS_PROPERTIES.radius5,
     borderEndEndRadius: 0,
     borderBottomLeftRadius: 0,
-    boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`
+    // boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`
 }))
 const TestInfoCol = styled(Box)(({ theme }) => ({
     flexBasis: '35%',
@@ -162,26 +165,34 @@ export default function NewTest({ }: Props) {
                 <TestHeader>
                     <Typography
                         sx={(theme) => ({
-                            fontSize: 18,
+                            fontSize: 22,
                             fontWeight: 600,
                             [theme.breakpoints.down("sm")]: {
-                                fontSize: 15
+                                fontSize: 18
                             }
                         })}>
-                        Course Introduction
+                        Create Course
                     </Typography>
                 </TestHeader>
                 <FlexContainer>
                     <TestInfoCol>
                         <ThumbnailContainer
                             sx={{ backgroundImage: `url(${thumbLocal || course.imageAsset.secureURL})` }} >
-                            <BrowseFileButton removeFile={removeFile}
-                                disabled={thumbLocal !== '' || course.imageAsset.secureURL !== ''}
-                                loading={imageIsLoading}
-                                getBlob={getThumbnailBlob}>
-                                Browse Thumbnail
-                            </BrowseFileButton>
+                            <Box>
+                                {!thumbLocal && !course.imageAsset.secureURL && (
+                                    <Box sx={{ display: 'flex', justifyContent: 'center', marginBottom: 1 }}>
+                                        <AddPhotoAlternateOutlinedIcon sx={{ fontSize: 40 }} />
+                                    </Box>
+                                )}
+                                <BrowseFileButton removeFile={removeFile}
+                                    disabled={thumbLocal !== '' || course.imageAsset.secureURL !== ''}
+                                    loading={imageIsLoading}
+                                    getBlob={getThumbnailBlob}>
+                                    Browse video cover
+                                </BrowseFileButton>
+                            </Box>
                         </ThumbnailContainer>
+
                     </TestInfoCol>
                     <TestFormContainer>
 
@@ -189,6 +200,6 @@ export default function NewTest({ }: Props) {
                     </TestFormContainer>
                 </FlexContainer>
             </Container>
-        </Layout>
+        </Layout >
     )
 }

@@ -1,4 +1,4 @@
-import { Box, ButtonBase, MenuItem, Select, TextField, colors, styled } from '@mui/material'
+import { Box, ButtonBase, MenuItem, Select, TextField, Typography, colors, styled } from '@mui/material'
 import React, { useState } from 'react'
 import { CSS_PROPERTIES } from '../../reusable'
 import SelectWithCheckMarks from '../form-inputs/select-with-checkmarks'
@@ -57,6 +57,7 @@ const VideoContainer = styled(Box)(({ theme }) => ({
     position: 'relative',
     height: 220,
     display: 'flex',
+    flexWrap: 'wrap',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: CSS_PROPERTIES.radius5,
@@ -144,21 +145,37 @@ export default function UploadCourseForm({ mode, submitHandler }: Props) {
         <FormContainer>
             <ChoicesContainer>
                 <VideoContainer>
-                    {!course.vidAsset.secureURL ? (
-                        <BrowseFileButton removeFile={removeFile}
-                            disabled={course.vidAsset.secureURL !== ''}
-                            loading={videoIsLoading}
-                            getBlob={getVideoBlob}>
-                            Browse
-                        </BrowseFileButton>
+                    <Box sx={(theme) => ({
+                        flexBasis: '60%',
+                        [theme.breakpoints.down("sm")]: {
+                            flexBasis: '90%',
+                        }
+                    })}>
+                        <Typography sx={{ flexBasis: '100%', textAlign: 'center', fontSize: 15, fontWeight: 500 }}>
+                            Upload video introduction to the course,where you explain
+                            what you will cover in this course and what the student will
+                            learn from it.
+                        </Typography>
 
-                    ) : (
-                        <Video
-                            controls
-                            src={course.vidAsset.secureURL}
-                            preload={course.imageAsset.secureURL}
-                        />
-                    )}
+                        {!course.vidAsset.secureURL ? (
+                            <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 1 }}>
+                                <BrowseFileButton removeFile={removeFile}
+                                    disabled={course.vidAsset.secureURL !== ''}
+                                    loading={videoIsLoading}
+                                    getBlob={getVideoBlob}>
+                                    Browse introductory video
+                                </BrowseFileButton>
+                            </Box>
+
+                        ) : (
+                            <Video
+                                controls
+                                src={course.vidAsset.secureURL}
+                                preload={course.imageAsset.secureURL}
+                            />
+                        )}
+
+                    </Box>
                 </VideoContainer>
                 <FormControl>
                     <TextInput sx={{ flexBasis: '50%' }}
@@ -170,7 +187,17 @@ export default function UploadCourseForm({ mode, submitHandler }: Props) {
                         label='Title of the course'
                         placeholder='Title of the course' />
                 </FormControl>
-
+                <FormControl>
+                    <Select fullWidth onChange={handleOnChange}
+                        error={isErr && !course.price}
+                        value={course.price || undefined}
+                        name='price' defaultValue='Select Pricing' >
+                        <MenuItem value="Select Pricing">Select Pricing</MenuItem>
+                        <MenuItem value="$9.60">$9.60</MenuItem>
+                        <MenuItem value="$12.60">$12.60</MenuItem>
+                        <MenuItem value="$24.60">$24.60</MenuItem>
+                    </Select>
+                </FormControl>
                 <FormControl>
                     <Textarea minRows={2}
                         value={course.description}

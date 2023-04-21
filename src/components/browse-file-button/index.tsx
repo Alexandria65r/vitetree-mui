@@ -5,9 +5,11 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 
 const BrowseButton = styled(StyledButton)(() => ({
+    justifySelf:'center',
     padding: '0 13px',
     fontSize: 13,
-    backgroundColor: colors.blue[500]
+    backgroundColor: colors.blue[500],
+    borderBottom:`4px solid ${colors.blue[400]}`
 }))
 
 
@@ -48,7 +50,8 @@ export default function BrowseFileButton({ children, mode, getBlob, disabled, lo
             <BrowseButton
                 onClick={removeFile}
                 sx={{
-                    backgroundColor: colors.red[400],
+                    backgroundColor: colors.red[500],
+                    borderBottom:`4px solid ${colors.red[400]}`,
                     position: 'absolute',
                     right: 10,
                     bottom: 10

@@ -45,7 +45,7 @@ export const participantSchema: Participant = {
 export const VideoCourseSchema: VideoCourse = {
     _id: '',
     description: '',
-    price: '9.60',
+    price: '',
     title: '',
     type: '',
     authorId: '',
