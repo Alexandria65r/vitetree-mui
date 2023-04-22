@@ -68,6 +68,8 @@ const Video = styled('video')(() => ({
     width: '100%',
     height: '100%',
     backgroundColor: '#000',
+    top: 0,
+    zIndex: 60,
     position: 'absolute'
 }))
 
@@ -146,16 +148,20 @@ export default function UploadCourseForm({ mode, submitHandler }: Props) {
             <ChoicesContainer>
                 <VideoContainer>
                     <Box sx={(theme) => ({
+                        position: 'relative',
                         flexBasis: '60%',
                         [theme.breakpoints.down("sm")]: {
                             flexBasis: '90%',
                         }
                     })}>
-                        <Typography sx={{ flexBasis: '100%', textAlign: 'center', fontSize: 15, fontWeight: 500 }}>
-                            Upload video introduction to the course,where you explain
-                            what you will cover in this course and what the student will
-                            learn from it.
-                        </Typography>
+                        {!course.vidAsset.secureURL && (
+                            <Typography sx={{ flexBasis: '100%', textAlign: 'center', fontSize: 15, fontWeight: 500 }}>
+                                Upload video introduction to the course,where you explain
+                                what you will cover in this course and what the student will
+                                learn from it.
+                            </Typography>
+
+                        )}
 
                         {!course.vidAsset.secureURL ? (
                             <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 1 }}>
@@ -167,15 +173,17 @@ export default function UploadCourseForm({ mode, submitHandler }: Props) {
                                 </BrowseFileButton>
                             </Box>
 
-                        ) : (
-                            <Video
-                                controls
-                                src={course.vidAsset.secureURL}
-                                preload={course.imageAsset.secureURL}
-                            />
-                        )}
+                        ) : <></>}
 
                     </Box>
+                    {course.vidAsset.secureURL && (
+                        <Video
+                            controls
+                            src={course.vidAsset.secureURL}
+                            preload={course.imageAsset.secureURL}
+                        />
+                    )}
+
                 </VideoContainer>
                 <FormControl>
                     <TextInput sx={{ flexBasis: '50%' }}

@@ -9,6 +9,7 @@ import CourseAPI from '../../api-services/course';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { courseActions } from '../../../reducers/course-reducer';
 import { CSS_PROPERTIES } from '../../reusable';
+import BuyCourseButton from '../../components/menus/buy-course-button';
 
 const Container = styled(Box)(({ theme }) => ({
     maxWidth: '95%',
@@ -131,12 +132,7 @@ export default function CoursePreview({ }: Props) {
                                     </Typography>
                                 </Box>
                             </AuthorCol>
-                            <StyledButton sx={{
-                                px: 2,
-                                justifySelf: 'flex-end',
-                                borderBottom: `5px solid ${colors.teal[500]}`
-                            }} >Buy {course.price} </StyledButton>
-
+                            <BuyCourseButton course={course} />
                             <ButtonIcon>
                                 <MoreVertOutlinedIcon />
                             </ButtonIcon>
