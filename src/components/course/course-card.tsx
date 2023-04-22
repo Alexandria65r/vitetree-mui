@@ -5,6 +5,7 @@ import { Box, Typography, colors, styled } from '@mui/material'
 import { Image, Transformation } from 'cloudinary-react'
 import { Avatar } from '../../reusable/styles'
 import { VideoCourse } from '../../reusable/interfaces'
+import Link from 'next/link'
 
 const Card = styled(Box)(({ theme }) => ({
     position: 'relative',
@@ -26,45 +27,49 @@ type Props = {
     course: VideoCourse
 }
 
-export default function CourseCard({course}: Props) {
-  return (
-      <Card >
-          <Image cloudName="alexandriah65"
-              publicId={course.imageAsset.publicId}
-              style={{ width: '100%',
-               borderTopRightRadius: CSS_PROPERTIES.radius10,
-                  borderTopLeftRadius: CSS_PROPERTIES.radius10,
-             }}
-          >
-              <Transformation width="686" height="386" crop="thumb" />
-          </Image>
-          <Box sx={(theme) => ({
-              display: 'flex',
-              alignItems: 'center',
-              backgroundColor: theme.palette.mode === 'light' ? colors.grey[200] : colorScheme(theme).chatSecondaryColor,
-              padding: 2,
-              borderRadius:'10px',
-          })}>
+export default function CourseCard({ course }: Props) {
+    return (
+        <Link href={`/course/${course._id}`}>
 
-              <Avatar>
 
-              </Avatar>
+            <Card>
+                <Image cloudName="alexandriah65"
+                    publicId={course.imageAsset.publicId}
+                    style={{
+                        width: '100%',
+                        borderTopRightRadius: CSS_PROPERTIES.radius10,
+                        borderTopLeftRadius: CSS_PROPERTIES.radius10,
+                    }}
+                >
+                    <Transformation width="686" height="386" crop="thumb" />
+                </Image>
+                <Box sx={(theme) => ({
+                    display: 'flex',
+                    alignItems: 'center',
+                    backgroundColor: theme.palette.mode === 'light' ? colors.grey[200] : colorScheme(theme).chatSecondaryColor,
+                    padding: 2,
+                    borderRadius: '10px',
+                })}>
 
-              <Typography sx={(theme)=>({
-                  flex: 1,
-                  ml: 1,
-                  lineHeight: 1.2,
-                  fontSize:13,
-                  fontWeight: 600,
-                  textOverflow: 'ellipsis',
-                  overflow: 'hidden',
-                  [theme.breakpoints.down("sm")]:{
-                      fontWeight: 600,
-                      fontSize: 16,
-                  }
-              })}>{course.title}</Typography>
-          </Box>
+                    <Avatar>
 
-      </Card>
-  )
+                    </Avatar>
+
+                    <Typography sx={(theme) => ({
+                        flex: 1,
+                        ml: 1,
+                        lineHeight: 1.2,
+                        fontSize: 13,
+                        fontWeight: 600,
+                        textOverflow: 'ellipsis',
+                        overflow: 'hidden',
+                        [theme.breakpoints.down("sm")]: {
+                            fontWeight: 600,
+                            fontSize: 16,
+                        }
+                    })}>{course.title}</Typography>
+                </Box>
+            </Card>
+        </Link>
+    )
 }
