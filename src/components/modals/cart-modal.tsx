@@ -47,7 +47,7 @@ const CartBody = styled(Box)(({ theme }) => ({
     }
 
 }))
-const CartItemContainer = styled(Box)(() => ({
+const CartItemContainer = styled(Box)(({ theme }) => ({
     flex: 1,
     height: 100,
     margin: '5px',
@@ -55,15 +55,15 @@ const CartItemContainer = styled(Box)(() => ({
     alignItems: 'center',
 
     borderRadius: CSS_PROPERTIES.radius5,
-    backgroundColor: '#fff',
-    border: '1px solid #ddd'
+    backgroundColor: theme.palette.mode === 'light' ? '#fff' : colorScheme(theme).secondaryColor,
+    border: `1px solid ${theme.palette.mode === 'light' ? colors.grey[200] : colorScheme(theme).primaryColor}`
 }))
 
-const ItemImage = styled(Box)(() => ({
+const ItemImage = styled(Box)(({ theme }) => ({
     height: '100%',
     flexBasis: '30%',
     borderRadius: CSS_PROPERTIES.radius5,
-    backgroundColor: colors.grey[300]
+    backgroundColor: theme.palette.mode === 'light' ? colors.grey[300] : colorScheme(theme).primaryColor,
 }))
 const ItemBody = styled(Box)(() => ({
     position: 'relative',
@@ -75,14 +75,14 @@ const ItemBody = styled(Box)(() => ({
 
 
 
-const Cartooter = styled(Box)(() => ({
+const Cartooter = styled(Box)(({ theme }) => ({
     width: '100%',
     display: 'flex',
     alignItems: 'center',
     height: 60,
     //backgroundColor:'red',
     justifyContent: 'center',
-    borderTop: '1px solid #ddd'
+    borderTop: `1px solid ${theme.palette.mode === 'light' ? colors.grey[200] : colorScheme(theme).primaryColor}`
 }))
 
 
@@ -141,7 +141,11 @@ function CartItem() {
                 <Typography sx={{ fontWeight: 500, fontSize: 16 }}>
                     Civic Education Course
                 </Typography>
-                <Typography sx={{ fontWeight: 500, color: colors.grey[600], fontSize: 13 }}>
+                <Typography sx={(theme) => ({
+                    fontWeight: 500,
+                    color: theme.palette.mode==='light'? colors.grey[600]:colors.grey[500],
+                    fontSize: 13
+                })}>
                     Price: $24.60
                 </Typography>
                 <ButtonIcon sx={{ position: 'absolute', right: 1 }}>
