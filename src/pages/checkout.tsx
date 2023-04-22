@@ -1,8 +1,8 @@
 import React from 'react'
-import Layout from '../../components/layout'
+import Layout from '../components/layout'
 import { Box, Typography, styled } from '@mui/material'
-import { CSS_PROPERTIES } from '../../reusable'
-import { colorScheme } from '../../theme'
+import { CSS_PROPERTIES } from '../reusable'
+import { colorScheme } from '../theme'
 
 
 const Container = styled(Box)(({ theme }) => ({
@@ -10,11 +10,15 @@ const Container = styled(Box)(({ theme }) => ({
     margin: '20px auto',
     display: 'flex',
     flexWrap: 'wrap',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    [theme.breakpoints.down("sm")]: {
+        maxWidth: '100%',
+        margin: '10px auto',
+    }
 }))
 const CheckoutHeader = styled(Box)(({ theme }) => ({
     flexBasis: '100%',
-    minHeight: 60,
+    height: 60,
     display: 'flex',
     alignItems: 'center',
     padding: '0 10px',
@@ -23,7 +27,10 @@ const CheckoutHeader = styled(Box)(({ theme }) => ({
     borderRadius: CSS_PROPERTIES.radius5,
     borderEndEndRadius: 0,
     borderBottomLeftRadius: 0,
-    // boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`
+    // boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
+    [theme.breakpoints.down("sm")]: {
+        height: 50,
+    }
 }))
 
 const CheckoutInfoColumn = styled(Box)(({ theme }) => ({
@@ -32,7 +39,11 @@ const CheckoutInfoColumn = styled(Box)(({ theme }) => ({
     height: 460,
     borderRadius: CSS_PROPERTIES.radius5,
     backgroundColor: colorScheme(theme).secondaryColor,
-    boxShadow: `0 1px 3px 0px ${theme.palette.mode === 'light' ? '#ddd' : 'transparent'}`
+    boxShadow: `0 1px 3px 0px ${theme.palette.mode === 'light' ? '#ddd' : 'transparent'}`,
+    [theme.breakpoints.down("sm")]: {
+        flexBasis: '100%',
+        height: 260,
+    }
 }))
 const ReadyToPayColumn = styled(Box)(({ theme }) => ({
     flexBasis: '45%',
@@ -40,7 +51,12 @@ const ReadyToPayColumn = styled(Box)(({ theme }) => ({
     height: 460,
     borderRadius: CSS_PROPERTIES.radius5,
     backgroundColor: colorScheme(theme).secondaryColor,
-    boxShadow: `0 1px 3px 0px ${theme.palette.mode === 'light' ? '#ddd' : 'transparent'}`
+    boxShadow: `0 1px 3px 0px ${theme.palette.mode === 'light' ? '#ddd' : 'transparent'}`,
+    [theme.breakpoints.down("sm")]: {
+        flexBasis: '100%',
+        height: 260,
+        margin: '10px 0',
+    }
 }))
 
 type Props = {}

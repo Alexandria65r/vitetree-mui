@@ -4,10 +4,12 @@ const UserSchema = new mongoose.Schema({
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
   email: { type: String, required: true },
+  accountType: { type: String, required: true },
   birthday: { type: String, required: false },
   password: { type: String, required: true },
   country: { type: String, required: false },
   imageAsset: { imageURL: String, public_id: String },
+  courses: { type: Array, required: false },
   createdAt: { type: Date, default: Date.now },
 });
 
@@ -61,3 +63,13 @@ const courseSchema = new mongoose.Schema({
 });
 
 export const Course = mongoose.model("course", courseSchema);
+
+export const CartItem = mongoose.model(
+  "cart-item",
+  new mongoose.Schema({
+    _id: String,
+    owner: String,
+    price: String,
+    imageAsset: { type: Object, required: false },
+  })
+);

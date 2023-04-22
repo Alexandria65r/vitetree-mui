@@ -36,12 +36,19 @@ a {
 
 .light {
   background-color: #f4fcff;
- 
 }
 
 .dark {
   background-color: #181b34;
-  color:#eeeeee;
- 
+  color: #eeeeee;
 }
 
+::-webkit-scrollbar {
+  background-color: #ddd;
+  width: 8px;
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #9e9e9e;
+  border-radius: 6px;
+}

@@ -8,9 +8,10 @@ export const UserSchema: User = {
     email: '',
     password: '',
     imageAsset: {
-        public_id: '',
-        imageURL: ''
-    }
+        publicId: '',
+        secureURL: ''
+    },
+    accountType: ''
 }
 
 export const testDataSchema: Test = {
@@ -58,4 +59,12 @@ export const VideoCourseSchema: VideoCourse = {
         secureURL: ''
     }
 
+}
+
+
+export const CartItem = {
+    _id: '',
+    owner: '',
+    price: '',
+    imageAsset: '',
 }

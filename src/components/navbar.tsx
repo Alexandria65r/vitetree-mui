@@ -17,6 +17,9 @@ import { useRouter } from 'next/router';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { mainActions } from '../../reducers';
 import Timer from './timer';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import { cartActions } from '../../reducers/cart-reducer';
+
 
 
 const Button = styled(ButtonBase)(({ theme }) => ({
@@ -44,14 +47,18 @@ export default function NavBar() {
     const { toggleColorMode } = React.useContext(ColorModeContext)
     const isMobile = useMediaQuery('(max-width:600px)')
     const isSidebarOpen = useAppSelector((state) => state.MainReducer.isSidebarOpen)
+    const isCartOpen = useAppSelector((state) => state.CartReducer.isOpen)
 
     function toggleSideBar() {
         dispatch(mainActions.setIsSideBarOpen(!isSidebarOpen))
     }
+    function togggleCart() {
+        dispatch(cartActions.toggleModal(!isCartOpen))
+    }
 
     return (
         <Box sx={{ flexGrow: 1, position: 'relative' }}>
-            {router.pathname.includes('/partcipate') && <Timer pathName={router.pathname}/>  }
+            {router.pathname.includes('/partcipate') && <Timer pathName={router.pathname} />}
             <AppBar position="static" color='default' elevation={0}>
                 <Toolbar >
                     <IconButton
@@ -74,6 +81,9 @@ export default function NavBar() {
                             Schooyard
                         </Link>
                     </Typography>
+                    <ButtonIcon onClick={togggleCart}>
+                        <ShoppingCartOutlinedIcon />
+                    </ButtonIcon>
                     <ButtonIcon onClick={toggleColorMode}>
                         {theme.palette.mode === 'light' ? <DarkModeOutlinedIcon /> : <LightModeOutlinedIcon />}
                     </ButtonIcon>

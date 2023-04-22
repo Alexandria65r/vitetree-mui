@@ -9,6 +9,7 @@ import ReusablePopper from './reusable-popper'
 import DuplicateTestModal from './modals/duplicate-test-modal'
 import DeleteTestModal from './modals/delete-test-modal'
 import DeletePartcipantModal from './modals/delete-partcipant-modal'
+import CartModal from './modals/cart-modal'
 
 type Props = {
     children: any
@@ -43,6 +44,7 @@ export default function Layout({ children }: Props) {
             <DuplicateTestModal />
             <DeleteTestModal />
             <DeletePartcipantModal />
+            <CartModal />
         </Box>
     )
 }

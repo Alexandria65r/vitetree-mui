@@ -2,6 +2,11 @@ import { PopperPlacementType } from "@mui/material"
 
 
 //auth
+export type TutorInfo = {
+    id: string,
+    name: string
+    rating: number,
+}
 
 export type User = {
     _id?: string,
@@ -9,10 +14,10 @@ export type User = {
     lastName: string,
     email: string,
     password: string
-    imageAsset?: {
-        public_id: string
-        imageURL: string
-    }
+    imageAsset?: Asset,
+    courses?: string[],
+    accountType: 'Tutor' | 'Student' | '',
+    tutorInfo?: TutorInfo
     createdAt?: string
 }
 
@@ -138,6 +143,18 @@ export type VideoCourse = {
     price: '',
     vidAsset: Asset,
     imageAsset: Asset,
+}
+
+
+export type CartItem = {
+    _id: string,
+    owner: string,
+    price: string
+    imageAsset?: Asset
+    createdAt?: string
+}
+export type Cart = {
+    cartItems: CartItem[],
 }
 
 

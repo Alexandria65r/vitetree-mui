@@ -86,6 +86,7 @@ const Button = styled(StyledButton)(({ theme }) => ({
     [theme.breakpoints.down("sm")]: {
         padding: '0 10px',
         //height: 49,
+        whiteSpace: 'nowrap'
     }
 }))
 
@@ -141,7 +142,7 @@ export default function BuyCourseButton({ course }: Props) {
                                 <MenuItemIconWrap>
                                     <FavoriteBorderOutlinedIcon />
                                 </MenuItemIconWrap>
-                                Add to whishlist
+                                Add to wishlist
                             </MenuItemButton>
                             <MenuItemButton onClick={() => router.push(`/checkout/${course._id}`)}>
                                 <MenuItemIconWrap>

@@ -6,6 +6,7 @@ import TestReducer from '../reducers/test-reducer'
 import PartcipantReducer from '../reducers/partcipant-reducer'
 import AuthReducer from '../reducers/auth-reducer'
 import CourseReducer from '../reducers/course-reducer'
+import CartReducer from '../reducers/cart-reducer'
 
 const rootReducer = combineReducers({
   AuthReducer,
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
   ChatReducer,
   TestReducer,
   PartcipantReducer,
-  CourseReducer
+  CourseReducer,
+  CartReducer
 })
 
 
