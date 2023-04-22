@@ -90,6 +90,7 @@ export default function Signup({ }: Props) {
           firstName: splitedName[0] ?? '',
           lastName: splitedName[1] ?? '',
           email: currentUser?.email ?? '',
+          accountType:'',
           password: ''
         })
       }
