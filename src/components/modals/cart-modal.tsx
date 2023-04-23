@@ -10,30 +10,18 @@ import { Box, Typography, colors, styled } from '@mui/material';
 import { CSS_PROPERTIES } from '../../reusable';
 import { colorScheme } from '../../theme';
 import { cartActions } from '../../../reducers/cart-reducer';
-import { Badge, ButtonIcon, StyledButton } from '../../reusable/styles';
+import { Badge, ButtonIcon, CartAndWishListModalContainer, StyledButton } from '../../reusable/styles';
 
 import { useRouter } from 'next/router';
-import { fetchCartItemsThunk } from '../../../reducers/cart-reducer/cart-thunks';
+import { deleteCartItemThunk, fetchCartItemsThunk } from '../../../reducers/cart-reducer/cart-thunks';
 import CartItem from '../../components/cart-item'
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import { wishListActions } from '../../../reducers/wishlist-reducer';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
+import { deleteWishListThunk } from '../../../reducers/wishlist-reducer/wishlist-thunks';
+import EmptyCartAndWishlist from '../empty-cart-wishlist';
 
-const Container = styled(Box)(({ theme }) => ({
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    width: '35%',
-    transform: 'translate(-50%, -50%)',
-    borderRadius: CSS_PROPERTIES.radius10,
-    backgroundColor: colorScheme(theme).secondaryColor,
-    [theme.breakpoints.down("sm")]: {
-        position: 'relative',
-        width: '100%',
-        height: '100vh',
-        borderRadius: 0,
-    }
-}))
+
 
 
 const CartHead = styled(Box)(() => ({
@@ -44,15 +32,16 @@ const CartHead = styled(Box)(() => ({
 }))
 const CartBody = styled(Box)(({ theme }) => ({
     padding: '0 15px',
-    height: 300,
     overflow: 'auto',
+    minHeight: 142,
+    maxHeight: 500,
     [theme.breakpoints.down("sm")]: {
         padding: '0 10px',
-        height: 'calc(100vh - 118px)',
+        minHeight: 142,
+        maxHeight: 500
     }
 
 }))
-
 
 
 
@@ -63,7 +52,7 @@ const Cartooter = styled(Box)(({ theme }) => ({
     height: 60,
     //backgroundColor:'red',
     justifyContent: 'center',
-    borderTop: `1px solid ${theme.palette.mode === 'light' ? colors.grey[200] : colorScheme(theme).primaryColor}`
+    borderTop: `1px solid solid ${theme.palette.mode === 'light' ? colors.grey[200] : colorScheme(theme).primaryColor}`
 }))
 
 
@@ -100,7 +89,7 @@ export default function CartModal() {
                 aria-describedby="modal-modal-description"
             >
 
-                <Container>
+                <CartAndWishListModalContainer>
                     <CartHead>
                         <Typography sx={{ flex: 1, fontWeight: 600, fontSize: 20 }}>Your Cart</Typography>
                         <ButtonIcon onClick={() => {
@@ -115,7 +104,7 @@ export default function CartModal() {
                         }}
                             sx={(theme) => ({
                                 display: 'none',
-                              
+
                                 [theme.breakpoints.down("sm")]: {
                                     display: 'flex'
                                 }
@@ -125,19 +114,34 @@ export default function CartModal() {
                         </ButtonIcon>
                     </CartHead>
                     <CartBody>
-                        {cartItems.map((item, index) => (
-                            <CartItem key={index} cartItem={item} type="cart" />
-                        ))}
+                        {cartItems.length ? (<>
+
+                            {cartItems.map((item, index) => (
+                                <CartItem key={index}
+                                    cartItem={item}
+                                    type="cart"
+                                    deleteItem={() => dispatch(deleteCartItemThunk(item._id))}
+                                />
+                            ))}
+
+                        </>) : (
+                            <EmptyCartAndWishlist
+                                type="cart"
+                                close={() => dispatch(cartActions.toggleCartModal(false))}
+                            />
+                        )}
                     </CartBody>
-                    <Cartooter>
-                        <StyledButton onClick={() => {
-                            dispatch(cartActions.toggleCartModal(false))
-                            router.push('/checkout')
-                        }} sx={{ px: 1, width: '80%' }}>
-                            Procced to checkout
-                        </StyledButton>
-                    </Cartooter>
-                </Container>
+                    {cartItems.length ? (
+                        <Cartooter>
+                            <StyledButton onClick={() => {
+                                dispatch(cartActions.toggleCartModal(false))
+                                router.push('/checkout')
+                            }} sx={{ px: 1, width: '80%' }}>
+                                Procced to checkout
+                            </StyledButton>
+                        </Cartooter>
+                    ) : <></>}
+                </CartAndWishListModalContainer>
 
             </Modal>
         </div>

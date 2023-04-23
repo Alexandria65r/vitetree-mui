@@ -17,8 +17,8 @@ export default class WishListAPI {
     static delete(id: string) {
         return axios.delete(`/api/wishlist/delete/${id}`)
     }
-    static clearCart(owner: string) {
-        return axios.delete(`/api/wishlist/delete/${owner}`)
+    static clearWishList(owner: string) {
+        return axios.delete(`/api/wishlist/clear-wishlist/${owner}`)
     }
 
     static async fetchCartItem(id: string) {

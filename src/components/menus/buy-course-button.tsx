@@ -173,19 +173,17 @@ export default function BuyCourseButton({ course }: Props) {
                                 <MenuItemIconWrap>
                                     {isInCart ? <RemoveShoppingCartOutlinedIcon /> : <AddShoppingCartOutlinedIcon />}
                                 </MenuItemIconWrap>
-                                {isInCart ? 'Added to cart' : 'Add to cart'}
+                                {isInCart ? 'Go to cart' : 'Add to cart'}
                             </MenuItemButton>
                             <MenuItemButton onClick={() => {
                                 addToWishList()
-                                if (isInWishList) {
-                                    popupState.close()
-                                }
+                                setTimeout(() => popupState.close(), 2000)
                             }
                             }>
                                 <MenuItemIconWrap>
                                     {isInWishList ? <FavoriteOutlinedIcon /> : <FavoriteBorderOutlinedIcon />}
                                 </MenuItemIconWrap>
-                                {isInWishList ? 'Added to wishlist' : 'Add to wishlist'}
+                                {isInWishList ? 'View wishlist' : 'Add to wishlist'}
                             </MenuItemButton>
                             <MenuItemButton onClick={() => router.push(`/checkout`)}>
                                 <MenuItemIconWrap>

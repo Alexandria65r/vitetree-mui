@@ -5,28 +5,16 @@ import { Box, Typography, colors, styled } from '@mui/material';
 import { CSS_PROPERTIES } from '../../reusable';
 import { colorScheme } from '../../theme';
 import { cartActions } from '../../../reducers/cart-reducer';
-import { ButtonIcon, StyledButton } from '../../reusable/styles';
+import { ButtonIcon, CartAndWishListModalContainer, StyledButton } from '../../reusable/styles';
 import { useRouter } from 'next/router';
 import CartItem from '../../components/cart-item'
-import { fetchWishListItemsThunk } from '../../../reducers/wishlist-reducer/wishlist-thunks';
+import { clearWishListThunk, deleteWishListThunk, fetchWishListItemsThunk, moveToCartThunk } from '../../../reducers/wishlist-reducer/wishlist-thunks';
 import { wishListActions } from '../../../reducers/wishlist-reducer';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
+import { AppSpinner } from '../activity-indicators';
+import EmptyCartAndWishlist from '../empty-cart-wishlist';
 
-const Container = styled(Box)(({ theme }) => ({
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    width: '35%',
-    transform: 'translate(-50%, -50%)',
-    borderRadius: CSS_PROPERTIES.radius10,
-    backgroundColor: colorScheme(theme).secondaryColor,
-    [theme.breakpoints.down("sm")]: {
-        position: 'relative',
-        width: '100%',
-        height: '100vh',
-        borderRadius: 0,
-    }
-}))
+
 
 
 const CartHead = styled(Box)(() => ({
@@ -36,13 +24,13 @@ const CartHead = styled(Box)(() => ({
     padding: '0 15px'
 }))
 const CartBody = styled(Box)(({ theme }) => ({
-    height: 50,
     padding: '0 15px',
-    minHeight: 300,
+    maxHeight: 400,
     overflow: 'auto',
     [theme.breakpoints.down("sm")]: {
         padding: '0 10px',
-        height: 'calc(100vh - 118px)',
+        minHeight:142,
+        maxHeight:500
     }
 
 }))
@@ -66,6 +54,7 @@ export default function WishListModal() {
     const isOpen = useAppSelector((state) => state.WishListReducer.isOpen)
     const owner = useAppSelector((state) => state.AuthReducer.user._id)
     const wishListItems = useAppSelector((state) => state.WishListReducer.wishListItems)
+    const network_status = useAppSelector((state) => state.WishListReducer.network_status)
 
     const fetchWishListItems = React.useCallback(() => {
         dispatch(fetchWishListItemsThunk(owner ?? ''))
@@ -90,9 +79,9 @@ export default function WishListModal() {
                 aria-describedby="modal-modal-description"
             >
 
-                <Container>
+                <CartAndWishListModalContainer>
                     <CartHead>
-                        <Typography sx={{flex:1, fontWeight: 600, fontSize: 20 }}>Your Wishlist</Typography>
+                        <Typography sx={{ flex: 1, fontWeight: 600, fontSize: 20 }}>Your Wishlist</Typography>
                         <ButtonIcon onClick={() => {
                             dispatch(wishListActions.toggleWishListModal(false))
                         }}
@@ -108,26 +97,47 @@ export default function WishListModal() {
                         </ButtonIcon>
                     </CartHead>
                     <CartBody>
-                        {wishListItems.map((item, index) => (
-                            <CartItem key={index} cartItem={item} type="wishlist" />
-                        ))}
+                        {wishListItems.length ? (<>
+                            {wishListItems.map((item, index) => (
+                                <CartItem key={index}
+                                    cartItem={item}
+                                    type="wishlist"
+                                    deleteItem={() => dispatch(deleteWishListThunk(item._id))}
+                                    moveToCart={() => dispatch(moveToCartThunk(item))}
+                                />
+                            ))}
+
+                        </>
+
+                        ) : <EmptyCartAndWishlist
+                            type='wishlist'
+                            close={() => dispatch(wishListActions.toggleWishListModal(false))}
+                        />}
                     </CartBody>
-                    <Cartooter>
-                        <StyledButton onClick={() => {
-                            dispatch(wishListActions.toggleWishListModal(false))
-                            router.push('/checkout')
-                        }} sx={(theme) => ({
-                            px: 1, width: '80%',
-                            backgroundColor: theme.palette.mode === 'light' ? '#000' : colorScheme(theme).primaryColor
-                        })}>
-                            Clear wishlist
-                        </StyledButton>
-                    </Cartooter>
-                </Container>
+                    {wishListItems.length ? (
+                        <Cartooter>
+                            <StyledButton onClick={() => {
+                                dispatch(clearWishListThunk())
+                            }} sx={(theme) => ({
+                                px: 1, width: '80%',
+                                
+                                backgroundColor: theme.palette.mode === 'light' ? '#000' : colorScheme(theme).primaryColor
+                            })}>
+                                {network_status === 'clearing-wishlist' ? 'Clearing...' : 'Clear wishlist'}
+                                <AppSpinner visible={network_status === 'clearing-wishlist'} />
+                            </StyledButton>
+                        </Cartooter>
+                    ) : <></>}
+
+                </CartAndWishListModalContainer>
 
             </Modal>
         </div>
     );
 }
+
+
+
+
 
 

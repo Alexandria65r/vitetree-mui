@@ -1,11 +1,22 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { CartItem } from '../../src/reusable/interfaces'
 
+export type CartNetworkStatus =
+    'fetching' |
+    'fetching-error' |
+    'fetching-success' |
+    'deleting' |
+    'deleting-error' |
+    'deleting-success'
+    | ''
+
+
+
 type CartState = {
     cartItems: CartItem[]
     isOpen: boolean
     isErr: boolean
-    network_status: 'fetching' | 'success' | 'error' | ''
+    cartNetworkStatus: CartNetworkStatus
 }
 
 
@@ -13,7 +24,7 @@ const initialState: CartState = {
     cartItems: [],
     isOpen: false,
     isErr: false,
-    network_status: ''
+    cartNetworkStatus: ''
 }
 
 
@@ -33,8 +44,8 @@ const cartSlice = createSlice({
         setIsErr: (state, { payload }: PayloadAction<boolean>) => {
             state.isErr = payload
         },
-        setNetworkStatus: (state, { payload }: PayloadAction<'fetching' | 'success' | 'error' | ''>) => {
-            state.network_status = payload
+        setNetworkStatus: (state, { payload }: PayloadAction<CartNetworkStatus>) => {
+            state.cartNetworkStatus = payload
         },
     }
 })

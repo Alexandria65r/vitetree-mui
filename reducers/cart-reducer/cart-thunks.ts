@@ -4,6 +4,9 @@ import { AppState } from "../../store/store";
 import Randomstring from "randomstring";
 import { cartActions } from ".";
 import CartAPI from "../../src/api-services/cart";
+
+
+
 export const addToCartThunk = createAsyncThunk<void, VideoCourse, { state: AppState }>
     ('cartSlice/addToCartThunk', async (product, thunkAPI) => {
         const state = thunkAPI.getState()
@@ -17,7 +20,7 @@ export const addToCartThunk = createAsyncThunk<void, VideoCourse, { state: AppSt
             price: product.price,
             link: `/course/${product._id}`,
             productInfo: {
-                id:product._id,
+                id: product._id,
                 authorId: product.authorId,
                 name: 'FreeMan'
             },
@@ -41,11 +44,36 @@ export const fetchCartItemsThunk = createAsyncThunk<void, string, { state: AppSt
         try {
             const cartItems = await CartAPI.fetchAll(owner)
             if (cartItems) {
-                dispatch(cartActions.setNetworkStatus('success'))
+                dispatch(cartActions.setNetworkStatus('fetching-success'))
                 dispatch(cartActions.setCartItems(cartItems))
             }
 
         } catch (error) {
-            dispatch(cartActions.setNetworkStatus('error'))
+            dispatch(cartActions.setNetworkStatus('fetching-error'))
+        }
+    })
+
+
+export const deleteCartItemThunk = createAsyncThunk<void, string, { state: AppState }>
+    ('cartSlice/deleteCartItemThunk', async (itemId, thunkAPI) => {
+        const dispatch = thunkAPI.dispatch
+        const { AuthReducer: { user: { _id: owner } } } = thunkAPI.getState()
+        const { CartReducer: { cartItems } } = thunkAPI.getState()
+        try {
+            dispatch(cartActions.setNetworkStatus('deleting'))
+            const newData = cartItems.filter((item) => item._id !== itemId)
+            dispatch(cartActions.setCartItems(newData))
+            const { data } = await CartAPI.delete(itemId)
+            if (data.success) {
+                dispatch(cartActions.setNetworkStatus('deleting-success'))
+                if (!newData.length) {
+                    setTimeout(() => {
+                        dispatch(cartActions.toggleCartModal(false))
+                    }, 2000)
+                }
+            }
+        } catch (error) {
+            dispatch(fetchCartItemsThunk(owner ?? ''))
+            dispatch(cartActions.setNetworkStatus('deleting-error'))
         }
     })

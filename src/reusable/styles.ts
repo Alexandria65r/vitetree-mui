@@ -177,3 +177,25 @@ export const Badge = styled(Box)(({ theme }) => ({
     color: '#fff',
     backgroundColor: colors.teal[400]
 }))
+
+
+export const CartAndWishListModalContainer = styled(Box)(({ theme }) => ({
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    width: '35%',
+    height: 'auto',
+    transform: 'translate(-50%, -50%)',
+    borderRadius: CSS_PROPERTIES.radius10,
+    backgroundColor: colorScheme(theme).secondaryColor,
+    [theme.breakpoints.down("sm")]: {
+        position: 'absolute',
+        left: 0,
+        width: '100%',
+        transform: 'none',
+        borderBottomLeftRadius: 0,
+        borderBottomRightRadius: 0,
+        top: 'unset',
+        bottom: 0
+    }
+}))
