@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Link from 'next/link';
-import { ButtonIcon } from '../reusable/styles';
+import { Badge, ButtonIcon } from '../reusable/styles';
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import { ButtonBase, colors, styled, useMediaQuery, useTheme } from '@mui/material';
@@ -39,6 +39,7 @@ const AppBar = styled(AppNavigationBar)(({ theme }) => ({
     backgroundColor: colorScheme(theme).primaryToGrey100Color,
 }))
 
+
 export default function NavBar() {
     const dispatch = useAppDispatch()
     const router = useRouter()
@@ -48,13 +49,16 @@ export default function NavBar() {
     const isMobile = useMediaQuery('(max-width:600px)')
     const isSidebarOpen = useAppSelector((state) => state.MainReducer.isSidebarOpen)
     const isCartOpen = useAppSelector((state) => state.CartReducer.isOpen)
+    const cartItems = useAppSelector((state) => state.CartReducer.cartItems)
 
     function toggleSideBar() {
         dispatch(mainActions.setIsSideBarOpen(!isSidebarOpen))
     }
     function togggleCart() {
-        dispatch(cartActions.toggleModal(!isCartOpen))
+        dispatch(cartActions.toggleCartModal(!isCartOpen))
     }
+
+
 
     return (
         <Box sx={{ flexGrow: 1, position: 'relative' }}>
@@ -81,8 +85,9 @@ export default function NavBar() {
                             Schooyard
                         </Link>
                     </Typography>
-                    <ButtonIcon onClick={togggleCart}>
+                    <ButtonIcon onClick={togggleCart} sx={{ position: 'relative' }}>
                         <ShoppingCartOutlinedIcon />
+                        <Badge>{cartItems.length}</Badge>
                     </ButtonIcon>
                     <ButtonIcon onClick={toggleColorMode}>
                         {theme.palette.mode === 'light' ? <DarkModeOutlinedIcon /> : <LightModeOutlinedIcon />}

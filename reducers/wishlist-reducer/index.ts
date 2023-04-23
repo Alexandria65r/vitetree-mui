@@ -2,14 +2,18 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { CartItem } from '../../src/reusable/interfaces'
 
 type WishListState = {
-    cartItems: CartItem[]
+    wishListItems: CartItem[]
     isErr: boolean
+    isOpen:boolean
+    network_status: 'fetching' | 'success' | 'error' | ''
 }
 
 
 const initialState: WishListState = {
-    cartItems: [],
-    isErr: false
+    wishListItems: [],
+    isErr: false,
+    isOpen:false,
+    network_status: ''
 }
 
 
@@ -17,14 +21,20 @@ const wishListSlice = createSlice({
     name: 'wishListSlice',
     initialState,
     reducers: {
-        setCartItem: (state, { payload }: PayloadAction<CartItem>) => {
-            state.cartItems = [...state.cartItems, payload]
+        setWishListItem: (state, { payload }: PayloadAction<CartItem>) => {
+            state.wishListItems = [...state.wishListItems, payload]
         },
-        setCartItems: (state, { payload }: PayloadAction<CartItem[]>) => {
-            state.cartItems = payload
+        setWishListItems: (state, { payload }: PayloadAction<CartItem[]>) => {
+            state.wishListItems = payload
+        },
+        toggleWishListModal: (state, { payload }: PayloadAction<boolean>) => {
+            state.isOpen = payload
         },
         setIsErr: (state, { payload }: PayloadAction<boolean>) => {
             state.isErr = payload
+        },
+        setNetworkStatus: (state, { payload }: PayloadAction<'fetching' | 'success' | 'error' | ''>) => {
+            state.network_status = payload
         },
     }
 })

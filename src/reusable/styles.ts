@@ -165,3 +165,15 @@ export const RedirectingCard = styled(Box)(({ theme }) => ({
     justifyContent: 'center',
     color: colors.teal[400]
 }))
+
+export const Badge = styled(Box)(({ theme }) => ({
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    width: 15,
+    height: 15,
+    borderRadius: 29,
+    fontSize: 13,
+    color: '#fff',
+    backgroundColor: colors.teal[400]
+}))

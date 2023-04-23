@@ -5,13 +5,15 @@ type CartState = {
     cartItems: CartItem[]
     isOpen: boolean
     isErr: boolean
+    network_status: 'fetching' | 'success' | 'error' | ''
 }
 
 
 const initialState: CartState = {
     cartItems: [],
     isOpen: false,
-    isErr: false
+    isErr: false,
+    network_status: ''
 }
 
 
@@ -25,11 +27,14 @@ const cartSlice = createSlice({
         setCartItems: (state, { payload }: PayloadAction<CartItem[]>) => {
             state.cartItems = payload
         },
-        toggleModal: (state, { payload }: PayloadAction<boolean>) => {
+        toggleCartModal: (state, { payload }: PayloadAction<boolean>) => {
             state.isOpen = payload
         },
         setIsErr: (state, { payload }: PayloadAction<boolean>) => {
             state.isErr = payload
+        },
+        setNetworkStatus: (state, { payload }: PayloadAction<'fetching' | 'success' | 'error' | ''>) => {
+            state.network_status = payload
         },
     }
 })

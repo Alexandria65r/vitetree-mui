@@ -21,6 +21,14 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import AddShoppingCartOutlinedIcon from '@mui/icons-material/AddShoppingCartOutlined';
 import InventoryOutlinedIcon from '@mui/icons-material/InventoryOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
+import { cartActions } from '../../../reducers/cart-reducer';
+import { addToCartThunk } from '../../../reducers/cart-reducer/cart-thunks';
+import RemoveShoppingCartOutlinedIcon from '@mui/icons-material/RemoveShoppingCartOutlined';
+import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
+import { addToWishListThunk } from '../../../reducers/wishlist-reducer/wishlist-thunks';
+import { wishListActions } from '../../../reducers/wishlist-reducer';
+
+
 
 const Container = styled(Box)(({ theme }) => ({
     flexBasis: '20%',
@@ -99,7 +107,31 @@ type Props = {
 export default function BuyCourseButton({ course }: Props) {
     const dispatch = useAppDispatch()
     const router = useRouter()
+    const cartItems = useAppSelector((state) => state.CartReducer.cartItems)
+    const wishListItems = useAppSelector((state) => state.WishListReducer.wishListItems)
 
+
+
+
+    const isInCart = cartItems.find((item) => item.productInfo.id === course._id)
+    const isInWishList = wishListItems.find((item) => item.productInfo.id === course._id)
+
+    function addToCart() {
+        if (isInCart) {
+            dispatch(cartActions.toggleCartModal(true))
+        } else {
+            dispatch(addToCartThunk(course))
+        }
+
+    }
+    function addToWishList() {
+        if (isInWishList) {
+            dispatch(wishListActions.toggleWishListModal(true))
+        } else {
+            dispatch(addToWishListThunk(course))
+        }
+
+    }
 
     return (
         <PopupState variant='popper' popupId='test-card-options'>
@@ -132,19 +164,30 @@ export default function BuyCourseButton({ course }: Props) {
                     // elevation={4}
                     >
                         <PopOverContainer>
-                            <MenuItemButton onClick={() => router.push('/create-new-test')}>
+                            <MenuItemButton onClick={() => {
+                                addToCart()
+                                if (isInCart) {
+                                    popupState.close()
+                                }
+                            }}>
                                 <MenuItemIconWrap>
-                                    <AddShoppingCartOutlinedIcon />
+                                    {isInCart ? <RemoveShoppingCartOutlinedIcon /> : <AddShoppingCartOutlinedIcon />}
                                 </MenuItemIconWrap>
-                                Add to cart
+                                {isInCart ? 'Added to cart' : 'Add to cart'}
                             </MenuItemButton>
-                            <MenuItemButton onClick={() => router.push('/create-course')}>
+                            <MenuItemButton onClick={() => {
+                                addToWishList()
+                                if (isInWishList) {
+                                    popupState.close()
+                                }
+                            }
+                            }>
                                 <MenuItemIconWrap>
-                                    <FavoriteBorderOutlinedIcon />
+                                    {isInWishList ? <FavoriteOutlinedIcon /> : <FavoriteBorderOutlinedIcon />}
                                 </MenuItemIconWrap>
-                                Add to wishlist
+                                {isInWishList ? 'Added to wishlist' : 'Add to wishlist'}
                             </MenuItemButton>
-                            <MenuItemButton onClick={() => router.push(`/checkout/${course._id}`)}>
+                            <MenuItemButton onClick={() => router.push(`/checkout`)}>
                                 <MenuItemIconWrap>
                                     <InventoryOutlinedIcon />
                                 </MenuItemIconWrap>

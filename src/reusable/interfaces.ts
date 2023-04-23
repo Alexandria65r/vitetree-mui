@@ -148,9 +148,16 @@ export type VideoCourse = {
 
 export type CartItem = {
     _id: string,
+    title: string,
     owner: string,
     price: string
     imageAsset?: Asset
+    link?: string
+    productInfo: {
+        id:string
+        authorId: string,
+        name: string
+    }
     createdAt?: string
 }
 export type Cart = {

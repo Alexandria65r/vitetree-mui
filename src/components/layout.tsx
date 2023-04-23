@@ -10,6 +10,7 @@ import DuplicateTestModal from './modals/duplicate-test-modal'
 import DeleteTestModal from './modals/delete-test-modal'
 import DeletePartcipantModal from './modals/delete-partcipant-modal'
 import CartModal from './modals/cart-modal'
+import WishListModal from './modals/wishlist-modal'
 
 type Props = {
     children: any
@@ -45,6 +46,7 @@ export default function Layout({ children }: Props) {
             <DeleteTestModal />
             <DeletePartcipantModal />
             <CartModal />
+            <WishListModal />
         </Box>
     )
 }

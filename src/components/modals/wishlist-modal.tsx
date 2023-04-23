@@ -1,21 +1,14 @@
 import * as React from 'react';
 import Modal from '@mui/material/Modal';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { mainActions } from '../../../reducers';
-import ReusableAlert from '../reusable-alert';
-import AddToPhotosOutlinedIcon from '@mui/icons-material/AddToPhotosOutlined';
-import { duplicateTestThunk } from '../../../reducers/thunks';
-import { testDataSchema } from '../../reusable/schemas';
 import { Box, Typography, colors, styled } from '@mui/material';
 import { CSS_PROPERTIES } from '../../reusable';
 import { colorScheme } from '../../theme';
 import { cartActions } from '../../../reducers/cart-reducer';
-import { Badge, ButtonIcon, StyledButton } from '../../reusable/styles';
-
+import { ButtonIcon, StyledButton } from '../../reusable/styles';
 import { useRouter } from 'next/router';
-import { fetchCartItemsThunk } from '../../../reducers/cart-reducer/cart-thunks';
 import CartItem from '../../components/cart-item'
-import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
+import { fetchWishListItemsThunk } from '../../../reducers/wishlist-reducer/wishlist-thunks';
 import { wishListActions } from '../../../reducers/wishlist-reducer';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 
@@ -43,8 +36,9 @@ const CartHead = styled(Box)(() => ({
     padding: '0 15px'
 }))
 const CartBody = styled(Box)(({ theme }) => ({
+    height: 50,
     padding: '0 15px',
-    height: 300,
+    minHeight: 300,
     overflow: 'auto',
     [theme.breakpoints.down("sm")]: {
         padding: '0 10px',
@@ -61,34 +55,30 @@ const Cartooter = styled(Box)(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
     height: 60,
-    //backgroundColor:'red',
     justifyContent: 'center',
     borderTop: `1px solid ${theme.palette.mode === 'light' ? colors.grey[200] : colorScheme(theme).primaryColor}`
 }))
 
 
-export default function CartModal() {
+export default function WishListModal() {
     const router = useRouter()
     const dispatch = useAppDispatch()
-    const isOpen = useAppSelector((state) => state.CartReducer.isOpen)
+    const isOpen = useAppSelector((state) => state.WishListReducer.isOpen)
     const owner = useAppSelector((state) => state.AuthReducer.user._id)
-    const cartItems = useAppSelector((state) => state.CartReducer.cartItems)
     const wishListItems = useAppSelector((state) => state.WishListReducer.wishListItems)
 
-    const fetchCartItems = React.useCallback(() => {
-        dispatch(fetchCartItemsThunk(owner ?? ''))
+    const fetchWishListItems = React.useCallback(() => {
+        dispatch(fetchWishListItemsThunk(owner ?? ''))
     }, [dispatch, owner])
 
     React.useEffect(() => {
-        fetchCartItems()
+        fetchWishListItems()
     }, [dispatch, owner])
 
 
     function handleClose() {
-        dispatch(cartActions.toggleCartModal(false))
+        dispatch(wishListActions.toggleWishListModal(false))
     }
-
-
 
 
     return (
@@ -102,20 +92,13 @@ export default function CartModal() {
 
                 <Container>
                     <CartHead>
-                        <Typography sx={{ flex: 1, fontWeight: 600, fontSize: 20 }}>Your Cart</Typography>
+                        <Typography sx={{flex:1, fontWeight: 600, fontSize: 20 }}>Your Wishlist</Typography>
                         <ButtonIcon onClick={() => {
-                            dispatch(cartActions.toggleCartModal(false))
-                            dispatch(wishListActions.toggleWishListModal(true))
-                        }}>
-                            <FavoriteBorderOutlinedIcon />
-                            <Badge>{wishListItems.length}</Badge>
-                        </ButtonIcon>
-                        <ButtonIcon onClick={() => {
-                            dispatch(cartActions.toggleCartModal(false))
+                            dispatch(wishListActions.toggleWishListModal(false))
                         }}
                             sx={(theme) => ({
                                 display: 'none',
-                              
+
                                 [theme.breakpoints.down("sm")]: {
                                     display: 'flex'
                                 }
@@ -125,16 +108,19 @@ export default function CartModal() {
                         </ButtonIcon>
                     </CartHead>
                     <CartBody>
-                        {cartItems.map((item, index) => (
-                            <CartItem key={index} cartItem={item} type="cart" />
+                        {wishListItems.map((item, index) => (
+                            <CartItem key={index} cartItem={item} type="wishlist" />
                         ))}
                     </CartBody>
                     <Cartooter>
                         <StyledButton onClick={() => {
-                            dispatch(cartActions.toggleCartModal(false))
+                            dispatch(wishListActions.toggleWishListModal(false))
                             router.push('/checkout')
-                        }} sx={{ px: 1, width: '80%' }}>
-                            Procced to checkout
+                        }} sx={(theme) => ({
+                            px: 1, width: '80%',
+                            backgroundColor: theme.palette.mode === 'light' ? '#000' : colorScheme(theme).primaryColor
+                        })}>
+                            Clear wishlist
                         </StyledButton>
                     </Cartooter>
                 </Container>
