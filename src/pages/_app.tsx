@@ -46,8 +46,12 @@ function App({ Component, pageProps }: AppProps) {
   const router = useRouter()
 
   const theme = React.useMemo(() => createTheme({
+    typography:{
+      fontFamily:"'Lato', sans-serif"
+    },
     palette: {
-      mode: mode ?? themeMode
+      mode: mode ?? themeMode,
+      
     }
   }), [mode])
 
@@ -90,10 +94,10 @@ function App({ Component, pageProps }: AppProps) {
       <ThemeProvider theme={theme}>
         <Head>
           <meta name="viewport" content="initial-scale=1, width=device-width" />
-          <link
+          {/* <link
             rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Public+Sans&display=swap"
-          />
+          /> */}
         </Head>
         <Component {...pageProps} />
       </ThemeProvider>
