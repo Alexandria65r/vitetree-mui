@@ -1,14 +1,14 @@
 import React from 'react'
-import Layout from '../components/layout'
+import Layout from '../../components/layout'
 import { Box, Typography, colors, styled } from '@mui/material'
-import { CSS_PROPERTIES } from '../reusable'
-import { colorScheme } from '../theme'
-import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import CartItemCard from '../components/cart-item'
-import { deleteCartItemThunk } from '../../reducers/cart-reducer/cart-thunks'
-import { StyledButton } from '../reusable/styles'
+import { CSS_PROPERTIES } from '../../reusable'
+import { colorScheme } from '../../theme'
+import { useAppDispatch, useAppSelector } from '../../../store/hooks'
+import CartItemCard from '../../components/cart-item'
+import { deleteCartItemThunk } from '../../../reducers/cart-reducer/cart-thunks'
+import { StyledButton } from '../../reusable/styles'
 import { FormatMoney } from 'format-money-js'
-import { Router, useRouter } from 'next/router'
+import CreditCardForm from '../../components/payments/credit-card-form'
 
 const Container = styled(Box)(({ theme }) => ({
     maxWidth: '90%',
@@ -102,7 +102,7 @@ type Props = {}
 export default function Checkout({ }: Props) {
     const dispatch = useAppDispatch()
     const cartItems = useAppSelector((state) => state.CartReducer.cartItems)
-    const router = useRouter()
+
     function getSubtotal() {
 
         return cartItems.reduce((s, item) => {
@@ -127,17 +127,11 @@ export default function Checkout({ }: Props) {
                                 fontSize: 18
                             }
                         })}>
-                        Your Cart
+                        Add Credit Card
                     </Typography>
                 </CheckoutHeader>
                 <CheckoutInfoColumn>
-                    {cartItems.map((item, index) => (
-                        <CartItemCard
-                            cartItem={item}
-                            key={index}
-                            type='cart'
-                            deleteItem={() => dispatch(deleteCartItemThunk(item._id))} />
-                    ))}
+                    <CreditCardForm />
                 </CheckoutInfoColumn>
                 <ReadyToPayColumn>
                     <SummaryHeader>
@@ -160,9 +154,7 @@ export default function Checkout({ }: Props) {
                         </Typography>
                     </SubTotal>
                     <PayButtonContainer>
-                        <StyledButton sx={{ flex: 1, px: 2 }}
-                            onClick={() => router.push('/checkout/make-payment')}
-                        >Procceed to pay</StyledButton>
+                        <StyledButton sx={{ flex: 1, px: 2 }}>Procceed to pay</StyledButton>
                     </PayButtonContainer>
                 </ReadyToPayColumn>
             </Container>

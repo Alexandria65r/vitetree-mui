@@ -1369,6 +1369,11 @@ form-data@^4.0.0:
     combined-stream "^1.0.8"
     mime-types "^2.1.12"
 
+format-money-js@^1.6.3:
+  version "1.6.3"
+  resolved "https://registry.npmjs.org/format-money-js/-/format-money-js-1.6.3.tgz"
+  integrity sha512-neeYRPJ5zeepUooQaYmQQLmISmA4d8SbhyMGbr+dCXoQG0eVDYItWMK8HcMbBJTAn15l5Xf76pqJGoAtu+e8Vg==
+
 fs-extra@^8.1.0:
   version "8.1.0"
   resolved "https://registry.npmjs.org/fs-extra/-/fs-extra-8.1.0.tgz"

@@ -11,7 +11,6 @@ import CartAPI from "../../src/api-services/cart"
 
 export const addToWishListThunk = createAsyncThunk<void, VideoCourse, { state: AppState }>
     ('wishListSlice/addToWishListThunk', async (product, thunkAPI) => {
-        console.log('called!!')
         const state = thunkAPI.getState()
         const dispatch = thunkAPI.dispatch
         const cartId = Randomstring.generate(17)
@@ -31,12 +30,15 @@ export const addToWishListThunk = createAsyncThunk<void, VideoCourse, { state: A
             imageAsset: product.imageAsset
         }
 
-        console.log(newWishItem)
-
         dispatch(wishListActions.setWishListItem(newWishItem))
-        const cartRes = await WishListAPI.create(newWishItem);
-        if (cartRes) {
-
+        try {
+            const cartRes = await WishListAPI.create(newWishItem);
+            if (cartRes) {
+    
+            }
+            
+        } catch (error) {
+            
         }
 
     })

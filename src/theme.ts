@@ -26,7 +26,7 @@ export const colorScheme = (theme: Theme) => ({
     sideBarColor: isDarkMode(theme) ? '#181b34': '#FFFFFF',
 
     //BORDERS
-    borderColor: isDarkMode(theme) ? '#292d48': colors.grey[200],
+    borderColor: isDarkMode(theme) ? '#292d48': colors.grey[300],
 
     //MENU ITEM
     menuItemHoverColor: isDarkMode(theme) ? '#33385d' : colors.grey[200],
