@@ -9,7 +9,7 @@ import { NextRouter, useRouter } from 'next/router'
 import { CustomFormControl } from '../reusable/styles'
 import { CSS_PROPERTIES } from '../reusable'
 import { colorScheme } from '../theme'
-
+import { SlGraduation } from 'react-icons/sl'
 
 const Container = styled(Box)(({ theme }) => ({
   height: 'calc(100vh - 66px)',
@@ -37,9 +37,9 @@ const IllustratorCol = styled(Box)(({ theme }) => ({
 }))
 
 const Image = styled('img')(({ theme }) => ({
-  height: 400,
+  height: 500,
   [theme.breakpoints.down("sm")]: {
-    height: 320
+    height: 350
   }
 }))
 
@@ -73,6 +73,7 @@ const FrontBox = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexWrap: 'wrap',
   alignItems: 'center',
+  marginTop: 10,
   justifyContent: 'space-between',
   //border:'1px solid red',
   [theme.breakpoints.down('sm')]: {
@@ -134,26 +135,27 @@ const IndexPage: NextPage = () => {
     <Layout>
       <Container>
         <IllustratorCol>
-          <Image src={theme.palette.mode === 'light' ? '/prepare-light.png' : '/prepare-dark.png'} />
+          <Image src={theme.palette.mode === 'light' ? '/study.jpg' : '/prepare-dark.png'} />
         </IllustratorCol>
         <RightCol>
           <TextWrap>
             <Typography sx={{
               fontWeight: 800, fontSize: 30, lineHeight: 1.2,
+              textTransform:'capitalize',
               textAlign: 'center',
               backgroundClip: 'text',
               color: 'transparent',
               backgroundImage: `linear-gradient(45deg,${colors.teal[400]},${colors.blue[400]})`
             }}>
-              The easiest  way to prepare school tests and test your students.
 
+              The future of online education made easy with schooyard
             </Typography>
             <Typography sx={(theme) => ({
               my: 1, textAlign: 'center', fontWeight: 400,
               color: theme.palette.mode === 'light' ? '#5f6368' : '#ffff', fontSize: 16, lineHeight: 1.2
             })}>
-              The professional way of conducting school tests and get instant
-              results without sacrificing your time in <b>marking</b> every paper.
+              Learn at your own pace, discover a ton of courses from the best and highly rated tutors.
+              Interact with tutors and request what you would want to learn next.
             </Typography>
             <Typography sx={{
               fontWeight: 600, fontSize: 16, lineHeight: 1.2,
@@ -168,7 +170,7 @@ const IndexPage: NextPage = () => {
 
           <FrontBox>
             <CommunityButton sx={(theme) => ({
-              flexBasis: '37%', fontWeight: 600,
+              flexBasis: '47%', fontWeight: 600,
               borderBottom: `4px solid ${colors.teal[500]}`,
               backgroundImage: `linear-gradient(45deg,${colors.teal[400]},${colors.blue[400]})`,
               [theme.breakpoints.down("sm")]: {
@@ -176,10 +178,47 @@ const IndexPage: NextPage = () => {
               }
             })} onClick={() => router.push('/create')}
               color='secondary'>
-              <AddIcon /> Getting started
+              <AddIcon /> Become a tutor
             </CommunityButton>
 
-            <CustomFormControl sx={(theme) => ({
+            <CommunityButton sx={(theme) => ({
+              flexBasis: '47%', fontWeight: 600,
+              borderBottom: `4px solid ${colors.teal[500]}`,
+              borderBottomColor:colors.deepOrange[400],
+              backgroundImage: `linear-gradient(45deg,${colors.deepOrange[400]},${colors.orange[400]})`,
+              [theme.breakpoints.down("sm")]: {
+                height: 50,
+              }
+            })} onClick={() => router.push('/create')}
+              color='secondary'>
+              <SlGraduation size={21} style={{ marginRight: 6 }} />Start Learnning
+            </CommunityButton>
+
+
+          </FrontBox>
+        </RightCol>
+      </Container>
+    </Layout>
+  )
+}
+
+export default IndexPage
+
+
+
+
+/*
+
+
+The easiest  way to prepare school tests and test your students.
+
+The professional way of conducting school tests and get instant
+              results without sacrificing your time in <b>marking</b> every paper.
+
+               Save time, Reduce workload and Instant results.
+
+
+<CustomFormControl sx={(theme) => ({
               flexBasis: '58%',
               flexWrap: 'wrap',
               [theme.breakpoints.down("sm")]: {
@@ -209,11 +248,4 @@ const IndexPage: NextPage = () => {
                 <SpeedIcon />
               </CommunityButton>
             </CustomFormControl>
-          </FrontBox>
-        </RightCol>
-      </Container>
-    </Layout>
-  )
-}
-
-export default IndexPage
+          */
