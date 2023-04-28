@@ -8,6 +8,7 @@ import AuthReducer from '../reducers/auth-reducer'
 import CourseReducer from '../reducers/course-reducer'
 import CartReducer from '../reducers/cart-reducer'
 import WishListReducer from '../reducers/wishlist-reducer'
+import ForumReducer from '../reducers/forum-reducer'
 
 const rootReducer = combineReducers({
   AuthReducer,
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
   PartcipantReducer,
   CourseReducer,
   CartReducer,
-  WishListReducer
+  WishListReducer,
+  ForumReducer
 })
 
 

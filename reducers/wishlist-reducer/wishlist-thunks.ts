@@ -4,7 +4,7 @@ import { AppState } from "../../store/store"
 import { wishListActions } from "."
 import WishListAPI from "../../src/api-services/wishlist"
 import Randomstring from 'randomstring'
-import { cartActions } from "../cart-reducer"
+import { cartActions } from "../forum-reducer"
 import CartAPI from "../../src/api-services/cart"
 
 

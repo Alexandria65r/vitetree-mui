@@ -16,7 +16,7 @@ export type User = {
     password: string
     imageAsset?: Asset,
     courses?: string[],
-    accountType: 'Tutor' | 'Student' | '',
+    role: 'Tutor' | 'Student' | string,
     tutorInfo?: TutorInfo
     createdAt?: string
 }
@@ -154,7 +154,7 @@ export type CartItem = {
     imageAsset?: Asset
     link?: string
     productInfo: {
-        id:string
+        id: string
         authorId: string,
         name: string
     }
@@ -166,5 +166,52 @@ export type Cart = {
 
 
 
+export type PaymentMethod = {
+    _id: string
+    cardNumber: string
+    expires: string
+    cvc: string
+    preffered: boolean
+    createdAt?: string
+}
 
 
+export type Order = {
+    _id: string
+    name: string
+    courseId: string
+    price: string
+    authorId: string[]
+    customerId: string
+    assets: Asset[]
+    link: string[]
+    createdAt: string
+}
+
+
+//post the topic you want to learn
+
+
+export type Post = {
+    _id: string
+    authorId: string
+    type: 'resource' | 'job' | ''
+    budget: string
+    title: string
+    imageAssets: Asset[]
+    videoAssets: Asset
+    description: string
+    createdAt?: string
+}
+
+export type Bid = {
+    _id: string
+    tutorId: string
+    tutorName: string
+    coverLater: string
+    jobId: string
+    imageAsset: Asset
+    viewed: boolean
+    awarded: boolean
+    createdAt: string
+}

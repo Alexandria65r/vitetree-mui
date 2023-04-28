@@ -53,8 +53,9 @@ type Props = {}
 export default function Signup({ }: Props) {
   const dispatch = useDispatch()
   const router = useRouter()
-  const [signUpData, setSignUpData] = useState<User>(UserSchema)
+  const signUpData = useAppSelector((state) => state.AuthReducer.user)
   const isRedirecting = useAppSelector((state) => state.AuthReducer.isRedirecting)
+  const gettingStartedRole = useAppSelector((state) => state.AuthReducer.gettingStartedRole)
 
   React.useEffect(() => {
     console.log(router.query)
@@ -73,10 +74,19 @@ export default function Signup({ }: Props) {
 
 
   function handleOnChange({ target: { value, name } }: any) {
-    setSignUpData({
+    dispatch(authActions.setAuhtUser({
       ...signUpData,
       [name]: value
-    })
+    }))
+
+  }
+
+  function getUserRole() {
+    const role = localStorage.getItem('getting-started-role')
+    if (role !== null) {
+      console.log(role)
+      return role
+    }
   }
 
 
@@ -86,13 +96,13 @@ export default function Signup({ }: Props) {
         const { currentUser } = getAuth(fireBaseApp)
         const splitedName: any = currentUser?.displayName?.split(' ');
         console.log(currentUser)
-        setSignUpData({
+        dispatch(authActions.setAuhtUser({
           firstName: splitedName[0] ?? '',
           lastName: splitedName[1] ?? '',
           email: currentUser?.email ?? '',
-          accountType:'',
+          role: getUserRole() ?? '',
           password: ''
-        })
+        }))
       }
     }
   }
@@ -103,6 +113,9 @@ export default function Signup({ }: Props) {
       cookies.set(SCHOOYARD_AUTH_TOKEN, data.token)
       dispatch(authActions.setAuhtUser(data.user))
       router.replace('/dashboard')
+      if (getUserRole()) {
+        localStorage.removeItem('getting-started-role')
+      }
     }
   }
 
@@ -127,17 +140,41 @@ export default function Signup({ }: Props) {
           <FormLogo></FormLogo>
           <FormHeader>Sign Up</FormHeader>
           <FormControl>
-            <TextInput name="firstName" value={signUpData.firstName} onChange={handleOnChange} sx={{ flexBasis: '48%' }} label="first name" placeholder="first name" />
-            <TextInput name="lastName" value={signUpData.lastName} onChange={handleOnChange} sx={{ flexBasis: '48%' }} label="last name" placeholder="last name" />
+            <TextInput name="firstName"
+              value={signUpData.firstName}
+              onChange={handleOnChange}
+              sx={{ flexBasis: '48%' }}
+              label="first name"
+              placeholder="first name" />
+            <TextInput name="lastName"
+              value={signUpData.lastName}
+              onChange={handleOnChange}
+              sx={{ flexBasis: '48%' }}
+              label="last name"
+              placeholder="last name" />
           </FormControl>
           <FormControl>
-            <TextInput name="email" value={signUpData.email} onChange={handleOnChange} sx={{ flex: 1 }} label="Email" placeholder="Email" />
+            <TextInput name="email" value={signUpData.email}
+              onChange={handleOnChange}
+              sx={{ flex: 1 }} label="Email" placeholder="Email" />
+          </FormControl>
+
+          <FormControl>
+            <TextInput name="role" value={signUpData.role}
+              onChange={handleOnChange}
+              sx={{ flex: 1 }} label="Role"
+              placeholder="Role" />
           </FormControl>
           <FormControl>
-            <TextInput name="password" value={signUpData.password} onChange={handleOnChange} sx={{ flex: 1 }} label="Password" placeholder="Password" />
+            <TextInput name="password"
+              value={signUpData.password}
+              onChange={handleOnChange}
+              sx={{ flex: 1 }} label="Password" placeholder="Password" />
           </FormControl>
           <FormControl>
-            <Button onClick={handleSignUp} sx={{ flexBasis: '100%' }}>Sign Up</Button>
+            <Button onClick={handleSignUp} sx={{ flexBasis: '100%' }}>
+              Sign Up
+            </Button>
           </FormControl>
           <FormControl sx={{ marginTop: 3 }}>
             <ContinueWith>

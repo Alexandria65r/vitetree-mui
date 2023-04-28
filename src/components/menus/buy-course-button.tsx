@@ -21,7 +21,7 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import AddShoppingCartOutlinedIcon from '@mui/icons-material/AddShoppingCartOutlined';
 import InventoryOutlinedIcon from '@mui/icons-material/InventoryOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
-import { cartActions } from '../../../reducers/cart-reducer';
+import { cartActions } from '../../../reducers/forum-reducer';
 import { addToCartThunk } from '../../../reducers/cart-reducer/cart-thunks';
 import RemoveShoppingCartOutlinedIcon from '@mui/icons-material/RemoveShoppingCartOutlined';
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';

@@ -3,7 +3,7 @@ import { getAuth, signInWithRedirect, GoogleAuthProvider, getRedirectResult } fr
 import { ButtonBase, colors, styled } from '@mui/material';
 import { CSS_PROPERTIES } from '../../reusable';
 import GoogleIcon from '@mui/icons-material/Google';
-import { useAppDispatch } from '../../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { SignInThunk } from '../../../reducers/thunks';
 import { authActions } from '../../../reducers/auth-reducer';
 import { fireBaseApp } from '../../pages/_app';
@@ -29,6 +29,7 @@ type Props = {
 
 export default function SignInWithGoogleButton({ disabled }: Props) {
     const dispatch = useAppDispatch()
+    const gettingStartedRole = useAppSelector((state) => state.AuthReducer.gettingStartedRole)
 
     React.useEffect(() => {
         handleRedirectData()
@@ -53,6 +54,9 @@ export default function SignInWithGoogleButton({ disabled }: Props) {
 
 
     async function signInWithGoogle() {
+        if (gettingStartedRole){
+            localStorage.setItem('getting-started-role', gettingStartedRole)
+        }
         localStorage.setItem('redirectFlag', JSON.stringify({ isRedirecting: true }))
         if (fireBaseApp) {
             const auth = getAuth(fireBaseApp)

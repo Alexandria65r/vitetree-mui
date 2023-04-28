@@ -13,6 +13,7 @@ interface State {
     duplicateTestModal: DuplicateTestModal
     deleteTestModal: DeleteTestModal
     deletePartcipantModal: DeletePartcipantModal
+ 
 }
 const initialState: State = {
     popperState: {
@@ -27,7 +28,7 @@ const initialState: State = {
     isSidebarOpen: false,
     duplicateTestModal: {
         component: 'close',
-        testData:testDataSchema
+        testData: testDataSchema
     },
     deleteTestModal: {
         component: 'close',
@@ -38,7 +39,8 @@ const initialState: State = {
         component: 'close',
         partcipantId: '',
         fullname: '',
-    }
+    },
+   
 }
 
 const mainSlice = createSlice({
@@ -74,7 +76,8 @@ const mainSlice = createSlice({
         },
         setDeletePartcipantModal: (state, { payload }: PayloadAction<DeletePartcipantModal>) => {
             state.deletePartcipantModal = payload
-        }
+        },
+     
     },
 
     extraReducers: {

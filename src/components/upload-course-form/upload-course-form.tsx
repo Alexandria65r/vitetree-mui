@@ -204,6 +204,7 @@ export default function UploadCourseForm({ mode, submitHandler }: Props) {
                         <MenuItem value="$9.60">$9.60</MenuItem>
                         <MenuItem value="$12.60">$12.60</MenuItem>
                         <MenuItem value="$24.60">$24.60</MenuItem>
+                        <MenuItem value="Free">Free</MenuItem>
                     </Select>
                 </FormControl>
                 <FormControl>

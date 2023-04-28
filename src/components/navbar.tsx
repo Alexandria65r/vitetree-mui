@@ -65,16 +65,19 @@ export default function NavBar() {
             {router.pathname.includes('/partcipate') && <Timer pathName={router.pathname} />}
             <AppBar position="static" color='default' elevation={0}>
                 <Toolbar >
-                    <IconButton
-                        onClick={toggleSideBar}
-                        size="large"
-                        edge="start"
-                        color="inherit"
-                        aria-label="menu"
-                        sx={{ mr: 2 }}
-                    >
-                        <MenuIcon />
-                    </IconButton>
+                    {router.pathname !== '/' && (
+                        <IconButton
+                            onClick={toggleSideBar}
+                            size="large"
+                            edge="start"
+                            color="inherit"
+                            aria-label="menu"
+                            sx={{ mr: 2 }}
+                        >
+                            <MenuIcon />
+                        </IconButton>
+                    )}
+
                     <Typography variant="h6" component="div"
                         sx={{
                             textAlign: isMobile ? 'center' : 'left',
@@ -85,10 +88,12 @@ export default function NavBar() {
                             Schooyard
                         </Link>
                     </Typography>
-                    <ButtonIcon onClick={togggleCart} sx={{ position: 'relative' }}>
-                        <ShoppingCartOutlinedIcon />
-                        <Badge>{cartItems.length}</Badge>
-                    </ButtonIcon>
+                    {router.pathname !== '/' && (
+                        <ButtonIcon onClick={togggleCart} sx={{ position: 'relative' }}>
+                            <ShoppingCartOutlinedIcon />
+                            <Badge>{cartItems.length}</Badge>
+                        </ButtonIcon>
+                    )}
                     <ButtonIcon onClick={toggleColorMode}>
                         {theme.palette.mode === 'light' ? <DarkModeOutlinedIcon /> : <LightModeOutlinedIcon />}
                     </ButtonIcon>

@@ -10,6 +10,9 @@ import { CustomFormControl } from '../reusable/styles'
 import { CSS_PROPERTIES } from '../reusable'
 import { colorScheme } from '../theme'
 import { SlGraduation } from 'react-icons/sl'
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { mainActions } from '../../reducers';
+import authReducer, { authActions } from '../../reducers/auth-reducer';
 
 const Container = styled(Box)(({ theme }) => ({
   height: 'calc(100vh - 66px)',
@@ -119,7 +122,8 @@ const TextInput = styled(InputBase)(({ theme }) => ({
 const IndexPage: NextPage = () => {
   const router: NextRouter = useRouter()
   const [URL, setCode] = useState<string>('')
-
+  const dispatch = useAppDispatch()
+  const user = useAppSelector((state) => state.AuthReducer.user)
 
 
   function attend() {
@@ -127,6 +131,12 @@ const IndexPage: NextPage = () => {
     window.open(URL, '_blank')
   }
 
+
+  function gettingStartedRole(role: 'Tutor' | 'Student') {
+    dispatch(authActions.setGettingStartedRole(role))
+    dispatch(authActions.setAuhtUser({ ...user, role }))
+    router.push('/signup')
+  }
 
 
   const theme = useTheme()
@@ -141,7 +151,7 @@ const IndexPage: NextPage = () => {
           <TextWrap>
             <Typography sx={{
               fontWeight: 800, fontSize: 30, lineHeight: 1.2,
-              textTransform:'capitalize',
+              textTransform: 'capitalize',
               textAlign: 'center',
               backgroundClip: 'text',
               color: 'transparent',
@@ -176,7 +186,7 @@ const IndexPage: NextPage = () => {
               [theme.breakpoints.down("sm")]: {
                 height: 50,
               }
-            })} onClick={() => router.push('/create')}
+            })} onClick={() => gettingStartedRole('Tutor')}
               color='secondary'>
               <AddIcon /> Become a tutor
             </CommunityButton>
@@ -184,12 +194,12 @@ const IndexPage: NextPage = () => {
             <CommunityButton sx={(theme) => ({
               flexBasis: '47%', fontWeight: 600,
               borderBottom: `4px solid ${colors.teal[500]}`,
-              borderBottomColor:colors.deepOrange[400],
+              borderBottomColor: colors.deepOrange[400],
               backgroundImage: `linear-gradient(45deg,${colors.deepOrange[400]},${colors.orange[400]})`,
               [theme.breakpoints.down("sm")]: {
                 height: 50,
               }
-            })} onClick={() => router.push('/create')}
+            })} onClick={() => gettingStartedRole('Student')}
               color='secondary'>
               <SlGraduation size={21} style={{ marginRight: 6 }} />Start Learnning
             </CommunityButton>

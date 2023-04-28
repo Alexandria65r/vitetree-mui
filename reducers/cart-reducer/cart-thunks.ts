@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { CartItem, VideoCourse } from "../../src/reusable/interfaces";
 import { AppState } from "../../store/store";
 import Randomstring from "randomstring";
-import { cartActions } from ".";
+import { cartActions } from "../cart-reducer";
 import CartAPI from "../../src/api-services/cart";
 
 

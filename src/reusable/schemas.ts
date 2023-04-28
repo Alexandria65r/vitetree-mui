@@ -11,7 +11,7 @@ export const UserSchema: User = {
         publicId: '',
         secureURL: ''
     },
-    accountType: ''
+    role: ''
 }
 
 export const testDataSchema: Test = {

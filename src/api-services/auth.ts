@@ -22,4 +22,6 @@ export default class AuthAPI {
     static delete() {
         return axios.post('/api/auth/delete')
     }
+
+      
 }

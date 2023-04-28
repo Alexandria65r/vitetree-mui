@@ -150,7 +150,7 @@ export default function communites({ }: Props) {
                     </SearchContainer>
                     <HeaderRightCol>
                         <ActionIconButton color="secondary"
-                            onClick={() => router.push('/start-community')}
+                            onClick={() => router.push('/forum')}
                             sx={{
                                 backgroundColor: '#9c27b0',
                                 '&:hover': { backgroundColor: '#9c27b0' }
@@ -163,8 +163,8 @@ export default function communites({ }: Props) {
                         }}>
                             <VideoCall />
                         </ActionIconButton>
-                        <CreateCommunityButton onClick={() => router.push('/start-community')} color="secondary" variant="contained" startIcon={<Add />}>
-                            Hire Tutor
+                        <CreateCommunityButton onClick={() => router.push('/forum')} color="secondary" variant="contained" startIcon={<Add />}>
+                          Forum
                         </CreateCommunityButton>
                         <CreateCommunityButton
                             onClick={() => router.push('/launch-meet')}
