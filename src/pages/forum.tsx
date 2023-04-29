@@ -14,7 +14,12 @@ import { ButtonIcon, StyledButton } from '../reusable/styles'
 import { Add } from '@mui/icons-material'
 import { forumActions } from '../../reducers/forum-reducer'
 import SendBidModal from '../components/modals/send-bid-modal'
-
+import ForumItem from '../components/forum/post-item'
+import { FaQuestionCircle } from 'react-icons/fa'
+import { SiWheniwork } from 'react-icons/si'
+import { BsBorderAll } from 'react-icons/bs'
+import { HiOutlineViewGrid } from 'react-icons/hi'
+import { BiSearchAlt } from 'react-icons/bi'
 
 const Container = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -37,6 +42,24 @@ const TestHeader = styled(Box)(({ theme }) => ({
 
     boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`
 }))
+const TabHeader = styled(Box)(({ theme }) => ({
+    flex: 1,
+    minHeight: 60,
+    display: 'flex',
+    alignItems: 'center',
+    padding: '0 10px',
+    
+    borderRadius: CSS_PROPERTIES.radius5,
+  
+    [theme.breakpoints.down('sm')]:{
+        width:'95vw',
+        overflowX:'auto',
+        
+    },
+    "::-webkit-scrollbar":{
+        display:'none'
+    }
+}))
 const TestInfoCol = styled(Box)(({ theme }) => ({
     flexBasis: '30%',
     height: 200,
@@ -58,32 +81,18 @@ const FeedContainer = styled(Box)(({ theme }) => ({
 
     }
 }))
-const PostItem = styled(Box)(({ theme }) => ({
-    flexBasis: '55%',
-    margin: '10px 0',
-    minHeight: 100,
-    backgroundColor: colorScheme(theme).secondaryColor,
-    borderRadius: CSS_PROPERTIES.radius5,
+
+const TabButton = styled(StyledButton)(({ theme }) => ({
+    padding: '0 10px',
+    margin: '0 5px',
+    fontSize: 13,
+    whiteSpace:'nowrap',
+    borderRadius: 29,
+    color: colorScheme(theme).TextColor,
+    backgroundColor:theme.palette.mode==='light'? '#fff':colorScheme(theme).secondaryColor,
     boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
-    [theme.breakpoints.down("sm")]: {
-        marginLeft: 0, flexBasis: '100%',
-    }
 }))
 
-const PostHeader = styled(Box)(({ theme }) => ({
-    padding: 10
-}))
-
-
-const PostBody = styled(Box)(({ theme }) => ({
-    padding: '0 10px'
-}))
-const PostFooter = styled(Box)(({ theme }) => ({
-    display: 'flex',
-    padding: '10px 0',
-    marginTop: 10,
-    justifyContent: 'flex-end'
-}))
 
 
 
@@ -119,48 +128,39 @@ export default function NewTest({ }: Props) {
 
                 </TestInfoCol>
                 <FeedContainer>
-                    <TestHeader>
+                    {/* <TestHeader>
                         <Typography variant='h6' sx={{ flex: 1, fontWeight: 600 }}>
                             Post
                         </Typography>
                         <ButtonIcon onClick={() => dispatch(forumActions.toggleForumFormModal(true))}>
                             <Add />
                         </ButtonIcon>
-                    </TestHeader>
-
-                    <PostItem>
-                        <PostHeader>
-                            <Typography sx={{ fontSize: 18, fontWeight: 500 }}>
-                                Teach me trignometry
-                            </Typography>
-                            <Typography sx={(theme) => ({
-                                fontSize: 13,
-                                color: theme.palette.mode === 'light' ? colors.grey[700] : colorScheme(theme).TextColor,
-                                fontWeight: 500
-                            })}>
-                                verified Student
-                            </Typography>
-                        </PostHeader>
-                        <PostBody>
-                            <Typography sx={(theme) => ({
-                                fontSize: 15,
-                                color: theme.palette.mode === 'light' ? colors.grey[700] : colorScheme(theme).TextColor,
-                                fontWeight: 400
-                            })}>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                Esse veritatis inventore quisquam obcaecati laborum perspiciatis
-                                ipsum nulla,ea, magnam, maxime enim nemo deleniti deserunt ex labore
-                                quidem. Ab, delectus veritatis.
-                            </Typography>
-                            <PostFooter>
-                                <StyledButton
-                                onClick={()=>router.push(`${router.asPath}?sendBid=${id}`)}
-                                    sx={{ px: 3, fontSize: 13 }}>
-                                    Send Bid
-                                </StyledButton>
-                            </PostFooter>
-                        </PostBody>
-                    </PostItem>
+                    </TestHeader> */}
+                    <TabHeader>
+                        <TabButton onClick={() => dispatch(forumActions.toggleForumFormModal(true))}>
+                            <Add style={{ marginRight: 5 }} />
+                            New post
+                        </TabButton>
+                        <TabButton>
+                            <BiSearchAlt size={20} style={{ marginRight: 5 }} />
+                            Search
+                        </TabButton>
+                        <TabButton>
+                            <HiOutlineViewGrid size={20} style={{ marginRight: 5 }} />
+                            All
+                        </TabButton>
+                        <TabButton>
+                            <SiWheniwork size={20} style={{ marginRight: 5 }} />
+                            Tasks
+                        </TabButton>
+                        <TabButton>
+                            <FaQuestionCircle size={20} style={{ marginRight: 5 }} />
+                            Questions
+                        </TabButton>
+                       
+                    </TabHeader>
+                    <ForumItem type='job' />
+                    <ForumItem type='question' />
                 </FeedContainer>
             </Container>
             <ForumPostFormModal />

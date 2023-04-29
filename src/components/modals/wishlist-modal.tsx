@@ -2,9 +2,7 @@ import * as React from 'react';
 import Modal from '@mui/material/Modal';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { Box, Typography, colors, styled } from '@mui/material';
-import { CSS_PROPERTIES } from '../../reusable';
 import { colorScheme } from '../../theme';
-import { cartActions } from '../../../reducers/cart-reducer';
 import { ButtonIcon, CartAndWishListModalContainer, StyledButton } from '../../reusable/styles';
 import { useRouter } from 'next/router';
 import CartItem from '../../components/cart-item'
@@ -13,8 +11,6 @@ import { wishListActions } from '../../../reducers/wishlist-reducer';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import { AppSpinner } from '../activity-indicators';
 import EmptyCartAndWishlist from '../empty-cart-wishlist';
-
-
 
 
 const CartHead = styled(Box)(() => ({
