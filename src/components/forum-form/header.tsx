@@ -3,7 +3,8 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-
+import { colors } from '@mui/material';
+import classes from '../../styles/reusable.module.css'
 interface TabPanelProps {
     children?: React.ReactNode;
     index: number;
@@ -47,17 +48,35 @@ export default function HeaderTabs() {
     return (
         <Box sx={{ width: '100%' }}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                <Tabs value={value} sx={{ height: 60, }} onChange={handleChange} aria-label="basic tabs example">
-                    <Tab label="Accademic question" sx={{
-                        height: 60,
-                        flex: 1, fontWeight: 600,
-                        textTransform: 'capitalize'
-                    }} {...a11yProps(0)} />
-                    <Tab label="Hire Tutor" sx={{
-                        height: 60,
-                        flex: 1, fontWeight: 600,
-                        textTransform: 'capitalize'
-                    }} {...a11yProps(1)} />
+                <Tabs
+                    className={'forumFormTabs'}
+                    value={value} sx={{ height: 60, }}
+                    TabIndicatorProps={{
+                        sx: {
+                            height: 3,
+                            backgroundColor: colors.teal[400],
+                            borderTopLeftRadius: 8,
+                            borderTopRightRadius: 8,
+                        },
+                    }}
+
+                    onChange={handleChange} aria-label="basic tabs example">
+                    <Tab label="Academic question"
+                        sx={{
+                            height: 60,
+                            flex: 1,
+                            fontWeight: 600,
+                            textTransform: 'capitalize',
+                        }} {...a11yProps(0)} />
+                    <Tab label="Hire Tutor"
+
+                        sx={{
+                            height: 60,
+                            flex: 1,
+                            fontWeight: 600,
+                            textTransform: 'capitalize',
+
+                        }} {...a11yProps(1)} />
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>

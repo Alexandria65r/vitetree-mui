@@ -7,10 +7,12 @@
   background-color: transparent !important;
   grid-template-columns: 1fr;
   border-radius: 10px;
-  border:0!important;
+  border: 0 !important;
   /* border-left: 4px solid #26a96a; */
 }
 
 /* .dark .CustomPaper {
     box-shadow: 0 1px 3px 0 #181b34!important;
 } */
+
+

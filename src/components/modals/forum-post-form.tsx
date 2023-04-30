@@ -114,6 +114,15 @@ export default function ForumPostFormModal() {
             >
 
                 <ModalContainer>
+                    <Typography sx={(theme) => ({
+                        fontSize: 20,
+                        m: 2,
+                        color: colorScheme(theme).TextColor,
+                        fontWeight: 600,
+                        [theme.breakpoints.down('sm')]: {
+                            fontSize: 20,
+                        }
+                    })}>New Post</Typography>
                     <HeaderTabs />
                     {/* <ForumPostForm mode="create" submitHandler={() => { }} /> */}
                 </ModalContainer>
