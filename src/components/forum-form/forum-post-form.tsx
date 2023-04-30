@@ -233,15 +233,14 @@ export default function ForumPostForm({ mode, submitHandler }: Props) {
                     value={newTest.cartegory || undefined}
                     name='cartegory' defaultValue='Select cartegory' >
                     <MenuItem value="Select cartegory">Select cartegory</MenuItem>
-                    <MenuItem value="School">School Test</MenuItem>
-                    <MenuItem value="Coding">Coding Challenge</MenuItem>
-                    <MenuItem value="Survey">Survey Feedback</MenuItem>
+                    <MenuItem value="Stuck Question">Stuck Question</MenuItem>
+                    <MenuItem value="Bid/Proposal">Bid/Proposal</MenuItem>
                 </Select>
             </FormControl>
 
             <ChoicesContainer>
 
-                {newTest.cartegory && (
+               
                     <FormControl>
                         <TextInput sx={{ flexBasis: '50%' }}
                             error={isErr && !newTest.subjectOrlanguage
@@ -249,10 +248,10 @@ export default function ForumPostForm({ mode, submitHandler }: Props) {
                             value={newTest.subjectOrlanguage}
                             onChange={handleOnChange}
                             name="subjectOrlanguage"
-                            label={newTest.cartegory === 'School' ? 'Subject' : newTest.cartegory === 'Survey' ? 'Survey Name' : 'Language'}
-                            placeholder={newTest.cartegory === 'School' ? 'Subject' : newTest.cartegory === 'Survey' ? 'Survey Name' : 'Language'} />
+                            label={'Topic'}
+                            placeholder={'Topic'} />
                     </FormControl>
-                )}
+                
 
 
                 <FormControl>
@@ -270,10 +269,10 @@ export default function ForumPostForm({ mode, submitHandler }: Props) {
                         <Select onChange={handleOnChange}
                             error={isErr && !newTest.sectionType}
                             value={newTest.duration || undefined}
-                            name="duration"
-                            defaultValue='Duration'
+                            name="budget"
+                            defaultValue='Budget'
                             sx={{ flexBasis: '30%' }}>
-                            <MenuItem value="Duration">Duration</MenuItem>
+                            <MenuItem value="Budget">Budget</MenuItem>
                             <MenuItem value="30mins">30Mins</MenuItem>
                             <MenuItem value="40mins">40Mins</MenuItem>
                             <MenuItem value="1hr">1Hr</MenuItem>

@@ -21,8 +21,31 @@ import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import { deleteWishListThunk } from '../../../reducers/wishlist-reducer/wishlist-thunks';
 import EmptyCartAndWishlist from '../empty-cart-wishlist';
 import ForumPostForm from '../forum-form/forum-post-form';
+import HeaderTabs from '../forum-form/header';
 
 
+
+
+export const ModalContainer = styled(Box)(({ theme }) => ({
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    width: '55%',
+    height: '500px',
+    transform: 'translate(-50%, -50%)',
+    borderRadius: CSS_PROPERTIES.radius10,
+    backgroundColor: colorScheme(theme).secondaryColor,
+    [theme.breakpoints.down("sm")]: {
+        position: 'absolute',
+        left: 0,
+        width: '100%',
+        transform: 'none',
+        borderBottomLeftRadius: 0,
+        borderBottomRightRadius: 0,
+        top: 'unset',
+        bottom: 0
+    }
+}))
 
 
 const CartHead = styled(Box)(() => ({
@@ -90,9 +113,10 @@ export default function ForumPostFormModal() {
                 aria-describedby="modal-modal-description"
             >
 
-                <CartAndWishListModalContainer>
-                    <ForumPostForm mode="create" submitHandler={() => { }} />
-                </CartAndWishListModalContainer>
+                <ModalContainer>
+                    <HeaderTabs />
+                    {/* <ForumPostForm mode="create" submitHandler={() => { }} /> */}
+                </ModalContainer>
 
             </Modal>
         </div>
