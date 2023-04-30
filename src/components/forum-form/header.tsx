@@ -48,7 +48,7 @@ export default function HeaderTabs() {
         <Box sx={{ width: '100%' }}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <Tabs value={value} sx={{ height: 60, }} onChange={handleChange} aria-label="basic tabs example">
-                    <Tab label="Stuck with question" sx={{
+                    <Tab label="Accademic question" sx={{
                         height: 60,
                         flex: 1, fontWeight: 600,
                         textTransform: 'capitalize'
