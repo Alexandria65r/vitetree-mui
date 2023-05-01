@@ -14,12 +14,14 @@ export type CartNetworkStatus =
 
 type ForumState = {
     isOpen: boolean
+    newPostTabValue: number
 
 }
 
 
 const initialState: ForumState = {
     isOpen: false,
+    newPostTabValue: 0
 }
 
 
@@ -29,6 +31,9 @@ const forumSlice = createSlice({
     reducers: {
         toggleForumFormModal: (state, { payload }: PayloadAction<boolean>) => {
             state.isOpen = payload
+        },
+        setTabValue: (state, { payload }: PayloadAction<number>) => {
+            state.newPostTabValue = payload
         },
     }
 })

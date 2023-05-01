@@ -31,7 +31,7 @@ export const ModalContainer = styled(Box)(({ theme }) => ({
     top: '50%',
     left: '50%',
     width: '55%',
-    height: '500px',
+    minHeight: '500px',
     transform: 'translate(-50%, -50%)',
     borderRadius: CSS_PROPERTIES.radius10,
     backgroundColor: colorScheme(theme).secondaryColor,
@@ -67,6 +67,18 @@ const CartBody = styled(Box)(({ theme }) => ({
 
 }))
 
+const FormControl = styled(Box)(({ theme }) => ({
+    width: '80%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    margin: '20px auto',
+    padding:'0 10px',
+    [theme.breakpoints.down('sm')]:{
+        width: '95%',
+        margin: '16px auto',
+    }
+}))
 
 
 const Cartooter = styled(Box)(({ theme }) => ({
@@ -113,7 +125,7 @@ export default function ForumPostFormModal() {
                 aria-describedby="modal-modal-description"
             >
 
-                <ModalContainer>
+                <ModalContainer className="modalMb">
                     <Typography sx={(theme) => ({
                         fontSize: 20,
                         m: 2,
@@ -124,7 +136,14 @@ export default function ForumPostFormModal() {
                         }
                     })}>New Post</Typography>
                     <HeaderTabs />
-                    {/* <ForumPostForm mode="create" submitHandler={() => { }} /> */}
+                    <ForumPostForm mode="post" submitHandler={() => { }} />
+                    <Box sx={{ borderTop: 1, borderColor: 'divider' }}>
+                        <FormControl  sx={{ justifyContent: 'flex-end' }}>
+                            <StyledButton sx={{width:'30%', borderBottom:4, borderColor:colors.teal[300]}}>
+                                Post
+                            </StyledButton>
+                        </FormControl>
+                    </Box>
                 </ModalContainer>
 
             </Modal>

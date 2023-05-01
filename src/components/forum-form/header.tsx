@@ -5,31 +5,17 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { colors } from '@mui/material';
 import classes from '../../styles/reusable.module.css'
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
+import { forumActions } from '../../../reducers/forum-reducer';
+import { SlGraduation } from 'react-icons/sl'
+import { FaQuestionCircle } from 'react-icons/fa'
+
 interface TabPanelProps {
     children?: React.ReactNode;
     index: number;
     value: number;
 }
 
-function TabPanel(props: TabPanelProps) {
-    const { children, value, index, ...other } = props;
-
-    return (
-        <div
-            role="tabpanel"
-            hidden={value !== index}
-            id={`simple-tabpanel-${index}`}
-            aria-labelledby={`simple-tab-${index}`}
-            {...other}
-        >
-            {value === index && (
-                <Box sx={{ p: 3 }}>
-                    <Typography>{children}</Typography>
-                </Box>
-            )}
-        </div>
-    );
-}
 
 function a11yProps(index: number) {
     return {
@@ -39,10 +25,12 @@ function a11yProps(index: number) {
 }
 
 export default function HeaderTabs() {
-    const [value, setValue] = React.useState(0);
-
+    const dispatch = useAppDispatch()
+    const newPostTabValue = useAppSelector((state) => state.ForumReducer.newPostTabValue)
+    const postCartegory = ['Academic question', 'Hire Tutor']
+    const cartegory = postCartegory[newPostTabValue]
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-        setValue(newValue);
+        dispatch(forumActions.setTabValue(newValue))
     };
 
     return (
@@ -50,7 +38,7 @@ export default function HeaderTabs() {
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <Tabs
                     className={'forumFormTabs'}
-                    value={value} sx={{ height: 60, }}
+                    value={newPostTabValue}
                     TabIndicatorProps={{
                         sx: {
                             height: 3,
@@ -59,19 +47,19 @@ export default function HeaderTabs() {
                             borderTopRightRadius: 8,
                         },
                     }}
-
                     onChange={handleChange} aria-label="basic tabs example">
                     <Tab label="Academic question"
+                        icon={<FaQuestionCircle size={20}/>}
                         sx={{
-                            height: 60,
+
                             flex: 1,
                             fontWeight: 600,
                             textTransform: 'capitalize',
                         }} {...a11yProps(0)} />
                     <Tab label="Hire Tutor"
-
+                        icon={<SlGraduation size={22} />}
                         sx={{
-                            height: 60,
+
                             flex: 1,
                             fontWeight: 600,
                             textTransform: 'capitalize',
@@ -79,13 +67,6 @@ export default function HeaderTabs() {
                         }} {...a11yProps(1)} />
                 </Tabs>
             </Box>
-            <TabPanel value={value} index={0}>
-                Stuck
-            </TabPanel>
-            <TabPanel value={value} index={1}>
-                Hire Tutor
-            </TabPanel>
-
         </Box>
     );
 }

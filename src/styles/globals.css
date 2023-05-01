@@ -1,14 +1,10 @@
-
-  @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;1,100;1,300;1,400;1,700&display=swap');
-
-
-
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;1,100;1,300;1,400;1,700&display=swap");
 
 html,
 body {
   padding: 0;
   margin: 0;
- font-family: 'Lato', sans-serif!important;
+  font-family: "Lato", sans-serif !important;
 }
 
 a {
@@ -71,5 +67,35 @@ a {
 }
 
 .forumFormTabs .Mui-selected {
-  color: #26a69a!important;
+  color: #26a69a !important;
+}
+
+@media (max-width: 600px) {
+  .modalMb {
+    animation: modal 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transform-origin: bottom;
+  }
+
+  @keyframes modal {
+    0% {
+      transform: translateY(100px);
+    }
+    100% {
+      transform: translateY(0px);
+    }
+  }
+}
+
+.modalPage {
+  animation: modalPage 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transform-origin: right;
+}
+
+@keyframes modalPage {
+  0% {
+    transform: translateX(100px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
 }

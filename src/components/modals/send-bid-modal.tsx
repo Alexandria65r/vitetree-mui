@@ -27,11 +27,13 @@ import ForumPostForm from '../forum-form/forum-post-form';
 
 
 export const ModalContainer = styled(Box)(({ theme }) => ({
-    position: 'absolute',
+    position: 'fixed',
+    top:0,
     right: 0,
     width: '80%',
     height: '100vh',
     borderRadius: 0,
+    borderTopLeftRadius:20,
     backgroundColor: colorScheme(theme).secondaryColor,
     [theme.breakpoints.down("sm")]: {
         position: 'absolute',
@@ -41,7 +43,8 @@ export const ModalContainer = styled(Box)(({ theme }) => ({
         borderBottomLeftRadius: 0,
         borderBottomRightRadius: 0,
         top: 'unset',
-        bottom: 0
+        bottom: 0,
+        borderTopLeftRadius: 0,
     }
 }))
 
@@ -51,10 +54,14 @@ const Header = styled(Box)(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
     height: 60,
+    borderTopLeftRadius: 20,
     backgroundColor:theme.palette.mode==='light'?'#fff':colorScheme(theme).secondaryColor,
     justifyContent: 'center',
     boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
-    borderTop: `1px solid solid ${theme.palette.mode === 'light' ? colors.grey[200] : colorScheme(theme).primaryColor}`
+    borderTop: `1px solid solid ${theme.palette.mode === 'light' ? colors.grey[200] : colorScheme(theme).primaryColor}`,
+    [theme.breakpoints.down('sm')]:{
+        borderTopLeftRadius: 0,
+    }
 }))
 
 
@@ -91,7 +98,7 @@ export default function SendBidModal() {
                 aria-describedby="modal-modal-description"
             >
 
-                <ModalContainer>
+                <ModalContainer className='modalPage'>
                     <Header></Header>
                 </ModalContainer>
 

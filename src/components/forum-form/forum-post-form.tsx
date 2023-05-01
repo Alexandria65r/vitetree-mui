@@ -15,14 +15,18 @@ const ChoicesContainer = styled(Box)(({ theme }) => ({
     }
 }))
 
-const TextInput = styled(TextField)(({theme}) => ({
+const TextInput = styled(TextField)(({ theme }) => ({
     flex: 1
 }))
-const FormContainer = styled(Box)(({theme}) => ({
-    width: '100%',
+const FormContainer = styled(Box)(({ theme }) => ({
+    width: '80%',
     padding: 10,
+    margin: 'auto',
+    [theme.breakpoints.down('sm')]: {
+        width: '97%'
+    }
 }))
-const FormControl = styled(Box)(({theme}) => ({
+const FormControl = styled(Box)(({ theme }) => ({
     width: '100%',
     display: 'flex',
     alignItems: 'center',
@@ -59,25 +63,12 @@ const FormControlColBadge = styled(Box)(() => ({
 //     }
 // }))
 
-const StyledButton = styled(ButtonBase)(({ theme }) => ({
-    textTransform: 'capitalize',
-    flexBasis: '20%',
-    justifySelf: 'flex-end',
-    fontWeight: 600,
-    height: 50,
-    color: '#fff',
-    fontSize: 16,
-    borderRadius: CSS_PROPERTIES.radius5,
-    backgroundColor: colors.teal[400],
-    [theme.breakpoints.down("sm")]: {
-        flexBasis: '25%',
-    }
-}))
+
 
 
 
 type Props = {
-    mode: 'create' | "update",
+    mode: 'post' | "update",
     submitHandler: () => void
 }
 
@@ -86,7 +77,9 @@ export default function ForumPostForm({ mode, submitHandler }: Props) {
     const newTest = useAppSelector((state) => state.TestReducer.newTest)
     const sections = useAppSelector((state) => state.TestReducer.sections)
     const isErr = useAppSelector((state) => state.TestReducer.isErr)
-
+    const newPostTabValue = useAppSelector((state) => state.ForumReducer.newPostTabValue)
+    const postCartegory = ['academic question', 'hire tutor']
+    const cartegory = postCartegory[newPostTabValue]
 
 
     function selectCartegory({ target }: any) {
@@ -125,8 +118,8 @@ export default function ForumPostForm({ mode, submitHandler }: Props) {
     function handleSelectedSection({ target: { name, ...rest } }: any) {
         const value: string[] = rest.value
         console.log(value)
-        
-        if(!value.length) {
+
+        if (!value.length) {
             newSections = []
         }
 
@@ -228,6 +221,16 @@ export default function ForumPostForm({ mode, submitHandler }: Props) {
     return (
         <FormContainer>
             <FormControl>
+                <TextInput sx={{ flexBasis: '50%' }}
+                    error={isErr && !newTest.subjectOrlanguage
+                    }
+                    value={newTest.subjectOrlanguage}
+                    onChange={handleOnChange}
+                    name="subjectOrlanguage"
+                    label={cartegory === 'academic question' ? 'Question' : 'Title'}
+                    placeholder={cartegory === 'Academic Question' ? 'Question' : 'Title'} />
+            </FormControl>
+            <FormControl>
                 <Select fullWidth onChange={selectCartegory}
                     error={isErr && !newTest.cartegory}
                     value={newTest.cartegory || undefined}
@@ -240,61 +243,37 @@ export default function ForumPostForm({ mode, submitHandler }: Props) {
 
             <ChoicesContainer>
 
-               
-                    <FormControl>
-                        <TextInput sx={{ flexBasis: '50%' }}
-                            error={isErr && !newTest.subjectOrlanguage
-                            }
-                            value={newTest.subjectOrlanguage}
-                            onChange={handleOnChange}
-                            name="subjectOrlanguage"
-                            label={'Topic'}
-                            placeholder={'Topic'} />
-                    </FormControl>
-                
+
+
 
 
                 <FormControl>
-                    <Select onChange={selectSectionType}
-                        error={isErr && !newTest.sectionType}
-                        name="sectionType"
-                        defaultValue='Split test into sections?'
-                        value={newTest.sectionType || undefined}
-                        sx={{ flexBasis: '68%' }}>
-                        <MenuItem value="Split test into sections?">Split into sections?</MenuItem>
-                        <MenuItem value="None sectioned">None sectioned</MenuItem>
-                        <MenuItem value="With sections">With sections</MenuItem>
+                    <Select sx={{ flex:1 }}
+                        defaultValue='Way of answering'
+                        error={isErr && !newTest.sections[0].wayOfAnswering}
+                        onChange={({ target: { value } }) => handleSectionNumberOfQuestions(0, value, 'wayOfAnswering')}
+                        //value={newTest.sections[0].wayOfAnswering || undefined}
+                        name='cartegory'>
+                        <MenuItem value="Way of answering">Way of answering</MenuItem>
+                        <MenuItem value="multiple choice">multiple choice</MenuItem>
+                        <MenuItem value="select that apply">select that apply</MenuItem>
+                        <MenuItem value="word answer">word answer</MenuItem>
                     </Select>
-                    {newTest.cartegory !== 'Survey' && (
-                        <Select onChange={handleOnChange}
-                            error={isErr && !newTest.sectionType}
-                            value={newTest.duration || undefined}
-                            name="budget"
-                            defaultValue='Budget'
-                            sx={{ flexBasis: '30%' }}>
-                            <MenuItem value="Budget">Budget</MenuItem>
-                            <MenuItem value="30mins">30Mins</MenuItem>
-                            <MenuItem value="40mins">40Mins</MenuItem>
-                            <MenuItem value="1hr">1Hr</MenuItem>
-                            <MenuItem value="2hrs">2Hrs</MenuItem>
-                        </Select>
+                    {cartegory === 'hire tutor' && (
+                        <TextInput
+                            error={isErr && newTest.sections[0].numberOfQuestions < 1}
+                            sx={{ flex:1, marginLeft: 1 }}
+                            onChange={({ target: { value } }) => handleSectionNumberOfQuestions(0, value, 'numberOfQuestions')}
+                            value={newTest.sections[0]?.numberOfQuestions}
+                            type='number'
+                            label="Budget"
+                            placeholder="Budget"
+                        />
                     )}
                 </FormControl>
 
                 {newTest.sectionType === 'None sectioned' && (
                     <FormControl>
-                        <FormControlColBadge sx={(theme) => ({
-                            fontSize: 16,
-                            borderRadius: 1,
-                            padding: '0 10px',
-                            width: 'fit-content',
-                            height: 55,
-                            [theme.breakpoints.down("sm")]: {
-                                display: 'none'
-                            }
-                        })} >
-                            {newTest.sectionType}
-                        </FormControlColBadge>
                         <TextInput
                             error={isErr && newTest.sections[0].numberOfQuestions < 1}
                             sx={{ flex: 1 }}
@@ -320,64 +299,16 @@ export default function ForumPostForm({ mode, submitHandler }: Props) {
                 )}
 
 
-                {newTest.sectionType === 'With sections' && (<>
-                    <FormControl>
-                        <SelectWithCheckMarks error={isErr && !sections.length}
-                            name="sections"
-                            handleSelectedSection={handleSelectedSection}
-                            sections={sections} />
-                    </FormControl>
-
-                    {newTest.sections.map((section, index) => (
-                        <FormControl key={section.name} sx={{ gap: 1 }}>
-                            <FormControlColBadge sx={{
-                                fontSize: 16,
-                                borderRadius: 1,
-                                //padding: '0 10px',
-                                height: 55
-                            }} >
-                                {section.name}
-                            </FormControlColBadge>
-                            <TextInput sx={{ flex: 1 }}
-                                error={isErr && newTest.sections[index].numberOfQuestions < 1}
-                                onChange={({ target: { value } }) => handleSectionNumberOfQuestions(index, value, 'numberOfQuestions')}
-                                value={section.numberOfQuestions}
-                                type='number'
-                                label={`Number of questions for ${section.name}  `}
-                                placeholder={`Number of questions for ${section.name}`}
-                            />
-
-                            <Select sx={{ flex: 1 }}
-                                defaultValue='Way of answering'
-                                error={isErr && !newTest.sections[index].wayOfAnswering}
-                                onChange={({ target: { value } }) => handleSectionNumberOfQuestions(index, value, 'wayOfAnswering')}
-                                value={section.wayOfAnswering || undefined}
-                                name='cartegory'>
-                                <MenuItem value="Way of answering">Way of answering</MenuItem>
-                                <MenuItem value="multiple choice">multiple choice</MenuItem>
-                                <MenuItem value="select that apply">select that apply</MenuItem>
-                                <MenuItem value="word answer">word answer</MenuItem>
-                            </Select>
-                        </FormControl>
-                    ))}
-
-                </>
-                )}
-
-
-
-
                 <FormControl>
-                    <Textarea minRows={2} value={newTest.description}
+                    <Textarea minRows={ 6} value={newTest.description}
                         name="description"
                         onChange={handleOnChange}
-                        sx={{ flex: 1, borderColor: isErr && !newTest.description ? colors.red[400] : colors.grey[400] }}
+                        
+                        sx={{color:'inherit', flex: 1, borderColor: isErr && !newTest.description ? colors.red[400] : colors.grey[400] }}
                         placeholder={`${newTest.cartegory} description`} />
                 </FormControl>
 
-                <FormControl onClick={handleSubmit} sx={{ justifyContent: 'flex-end' }}>
-                    <StyledButton>{mode}</StyledButton>
-                </FormControl>
+              
             </ChoicesContainer>
         </FormContainer>
     )
