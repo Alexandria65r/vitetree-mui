@@ -9,6 +9,7 @@ import { BsSendCheck, BsSendPlus } from 'react-icons/bs'
 import { Post } from '../../reusable/interfaces'
 import { teal } from '@mui/material/colors'
 import moment from 'moment'
+import { normalizedDate } from '../../reusable/helpers'
 
 const PostItem = styled(Box)(({ theme }) => ({
     flexBasis: '55%',
@@ -92,7 +93,7 @@ export default function ForumItem({ post }: Props) {
                         color: theme.palette.mode === 'light' ? colors.grey[700] : colorScheme(theme).TextColor,
                         fontWeight: 500
                     })}>
-                        Posted: {moment(post.createdAt).fromNow().replace('minutes ago', 'Mins')}
+                        Posted: {normalizedDate(post.createdAt??'')}
                     </Typography>
                     <Box sx={{
                         userSelect: 'none',
