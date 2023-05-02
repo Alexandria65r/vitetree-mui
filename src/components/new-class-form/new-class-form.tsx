@@ -316,9 +316,11 @@ export default function NewClassForm({ mode, submitHandler }: Props) {
                 {newTest.sectionType === 'With sections' && (<>
                     <FormControl>
                         <SelectWithCheckMarks error={isErr && !sections.length}
+                            label='some label'
+                            data={[]}
                             name="sections"
                             handleSelectedSection={handleSelectedSection}
-                            sections={sections} />
+                            value={[]} />
                     </FormControl>
 
                     {newTest.sections.map((section, index) => (
@@ -370,7 +372,7 @@ export default function NewClassForm({ mode, submitHandler }: Props) {
 
                 <FormControl onClick={handleSubmit} sx={{ justifyContent: 'flex-end' }}>
                     <StyledButton>
-                        <AddIcon fontSize='small'  />
+                        <AddIcon fontSize='small' />
                         {mode}
                     </StyledButton>
                 </FormControl>
