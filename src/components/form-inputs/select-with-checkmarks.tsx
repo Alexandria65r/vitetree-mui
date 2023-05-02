@@ -19,22 +19,18 @@ const MenuProps = {
     },
 };
 
-const sectionsList = [
-    "section A",
-    "section B",
-    "section C",
-    "section D",
-    "section E"
-];
+
 
 type Props = {
+    data: string[],
     name: string,
-    sections: string[];
-    error:boolean;
+    value: string[];
+    error: boolean;
+    label: string;
     handleSelectedSection: (event: any) => void
 }
 
-export default function SelectWithCheckMarks({ name, sections,error, handleSelectedSection }: Props) {
+export default function SelectWithCheckMarks({ name, data, value, label, error, handleSelectedSection }: Props) {
     const [personName, setPersonName] = React.useState<string[]>([]);
 
     const handleChange = (event: SelectChangeEvent<typeof personName>) => {
@@ -47,8 +43,8 @@ export default function SelectWithCheckMarks({ name, sections,error, handleSelec
 
     return (
         <Box sx={{ flex: 1 }}>
-            <FormControl sx={{ m: 1, display: 'flex' }}>
-                <InputLabel id="demo-multiple-checkbox-label">Select Sections to add</InputLabel>
+            <FormControl sx={{display: 'flex' }}>
+                <InputLabel id="demo-multiple-checkbox-label">{label}</InputLabel>
                 <Select
                     error={error}
                     sx={{ flex: 1 }}
@@ -56,15 +52,15 @@ export default function SelectWithCheckMarks({ name, sections,error, handleSelec
                     labelId="demo-multiple-checkbox-label"
                     id="demo-multiple-checkbox"
                     multiple
-                    value={sections}
+                    value={value}
                     onChange={handleSelectedSection}
-                    input={<OutlinedInput label="Select Sections to add" />}
+                    input={<OutlinedInput label={label} />}
                     renderValue={(selected) => selected.join(', ')}
                     MenuProps={MenuProps}
                 >
-                    {sectionsList.map((section) => (
+                    {data.map((section) => (
                         <MenuItem key={section} value={section}>
-                            <Checkbox checked={sections.indexOf(section) > -1} />
+                            <Checkbox checked={value.indexOf(section) > -1} />
                             <ListItemText primary={section} />
                         </MenuItem>
                     ))}

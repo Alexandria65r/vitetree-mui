@@ -1,4 +1,4 @@
-import { Participant, Section, Test, User, VideoCourse } from "./interfaces";
+import { Participant, Post, Section, Test, User, VideoCourse } from "./interfaces";
 
 
 export const UserSchema: User = {
@@ -67,4 +67,14 @@ export const CartItem = {
     owner: '',
     price: '',
     imageAsset: '',
+}
+
+export const PostSchema: Post = {
+    _id:'',
+    authorId:'',
+    title:'',
+    type:'academic question',
+    description:'',
+    delivery:'',
+    request:''
 }

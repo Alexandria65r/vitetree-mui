@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Layout from '../components/layout'
 import { Box, Typography, colors, styled } from '@mui/material'
 import { colorScheme } from '../theme'
@@ -20,6 +20,9 @@ import { SiWheniwork } from 'react-icons/si'
 import { BsBorderAll } from 'react-icons/bs'
 import { HiOutlineViewGrid } from 'react-icons/hi'
 import { BiSearchAlt } from 'react-icons/bi'
+import { fetchPostsThunk } from '../../reducers/forum-reducer/forum-thunks'
+import { PostType } from '../reusable/interfaces'
+import { teal } from '@mui/material/colors'
 
 const Container = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -27,7 +30,7 @@ const Container = styled(Box)(({ theme }) => ({
     padding: 20,
     margin: '0 auto',
     [theme.breakpoints.down("sm")]: {
-        width: '95%',
+        width: '98%',
         padding: 0,
     }
 }))
@@ -48,16 +51,16 @@ const TabHeader = styled(Box)(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
     padding: '0 10px',
-    
+
     borderRadius: CSS_PROPERTIES.radius5,
-  
-    [theme.breakpoints.down('sm')]:{
-        width:'95vw',
-        overflowX:'auto',
-        
+
+    [theme.breakpoints.down('sm')]: {
+        width: '95vw',
+        overflowX: 'auto',
+
     },
-    "::-webkit-scrollbar":{
-        display:'none'
+    "::-webkit-scrollbar": {
+        display: 'none'
     }
 }))
 const TestInfoCol = styled(Box)(({ theme }) => ({
@@ -86,10 +89,10 @@ const TabButton = styled(StyledButton)(({ theme }) => ({
     padding: '0 10px',
     margin: '0 5px',
     fontSize: 13,
-    whiteSpace:'nowrap',
+    whiteSpace: 'nowrap',
     borderRadius: 29,
     color: colorScheme(theme).TextColor,
-    backgroundColor:theme.palette.mode==='light'? '#fff':colorScheme(theme).secondaryColor,
+    backgroundColor: theme.palette.mode === 'light' ? '#fff' : colorScheme(theme).secondaryColor,
     boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
 }))
 
@@ -101,24 +104,27 @@ type Props = {}
 export default function NewTest({ }: Props) {
     const router = useRouter()
     const dispatch = useAppDispatch()
-    const testData = useAppSelector((state) => state.TestReducer.newTest)
-    const isErr = useAppSelector((state) => state.TestReducer.isErr)
-    const user = useAppSelector((state) => state.AuthReducer.user)
-    const id = randomstring.generate(17)
+    const posts = useAppSelector((state) => state.ForumReducer.posts)
+    const sort = useAppSelector((state) => state.ForumReducer.sort)
 
 
-    async function create() {
-        const testId = randomstring.generate(19)
-        const newTest = await TestAPI.create({
-            ...testData,
-            _id: testId,
-            authorId: user._id ?? ''
-        })
-
-        if (newTest) {
-            console.log(newTest)
-            router.push(`/prepare/${newTest._id}`)
+    function loadPosts() {
+        const type: any = localStorage.getItem('sort-posts')
+        if (type !== null) {
+            dispatch(fetchPostsThunk(type))
+        } else {
+            dispatch(fetchPostsThunk('all'))
         }
+    }
+
+    useEffect(() => {
+        loadPosts()
+    }, [])
+
+
+    function sortPosts(type: PostType) {
+        dispatch(fetchPostsThunk(type))
+        localStorage.setItem('sort-posts', type)
     }
 
     return (
@@ -145,22 +151,38 @@ export default function NewTest({ }: Props) {
                             <BiSearchAlt size={20} style={{ marginRight: 5 }} />
                             Search
                         </TabButton>
-                        <TabButton>
+                        <TabButton onClick={() => sortPosts('all')}
+                            sx={{
+                                backgroundColor: sort === 'all' ? teal[400] : '',
+                                color: sort === 'all' ? '#fff' : ''
+                            }}
+                        >
                             <HiOutlineViewGrid size={20} style={{ marginRight: 5 }} />
                             All
                         </TabButton>
-                        <TabButton>
+                        <TabButton onClick={() => sortPosts('hire tutor')}
+                            sx={{
+                                backgroundColor: sort === 'hire tutor' ? teal[400] : '',
+                                color: sort === 'hire tutor' ? '#fff' : ''
+                            }}
+                        >
                             <SiWheniwork size={20} style={{ marginRight: 5 }} />
-                            Tasks
+                            Hire tutor
                         </TabButton>
-                        <TabButton>
+                        <TabButton onClick={() => sortPosts('academic question')}
+                            sx={{
+                                backgroundColor: sort === 'academic question' ? teal[400] : '',
+                                color: sort === 'academic question' ? '#fff' : ''
+                            }}
+                        >
                             <FaQuestionCircle size={20} style={{ marginRight: 5 }} />
-                            Questions
+                            Stuck
                         </TabButton>
-                       
+
                     </TabHeader>
-                    <ForumItem type='job' />
-                    <ForumItem type='question' />
+                    {posts.map((post, index) => (
+                        <ForumItem key={index} post={post} />
+                    ))}
                 </FeedContainer>
             </Container>
             <ForumPostFormModal />

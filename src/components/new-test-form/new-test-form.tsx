@@ -15,14 +15,14 @@ const ChoicesContainer = styled(Box)(({ theme }) => ({
     }
 }))
 
-const TextInput = styled(TextField)(({theme}) => ({
+const TextInput = styled(TextField)(({ theme }) => ({
     flex: 1
 }))
-const FormContainer = styled(Box)(({theme}) => ({
+const FormContainer = styled(Box)(({ theme }) => ({
     width: '100%',
     padding: 10,
 }))
-const FormControl = styled(Box)(({theme}) => ({
+const FormControl = styled(Box)(({ theme }) => ({
     width: '100%',
     display: 'flex',
     alignItems: 'center',
@@ -81,6 +81,14 @@ type Props = {
     submitHandler: () => void
 }
 
+const sectionsList = [
+    "section A",
+    "section B",
+    "section C",
+    "section D",
+    "section E"
+];
+
 export default function NewTestForm({ mode, submitHandler }: Props) {
     const dispatch = useAppDispatch()
     const newTest = useAppSelector((state) => state.TestReducer.newTest)
@@ -125,8 +133,8 @@ export default function NewTestForm({ mode, submitHandler }: Props) {
     function handleSelectedSection({ target: { name, ...rest } }: any) {
         const value: string[] = rest.value
         console.log(value)
-        
-        if(!value.length) {
+
+        if (!value.length) {
             newSections = []
         }
 
@@ -324,9 +332,11 @@ export default function NewTestForm({ mode, submitHandler }: Props) {
                 {newTest.sectionType === 'With sections' && (<>
                     <FormControl>
                         <SelectWithCheckMarks error={isErr && !sections.length}
+                            label="Select Sections to add"
+                            data={sectionsList}
                             name="sections"
                             handleSelectedSection={handleSelectedSection}
-                            sections={sections} />
+                            value={sections} />
                     </FormControl>
 
                     {newTest.sections.map((section, index) => (

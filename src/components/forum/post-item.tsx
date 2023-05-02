@@ -6,6 +6,9 @@ import { StyledButton } from '../../reusable/styles'
 import { useRouter } from 'next/router'
 import randomstring from 'randomstring'
 import { BsSendCheck, BsSendPlus } from 'react-icons/bs'
+import { Post } from '../../reusable/interfaces'
+import { teal } from '@mui/material/colors'
+import moment from 'moment'
 
 const PostItem = styled(Box)(({ theme }) => ({
     flexBasis: '55%',
@@ -37,34 +40,79 @@ const PostFooter = styled(Box)(({ theme }) => ({
 
 const SenTIcon = styled(BsSendCheck)(() => ({
     marginRight: 5,
-    fontSize:20,
+    fontSize: 20,
 }))
 const SendIcon = styled(BsSendPlus)(() => ({
     marginRight: 5,
-    fontSize:20,
+    fontSize: 20,
+}))
+const SubFlexCol = styled(Box)(() => ({
+    display: 'flex',
+    alignItems: 'center'
 }))
 
 
 type Props = {
-    type: 'job' | 'question'
+    post: Post
 }
 
-export default function ForumItem({ type }: Props) {
+export default function ForumItem({ post }: Props) {
     const router = useRouter()
     const id = randomstring.generate(17)
     return (
         <PostItem>
             <PostHeader>
-                <Typography sx={{ fontSize: 18, fontWeight: 500 }}>
-                    Teach me trignometry
+                <Typography sx={{ mb: .8, fontSize: 18, fontWeight: 500 }}>
+                    {post.title}
                 </Typography>
-                <Typography sx={(theme) => ({
-                    fontSize: 13,
-                    color: theme.palette.mode === 'light' ? colors.grey[700] : colorScheme(theme).TextColor,
-                    fontWeight: 500
-                })}>
-                    verified Student
-                </Typography>
+                <SubFlexCol>
+                    <Typography sx={(theme) => ({
+                        flex: 1,
+
+                        fontSize: 13,
+                        color: theme.palette.mode === 'light' ? colors.grey[700] : colorScheme(theme).TextColor,
+                        fontWeight: 500
+                    })}>
+                        Verified Student
+                    </Typography>
+                    {post.type === 'hire tutor' && (
+                        <Typography sx={(theme) => ({
+                            flex: 1,
+                            fontSize: 13,
+                            color: theme.palette.mode === 'light' ? colors.grey[700] : colorScheme(theme).TextColor,
+                            fontWeight: 500
+                        })}>
+                            Budget: ${post.budget}
+                        </Typography>
+                    )}
+
+                    <Typography sx={(theme) => ({
+                        flex: 1,
+                        fontSize: 13,
+                        color: theme.palette.mode === 'light' ? colors.grey[700] : colorScheme(theme).TextColor,
+                        fontWeight: 500
+                    })}>
+                        Posted: {moment(post.createdAt).fromNow().replace('minutes ago', 'Mins')}
+                    </Typography>
+                    <Box sx={{
+                        userSelect: 'none',
+                        py: .5,
+                        px: .8,
+                        borderRadius: '5px',
+                        borderStyle:'solid',
+                        borderColor: teal[400]
+                    }}>
+                        <Typography sx={(theme) => ({
+                            fontSize: 12,
+                            color: colorScheme(theme).TextColor,
+                            fontWeight: 600
+                        })}>
+                            {post.request}
+                        </Typography>
+                    </Box>
+
+
+                </SubFlexCol>
             </PostHeader>
             <PostBody>
                 <Typography sx={(theme) => ({
@@ -72,17 +120,14 @@ export default function ForumItem({ type }: Props) {
                     color: theme.palette.mode === 'light' ? colors.grey[700] : colorScheme(theme).TextColor,
                     fontWeight: 400
                 })}>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Esse veritatis inventore quisquam obcaecati laborum perspiciatis
-                    ipsum nulla,ea, magnam, maxime enim nemo deleniti deserunt ex labore
-                    quidem. Ab, delectus veritatis.
+                    {post.description}
                 </Typography>
                 <PostFooter>
                     <StyledButton
                         onClick={() => router.push(`${router.asPath}?sendBid=${id}`)}
                         sx={{ px: 3, fontSize: 13 }}>
                         {false ? <SenTIcon /> : <SendIcon />}
-                        {type === 'job' ? ' Send Bid' : 'Answer'}
+                        {post.type === 'hire tutor' ? ' Send Bid' : 'Answer'}
                     </StyledButton>
                 </PostFooter>
             </PostBody>

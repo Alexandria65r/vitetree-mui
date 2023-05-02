@@ -64,7 +64,6 @@ const courseSchema = new mongoose.Schema({
 
 export const Course = mongoose.model("course", courseSchema);
 
-
 const wishlistAndCartSchema = new mongoose.Schema({
   _id: String,
   owner: String,
@@ -81,3 +80,20 @@ const wishlistAndCartSchema = new mongoose.Schema({
 
 export const CartItem = mongoose.model("cart-item", wishlistAndCartSchema);
 export const WishListItem = mongoose.model("wish-list-item", wishlistAndCartSchema);
+
+export const Post = mongoose.model(
+  "forum-post",
+  new mongoose.Schema({
+    _id: String,
+    authorId: String,
+    type: String,
+    budget: String,
+    title: String,
+    delivery: String,
+    request: String,
+    imageAssets: { type: Array, required: false },
+    videoAssets: { type: Array, required: false },
+    description: String,
+    createdAt: { type: Date, default: Date.now },
+  })
+);

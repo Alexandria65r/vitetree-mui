@@ -191,15 +191,18 @@ export type Order = {
 
 //post the topic you want to learn
 
-
+export type PostType = 'academic question' | 'hire tutor' | 'all' | ''
 export type Post = {
     _id: string
     authorId: string
-    type: 'resource' | 'job' | ''
-    budget: string
+    type: PostType
+    budget?: string
     title: string
-    imageAssets: Asset[]
-    videoAssets: Asset
+    delivery: ' Course Video' | 'real time video' | 'Answer' | ''
+    request: 'Assignment' | 'teach me' | 'stuck' | ''
+    subjects?: string[],
+    imageAssets?: Asset[]
+    videoAssets?: Asset
     description: string
     createdAt?: string
 }

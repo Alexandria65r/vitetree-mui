@@ -27,11 +27,17 @@ function a11yProps(index: number) {
 export default function HeaderTabs() {
     const dispatch = useAppDispatch()
     const newPostTabValue = useAppSelector((state) => state.ForumReducer.newPostTabValue)
-    const postCartegory = ['Academic question', 'Hire Tutor']
-    const cartegory = postCartegory[newPostTabValue]
+    const postTypes = ['academic question', 'hire tutor']
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         dispatch(forumActions.setTabValue(newValue))
+        dispatch(forumActions.setPostProps({
+            name: 'type',
+            value: postTypes[newValue]
+        }))
     };
+
+
+
 
     return (
         <Box sx={{ width: '100%' }}>
@@ -49,7 +55,7 @@ export default function HeaderTabs() {
                     }}
                     onChange={handleChange} aria-label="basic tabs example">
                     <Tab label="Academic question"
-                        icon={<FaQuestionCircle size={20}/>}
+                        icon={<FaQuestionCircle size={20} />}
                         sx={{
 
                             flex: 1,

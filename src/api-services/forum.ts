@@ -1,4 +1,4 @@
-import { Post } from "../reusable/interfaces";
+import { Post, PostType } from "../reusable/interfaces";
 import axios from 'axios'
 export default class ForumAPI {
 
@@ -28,10 +28,10 @@ export default class ForumAPI {
         }
     }
 
-    static async fetchAll(id:string) {
-        const { data } = await axios.get(`/api/forum/fetch-all/${id}`)
+    static async fetchAll(type: PostType) {
+        const { data } = await axios.get(`/api/forum/fetch-all/${type}`)
         if (data.success) {
-            return data.cartItems as Post[]
+            return data.posts as Post[]
         }
     }
 }
