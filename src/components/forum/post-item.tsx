@@ -76,7 +76,7 @@ export default function ForumItem({ post }: Props) {
                     })}>
                         Verified Student
                     </Typography>
-                    {post.type === 'hire tutor' && (
+                    {/* {post.type === 'hire tutor' && (
                         <Typography sx={(theme) => ({
                             flex: 1,
                             fontSize: 13,
@@ -85,7 +85,7 @@ export default function ForumItem({ post }: Props) {
                         })}>
                             Budget: ${post.budget}
                         </Typography>
-                    )}
+                    )} */}
 
                     <Typography sx={(theme) => ({
                         flex: 1,
@@ -114,6 +114,19 @@ export default function ForumItem({ post }: Props) {
 
 
                 </SubFlexCol>
+                <SubFlexCol>
+                    {post.type === 'hire tutor' && (
+                        <Typography sx={(theme) => ({
+                            flex: 1,
+                            fontSize: 13,
+                            color: theme.palette.mode === 'light' ? colors.grey[700] : colorScheme(theme).TextColor,
+                            fontWeight: 500
+                        })}>
+                            Budget: ${post.budget}
+                        </Typography>
+                    )}
+
+                </SubFlexCol>
             </PostHeader>
             <PostBody>
                 <Typography sx={(theme) => ({
@@ -125,7 +138,7 @@ export default function ForumItem({ post }: Props) {
                 </Typography>
                 <PostFooter>
                     <StyledButton
-                        onClick={() => router.push(`${router.asPath}?sendBid=${id}`)}
+                        onClick={() => router.push(`${router.asPath}${post.type === 'hire tutor' ?'?sendBid=':'?sendAnswer='}${post._id}`)}
                         sx={{ px: 3, fontSize: 13 }}>
                         {false ? <SenTIcon /> : <SendIcon />}
                         {post.type === 'hire tutor' ? ' Send Bid' : 'Answer'}
