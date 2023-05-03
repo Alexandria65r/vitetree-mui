@@ -91,6 +91,7 @@ export const Post = mongoose.model(
     title: String,
     delivery: String,
     request: String,
+    subjects: { type: Array, required: false },
     imageAssets: { type: Array, required: false },
     videoAssets: { type: Array, required: false },
     description: String,

@@ -71,6 +71,15 @@ a {
 }
 
 @media (max-width: 600px) {
+.light ::-webkit-scrollbar {
+  display: none;
+}
+.dark ::-webkit-scrollbar {
+  display: none;
+}
+
+
+
   .modalMb {
     animation: modal 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
     transform-origin: bottom;

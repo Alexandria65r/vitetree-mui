@@ -24,7 +24,7 @@ export const ModalContainer = styled(Box)(({ theme }) => ({
     borderRadius: 0,
     borderTopLeftRadius: 20,
     overflowY: 'auto',
-    backgroundColor: colorScheme(theme).secondaryColor,
+    backgroundColor: colorScheme(theme).primaryColor,
     [theme.breakpoints.down("sm")]: {
         position: 'absolute',
         left: 0,
@@ -61,35 +61,38 @@ const Body = styled(Box)(({ theme }) => ({
     }
 }))
 const PostDetail = styled(Box)(({ theme }) => ({
-    display: 'flex',
+    width: '85%',
     flexWrap: 'wrap',
-    margin:20,
-    borderRadius:CSS_PROPERTIES.radius10,
+    margin:'20px auto',
+    borderRadius: CSS_PROPERTIES.radius10,
     justifyContent: 'space-between',
-    border: `1px solid ${colorScheme(theme).borderColor}`,
+    //border: `1px solid ${colorScheme(theme).borderColor}`,
     [theme.breakpoints.down("sm")]: {
+        width: 'fit-content',
         margin: 5,
-        border:0,
-        borderRadius:0,
+        border: 0,
+        borderRadius: 0,
     }
 }))
 const PostItemCol = styled(Box)(({ theme }) => ({
     padding: 10,
     flexBasis: '60%',
     [theme.breakpoints.down("sm")]: {
+        padding: 10,
         flexBasis: '100%',
     }
 }))
 const Card = styled(Box)(({ theme }) => ({
-    marginTop: '10px',
-    minHeight: 100,
+    flexBasis: '30%',
     cursor: 'pointer',
-    //backgroundColor: colorScheme(theme).secondaryColor,
-    // borderRadius: CSS_PROPERTIES.radius5,
-    // boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
-    borderBottom: `1px solid ${colorScheme(theme).borderColor}`,
+    backgroundColor: colorScheme(theme).secondaryColor,
+    borderRadius: CSS_PROPERTIES.radius5,
+    boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
+    //borderBottom: `1px solid ${colorScheme(theme).borderColor}`,
     [theme.breakpoints.down("sm")]: {
-        marginLeft: 0, flexBasis: '100%',
+        flexBasis: '100%',
+        marginTop: '10px',
+        marginLeft: 0,
     }
 }))
 const CardHead = styled(Box)(({ theme }) => ({
@@ -99,14 +102,18 @@ const CardHead = styled(Box)(({ theme }) => ({
     }
 }))
 const AuthorCol = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    flexWrap:'wrap',
+    justifyContent: 'space-between',
     flexBasis: '40%',
-    height: 'calc(100vh - 66px)',
-    //padding:10,
-    borderLeftStyle: 'solid',
+    marginBottom: '10px',
+    // height: 'calc(100vh - 66px)',
+   // padding: 10,
+    borderLeftStyle: 'none',
     borderLeftColor: colorScheme(theme).borderColor,
     [theme.breakpoints.down("sm")]: {
         height: 'auto',
-        flexBasis: '100%',
+      //  flexBasis: '100%',
         borderLeftWidth: 0
     }
 }))
@@ -164,20 +171,9 @@ export default function SendBidModal() {
                     </Header>
                     <Body>
                         <PostDetail>
-                            <PostItemCol>
+                            
                                 <ForumItem post={post} />
-                                <Card>
-                                    <CardHead>
-                                        <Typography sx={(theme) => ({
-                                            fontSize: 16,
-                                            fontWeight: 600,
-                                            color: colorScheme(theme).TextColor
-                                        })}>
-                                            {post.type === 'hire tutor' ? 'Send Bid' : 'Answer'}
-                                        </Typography>
-                                    </CardHead>
-                                </Card>
-                            </PostItemCol>
+                           
                             <AuthorCol>
                                 <Card>
                                     <CardHead>
@@ -219,29 +215,14 @@ export default function SendBidModal() {
                                             fontWeight: 500,
                                             color: colorScheme(theme).TextColor
                                         })}>
-                                            Tutor Expertise
-                                        </Typography>
-                                        <Typography sx={(theme) => ({
-                                            lineHeight: 1.2,
-                                            fontSize: 16,
-                                            fontWeight: 500,
-                                            color: colorScheme(theme).TextColor
-                                        })}>
-                                            Zambia
+                                            Tutor Expertise(Subjects)
                                         </Typography>
                                         <Typography sx={(theme) => ({
                                             fontSize: 12,
                                             fontWeight: 500,
                                             color: colorScheme(theme).TextColor
                                         })}>
-                                            Lusaka {`${new Date().getHours()}:${new Date().getMinutes()}`}
-                                        </Typography>
-                                        <Typography sx={(theme) => ({
-                                            fontSize: 13,
-                                            fontWeight: 500,
-                                            color: colorScheme(theme).TextColor
-                                        })}>
-                                            Member since Jun,2018
+                                            Chemistry and Physics
                                         </Typography>
                                     </CardHead>
                                 </Card>
@@ -252,33 +233,31 @@ export default function SendBidModal() {
                                             fontWeight: 500,
                                             color: colorScheme(theme).TextColor
                                         })}>
-                                            Bids
+                                            Applicants
                                         </Typography>
                                         <Typography sx={(theme) => ({
                                             lineHeight: 1.2,
-                                            fontSize: 16,
-                                            fontWeight: 500,
-                                            color: colorScheme(theme).TextColor
-                                        })}>
-                                            Zambia
-                                        </Typography>
-                                        <Typography sx={(theme) => ({
-                                            fontSize: 12,
-                                            fontWeight: 500,
-                                            color: colorScheme(theme).TextColor
-                                        })}>
-                                            Lusaka {`${new Date().getHours()}:${new Date().getMinutes()}`}
-                                        </Typography>
-                                        <Typography sx={(theme) => ({
                                             fontSize: 13,
                                             fontWeight: 500,
                                             color: colorScheme(theme).TextColor
                                         })}>
-                                            Member since Jun,2018
+                                            20 Bids
                                         </Typography>
                                     </CardHead>
                                 </Card>
                             </AuthorCol>
+                         
+                                <Card sx={{ height: 200 }}>
+                                    <CardHead>
+                                        <Typography sx={(theme) => ({
+                                            fontSize: 16,
+                                            fontWeight: 600,
+                                            color: colorScheme(theme).TextColor
+                                        })}>
+                                            {post.type === 'hire tutor' ? 'Send Bid' : 'Answer'}
+                                        </Typography>
+                                    </CardHead>
+                                </Card>
 
                         </PostDetail>
                     </Body>
