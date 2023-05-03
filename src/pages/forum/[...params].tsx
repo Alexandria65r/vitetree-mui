@@ -108,7 +108,7 @@ export default function NewTest({ }: Props) {
 
     useEffect(() => {
         loadPosts()
-    }, [])
+    }, [sort])
 
 
     function sortPosts(type: PostType) {
