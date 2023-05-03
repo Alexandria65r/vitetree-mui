@@ -52,9 +52,9 @@ const MappedCards = styled(Box)(({ theme }) => ({
     }
 }))
 const DashCard = styled(Box)(({ theme }) => ({
-    display:'flex',
-    alignItems:'center',
-    justifyContent:'center',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
     position: 'relative',
     height: 180,
     padding: 10,
@@ -129,7 +129,7 @@ export default function Darshboard({ }: Props) {
     return (
         <Layout>
             <FlexContainer>
-                <SideBar />
+
                 <Container>
                     <SearchContainer>
                         <SearchInputWrap>
@@ -144,7 +144,7 @@ export default function Darshboard({ }: Props) {
                         <CreateButtonOptions />
                     </SearchContainer>
                     <MappedCards>
-                        {dashCardList.map((card, index) => (
+                        {dashCardList(user.role).map((card, index) => (
                             <Link key={index} href={card.route}>
                                 <DashCard sx={{ borderColor: card.accent }} >
                                     <Box sx={(theme) => ({
@@ -153,14 +153,16 @@ export default function Darshboard({ }: Props) {
                                             //width: 230,
                                         },
                                     })}>
-                                     
+
+                                        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
                                             {card.icon}
-                                            <Typography sx={{
-                                                fontWeight: 600,
-                                                textOverflow: 'ellipsis',
-                                                overflow: 'hidden'
-                                            }}>{card.title}</Typography>
-                                      
+                                        </Box>
+                                        <Typography sx={{
+                                            fontWeight: 600,
+                                            textOverflow: 'ellipsis',
+                                            overflow: 'hidden'
+                                        }}>{card.title}</Typography>
+
                                     </Box>
                                 </DashCard>
 
@@ -178,20 +180,50 @@ export default function Darshboard({ }: Props) {
 }
 
 
-const dashCardList = [
-    {
-        title: 'Tests', route: '/yard/tests',
-        accent: colors.teal[400],
-        icon: <SlGraduation size={40} color={colors.teal[400]} />
-    },
-    {
-        title: 'Courses', route: '/yard/courses',
-        accent: colors.deepOrange[400],
-        icon: <SlGraduation size={40} color={colors.deepOrange[400]} />
-    },
-    {
-        title: 'Bids', route: '/yard/courses',
-        accent: colors.cyan[400],
-        icon: <BiDetail size={40} color={colors.cyan[400]} />
+
+const dashCardList = (userRole: 'Tutor' | 'Student' | string) => {
+    const sort = localStorage.getItem('sort-posts')
+
+    if (userRole === 'Tutor') {
+        return [
+            {
+                title: 'Tests', route: '/yard/tests',
+                accent: colors.teal[400],
+                icon: <SlGraduation size={40} color={colors.teal[400]} />
+            },
+            {
+                title: 'Courses', route: '/yard/courses',
+                accent: colors.deepOrange[400],
+                icon: <SlGraduation size={40} color={colors.deepOrange[400]} />
+            },
+            {
+                title: 'Bids', route: '/yard/courses',
+                accent: colors.cyan[400],
+                icon: <BiDetail size={40} color={colors.cyan[400]} />
+            }
+        ]
+    } else {
+        return [
+            {
+                title: 'Assessments', route: '/yard/tests',
+                accent: colors.teal[400],
+                icon: <SlGraduation size={40} color={colors.teal[400]} />
+            },
+            {
+                title: 'Learnning', route: '/learnning',
+                accent: colors.deepOrange[400],
+                icon: <SlGraduation size={40} color={colors.deepOrange[400]} />
+            },
+            {
+                title: 'Forum', route: `/forum/${sort ?? 'all'}`,
+                accent: colors.cyan[400],
+                icon: <BiDetail size={40} color={colors.cyan[400]} />
+            },
+            {
+                title: 'My Posts', route: '/forum/my-posts',
+                accent: colors.cyan[400],
+                icon: <BiDetail size={40} color={colors.cyan[400]} />
+            }
+        ]
     }
-]
+} 

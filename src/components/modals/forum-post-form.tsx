@@ -86,12 +86,15 @@ export default function ForumPostFormModal() {
 
     async function handleSubmit() {
         try {
+            dispatch(forumActions.setNetworkStatus('creating-new-post'))
             const newPost = await ForumAPI.create(post)
             if (newPost) {
+                dispatch(forumActions.setNetworkStatus('creating-new-post-success'))
                 dispatch(forumActions.setPosts([...posts,newPost]))
                 handleClose()
             }
         } catch (error) {
+            dispatch(forumActions.setNetworkStatus('creating-new-post-error'))
             console.log(error)
         }
 
@@ -140,7 +143,7 @@ export default function ForumPostFormModal() {
                                 onClick={handleSubmit}
                                 sx={{ width: '30%', borderBottom: 4, borderColor: colors.teal[300] }}>
                                 Post
-                                <AppSpinner visible={forumNetworkStatus === 'fetching-posts'} />
+                                <AppSpinner visible={forumNetworkStatus ==='creating-new-post'} />
                             </StyledButton>
                         </FormControl>
                     </Box>

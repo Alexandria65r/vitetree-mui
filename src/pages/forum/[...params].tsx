@@ -1,27 +1,23 @@
 import React, { useEffect } from 'react'
-import Layout from '../components/layout'
-import { Box, Typography, colors, styled } from '@mui/material'
-import { colorScheme } from '../theme'
-import { CSS_PROPERTIES } from '../reusable'
+import Layout from '../../components/layout'
+import { Box, styled } from '@mui/material'
+import { colorScheme } from '../../theme'
+import { CSS_PROPERTIES } from '../../reusable'
 //import Select from '@mui/joy/Select';
-import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import NewTestForm from '../components/new-test-form/new-test-form'
-import TestAPI from '../api-services/test'
+import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import { useRouter } from 'next/router'
-import randomstring from 'randomstring'
-import ForumPostFormModal from '../components/modals/forum-post-form'
-import { ButtonIcon, StyledButton } from '../reusable/styles'
+import ForumPostFormModal from '../../components/modals/forum-post-form'
+import { StyledButton } from '../../reusable/styles'
 import { Add } from '@mui/icons-material'
-import { forumActions } from '../../reducers/forum-reducer'
-import SendBidModal from '../components/modals/send-bid-modal'
-import ForumItem from '../components/forum/post-item'
+import { forumActions } from '../../../reducers/forum-reducer'
+import SendBidModal from '../../components/modals/send-bid-modal'
+import ForumItem from '../../components/forum/post-item'
 import { FaQuestionCircle } from 'react-icons/fa'
 import { SiWheniwork } from 'react-icons/si'
-import { BsBorderAll } from 'react-icons/bs'
 import { HiOutlineViewGrid } from 'react-icons/hi'
-import { BiSearchAlt } from 'react-icons/bi'
-import { fetchPostsThunk } from '../../reducers/forum-reducer/forum-thunks'
-import { PostType } from '../reusable/interfaces'
+import { BiDetail, BiSearchAlt } from 'react-icons/bi'
+import { fetchPostsThunk } from '../../../reducers/forum-reducer/forum-thunks'
+import { PostType } from '../../reusable/interfaces'
 import { teal } from '@mui/material/colors'
 
 const Container = styled(Box)(({ theme }) => ({
@@ -124,6 +120,7 @@ export default function NewTest({ }: Props) {
 
     function sortPosts(type: PostType) {
         dispatch(fetchPostsThunk(type))
+        router.replace(`/forum/${type}`)
         localStorage.setItem('sort-posts', type)
     }
 
@@ -177,6 +174,10 @@ export default function NewTest({ }: Props) {
                         >
                             <FaQuestionCircle size={20} style={{ marginRight: 5 }} />
                             Stuck
+                        </TabButton>
+                        <TabButton onClick={()=> router.push('/forum/my-posts')}>
+                            <BiDetail size={20} style={{ marginRight: 5 }} />
+                            My posts
                         </TabButton>
 
                     </TabHeader>

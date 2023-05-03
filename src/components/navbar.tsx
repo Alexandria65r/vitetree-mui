@@ -19,8 +19,8 @@ import { mainActions } from '../../reducers';
 import Timer from './timer';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { cartActions } from '../../reducers/cart-reducer';
-
-
+import ChatOutlinedIcon from '@mui/icons-material/ChatOutlined';
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 
 const Button = styled(ButtonBase)(({ theme }) => ({
     padding: '8px 15px',
@@ -94,6 +94,14 @@ export default function NavBar() {
                             <Badge>{cartItems.length}</Badge>
                         </ButtonIcon>
                     )}
+                    {!isMobile && (<>
+                        <ButtonIcon onClick={togggleCart} sx={{ position: 'relative' }}>
+                            <ChatOutlinedIcon />
+                        </ButtonIcon>
+                        <ButtonIcon onClick={togggleCart} sx={{ position: 'relative' }}>
+                            <NotificationsNoneIcon />
+                        </ButtonIcon>
+                    </>)}
                     <ButtonIcon onClick={toggleColorMode}>
                         {theme.palette.mode === 'light' ? <DarkModeOutlinedIcon /> : <LightModeOutlinedIcon />}
                     </ButtonIcon>

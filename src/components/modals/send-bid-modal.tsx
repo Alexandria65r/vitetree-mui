@@ -21,6 +21,9 @@ import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import { deleteWishListThunk } from '../../../reducers/wishlist-reducer/wishlist-thunks';
 import EmptyCartAndWishlist from '../empty-cart-wishlist';
 import ForumPostForm from '../forum-form/forum-post-form';
+import { fetchPostThunk } from '../../../reducers/forum-reducer/forum-thunks';
+import ForumItem from '../forum/post-item';
+import moment from 'moment';
 
 
 
@@ -28,13 +31,13 @@ import ForumPostForm from '../forum-form/forum-post-form';
 
 export const ModalContainer = styled(Box)(({ theme }) => ({
     position: 'fixed',
-    top:0,
+    top: 0,
     right: 0,
     width: '80%',
     height: '100vh',
     borderRadius: 0,
-    borderTopLeftRadius:20,
-    backgroundColor: colorScheme(theme).secondaryColor,
+    borderTopLeftRadius: 20,
+    backgroundColor: colorScheme(theme).primaryColor,
     [theme.breakpoints.down("sm")]: {
         position: 'absolute',
         left: 0,
@@ -54,13 +57,55 @@ const Header = styled(Box)(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
     height: 60,
+    padding:'0 20px',
     borderTopLeftRadius: 20,
-    backgroundColor:theme.palette.mode==='light'?'#fff':colorScheme(theme).secondaryColor,
-    justifyContent: 'center',
+    backgroundColor: theme.palette.mode === 'light' ? '#fff' : colorScheme(theme).secondaryColor,
+    //justifyContent: 'center',
     boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
     borderTop: `1px solid solid ${theme.palette.mode === 'light' ? colors.grey[200] : colorScheme(theme).primaryColor}`,
-    [theme.breakpoints.down('sm')]:{
+    [theme.breakpoints.down('sm')]: {
         borderTopLeftRadius: 0,
+    }
+}))
+
+const Body = styled(Box)(({ theme }) => ({
+    padding: 20,
+    [theme.breakpoints.down("sm")]: {
+        padding: 10,
+    }
+}))
+const PostDetail = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between'
+}))
+const PostItemCol = styled(Box)(({ theme }) => ({
+    flexBasis: '58%',
+    [theme.breakpoints.down("sm")]: {
+        flexBasis: '100%',
+    }
+}))
+const Card = styled(Box)(({ theme }) => ({
+    margin: '10px 0',
+    minHeight: 100,
+    cursor: 'pointer',
+    backgroundColor: colorScheme(theme).secondaryColor,
+    borderRadius: CSS_PROPERTIES.radius5,
+    boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
+    [theme.breakpoints.down("sm")]: {
+        marginLeft: 0, flexBasis: '100%',
+    }
+}))
+const CardHead = styled(Box)(({ theme }) => ({
+    padding: 10,
+    [theme.breakpoints.down("sm")]: {
+
+    }
+}))
+const AuthorCol = styled(Box)(({ theme }) => ({
+    flexBasis: '40%',
+    [theme.breakpoints.down("sm")]: {
+        flexBasis: '100%',
     }
 }))
 
@@ -68,18 +113,21 @@ const Header = styled(Box)(({ theme }) => ({
 export default function SendBidModal() {
     const router = useRouter()
     const dispatch = useAppDispatch()
-    const isOpen = useAppSelector((state) => state.ForumReducer.isOpen)
     const owner = useAppSelector((state) => state.AuthReducer.user._id)
-    const cartItems = useAppSelector((state) => state.CartReducer.cartItems)
-    const wishListItems = useAppSelector((state) => state.WishListReducer.wishListItems)
+    const post = useAppSelector((state) => state.ForumReducer.post)
+    const [all, details, postId]: any = router.query.params || []
+
+    console.log(router.query)
 
     const fetchCartItems = React.useCallback(() => {
-        dispatch(fetchCartItemsThunk(owner ?? ''))
-    }, [dispatch, owner])
+        if (postId) {
+            dispatch(fetchPostThunk(postId));
+        }
+    }, [postId])
 
     React.useEffect(() => {
         fetchCartItems()
-    }, [dispatch, owner])
+    }, [postId])
 
 
     function handleClose() {
@@ -92,16 +140,67 @@ export default function SendBidModal() {
     return (
         <div>
             <Modal
-                open={router.asPath.includes('sendBid')}
+                open={router.asPath.includes(details)}
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-
                 <ModalContainer className='modalPage'>
-                    <Header></Header>
-                </ModalContainer>
+                    <Header>
+                        <Typography sx={(theme) => ({
+                            fontSize: 20,
+                            fontWeight: 600,
+                            color: colorScheme(theme).TextColor
+                        })}>
+                            Post Detail
+                        </Typography>
+                    </Header>
+                    <Body>
+                        <PostDetail>
+                            <PostItemCol>
+                                <ForumItem post={post} />
+                            </PostItemCol>
+                            <AuthorCol>
+                                <Card>
+                                    <CardHead>
+                                        <Typography sx={(theme) => ({
+                                            fontSize: 16,
+                                            fontWeight: 500,
+                                            color: colorScheme(theme).TextColor
+                                        })}>
+                                            About Student
+                                        </Typography>
+                                        <Typography sx={(theme) => ({
+                                            lineHeight: 1.2,
+                                            fontSize: 16,
+                                            fontWeight: 500,
+                                            color: colorScheme(theme).TextColor
+                                        })}>
+                                            Zambia
+                                        </Typography>
+                                        <Typography sx={(theme) => ({
+                                            fontSize: 12,
+                                            fontWeight: 500,
+                                            color: colorScheme(theme).TextColor
+                                        })}>
+                                            Lusaka {`${new Date().getHours()}:${new Date().getMinutes()}`}
+                                        </Typography>
+                                        <Typography sx={(theme) => ({
+                                            fontSize: 13,
+                                            fontWeight: 500,
+                                            color: colorScheme(theme).TextColor
+                                        })}>
+                                            Member since Jun,2018
+                                        </Typography>
+                                    </CardHead>
+                                </Card>
+                            </AuthorCol>
+                        </PostDetail>
+                        <Card>
 
+                        </Card>
+                    </Body>
+                </ModalContainer>
             </Modal>
         </div>
     );

@@ -15,6 +15,7 @@ const PostItem = styled(Box)(({ theme }) => ({
     flexBasis: '55%',
     margin: '10px 0',
     minHeight: 100,
+    cursor: 'pointer',
     backgroundColor: colorScheme(theme).secondaryColor,
     borderRadius: CSS_PROPERTIES.radius5,
     boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
@@ -61,7 +62,8 @@ export default function ForumItem({ post }: Props) {
     const router = useRouter()
     const id = randomstring.generate(17)
     return (
-        <PostItem>
+        <PostItem
+            onClick={() => router.push(`${router.asPath}/details/${post._id}`)}>
             <PostHeader>
                 <Typography sx={{ mb: .8, fontSize: 18, fontWeight: 500 }}>
                     {post.title}
@@ -93,14 +95,14 @@ export default function ForumItem({ post }: Props) {
                         color: theme.palette.mode === 'light' ? colors.grey[700] : colorScheme(theme).TextColor,
                         fontWeight: 500
                     })}>
-                        Posted: {normalizedDate(post.createdAt??'')}
+                        Posted: {normalizedDate(post.createdAt ?? '')}
                     </Typography>
                     <Box sx={{
                         userSelect: 'none',
                         py: .5,
                         px: .8,
                         borderRadius: '5px',
-                        borderStyle:'solid',
+                        borderStyle: 'solid',
                         borderColor: teal[400]
                     }}>
                         <Typography sx={(theme) => ({
@@ -137,12 +139,11 @@ export default function ForumItem({ post }: Props) {
                     {post.description}
                 </Typography>
                 <PostFooter>
-                    <StyledButton
-                        onClick={() => router.push(`${router.asPath}${post.type === 'hire tutor' ?'?sendBid=':'?sendAnswer='}${post._id}`)}
+                    {/* <StyledButton
                         sx={{ px: 3, fontSize: 13 }}>
                         {false ? <SenTIcon /> : <SendIcon />}
                         {post.type === 'hire tutor' ? ' Send Bid' : 'Answer'}
-                    </StyledButton>
+                    </StyledButton> */}
                 </PostFooter>
             </PostBody>
         </PostItem>

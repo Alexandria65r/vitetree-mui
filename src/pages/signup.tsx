@@ -108,14 +108,18 @@ export default function Signup({ }: Props) {
   }
 
   async function handleSignUp() {
-    const { data } = await AuthAPI.signUp(signUpData)
-    if (data.success) {
-      cookies.set(SCHOOYARD_AUTH_TOKEN, data.token)
-      dispatch(authActions.setAuhtUser(data.user))
-      router.replace('/dashboard')
-      if (getUserRole()) {
-        localStorage.removeItem('getting-started-role')
+    try {
+      const { data } = await AuthAPI.signUp(signUpData)
+      if (data.success) {
+        cookies.set(SCHOOYARD_AUTH_TOKEN, data.token)
+        dispatch(authActions.setAuhtUser(data.user))
+        router.replace('/dashboard')
+        if (getUserRole()) {
+          localStorage.removeItem('getting-started-role')
+        }
       }
+    } catch (error) {
+        console.log('err signup')
     }
   }
 

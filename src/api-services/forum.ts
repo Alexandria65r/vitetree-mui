@@ -21,15 +21,21 @@ export default class ForumAPI {
         return axios.delete(`/api/forum/delete/${owner}`)
     }
 
-    static async fetchCartItem(id: string) {
-        const { data } = await axios.get(`/api/forum/fetch-cart-item/${id}`)
+    static async fetchPostItem(id: string) {
+        const { data } = await axios.get(`/api/forum/fetch-post-item/${id}`)
         if (data.success) {
-            return data.cartItem as Post
+            return data.post as Post
         }
     }
 
     static async fetchAll(type: PostType) {
         const { data } = await axios.get(`/api/forum/fetch-all/${type}`)
+        if (data.success) {
+            return data.posts as Post[]
+        }
+    }
+    static async fetchOwnPosts(id:string, type: PostType) {
+        const { data } = await axios.get(`/api/forum/my-posts/${id}/${type}`)
         if (data.success) {
             return data.posts as Post[]
         }

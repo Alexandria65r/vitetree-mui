@@ -4,9 +4,15 @@ import { PostSchema } from '../../src/reusable/schemas'
 
 
 export type ForumNetworkStatus =
+    'creating-new-post' |
+    'creating-new-post-error' |
+    'creating-new-post-success' |
     'fetching-posts' |
     'fetching-posts-error' |
     'fetching-posts-success' |
+    'fetching-post' |
+    'fetching-post-error' |
+    'fetching-post-success' |
     'deleting' |
     'deleting-error' |
     'deleting-success'
