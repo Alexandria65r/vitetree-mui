@@ -57,7 +57,7 @@ const Header = styled(Box)(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
     height: 60,
-    padding:'0 20px',
+    padding: '0 20px',
     borderTopLeftRadius: 20,
     backgroundColor: theme.palette.mode === 'light' ? '#fff' : colorScheme(theme).secondaryColor,
     //justifyContent: 'center',
@@ -197,7 +197,15 @@ export default function SendBidModal() {
                             </AuthorCol>
                         </PostDetail>
                         <Card>
-
+                            <CardHead>
+                                <Typography sx={(theme) => ({
+                                    fontSize: 16,
+                                    fontWeight: 600,
+                                    color: colorScheme(theme).TextColor
+                                })}>
+                                    {post.type === 'hire tutor' ? 'Send Bid' : 'Answer'}
+                                </Typography>
+                            </CardHead>
                         </Card>
                     </Body>
                 </ModalContainer>

@@ -182,7 +182,6 @@ export default function Darshboard({ }: Props) {
 
 
 const dashCardList = (userRole: 'Tutor' | 'Student' | string) => {
-    const sort = localStorage.getItem('sort-posts')
 
     if (userRole === 'Tutor') {
         return [
@@ -215,7 +214,7 @@ const dashCardList = (userRole: 'Tutor' | 'Student' | string) => {
                 icon: <SlGraduation size={40} color={colors.deepOrange[400]} />
             },
             {
-                title: 'Forum', route: `/forum/${sort ?? 'all'}`,
+                title: 'Forum', route: `/forum/all`,
                 accent: colors.cyan[400],
                 icon: <BiDetail size={40} color={colors.cyan[400]} />
             },

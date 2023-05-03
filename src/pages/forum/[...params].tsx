@@ -3,12 +3,11 @@ import Layout from '../../components/layout'
 import { Box, styled } from '@mui/material'
 import { colorScheme } from '../../theme'
 import { CSS_PROPERTIES } from '../../reusable'
-//import Select from '@mui/joy/Select';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import { useRouter } from 'next/router'
 import ForumPostFormModal from '../../components/modals/forum-post-form'
 import { StyledButton } from '../../reusable/styles'
-import { Add } from '@mui/icons-material'
+import { Add, Sort } from '@mui/icons-material'
 import { forumActions } from '../../../reducers/forum-reducer'
 import SendBidModal from '../../components/modals/send-bid-modal'
 import ForumItem from '../../components/forum/post-item'
@@ -101,16 +100,10 @@ export default function NewTest({ }: Props) {
     const router = useRouter()
     const dispatch = useAppDispatch()
     const posts = useAppSelector((state) => state.ForumReducer.posts)
-    const sort = useAppSelector((state) => state.ForumReducer.sort)
-
+    const [sort]: any = router.query.params || []
 
     function loadPosts() {
-        const type: any = localStorage.getItem('sort-posts')
-        if (type !== null) {
-            dispatch(fetchPostsThunk(type))
-        } else {
-            dispatch(fetchPostsThunk('all'))
-        }
+        dispatch(fetchPostsThunk(sort))
     }
 
     useEffect(() => {
@@ -175,7 +168,7 @@ export default function NewTest({ }: Props) {
                             <FaQuestionCircle size={20} style={{ marginRight: 5 }} />
                             Stuck
                         </TabButton>
-                        <TabButton onClick={()=> router.push('/forum/my-posts')}>
+                        <TabButton onClick={() => router.push('/forum/my-posts')}>
                             <BiDetail size={20} style={{ marginRight: 5 }} />
                             My posts
                         </TabButton>

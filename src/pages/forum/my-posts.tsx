@@ -139,7 +139,7 @@ export default function NewTest({ }: Props) {
                         </ButtonIcon>
                     </TestHeader> */}
                     <TabHeader>
-                        <TabButton onClick={() => router.push('/forum')}>
+                        <TabButton onClick={() => router.push('/forum/all')}>
                             <BiDetail size={20} style={{ marginRight: 5 }} />
                             Forum
                         </TabButton>

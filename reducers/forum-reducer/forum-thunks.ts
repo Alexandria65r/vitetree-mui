@@ -25,7 +25,7 @@ export const fetchPostsThunk = createAsyncThunk<void, PostType, { state: AppStat
         const state = thunkAPI.getState()
         const dispatch = thunkAPI.dispatch
         try {
-            dispatch(forumActions.setSort(type))
+            
             dispatch(forumActions.setNetworkStatus('fetching-posts'))
             const posts = await ForumAPI.fetchAll(type)
             if (posts) {
