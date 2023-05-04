@@ -98,7 +98,9 @@ export default function NavBar() {
                         <ButtonIcon onClick={togggleCart} sx={{ position: 'relative' }}>
                             <ChatOutlinedIcon />
                         </ButtonIcon>
-                        <ButtonIcon onClick={togggleCart} sx={{ position: 'relative' }}>
+                        <ButtonIcon
+                            onClick={() => router.push('/notifications/noti-list')}
+                            sx={{ position: 'relative' }}>
                             <NotificationsNoneIcon />
                         </ButtonIcon>
                     </>)}

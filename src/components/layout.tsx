@@ -2,7 +2,7 @@ import { Box } from '@mui/joy'
 import React from 'react'
 import NavBar from './navbar'
 import _app from '../pages/_app'
-import { useAppDispatch } from '../../store/hooks'
+import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { checkAuthThunk } from '../../reducers/thunks'
 import { useRouter } from 'next/router'
 import ReusablePopper from './reusable-popper'
@@ -12,6 +12,7 @@ import DeletePartcipantModal from './modals/delete-partcipant-modal'
 import CartModal from './modals/cart-modal'
 import WishListModal from './modals/wishlist-modal'
 import SideBar from './side-bar'
+import { mainActions } from '../../reducers'
 
 type Props = {
     children: any
@@ -20,6 +21,7 @@ type Props = {
 export default function Layout({ children }: Props) {
     const dispatch = useAppDispatch()
     const router = useRouter()
+    const isSidebarOpen = useAppSelector((state) => state.MainReducer.isSidebarOpen)
 
     const checkAuth = React.useCallback(async () => {
         const { payload } = await dispatch(checkAuthThunk({}))
@@ -33,7 +35,13 @@ export default function Layout({ children }: Props) {
     React.useEffect(() => {
         localStorage.removeItem('redirectFlag')
         checkAuth()
+        if (isSidebarOpen) {
+            dispatch(mainActions.setIsSideBarOpen(false))
+        }
     }, [router.pathname])
+
+
+
 
 
 

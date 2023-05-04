@@ -1,4 +1,4 @@
-import { styled, Box, ButtonBase, colors, Modal, Typography, IconButton, useMediaQuery } from '@mui/material'
+import { styled, Box, ButtonBase, colors, Modal, Typography, IconButton, useMediaQuery, MenuItem } from '@mui/material'
 import React from 'react'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { colorScheme } from '../theme'
@@ -46,14 +46,14 @@ const ReusableButton = styled(StyledButton)(({ theme }) => ({
 }))
 
 const SideBarHeader = styled(Box)(({ theme }) => ({
-    position:'relative',
+    position: 'relative',
     width: '100%',
     height: 66,
     display: 'flex',
     alignItems: 'center',
-    justifyContent:'center',
+    justifyContent: 'center',
     padding: '0 25px',
-    borderBottom: `1px solid ${ colorScheme(theme).secondaryColor}`,
+    borderBottom: `1px solid ${colorScheme(theme).secondaryColor}`,
     backgroundColor: theme.palette.mode === 'light' ? 'rgb(245 245 245)' : colorScheme(theme).primaryColor
 }))
 
@@ -108,7 +108,7 @@ export default function SideBar({ }: Props) {
                                     edge="start"
                                     color="inherit"
                                     aria-label="menu"
-                                    sx={{ mr: 2,position:'absolute', left:25  }}
+                                    sx={{ mr: 2, position: 'absolute', left: 25 }}
                                 >
                                     <CloseIcon />
                                 </IconButton>
@@ -116,7 +116,7 @@ export default function SideBar({ }: Props) {
 
                             <Typography variant="h6" component="div"
                                 sx={{
-                                    textAlign:  'center',
+                                    textAlign: 'center',
                                     fontWeight: 600,
                                     flexGrow: 1, color: colors.teal[400]
                                 }}>
@@ -125,6 +125,11 @@ export default function SideBar({ }: Props) {
                                 </Link>
                             </Typography>
                         </SideBarHeader>
+
+                        <MenuItem onClick={() => router.push('/notifications/noti-list')}>
+                            Notifications
+                        </MenuItem>
+
                         <ReusableButton onClick={logout}>Log Out</ReusableButton>
                     </OpenedBar>
                 ) : (
