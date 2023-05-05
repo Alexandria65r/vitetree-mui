@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import TutorItem from '../../components/tutor-item'
 import KeyboardBackspaceOutlinedIcon from '@mui/icons-material/KeyboardBackspaceOutlined';
 import { ButtonIcon } from '../../reusable/styles'
+import InquiryForm from '../../components/inquiry-form/forum-post-form'
 
 const Container = styled(Box)(({ theme }) => ({
     maxWidth: '90%',
@@ -84,7 +85,7 @@ const DetailHeader = styled(Box)(({ theme }) => ({
     }
 }))
 const FormContainer = styled(Box)(({ theme }) => ({
-    padding: 10,
+    padding: 15,
     [theme.breakpoints.down("sm")]: {
 
     }
@@ -93,7 +94,7 @@ const FormContainer = styled(Box)(({ theme }) => ({
 
 
 const MenuItemButton = styled(MenuItem)(({ theme }) => ({
-   display:'flex',
+    display: 'flex',
     alignItems: 'center',
     fontSize: 16,
     fontWeight: 600,
@@ -174,16 +175,16 @@ export default function Tutors({ }: Props) {
                     <FormContainer>
 
                         <FormControl fullWidth={true}>
-                            <FormLabel sx={{fontSize:16,fontWeight:600,my:.5, color: colors.teal[400],  }} id="demo-controlled-radio-buttons-group">
+                            <FormLabel sx={{ fontSize: 16, fontWeight: 600, my: .5, color: colors.teal[400], }} id="demo-controlled-radio-buttons-group">
                                 Select Service
                             </FormLabel>
                             <RadioGroup
                                 aria-labelledby="demo-controlled-radio-buttons-group"
                                 name="controlled-radio-buttons-group"
-                                
+
                             >
                                 <MenuItemButton>
-                                    <FormControlLabel  value="class" control={<Radio sx={RadioStyles} />} label="Private class" />
+                                    <FormControlLabel value="class" control={<Radio sx={RadioStyles} />} label="Private class" />
                                 </MenuItemButton>
                                 <MenuItemButton>
                                     <FormControlLabel value="assignment" control={<Radio sx={RadioStyles} />} label="Help with assignment" />
@@ -199,7 +200,7 @@ export default function Tutors({ }: Props) {
                                 </MenuItemButton>
                             </RadioGroup>
                         </FormControl>
-
+                        <InquiryForm submitHandler={() => { }} />
                     </FormContainer>
                 </TutorDetail>
             </Container>
