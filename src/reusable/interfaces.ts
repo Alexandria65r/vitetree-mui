@@ -218,3 +218,4 @@ export type Bid = {
     awarded: boolean
     createdAt: string
 }
+

@@ -15,8 +15,8 @@ import { testActions } from '../../reducers/test-reducer'
 import CreateButtonOptions from '../components/menus/create-button-options'
 import Link from 'next/link'
 import { SlGraduation } from 'react-icons/sl'
-import { BiDetail } from 'react-icons/bi'
-
+import { BiDetail, BiSearchAlt } from 'react-icons/bi'
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 
 const FlexContainer = styled(Box)(({ theme }) => ({
     display: 'flex'
@@ -222,6 +222,11 @@ const dashCardList = (userRole: 'Tutor' | 'Student' | string) => {
                 title: 'My Posts', route: '/forum/my-posts',
                 accent: colors.cyan[400],
                 icon: <BiDetail size={40} color={colors.cyan[400]} />
+            },
+            {
+                title: 'Hire Tutor', route: '/tutors',
+                accent: colors.cyan[400],
+                icon: <BiSearchAlt size={40} color={colors.cyan[400]} />
             }
         ]
     }

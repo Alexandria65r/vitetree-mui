@@ -95,7 +95,7 @@ export default function NavBar() {
                         </ButtonIcon>
                     )}
                     {!isMobile && (<>
-                        <ButtonIcon onClick={togggleCart} sx={{ position: 'relative' }}>
+                        <ButtonIcon onClick={() => router.push('/conversations/conv-list')} sx={{ position: 'relative' }}>
                             <ChatOutlinedIcon />
                         </ButtonIcon>
                         <ButtonIcon
