@@ -3,9 +3,9 @@ import React, { } from 'react'
 import SelectWithCheckMarks from '../form-inputs/select-with-checkmarks'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import { testActions } from '../../../reducers/test-reducer'
-import { Textarea } from '../../reusable/styles'
+import { StyledButton, Textarea } from '../../reusable/styles'
 import { forumActions } from '../../../reducers/forum-reducer'
-
+import AddCommentOutlinedIcon from '@mui/icons-material/AddCommentOutlined';
 
 const ChoicesContainer = styled(Box)(({ theme }) => ({
     [theme.breakpoints.down('sm')]: {
@@ -137,6 +137,38 @@ export default function InquiryForm({ submitHandler }: Props) {
                         onChange={handleOnChange}
                         sx={{ color: 'inherit', flex: 1, borderColor: isErr && !post.description ? colors.red[400] : colors.grey[400] }}
                         placeholder={`Detailed description`} />
+                </FormControl>
+                <FormControl>
+                    <StyledButton
+                        
+                        sx={{
+                            px: 1,
+                            flexBasis: '49%',
+                            fontSize: 15,
+                            color: colors.teal[400],
+                            border: 1,
+                            borderColor: colors.teal[400],
+                            backgroundColor: 'transparent',
+                            transition: '0.3s all',
+                            '&:hover': {
+                                color: '#fff',
+                                backgroundColor: colors.teal[400]
+                            }
+                        }}>
+                     Cancel
+                    </StyledButton>
+                    <StyledButton
+                        
+                        sx={{
+                            px: 1,
+                            flexBasis: '49%',
+                            fontSize: 15,
+                            border: 1,
+                            borderColor: colors.teal[400],
+                        }}>
+                        <AddCommentOutlinedIcon fontSize='small' sx={{ mr: 1 }} />
+                        Send Inquiry
+                    </StyledButton>
                 </FormControl>
             </ChoicesContainer>
         </FormContainer>
