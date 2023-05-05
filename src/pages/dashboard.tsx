@@ -17,7 +17,7 @@ import Link from 'next/link'
 import { SlGraduation } from 'react-icons/sl'
 import { BiDetail, BiSearchAlt } from 'react-icons/bi'
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
-
+import { FaQuestionCircle } from 'react-icons/fa'
 const FlexContainer = styled(Box)(({ theme }) => ({
     display: 'flex'
 }))
@@ -214,9 +214,9 @@ const dashCardList = (userRole: 'Tutor' | 'Student' | string) => {
                 icon: <SlGraduation size={40} color={colors.deepOrange[400]} />
             },
             {
-                title: 'Forum', route: `/forum/all`,
+                title: 'Stuck Overflow', route: `/forum/all`,
                 accent: colors.cyan[400],
-                icon: <BiDetail size={40} color={colors.cyan[400]} />
+                icon: <FaQuestionCircle size={40} color={colors.cyan[400]} />
             },
             {
                 title: 'My Posts', route: '/forum/my-posts',

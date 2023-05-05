@@ -113,9 +113,9 @@ export default function CreateButtonOptions({ }: Props) {
                                 ml: 1
                             }
                         })}>
-                        {popupState.isOpen ? <ExpandLessIcon /> : (
-                            <KeyboardArrowDownIcon/>
-                        )}
+                            {popupState.isOpen ? <ExpandLessIcon /> : (
+                                <KeyboardArrowDownIcon />
+                            )}
                         </Box>
 
                     </Button>
@@ -143,6 +143,12 @@ export default function CreateButtonOptions({ }: Props) {
                                     <OndemandVideoIcon />
                                 </MenuItemIconWrap>
                                 Video Course
+                            </MenuItemButton>
+                            <MenuItemButton onClick={() => router.push('/new-class')}>
+                                <MenuItemIconWrap>
+                                    <OndemandVideoIcon />
+                                </MenuItemIconWrap>
+                                Online class
                             </MenuItemButton>
 
                         </PopOverContainer>
