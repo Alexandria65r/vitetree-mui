@@ -10,29 +10,25 @@ import { useRouter } from 'next/router'
 import { getAuth, signOut } from "firebase/auth";
 import { mainActions } from '../../reducers'
 import Link from 'next/link'
-
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import CloseIcon from '@mui/icons-material/Close';
+import LoginIcon from '@mui/icons-material/Login';
+import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 
 
 const SideBarContainer = styled(Box)(({ theme }) => ({
     transition: '0.3s all',
     transformOrigin: 'left',
     borderRight: `1px solid ${colorScheme(theme).borderColor}`,
-    backgroundColor: colorScheme(theme).sideBarColor
-}))
-const ClosedBar = styled(Box)(({ theme }) => ({
-    flexBasis: '100%',
+    backgroundColor: colorScheme(theme).sideBarColor,
     height: 'calc(100vh - 0px)',
-    backgroundColor: colorScheme(theme).sideBarColor
-}))
-const OpenedBar = styled(Box)(({ theme }) => ({
     display: 'flex',
+    alignItems: 'start',
     flexWrap: 'wrap',
-    justifyContent: 'center',
-    flexBasis: '100%',
-    height: 'calc(100vh - 0px)',
-    backgroundColor: colorScheme(theme).sideBarColor
+    justifyContent: 'center'
 }))
+
 
 const ReusableButton = styled(StyledButton)(({ theme }) => ({
     flexBasis: '90%',
@@ -42,12 +38,14 @@ const ReusableButton = styled(StyledButton)(({ theme }) => ({
     fontSize: 16,
     [theme.breakpoints.down("sm")]: {
         flexBasis: '90%',
+        marginBottom: 10,
+
     }
 }))
 
 const SideBarHeader = styled(Box)(({ theme }) => ({
     position: 'relative',
-    width: '100%',
+    flexBasis: '100%',
     height: 66,
     display: 'flex',
     alignItems: 'center',
@@ -56,6 +54,18 @@ const SideBarHeader = styled(Box)(({ theme }) => ({
     borderBottom: `1px solid ${colorScheme(theme).secondaryColor}`,
     backgroundColor: theme.palette.mode === 'light' ? 'rgb(245 245 245)' : colorScheme(theme).primaryColor
 }))
+const SideBarContent = styled(Box)(({ theme }) => ({
+    flexBasis: '100%',
+    padding: 10,
+    height: 'calc(100% - 120px)',
+    overflowY: 'auto'
+}))
+const SideBarItem = styled(MenuItem)(({ theme }) => ({
+    width: '100%',
+    height: 50,
+    borderRadius: 5
+}))
+
 
 
 
@@ -98,44 +108,60 @@ export default function SideBar({ }: Props) {
                         width: isSidebarOpen ? '100%' : '0%',
                     }
                 })}>
-                {isSidebarOpen ? (
-                    <OpenedBar>
-                        <SideBarHeader>
-                            {router.pathname !== '/' && (
-                                <IconButton
-                                    onClick={() => dispatch(mainActions.setIsSideBarOpen(false))}
-                                    size="large"
-                                    edge="start"
-                                    color="inherit"
-                                    aria-label="menu"
-                                    sx={{ mr: 2, position: 'absolute', left: 25 }}
-                                >
-                                    <CloseIcon />
-                                </IconButton>
-                            )}
 
-                            <Typography variant="h6" component="div"
-                                sx={{
-                                    textAlign: 'center',
-                                    fontWeight: 600,
-                                    flexGrow: 1, color: colors.teal[400]
-                                }}>
-                                <Link href={user?._id ? '/dashboard' : '/'}>
-                                    Schooyard
-                                </Link>
-                            </Typography>
-                        </SideBarHeader>
 
-                        <MenuItem onClick={() => router.push('/notifications/noti-list')}>
+                <SideBarHeader>
+                    {router.pathname !== '/' && (
+                        <IconButton
+                            onClick={() => dispatch(mainActions.setIsSideBarOpen(false))}
+                            size="large"
+                            edge="start"
+                            color="inherit"
+                            aria-label="menu"
+                            sx={{ mr: 2, position: 'absolute', left: 25 }}
+                        >
+                            <CloseIcon />
+                        </IconButton>
+                    )}
+
+                    <Typography variant="h6" component="div"
+                        sx={{
+                            textAlign: 'center',
+                            fontWeight: 600,
+                            flexGrow: 1, color: colors.teal[400]
+                        }}>
+                        <Link href={user?._id ? '/dashboard' : '/'}>
+                            Schooyard
+                        </Link>
+                    </Typography>
+                </SideBarHeader>
+                <SideBarContent>
+                    {user?._id ? (<>
+                        <SideBarItem onClick={() => router.push('/profile')}>
+                            <AccountCircleOutlinedIcon sx={{ mr: 1 }} />
+                            Profile
+                        </SideBarItem>
+                        <SideBarItem onClick={() => router.push('/notifications/noti-list')}>
+                            <NotificationsNoneIcon sx={{ mr: 1 }} />
                             Notifications
-                        </MenuItem>
+                        </SideBarItem>
 
-                        <ReusableButton onClick={logout}>Log Out</ReusableButton>
-                    </OpenedBar>
-                ) : (
-                    <ClosedBar></ClosedBar>
-                )
-                }
+                    </>
+
+                    ) : (
+                        <SideBarItem onClick={() => router.push('/notifications/noti-list')}>
+                            <LoginIcon sx={{ mr: 1 }} />
+                            Signin
+                        </SideBarItem>
+                    )}
+                </SideBarContent>
+                {user?._id && (
+                    <ReusableButton
+                        onClick={logout} sx={{ width: '100%' }}>
+                        <LogoutOutlinedIcon sx={{ mr: 1 }} />
+                        Log Out
+                    </ReusableButton>
+                )}
             </SideBarContainer >
 
         </Modal>

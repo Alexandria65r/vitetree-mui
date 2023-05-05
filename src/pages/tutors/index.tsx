@@ -46,7 +46,7 @@ const CheckoutHeader = styled(Box)(({ theme }) => ({
 
 const TutorsColumn = styled(Box)(({ theme }) => ({
     display: 'flex',
-    flexWrap:'wrap',
+    flexWrap: 'wrap',
     gridTemplateColumns: 'repeat(2,1fr)',
     justifyContent: 'space-between',
     gap: 10,
@@ -141,7 +141,7 @@ export default function Tutors({ }: Props) {
                             backgroundColor: 'transparent',
                             [theme.breakpoints.down("sm")]: {
                                 display: isOpen ? 'flex' : 'none',
-                                ml:-1.5
+                                ml: -1.5
                             }
                         })}
                         onClick={() => setOpen(false)}>
@@ -157,7 +157,7 @@ export default function Tutors({ }: Props) {
                         })}>
                         {isOpen ? 'Inquire Now' : 'Tutors'}
                     </Typography>
-                   
+
 
                 </CheckoutHeader>
 
@@ -172,7 +172,7 @@ export default function Tutors({ }: Props) {
                     <SearchInputWrap sx={{ flexBasis: '100%', ml: 0, my: 1 }}>
                         <SearchIcon sx={(theme) => ({
                             flexBasis: '6%',
-                            ml:.5,
+                            ml: .5,
                             [theme.breakpoints.down("sm")]: {
                                 flexBasis: '16%',
                             }
@@ -208,6 +208,7 @@ export default function Tutors({ }: Props) {
 
                             >
                                 <MenuItemButton>
+                                  
                                     <FormControlLabel value="class" control={<Radio sx={RadioStyles} />} label="Private class" />
                                 </MenuItemButton>
                                 <MenuItemButton>
