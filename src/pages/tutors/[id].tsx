@@ -2,7 +2,7 @@ import React from 'react'
 
 type Props = {}
 
-export default function [id]({}: Props) {
+export default function Detail({}: Props) {
   return (
     <div>[id]</div>
   )
