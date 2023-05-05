@@ -9,8 +9,10 @@ import { CSS_PROPERTIES } from '../../reusable'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import TutorItem from '../../components/tutor-item'
 import KeyboardBackspaceOutlinedIcon from '@mui/icons-material/KeyboardBackspaceOutlined';
-import { ButtonIcon } from '../../reusable/styles'
+import { Avatar, ButtonIcon, SearchInput, SearchInputWrap } from '../../reusable/styles'
 import InquiryForm from '../../components/inquiry-form/forum-post-form'
+import SearchIcon from '@mui/icons-material/Search';
+
 
 const Container = styled(Box)(({ theme }) => ({
     maxWidth: '90%',
@@ -20,14 +22,15 @@ const Container = styled(Box)(({ theme }) => ({
     alignItems: 'start',
     justifyContent: 'space-between',
     [theme.breakpoints.down("sm")]: {
-        maxWidth: '98%',
+
         margin: '10px auto',
     }
 }))
 const CheckoutHeader = styled(Box)(({ theme }) => ({
     flexBasis: '100%',
-    height: 60,
+    //height: 60,
     display: 'flex',
+    flexWrap: 'wrap',
     alignItems: 'center',
     padding: '0 10px',
     marginBottom: 10,
@@ -42,7 +45,8 @@ const CheckoutHeader = styled(Box)(({ theme }) => ({
 }))
 
 const TutorsColumn = styled(Box)(({ theme }) => ({
-    display: 'grid',
+    display: 'flex',
+    flexWrap:'wrap',
     gridTemplateColumns: 'repeat(2,1fr)',
     justifyContent: 'space-between',
     gap: 10,
@@ -53,7 +57,6 @@ const TutorsColumn = styled(Box)(({ theme }) => ({
     // backgroundColor: colorScheme(theme).secondaryColor,
     //boxShadow: `0 1px 3px 0px ${theme.palette.mode === 'light' ? '#ddd' : 'transparent'}`,
     [theme.breakpoints.down("sm")]: {
-        flexBasis: '100%',
         gridTemplateColumns: '1fr',
     }
 }))
@@ -126,10 +129,24 @@ export default function Tutors({ }: Props) {
         <Layout>
             <Container sx={(theme) => ({
                 [theme.breakpoints.down('sm')]: {
-                    display: 'block'
+                    display: 'block',
+                    maxWidth: isOpen ? '97%' : '93%',
                 }
             })}>
                 <CheckoutHeader>
+                    <ButtonIcon
+                        sx={(theme) => ({
+                            flexBasis: 45, mr: 1,
+                            display: 'none',
+                            backgroundColor: 'transparent',
+                            [theme.breakpoints.down("sm")]: {
+                                display: isOpen ? 'flex' : 'none',
+                                ml:-1.5
+                            }
+                        })}
+                        onClick={() => setOpen(false)}>
+                        <KeyboardBackspaceOutlinedIcon />
+                    </ButtonIcon>
                     <Typography
                         sx={(theme) => ({
                             fontSize: 25,
@@ -138,15 +155,30 @@ export default function Tutors({ }: Props) {
                                 fontSize: 18
                             }
                         })}>
-                        Tutors
+                        {isOpen ? 'Inquire Now' : 'Tutors'}
                     </Typography>
+                   
+
                 </CheckoutHeader>
+
+
+
                 <TutorsColumn
                     sx={(theme) => ({
                         [theme.breakpoints.down('sm')]: {
                             display: isOpen ? 'none' : 'grid'
                         }
                     })}>
+                    <SearchInputWrap sx={{ flexBasis: '100%', ml: 0, my: 1 }}>
+                        <SearchIcon sx={(theme) => ({
+                            flexBasis: '6%',
+                            ml:.5,
+                            [theme.breakpoints.down("sm")]: {
+                                flexBasis: '16%',
+                            }
+                        })} />
+                        <SearchInput placeholder='Search for tutor' />
+                    </SearchInputWrap>
                     {[1, 2, 3, 4].map(() => (
                         <TutorItem setOpen={setOpen} />
                     ))}
@@ -157,19 +189,11 @@ export default function Tutors({ }: Props) {
                     }
                 })}>
                     <DetailHeader sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                        <ButtonIcon
-                            sx={(theme) => ({
-                                flexBasis: 45, mr: 1,
-                                display: 'none',
-                                [theme.breakpoints.down("sm")]: {
-                                    display: isOpen ? 'flex' : 'none',
-                                }
-                            })}
-                            onClick={() => setOpen(false)}>
-                            <KeyboardBackspaceOutlinedIcon />
-                        </ButtonIcon>
+                        <Avatar sx={{ ml: 1, mr: 1.4 }}>
+
+                        </Avatar>
                         <Typography sx={{ flex: 1, fontSize: 16, fontWeight: 600 }}>
-                            Inquire Now
+                            Robert Ching'ambu
                         </Typography>
                     </DetailHeader>
                     <FormContainer>

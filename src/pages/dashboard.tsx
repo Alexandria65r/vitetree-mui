@@ -225,8 +225,8 @@ const dashCardList = (userRole: 'Tutor' | 'Student' | string) => {
             },
             {
                 title: 'Hire Tutor', route: '/tutors',
-                accent: colors.cyan[400],
-                icon: <BiSearchAlt size={40} color={colors.cyan[400]} />
+                accent: colors.indigo[400],
+                icon: <BiSearchAlt size={40} color={colors.indigo[400]} />
             }
         ]
     }

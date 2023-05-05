@@ -17,7 +17,7 @@ const TutorContainer = styled(Box)(({ theme }) => ({
     flexWrap: 'wrap',
     justifyContent: 'center',
     [theme.breakpoints.down("sm")]: {
-        flexBasis: '100%',
+
     }
 }))
 const TutorImage = styled(Box)(({ theme }) => ({
@@ -53,6 +53,10 @@ const ItemFooter = styled(Box)(({ theme }) => ({
     borderRadius: CSS_PROPERTIES.radius10,
     backgroundColor: colorScheme(theme).secondaryColor,
     // boxShadow: `0 1px 3px 0px ${theme.palette.mode === 'light' ? '#ddd' : 'transparent'}`,
+    [theme.breakpoints.down('sm')]: {
+        width: '80%',
+        margin: 'auto',
+    }
 }))
 
 
@@ -101,12 +105,35 @@ export default function TutorItem({ setOpen }: Props) {
                     </Typography>
                 </Box>
                 <ItemFooter>
-                    <ButtonIcon sx={{ color: colors.teal[400] }}>
+                    <ButtonIcon sx={{
+                        color: colors.teal[400],
+                        border: 1,
+                        borderColor: colors.teal[400],
+                        backgroundColor: 'transparent',
+                        transition: '0.3s all',
+                        '&:hover': {
+                            color: '#fff',
+                            backgroundColor: colors.teal[400]
+                        }
+                    }}>
                         <FavoriteBorderOutlinedIcon fontSize='small' />
                     </ButtonIcon>
                     <StyledButton
                         onClick={() => setOpen(true)}
-                        sx={{ px: 1, flexBasis: '60%', fontSize: 15 }}>
+                        sx={{
+                            px: 1,
+                            flexBasis: '60%',
+                            fontSize: 15,
+                            color: colors.teal[400],
+                            border: 1,
+                            borderColor: colors.teal[400],
+                            backgroundColor: 'transparent',
+                            transition:'0.3s all',
+                            '&:hover':{
+                                color:'#fff',
+                                backgroundColor:colors.teal[400]
+                            }
+                        }}>
                         <AddCommentOutlinedIcon fontSize='small' sx={{ mr: 1 }} />
                         Send Inquiry
                     </StyledButton>
