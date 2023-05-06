@@ -98,3 +98,22 @@ export const Post = mongoose.model(
     createdAt: { type: Date, default: Date.now },
   })
 );
+
+export const Inquiry = mongoose.model(
+  "inquiry",
+  new mongoose.Schema({
+    _id: String,
+    authorId: String,
+    tutorId: String,
+    service: {
+      name: String,
+      price: String,
+      perHour: Boolean,
+    },
+    subject: String,
+    topic: String,
+    description: String,
+    dueDate: String,
+    createdAt: { type: Date, default: Date.now },
+  })
+);

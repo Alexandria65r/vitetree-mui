@@ -1,4 +1,4 @@
-import { Box, MenuItem, Select, TextField, colors, styled } from '@mui/material'
+import { Box, TextField, colors, styled } from '@mui/material'
 import React, { } from 'react'
 import SelectWithCheckMarks from '../form-inputs/select-with-checkmarks'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
@@ -17,7 +17,7 @@ const TextInput = styled(TextField)(({ theme }) => ({
     flex: 1
 }))
 const FormContainer = styled(Box)(({ theme }) => ({
-   // width: '80%',
+    // width: '80%',
     //padding: 10,
     margin: 'auto',
     [theme.breakpoints.down('sm')]: {
@@ -35,7 +35,7 @@ const FormControl = styled(Box)(({ theme }) => ({
 
 
 type Props = {
-  //  mode: 'post' | "update",
+    //  mode: 'post' | "update",
     submitHandler: () => void
 }
 
@@ -43,7 +43,7 @@ export default function InquiryForm({ submitHandler }: Props) {
     const dispatch = useAppDispatch()
     const post = useAppSelector((state) => state.ForumReducer.post)
     const isErr = useAppSelector((state) => state.ForumReducer.isErr)
- 
+
 
 
 
@@ -78,8 +78,8 @@ export default function InquiryForm({ submitHandler }: Props) {
                     value={post.title}
                     onChange={handleOnChange}
                     name="title"
-                    label={post.type === 'academic question' ? 'Question' : 'Title'}
-                    placeholder={post.type === 'academic question' ? 'Question' : 'Title'} />
+                    label={'Topic'}
+                    placeholder={'Topic'} />
             </FormControl>
             <FormControl>
 
@@ -90,47 +90,20 @@ export default function InquiryForm({ submitHandler }: Props) {
                     handleSelectedSection={handleOnChange}
                     value={post.subjects ?? []} />
 
-                <Select sx={{ flex: 1, ml: 1 }}
+
+                <TextInput sx={{ flex: 1, ml: 1 }}
+                    error={isErr && !post.title
+                    }
+                    type="date"
+                    value={post.title}
                     onChange={handleOnChange}
-                    error={isErr && !post.request}
-                    value={post.request || undefined}
-                    name='request'
-                    defaultValue='Select cartegory'>
-                    <MenuItem value="Select cartegory">Select cartegory</MenuItem>
-                    <MenuItem value="Assignment">Assignment</MenuItem>
-                    <MenuItem value="Teach me">Teach me</MenuItem>
-                    <MenuItem value="Stuck">Stuck</MenuItem>
-                </Select>
+                    name="title"
+                    label={'Due Date'}
+                    placeholder={'Due Date'} />
+
             </FormControl>
 
             <ChoicesContainer>
-
-                <FormControl>
-                    <Select sx={{ flex: 1 }}
-                        defaultValue='Way of conducting'
-                        error={isErr && !post.delivery}
-                        onChange={handleOnChange}
-                        value={post.delivery || undefined}
-                        name='delivery'>
-                        <MenuItem value="Way of conducting">Way of conducting</MenuItem>
-                        <MenuItem value="Course video">Course video</MenuItem>
-                        <MenuItem value="Real time video">Real time video</MenuItem>
-
-                    </Select>
-                    {post.type === 'hire tutor' && (
-                        <TextInput
-                            error={isErr && !post.budget}
-                            sx={{ flex: 1, marginLeft: 1 }}
-                            onChange={handleOnChange}
-                            name="budget"
-                            value={post.budget }
-                            type='number'
-                            label="Budget"
-                            placeholder="Budget"
-                        />
-                    )}
-                </FormControl>
-
                 <FormControl>
                     <Textarea minRows={6} value={post.description}
                         name="description"
@@ -140,7 +113,7 @@ export default function InquiryForm({ submitHandler }: Props) {
                 </FormControl>
                 <FormControl>
                     <StyledButton
-                        
+
                         sx={{
                             px: 1,
                             flexBasis: '49%',
@@ -155,10 +128,10 @@ export default function InquiryForm({ submitHandler }: Props) {
                                 backgroundColor: colors.teal[400]
                             }
                         }}>
-                     Cancel
+                        Cancel
                     </StyledButton>
                     <StyledButton
-                        
+
                         sx={{
                             px: 1,
                             flexBasis: '49%',

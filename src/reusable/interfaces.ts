@@ -2,10 +2,30 @@ import { PopperPlacementType } from "@mui/material"
 
 
 //auth
-export type TutorInfo = {
-    id: string,
+
+export type TutorService = {
     name: string
-    rating: number,
+    price: string
+    perHour: boolean
+}
+
+export type TutorInfo = {
+    tutorId: string,
+    accountId: string
+    services: TutorService[]
+    name: string
+    rating: number
+    updatedAt?: string
+    createdAt?: string
+}
+
+export type StudentInfo = {
+    studentId: string
+    accountBalance: string
+    school: string
+    subjects: string[]
+    startYear: string
+    endYear: string
 }
 
 export type User = {
@@ -18,8 +38,10 @@ export type User = {
     courses?: string[],
     role: 'Tutor' | 'Student' | string,
     tutorInfo?: TutorInfo
+    studentInfo?: StudentInfo
     createdAt?: string
 }
+
 
 export type Signin = {
     provider: 'google-provider' | 'schooyard-provider'
@@ -217,5 +239,17 @@ export type Bid = {
     viewed: boolean
     awarded: boolean
     createdAt: string
+}
+
+export type StudentInquiry = {
+    _id: string,
+    authorId: string,
+    tutorId: string
+    service: TutorService
+    subject: string
+    topic?: string
+    description: string
+    dueDate?: string
+    createdAt?: string
 }
 

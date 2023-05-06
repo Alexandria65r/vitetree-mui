@@ -1,7 +1,7 @@
-import { Participant, Post, Section, Test, User, VideoCourse } from "./interfaces";
+import * as Types from "./interfaces";
 
 
-export const UserSchema: User = {
+export const UserSchema: Types.User = {
 
     firstName: '',
     lastName: '',
@@ -14,7 +14,26 @@ export const UserSchema: User = {
     role: ''
 }
 
-export const testDataSchema: Test = {
+export const StudentInfo: Types.StudentInfo = {
+    accountBalance: '',
+    startYear: '',
+    endYear: '',
+    school: '',
+    studentId: '',
+    subjects: []
+}
+
+export const TutorInfo: Types.TutorInfo = {
+    accountId: '',
+    name: '',
+    rating: 0,
+    services: [],
+    tutorId: '',
+    createdAt: '',
+    updatedAt: '',
+}
+
+export const testDataSchema: Types.Test = {
     _id: '',
     cartegory: '',
     sectionType: '',
@@ -25,15 +44,31 @@ export const testDataSchema: Test = {
     status: ''
 }
 
+export const StudentInquiry: Types.StudentInquiry = {
+    _id: '',
+    tutorId: '',
+    authorId: '',
+    service: {
+        name: '',
+        perHour: false,
+        price: ''
+    },
+    topic: '',
+    subject: '',
+    description: '',
+    createdAt: '',
+    dueDate: '',
+}
 
-export const sectionSchems: Section = {
+
+export const sectionSchems: Types.Section = {
     name: "",
     questions: [],
     wayOfAnswering: '',
     numberOfQuestions: 0
 }
 
-export const participantSchema: Participant = {
+export const participantSchema: Types.Participant = {
     fullname: "",
     email: "",
     reason: '',
@@ -43,7 +78,7 @@ export const participantSchema: Participant = {
 }
 
 
-export const VideoCourseSchema: VideoCourse = {
+export const VideoCourseSchema: Types.VideoCourse = {
     _id: '',
     description: '',
     price: '',
@@ -69,12 +104,12 @@ export const CartItem = {
     imageAsset: '',
 }
 
-export const PostSchema: Post = {
-    _id:'',
-    authorId:'',
-    title:'',
-    type:'academic question',
-    description:'',
-    delivery:'',
-    request:''
+export const PostSchema: Types.Post = {
+    _id: '',
+    authorId: '',
+    title: '',
+    type: 'academic question',
+    description: '',
+    delivery: '',
+    request: ''
 }
