@@ -262,21 +262,24 @@ const tutorServices = [
         perHour: true,
         price: '$24.60',
         label: 'Private class',
-        value: 'class'
+        value: 'class',
+        description: ''
     },
     {
         name: '',
         perHour: false,
         price: '$15.60',
         label: 'Assignment solving',
-        value: 'assignment'
+        value: 'assignment',
+        description: ''
     },
     {
         name: '',
         perHour: true,
         price: '$9.60',
         label: 'Video tutorial',
-        value: 'course'
+        value: 'course',
+        description: ''
     }
 ]
 
@@ -284,7 +287,7 @@ const tutorServices = [
 const classMessage = (dueDate: string, subjects: string) => {
     if (!dueDate && !subjects) return ''
     return (
-`Hi, i need you to conduct a private class/face to face where you will
+        `Hi, i need you to conduct a private class/face to face where you will
 teach me various topics in the following subjects ${subjects}. Class should be
 conducted not after ${dueDate} please give me feedback as soon as possible.
 `)
@@ -292,14 +295,14 @@ conducted not after ${dueDate} please give me feedback as soon as possible.
 
 
 const assignMentMessage = (dueDate: string) => (
-`Hi, i need you to solve an assignment for me, which should be ready
+    `Hi, i need you to solve an assignment for me, which should be ready
 by ${dueDate} you will find the the assignment in the attatchment folder
 please give me feedback as soon as possible.
 `
 )
 
 const couseMessage = (dueDate: string, topic: string) => (
-`Hi, i need you to prepare a video tutorial for me on the the topic ${topic}
+    `Hi, i need you to prepare a video tutorial for me on the the topic ${topic}
 which should be ready by ${dueDate} please give me feedback as soon as possible.
 `
 )
