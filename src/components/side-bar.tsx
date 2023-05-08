@@ -145,11 +145,9 @@ export default function SideBar({ }: Props) {
                             <NotificationsNoneIcon sx={{ mr: 1 }} />
                             Notifications
                         </SideBarItem>
-
                     </>
-
                     ) : (
-                        <SideBarItem onClick={() => router.push('/notifications/noti-list')}>
+                        <SideBarItem onClick={() => router.push('/signin')}>
                             <LoginIcon sx={{ mr: 1 }} />
                             Signin
                         </SideBarItem>

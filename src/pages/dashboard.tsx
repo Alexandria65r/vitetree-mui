@@ -1,22 +1,18 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import Layout from '../components/layout'
-import { Box, IconButton, Typography, colors, styled } from '@mui/material'
+import { Box, Typography, colors, styled } from '@mui/material'
 import { colorScheme } from '../theme'
 import { CSS_PROPERTIES } from '../reusable'
 import SearchIcon from '@mui/icons-material/Search';
-import AddIcon from '@mui/icons-material/Add';
 import { useRouter } from 'next/router'
 import TestAPI from '../api-services/test'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import TestCardOptions from '../components/test-card-options'
 import { SearchInput, SearchInputWrap } from '../reusable/styles'
-import SideBar from '../components/side-bar'
 import { testActions } from '../../reducers/test-reducer'
 import CreateButtonOptions from '../components/menus/create-button-options'
 import Link from 'next/link'
 import { SlGraduation } from 'react-icons/sl'
 import { BiDetail, BiSearchAlt } from 'react-icons/bi'
-import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import { FaQuestionCircle } from 'react-icons/fa'
 const FlexContainer = styled(Box)(({ theme }) => ({
     display: 'flex'
@@ -43,10 +39,10 @@ const MappedCards = styled(Box)(({ theme }) => ({
     width: '80%',
     margin: 'auto',
     display: 'grid',
-    gap: 15,
+    gap: 1,
     gridTemplateColumns: 'repeat(3,1fr)',
     [theme.breakpoints.down("sm")]: {
-        gap: 10,
+        gap: 1,
         width: '96%',
         gridTemplateColumns: 'repeat(2,1fr)',
     }
@@ -58,39 +54,17 @@ const DashCard = styled(Box)(({ theme }) => ({
     position: 'relative',
     height: 180,
     padding: 10,
-    borderRadius: CSS_PROPERTIES.radius10,
-    borderLeft: `5px solid ${colors.teal[400]}`,
+    //borderRadius: 5,
+    borderLeft: `0px solid ${colors.teal[400]}`,
     backgroundColor: colorScheme(theme).secondaryColor,
     boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
     transition: '0.3s all',
     cursor: 'pointer',
     '&:hover': {
-        transform: 'scale(1.03)'
+        //transform: 'scale(1.03)'
     },
     [theme.breakpoints.down("sm")]: {
-        height: 120,
-    }
-}))
-
-
-
-
-
-const ButtonIcon = styled(IconButton)(({ theme }) => ({
-    position: 'fixed',
-    width: 60,
-    height: 60,
-    right: 10,
-    bottom: 10,
-    color: '#fff',
-    borderRadius: '50%',
-    backgroundColor: colors.teal[400],
-    '&:focus': {
-        backgroundColor: colors.teal[400],
-    },
-    boxShadow: `0 1px 3px 0 ${colors.teal[600]}`,
-    [theme.breakpoints.up("sm")]: {
-        display: 'none',
+        height: 160,
     }
 }))
 
@@ -124,7 +98,7 @@ export default function Darshboard({ }: Props) {
     useEffect(() => {
         fetchDashboardData()
     }, [router.pathname, user, dispatch])
-    console.log(router)
+
 
     return (
         <Layout>
@@ -146,7 +120,20 @@ export default function Darshboard({ }: Props) {
                     <MappedCards>
                         {dashCardList(user.role).map((card, index) => (
                             <Link key={index} href={card.route}>
-                                <DashCard sx={{ borderColor: card.accent }} >
+                                <DashCard sx={(theme) => ({
+                                    borderColor: card.accent,
+                                    borderTopLeftRadius: index === 0 ? 10 : 0,
+                                    borderTopRightRadius: index === 2 ? 10 : 0,
+                                    borderBottomLeftRadius: index === 3 ? 10 : 0,
+                                    borderBottomRightRadius: index === 5 ? 10 : 0,
+                                    [theme.breakpoints.down('sm')]: {
+                                        borderTopLeftRadius: index === 0 ? 5 : 0,
+                                        borderTopRightRadius: index === 1 ? 5 : 0,
+                                        borderBottomLeftRadius: index === 4 ? 5 : 0,
+                                        borderBottomRightRadius: index === 5 ? 5 : 0,
+                                    }
+
+                                })} >
                                     <Box sx={(theme) => ({
                                         // width: 180,
                                         [theme.breakpoints.down('sm')]: {
@@ -186,7 +173,7 @@ const dashCardList = (userRole: 'Tutor' | 'Student' | string) => {
     if (userRole === 'Tutor') {
         return [
             {
-                title: 'Tests', route: '/yard/tests',
+                title: 'Assessments', route: '/yard/tests',
                 accent: colors.teal[400],
                 icon: <SlGraduation size={40} color={colors.teal[400]} />
             },
@@ -196,10 +183,15 @@ const dashCardList = (userRole: 'Tutor' | 'Student' | string) => {
                 icon: <SlGraduation size={40} color={colors.deepOrange[400]} />
             },
             {
-                title: 'Bids', route: '/yard/courses',
+                title: 'Inquiries', route: '/yard/inquiries',
                 accent: colors.cyan[400],
                 icon: <BiDetail size={40} color={colors.cyan[400]} />
-            }
+            },
+            {
+                title: 'Stuck Overflow', route: `/forum/all`,
+                accent: colors.cyan[400],
+                icon: <FaQuestionCircle size={40} color={colors.cyan[400]} />
+            },
         ]
     } else {
         return [
@@ -207,6 +199,11 @@ const dashCardList = (userRole: 'Tutor' | 'Student' | string) => {
                 title: 'Assessments', route: '/yard/tests',
                 accent: colors.teal[400],
                 icon: <SlGraduation size={40} color={colors.teal[400]} />
+            },
+            {
+                title: 'Hire Tutor', route: '/tutors',
+                accent: colors.indigo[400],
+                icon: <BiSearchAlt size={40} color={colors.indigo[400]} />
             },
             {
                 title: 'Learnning', route: '/learnning',
@@ -224,10 +221,10 @@ const dashCardList = (userRole: 'Tutor' | 'Student' | string) => {
                 icon: <BiDetail size={40} color={colors.cyan[400]} />
             },
             {
-                title: 'Hire Tutor', route: '/tutors',
-                accent: colors.indigo[400],
-                icon: <BiSearchAlt size={40} color={colors.indigo[400]} />
-            }
+                title: 'Inquiries', route: '/inquiries',
+                accent: colors.cyan[400],
+                icon: <BiDetail size={40} color={colors.cyan[400]} />
+            },
         ]
     }
 } 

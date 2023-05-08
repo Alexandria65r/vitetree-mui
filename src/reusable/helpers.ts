@@ -1,5 +1,5 @@
 import moment from "moment";
-import { Choice } from "./interfaces";
+import { Choice, TutorService } from "./interfaces";
 
 export const cartegories = ["sports", "programming", "health", "business"];
 export const questionChoices: any = {
@@ -71,3 +71,39 @@ export function normalizedDate(createdAt: string) {
         return moment(createdAt).fromNow();
     }
 }
+
+
+export const tutorServices: TutorService[] = [
+    {
+        name: '',
+        perHour: true,
+        price: '$24.60',
+        label: 'Private class',
+        value: 'class',
+        description: `Charge students for teaching them on live video 
+        e.g google meet or any face to face platform for the meantime you
+         can use any meeting app of your choice as we are in development of
+          schooyard meet.🎉`
+    },
+    {
+        name: '',
+        perHour: false,
+        price: '$12.60',
+        label: 'Assignment Solving',
+        value: 'assignment',
+        description: `This service allows you to charge students who want 
+        their school assignment get solved by you. Add it in your list of 
+        services if you wish to offer this service.`
+    },
+    {
+        name: '',
+        perHour: true,
+        price: '$9.60',
+        label: 'Prepare a course video',
+        value: 'course',
+        description: `If you sell your video courses on course marketplace 
+        here on schooyard you're probably familiar with his service the only
+        difference is that students will request a video tutorial specifically
+        for them on their preffered topic and they'll pay for it. `
+    }
+]

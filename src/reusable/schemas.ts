@@ -1,8 +1,9 @@
 import * as Types from "./interfaces";
+import { TutorService } from "./interfaces";
 
 
 export const UserSchema: Types.User = {
-
+    role: '',
     firstName: '',
     lastName: '',
     email: '',
@@ -11,7 +12,6 @@ export const UserSchema: Types.User = {
         publicId: '',
         secureURL: ''
     },
-    role: ''
 }
 
 export const StudentInfo: Types.StudentInfo = {
@@ -20,17 +20,34 @@ export const StudentInfo: Types.StudentInfo = {
     endYear: '',
     school: '',
     studentId: '',
-    subjects: []
+    subjects: [],
+    description: ''
 }
 
 export const TutorInfo: Types.TutorInfo = {
     accountId: '',
     name: '',
+    collage: '',
+    qualifications: '',
     rating: 0,
     services: [],
     tutorId: '',
-    createdAt: '',
-    updatedAt: '',
+    description: '',
+    startYear: '',
+    endYear: '',
+    yearsOfExperience: 0,
+    status: '',
+    subjects: []
+
+}
+
+export const TutorServiceSchema: TutorService = {
+    label: '',
+    name: '',
+    perHour: false,
+    price: '9.60',
+    value: '',
+    description:''
 }
 
 export const testDataSchema: Types.Test = {
@@ -48,15 +65,10 @@ export const StudentInquiry: Types.StudentInquiry = {
     _id: '',
     tutorId: '',
     authorId: '',
-    service: {
-        name: '',
-        perHour: false,
-        price: ''
-    },
+    service: TutorServiceSchema,
     topic: '',
-    subject: '',
+    subjects: [],
     description: '',
-    createdAt: '',
     dueDate: '',
 }
 

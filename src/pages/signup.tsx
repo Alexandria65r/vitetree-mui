@@ -113,13 +113,13 @@ export default function Signup({ }: Props) {
       if (data.success) {
         cookies.set(SCHOOYARD_AUTH_TOKEN, data.token)
         dispatch(authActions.setAuhtUser(data.user))
-        router.replace('/dashboard')
+        router.replace(`/account-setup/${data.user.role}`)
         if (getUserRole()) {
           localStorage.removeItem('getting-started-role')
         }
       }
     } catch (error) {
-        console.log('err signup')
+      console.log('err signup')
     }
   }
 

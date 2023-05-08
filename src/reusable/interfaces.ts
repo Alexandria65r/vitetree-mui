@@ -7,6 +7,9 @@ export type TutorService = {
     name: string
     price: string
     perHour: boolean
+    value: string
+    label: string
+    description: string
 }
 
 export type TutorInfo = {
@@ -14,7 +17,16 @@ export type TutorInfo = {
     accountId: string
     services: TutorService[]
     name: string
-    rating: number
+    collage: string
+    status: 'available' | 'unavailable' | ''
+    qualifications: string
+    yearsOfExperience: number
+    subjects: string[]
+    description: string
+    startYear: string
+    endYear: string
+    rating?: number
+    feedBack?: string
     updatedAt?: string
     createdAt?: string
 }
@@ -26,6 +38,7 @@ export type StudentInfo = {
     subjects: string[]
     startYear: string
     endYear: string
+    description: string
 }
 
 export type User = {
@@ -36,7 +49,7 @@ export type User = {
     password: string
     imageAsset?: Asset,
     courses?: string[],
-    role: 'Tutor' | 'Student' | string,
+    role: 'tutor' | 'student' | string,
     tutorInfo?: TutorInfo
     studentInfo?: StudentInfo
     createdAt?: string
@@ -246,7 +259,7 @@ export type StudentInquiry = {
     authorId: string,
     tutorId: string
     service: TutorService
-    subject: string
+    subjects: string[]
     topic?: string
     description: string
     dueDate?: string

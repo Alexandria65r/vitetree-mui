@@ -12,6 +12,7 @@ import KeyboardBackspaceOutlinedIcon from '@mui/icons-material/KeyboardBackspace
 import { Avatar, ButtonIcon, SearchInput, SearchInputWrap } from '../../reusable/styles'
 import InquiryForm from '../../components/inquiry-form/forum-post-form'
 import SearchIcon from '@mui/icons-material/Search';
+import { TutorService } from '../../reusable/interfaces'
 
 
 const Container = styled(Box)(({ theme }) => ({
@@ -96,24 +97,6 @@ const FormContainer = styled(Box)(({ theme }) => ({
 
 
 
-const MenuItemButton = styled(MenuItem)(({ theme }) => ({
-    display: 'flex',
-    alignItems: 'center',
-    fontSize: 16,
-    fontWeight: 600,
-    margin: '5px 0',
-    padding: '8px 15px',
-    color: colorScheme(theme).TextColor,
-    borderRadius: CSS_PROPERTIES.radius10,
-    border: `1px solid ${theme.palette.mode === 'light' ? '#ddd' : colorScheme(theme).bgColor}`,
-    '&:hover': {
-        backgroundColor: 'transparent',
-        border: `1px solid ${theme.palette.mode === 'light' ? colors.teal[400] : colorScheme(theme).bgColor}`,
-    },
-    [theme.breakpoints.down('sm')]: {
-        padding: '10px 15px',
-    }
-}))
 
 
 
@@ -197,34 +180,6 @@ export default function Tutors({ }: Props) {
                         </Typography>
                     </DetailHeader>
                     <FormContainer>
-
-                        <FormControl fullWidth={true}>
-                            <FormLabel sx={{ fontSize: 16, fontWeight: 600, my: .5, color: colors.teal[400], }} id="demo-controlled-radio-buttons-group">
-                                Select Service
-                            </FormLabel>
-                            <RadioGroup
-                                aria-labelledby="demo-controlled-radio-buttons-group"
-                                name="controlled-radio-buttons-group"
-
-                            >
-                                <MenuItemButton>
-                                  
-                                    <FormControlLabel value="class" control={<Radio sx={RadioStyles} />} label="Private class" />
-                                </MenuItemButton>
-                                <MenuItemButton>
-                                    <FormControlLabel value="assignment" control={<Radio sx={RadioStyles} />} label="Help with assignment" />
-                                </MenuItemButton>
-                                <MenuItemButton>
-                                    <FormControlLabel
-                                        value="course"
-                                        control={
-                                            <Radio
-                                                sx={RadioStyles} />}
-                                        label="I need a Course"
-                                    />
-                                </MenuItemButton>
-                            </RadioGroup>
-                        </FormControl>
                         <InquiryForm submitHandler={() => { }} />
                     </FormContainer>
                 </TutorDetail>
@@ -233,10 +188,7 @@ export default function Tutors({ }: Props) {
     )
 }
 
-const RadioStyles = {
-    color: '#ddd',
-    '&.Mui-checked': {
-        color: colors.teal[400]
-    }
-}
+
+
+
 
