@@ -274,7 +274,7 @@ export default function TutorForm({ }: Props) {
                                         {service.label}
                                     </Typography>
                                     <ButtonIcon
-                                        onClick={() => selectTutorService(service.value)}
+                                        onClick={() => selectTutorService(service.value??'')}
                                         sx={{
                                             height: 30, width: 30,
                                             border: `1px solid ${colors.grey[400]}`,
@@ -286,7 +286,7 @@ export default function TutorForm({ }: Props) {
                                             }
                                         }}>
 
-                                        {isAdded(service.value) ? <BiTrash /> : <Add fontSize='small' />}
+                                        {isAdded(service.value??'') ? <BiTrash /> : <Add fontSize='small' />}
                                     </ButtonIcon>
                                 </ServiceItem>
 
