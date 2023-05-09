@@ -8,8 +8,10 @@ import { forumActions } from '../../../reducers/forum-reducer'
 import AddCommentOutlinedIcon from '@mui/icons-material/AddCommentOutlined';
 import { colorScheme } from '../../theme'
 import { CSS_PROPERTIES } from '../../reusable'
-import { TutorService } from '../../reusable/interfaces'
+import { TutorService, User } from '../../reusable/interfaces'
 import { inquiryActions } from '../../../reducers/inquiry-reducer'
+import InquiryAPI from '../../api-services/inquiry'
+import { AppSpinner } from '../activity-indicators'
 
 const ChoicesContainer = styled(Box)(({ theme }) => ({
     [theme.breakpoints.down('sm')]: {
@@ -61,13 +63,15 @@ const MenuItemButton = styled(MenuItem)(({ theme }) => ({
 
 type Props = {
     //  mode: 'post' | "update",
+    tutor: User
     submitHandler: () => void
 }
 
-export default function InquiryForm({ submitHandler }: Props) {
+export default function InquiryForm({ tutor, submitHandler }: Props) {
     const dispatch = useAppDispatch()
     const inquiry = useAppSelector((state) => state.InquiryReducer.inquiry)
     const isErr = useAppSelector((state) => state.InquiryReducer.isErr)
+    const inquiryNetworkStatus = useAppSelector((state) => state.InquiryReducer.inquiryNetworkStatus)
 
 
 
@@ -94,7 +98,7 @@ export default function InquiryForm({ submitHandler }: Props) {
                 message = classMessage(inquiry.dueDate ?? '', inquiry.subjects[0] ?? '')
                 break
             case 'assignment':
-                message = assignMentMessage(inquiry.dueDate ?? '')
+                message = assignMentMessage(inquiry.dueDate ?? '', inquiry.subjects[0] ?? '',inquiry.topic??'')
                 break
             case 'course':
                 message = couseMessage(inquiry.dueDate ?? '', inquiry.topic ?? '')
@@ -114,17 +118,25 @@ export default function InquiryForm({ submitHandler }: Props) {
 
 
 
-    function handleSubmit() {
+    async function handleSubmit() {
         if (!(inquiry.service.value)) {
             dispatch(inquiryActions.setError(true))
             return true
         } else {
-            dispatch(inquiryActions.setError(false))
-            console.log(inquiry)
+            try {
+                dispatch(inquiryActions.setError(false))
+                dispatch(inquiryActions.setInquiryNetworkStatus('creatingInquiry'))
+                const newInquiry = await InquiryAPI.create(inquiry)
+                if (newInquiry) {
+                    dispatch(inquiryActions.setInquiryNetworkStatus('creatingInquirySuccess'))
+                }
+
+            } catch (error) {
+                dispatch(inquiryActions.setInquiryNetworkStatus('creatingInquiryError'))
+            }
             return false
         }
     }
-
 
 
     return (
@@ -138,37 +150,31 @@ export default function InquiryForm({ submitHandler }: Props) {
                 name="service"
                 onChange={handleOnChange}
             >
-
-                {tutorServices.map((service, index) => (
+                {tutor.tutorInfo?.services.map((service, index) => (
                     <TutorService
+                        key={index}
                         service={service}
                         error={isErr && !inquiry.service.value}
                     />
                 ))}
             </RadioGroup>
-
-            {inquiry.service.value !== 'assignment' && (
-                <FormControl>
-                    <TextInput sx={{ flexBasis: '50%' }}
-                        error={isErr && !inquiry.topic}
-                        value={inquiry.topic}
-                        onChange={handleOnChange}
-                        name="topic"
-                        label={'Topic'}
-                        placeholder={'Topic'} />
-                </FormControl>
-            )}
             <FormControl>
-
+                <TextInput sx={{ flexBasis: '50%' }}
+                    error={isErr && !inquiry.topic}
+                    value={inquiry.topic}
+                    onChange={handleOnChange}
+                    name="topic"
+                    label={'Topic'}
+                    placeholder={'Topic'} />
+            </FormControl>
+            <FormControl>
                 <SelectWithCheckMarks error={isErr && !inquiry.subjects}
-                    data={["Chemestry", "Physics", "Math"]}
+                    data={["Chemistry", "Physics", "Math"]}
                     label="Subjects"
                     name="subjects"
                     handleSelectedSection={handleOnChange}
                     value={inquiry.subjects ?? []}
                 />
-
-
                 <TextInput sx={{ flex: 1, ml: 1 }}
                     error={isErr && !inquiry.dueDate
                     }
@@ -180,7 +186,6 @@ export default function InquiryForm({ submitHandler }: Props) {
                     placeholder={'Due Date'} />
 
             </FormControl>
-
             <ChoicesContainer>
                 <FormControl>
                     <Textarea
@@ -221,6 +226,7 @@ export default function InquiryForm({ submitHandler }: Props) {
                         }}>
                         <AddCommentOutlinedIcon fontSize='small' sx={{ mr: 1 }} />
                         Send Inquiry
+                        <AppSpinner visible={inquiryNetworkStatus === 'creatingInquiry'} />
                     </StyledButton>
                 </FormControl>
             </ChoicesContainer>
@@ -289,20 +295,21 @@ const classMessage = (dueDate: string, subjects: string) => {
     return (
         `Hi, i need you to conduct a private class/face to face where you will
 teach me various topics in the following subjects ${subjects}. Class should be
-conducted not after ${dueDate} please give me feedback as soon as possible.
-`)
+conducted not after ${dueDate} please give me feedback as soon as possible.`)
 }
 
 
-const assignMentMessage = (dueDate: string) => (
-    `Hi, i need you to solve an assignment for me, which should be ready
-by ${dueDate} you will find the the assignment in the attatchment folder
-please give me feedback as soon as possible.
-`
-)
+const assignMentMessage = (dueDate: string, subject: string, topic: string) => {
+    if (!(dueDate && subject && topic)) return
+    return (
+        `Hi, I need you to solve a ${subject} assignment for me on the topic ${topic},
+which should be ready by ${dueDate} you will find the assignment in the 
+attachment folder please give me feedback as soon as possible.`)
+}
 
-const couseMessage = (dueDate: string, topic: string) => (
-    `Hi, i need you to prepare a video tutorial for me on the the topic ${topic}
-which should be ready by ${dueDate} please give me feedback as soon as possible.
-`
-)
+const couseMessage = (dueDate: string, topic: string) => {
+    if (!(dueDate && topic)) return
+    return (
+        `Hi, i need you to prepare a video tutorial for me on the the topic ${topic}
+which should be ready by ${dueDate} please give me feedback as soon as possible.`)
+}

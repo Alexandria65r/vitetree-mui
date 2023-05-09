@@ -43,11 +43,9 @@ export const TutorInfo: Types.TutorInfo = {
 
 export const TutorServiceSchema: TutorService = {
     label: '',
-    name: '',
     perHour: false,
     price: '9.60',
     value: '',
-    description:''
 }
 
 export const testDataSchema: Types.Test = {

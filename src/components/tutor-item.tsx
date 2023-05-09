@@ -5,7 +5,12 @@ import { colorScheme } from '../theme'
 import { ButtonIcon, StyledButton } from '../reusable/styles'
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import AddCommentOutlinedIcon from '@mui/icons-material/AddCommentOutlined';
-
+import { User } from '../reusable/interfaces'
+import { useAppDispatch, useAppSelector } from '../../store/hooks'
+import { tutorsActions } from '../../reducers/tutors-reducer'
+import { inquiryActions } from '../../reducers/inquiry-reducer'
+import Randomstring from 'randomstring'
+import { teal } from '@mui/material/colors'
 
 const TutorContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -64,12 +69,43 @@ const ItemFooter = styled(Box)(({ theme }) => ({
 
 
 type Props = {
-    setOpen: (bool: boolean) => void
+    tutor: User
 }
 
-export default function TutorItem({ setOpen }: Props) {
+
+function nomalizedText(subjects: string[], index: number) {
+    const subsLen = subjects.length - 1
+    return subsLen === 1 && index !== subsLen ? ' and ' :
+        index !== subsLen && index + 1 !== subsLen ? ',' :
+            index + 1 === subsLen ? ' and ' : ''
+}
+
+
+export default function TutorItem({ tutor }: Props) {
+    const dispatch = useAppDispatch()
+    const user = useAppSelector((state) => state.AuthReducer.user)
+    const inquiry = useAppSelector((state) => state.InquiryReducer.inquiry)
+    const selectedTutor = useAppSelector((state) => state.TutorsReducer.tutor)
+    const inquiryId = Randomstring.generate(17)
+
+    function viewTutor() {
+        dispatch(inquiryActions.setInquiry({
+            ...inquiry,
+            _id: inquiryId,
+            authorId: user._id ?? '',
+            tutorId: tutor._id ?? ''
+        }))
+        dispatch(inquiryActions.setInquiryNetworkStatus(''))
+        dispatch(tutorsActions.setTutor(tutor))
+    }
+
     return (
-        <TutorContainer>
+        <TutorContainer
+            sx={{
+                border: 1,
+                transition:'0.3s all',
+                borderColor: selectedTutor._id === tutor._id ? colors.teal[400] : 'transparent'
+            }}>
             <TutorImage></TutorImage>
             <TutorItemBody>
                 <Box sx={(theme) => ({
@@ -81,27 +117,30 @@ export default function TutorItem({ setOpen }: Props) {
                     }
                 })}>
                     <Typography sx={{ my: .5, fontSize: 16, fontWeight: 600 }}>
-                        Robert Ching'ambu
+                        {tutor.firstName} {tutor.lastName}
                     </Typography>
                     <Typography sx={{ fontSize: 14, fontWeight: 600 }}>
                         Primary qualifictions
                     </Typography>
                     <Typography sx={{ fontSize: 13, color: 'GrayText', fontWeight: 500 }}>
-                        Degree in Math - unza
+                        {tutor.tutorInfo?.qualifications} - {tutor.tutorInfo?.collage}
                     </Typography>
                     <Typography sx={{ fontSize: 14, fontWeight: 600 }}>
                         Subjects
                     </Typography>
                     <Typography sx={{ fontSize: 13, color: 'GrayText', fontWeight: 500 }}>
-                        Math, Physics and Chemistry
+                        {tutor.tutorInfo?.subjects.map((subject, index) => (
+                            <>
+                                {subject}
+                                {nomalizedText(tutor.tutorInfo?.subjects ?? [], index)}
+                            </>
+                        ))}
                     </Typography>
                     <Typography sx={{ mt: .5, fontSize: 14, fontWeight: 600 }}>
                         Profile
                     </Typography>
                     <Typography sx={{ fontSize: 13, color: 'GrayText', fontWeight: 500 }}>
-                        Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                        Vitae sunt consectetur provident
-                        voluptates doloremque eligendi quis a facere labore nobis?
+                        {tutor.tutorInfo?.description}
                     </Typography>
                 </Box>
                 <ItemFooter>
@@ -119,7 +158,7 @@ export default function TutorItem({ setOpen }: Props) {
                         <FavoriteBorderOutlinedIcon fontSize='small' />
                     </ButtonIcon>
                     <StyledButton
-                        onClick={() => setOpen(true)}
+                        onClick={viewTutor}
                         sx={{
                             px: 1,
                             flexBasis: '60%',
@@ -128,10 +167,10 @@ export default function TutorItem({ setOpen }: Props) {
                             border: 1,
                             borderColor: colors.teal[400],
                             backgroundColor: 'transparent',
-                            transition:'0.3s all',
-                            '&:hover':{
-                                color:'#fff',
-                                backgroundColor:colors.teal[400]
+                            transition: '0.3s all',
+                            '&:hover': {
+                                color: '#fff',
+                                backgroundColor: colors.teal[400]
                             }
                         }}>
                         <AddCommentOutlinedIcon fontSize='small' sx={{ mr: 1 }} />

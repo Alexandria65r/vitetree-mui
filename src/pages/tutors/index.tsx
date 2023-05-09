@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Layout from '../../components/layout'
 import { Box, FormControl, FormControlLabel, FormLabel, MenuItem, Radio, RadioGroup, Typography, colors, styled } from '@mui/material'
 import { colorScheme } from '../../theme'
@@ -13,7 +13,10 @@ import { Avatar, ButtonIcon, SearchInput, SearchInputWrap } from '../../reusable
 import InquiryForm from '../../components/inquiry-form/forum-post-form'
 import SearchIcon from '@mui/icons-material/Search';
 import { TutorService } from '../../reusable/interfaces'
-
+import { fetchTutorsThunk } from '../../../reducers/tutors-reducer/tutors-thunks'
+import { tutorsActions } from '../../../reducers/tutors-reducer'
+import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
+import { UserSchema } from '../../reusable/schemas'
 
 const Container = styled(Box)(({ theme }) => ({
     maxWidth: '90%',
@@ -53,7 +56,7 @@ const TutorsColumn = styled(Box)(({ theme }) => ({
     gap: 10,
     flexBasis: '50%',
     // padding: 10,
-    minHeight: 260,
+    minHeight: 60,
     //  borderRadius: CSS_PROPERTIES.radius5,
     // backgroundColor: colorScheme(theme).secondaryColor,
     //boxShadow: `0 1px 3px 0px ${theme.palette.mode === 'light' ? '#ddd' : 'transparent'}`,
@@ -107,13 +110,31 @@ export default function Tutors({ }: Props) {
     const cartItems = useAppSelector((state) => state.CartReducer.cartItems)
     const router = useRouter()
     const [isOpen, setOpen] = useState<boolean>(false)
+    const tutors = useAppSelector((state) => state.TutorsReducer.tutors)
+    const tutor = useAppSelector((state) => state.TutorsReducer.tutor)
+    const inquiryNetworkStatus = useAppSelector((state) => state.InquiryReducer.inquiryNetworkStatus)
+
+
+    const loadTutors = useCallback(() => {
+        dispatch(fetchTutorsThunk())
+    }, [])
+
+
+    useEffect(() => {
+        loadTutors()
+        return () => {
+            dispatch(tutorsActions.setTutors([]))
+        }
+    }, [])
+
+
 
     return (
         <Layout>
             <Container sx={(theme) => ({
                 [theme.breakpoints.down('sm')]: {
                     display: 'block',
-                    maxWidth: isOpen ? '97%' : '93%',
+                    maxWidth: tutor?._id ? '97%' : '93%',
                 }
             })}>
                 <CheckoutHeader>
@@ -123,11 +144,11 @@ export default function Tutors({ }: Props) {
                             display: 'none',
                             backgroundColor: 'transparent',
                             [theme.breakpoints.down("sm")]: {
-                                display: isOpen ? 'flex' : 'none',
+                                display: tutor?._id ? 'flex' : 'none',
                                 ml: -1.5
                             }
                         })}
-                        onClick={() => setOpen(false)}>
+                        onClick={() => dispatch(tutorsActions.setTutor(UserSchema))}>
                         <KeyboardBackspaceOutlinedIcon />
                     </ButtonIcon>
                     <Typography
@@ -138,7 +159,7 @@ export default function Tutors({ }: Props) {
                                 fontSize: 18
                             }
                         })}>
-                        {isOpen ? 'Inquire Now' : 'Tutors'}
+                        {tutor?._id ? 'Inquire Now' : 'Tutors'}
                     </Typography>
 
 
@@ -149,7 +170,7 @@ export default function Tutors({ }: Props) {
                 <TutorsColumn
                     sx={(theme) => ({
                         [theme.breakpoints.down('sm')]: {
-                            display: isOpen ? 'none' : 'grid'
+                            display: tutor?._id ? 'none' : 'grid'
                         }
                     })}>
                     <SearchInputWrap sx={{ flexBasis: '100%', ml: 0, my: 1 }}>
@@ -162,26 +183,57 @@ export default function Tutors({ }: Props) {
                         })} />
                         <SearchInput placeholder='Search for tutor' />
                     </SearchInputWrap>
-                    {[1, 2, 3, 4].map(() => (
-                        <TutorItem setOpen={setOpen} />
+                    {tutors.map((tutor, index) => (
+                        <TutorItem key={index} tutor={tutor} />
                     ))}
                 </TutorsColumn>
                 <TutorDetail sx={(theme) => ({
                     [theme.breakpoints.down('sm')]: {
-                        display: isOpen ? 'block' : 'none'
+                        display: tutor?._id ? 'block' : 'none'
                     }
                 })}>
-                    <DetailHeader sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                        <Avatar sx={{ ml: 1, mr: 1.4 }}>
+                    {inquiryNetworkStatus !== 'creatingInquirySuccess' && tutor._id && (
+                        <DetailHeader sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                            <Avatar sx={{ ml: 1, mr: 1.4 }}>
 
-                        </Avatar>
-                        <Typography sx={{ flex: 1, fontSize: 16, fontWeight: 600 }}>
-                            Robert Ching'ambu
-                        </Typography>
-                    </DetailHeader>
-                    <FormContainer>
-                        <InquiryForm submitHandler={() => { }} />
-                    </FormContainer>
+                            </Avatar>
+                            <Typography sx={{ flex: 1, fontSize: 16, fontWeight: 600 }}>
+                                {tutor.firstName} {tutor.lastName}
+                            </Typography>
+                        </DetailHeader>
+                    )}
+
+                    {inquiryNetworkStatus === 'creatingInquirySuccess' ? (
+                        <Box sx={{ height: 260, display: 'flex', alignItems: 'center', justifyContent:'center', width: '80%', margin: 'auto' }}>
+                            <Box>
+                                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                    <CheckCircleOutlineOutlinedIcon color='success' fontSize='large' />
+                                </Box>
+                                <Typography sx={{ textAlign: 'center',lineHeight:1.3, fontSize: 22, fontWeight: 300 }}>
+                                    Your inquiry has been successfully sent
+                                </Typography>
+                                <Typography sx={{ textAlign: 'center', fontSize: 13, fontWeight: 300 }}>
+                                    This component needs a design
+                                </Typography>
+                            </Box>
+                        </Box>
+                    ) : (
+                        <>
+                            {tutor._id ? (
+                                <FormContainer>
+                                    <InquiryForm
+                                        tutor={tutor}
+                                        submitHandler={() => { }}
+                                    />
+                                </FormContainer>
+                            ) : (
+                                <></>
+                            )}
+
+                        </>
+
+                    )}
+
                 </TutorDetail>
             </Container>
         </Layout>

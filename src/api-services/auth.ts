@@ -18,10 +18,16 @@ export default class AuthAPI {
     static update(id: string, update: any) {
         return axios.put(`/api/auth/update/${id}`, update)
     }
+    static async fetchAll(role: string) {
+        const { data } = await axios.get(`/api/auth/fetch-all/${role}`)
+        if (data.success) {
+            return data.users as User[]
+        }
+    }
 
     static delete() {
         return axios.post('/api/auth/delete')
     }
 
-      
+
 }

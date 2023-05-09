@@ -4,12 +4,11 @@ import { PopperPlacementType } from "@mui/material"
 //auth
 
 export type TutorService = {
-    name: string
     price: string
     perHour: boolean
-    value: string
+    value?: string
     label: string
-    description: string
+    description?: string
 }
 
 export type TutorInfo = {

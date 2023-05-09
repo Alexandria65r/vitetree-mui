@@ -108,7 +108,7 @@ export const Inquiry = mongoose.model(
     authorId: String,
     tutorId: String,
     service: {
-      name: String,
+      label: String,
       price: String,
       perHour: Boolean,
     },

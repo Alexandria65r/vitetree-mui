@@ -16,6 +16,7 @@ import SelectWithCheckMarks from '../../components/form-inputs/select-with-check
 import AddService from './add-service'
 import { TutorInfo, TutorServiceSchema } from '../../reusable/schemas'
 import { BiTrash } from 'react-icons/bi'
+import AuthAPI from '../../api-services/auth'
 
 const Container = styled(Box)(({ theme }) => ({
     height: 'calc(100vh - 66px)',
@@ -147,20 +148,21 @@ export default function TutorForm({ }: Props) {
 
     async function handleSignUp() {
         console.log(signUpData.tutorInfo)
-        // try {
-        //     const { data } = await AuthAPI.update(
-        //signUpData._id ?? '',
-        // { tutorInfo: signUpData.tutorInfo })
-        //     if (data.success) {
-        //         dispatch(authActions.setAuhtUser(data.user))
-        //         router.replace(`/dashboard`)
-        //     }
-        // } catch (error) {
-        //     console.log('err setup')
-        // }
+        try {
+            const { data } = await AuthAPI.update(
+        signUpData._id ?? '',
+        { tutorInfo: signUpData.tutorInfo })
+            if (data.success) {
+                dispatch(authActions.setAuhtUser(data.user))
+                router.replace(`/dashboard`)
+            }
+        } catch (error) {
+            console.log('err setup')
+        }
     }
 
     function selectTutorService(service: string) {
+        if (!signUpData.tutorInfo?.services) return 
         const isExist = signUpData.tutorInfo?.services.find((item) => item.value === service)
         if (isExist) {
             const services = signUpData.tutorInfo?.services.filter((item) => item.value !== isExist.value)
@@ -180,7 +182,7 @@ export default function TutorForm({ }: Props) {
 
     function isAdded(service: string) {
         let bool = false
-        if (signUpData.tutorInfo?.services) {
+        if (signUpData?.tutorInfo?.services) {
             const isExist = signUpData.tutorInfo?.services.find((item) => item.value === service)
             if (isExist) {
                 bool = true

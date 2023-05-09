@@ -10,6 +10,7 @@ import CartReducer from '../reducers/cart-reducer'
 import WishListReducer from '../reducers/wishlist-reducer'
 import ForumReducer from '../reducers/forum-reducer'
 import InquiryReducer from '../reducers/inquiry-reducer'
+import TutorsReducer from '../reducers/tutors-reducer'
 
 const rootReducer = combineReducers({
   AuthReducer,
@@ -21,7 +22,8 @@ const rootReducer = combineReducers({
   CartReducer,
   WishListReducer,
   ForumReducer,
-  InquiryReducer
+  InquiryReducer,
+  TutorsReducer
 })
 
 
