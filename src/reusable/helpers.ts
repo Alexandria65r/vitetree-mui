@@ -75,7 +75,7 @@ export function normalizedDate(createdAt: string) {
 
 export const tutorServices: TutorService[] = [
     {
-        name: '',
+       
         perHour: true,
         price: '$24.60',
         label: 'Private class',
@@ -86,7 +86,7 @@ export const tutorServices: TutorService[] = [
           schooyard meet.🎉`
     },
     {
-        name: '',
+       
         perHour: false,
         price: '$12.60',
         label: 'Assignment Solving',
@@ -96,7 +96,7 @@ export const tutorServices: TutorService[] = [
         services if you wish to offer this service.`
     },
     {
-        name: '',
+       
         perHour: true,
         price: '$9.60',
         label: 'Prepare a course video',
