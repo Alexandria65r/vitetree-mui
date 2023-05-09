@@ -12,6 +12,7 @@ export type TutorService = {
 }
 
 export type TutorInfo = {
+    inquiryId?: string
     tutorId: string,
     accountId: string
     services: TutorService[]

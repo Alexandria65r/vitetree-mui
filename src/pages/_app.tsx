@@ -1,4 +1,5 @@
 import '../styles/globals.css'
+import 'react-loading-skeleton/dist/skeleton.css'
 import '@fontsource/public-sans';
 import React, { useEffect } from 'react'
 import type { AppProps } from 'next/app'

@@ -5,7 +5,8 @@ import { StudentInquiry } from '../../src/reusable/schemas'
 type InquiryNetworkStatus =
     'creatingInquiry' |
     'creatingInquirySuccess' |
-    'creatingInquiryError' | ''
+    'creatingInquiryError' | 'fetch-inquiry' |
+    'fetch-inquiry-success' | 'fetch-inquiry-error' | ''
 
 
 type InquiryState = {

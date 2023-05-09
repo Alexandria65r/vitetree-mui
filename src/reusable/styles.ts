@@ -20,7 +20,7 @@ export const Hero = styled(Box)(({ theme }) => ({
     borderBottomRightRadius: 25,
     backgroundColor: colorScheme(theme).secondaryColor,
     [theme.breakpoints.down('sm')]: {
-           marginTop: 0,
+        marginTop: 0,
         height: 180,
         borderTopLeftRadius: 0,
         borderTopRightRadius: 0,
@@ -115,8 +115,8 @@ export const Textarea = styled(TextareaAutosize)(({ theme }) => ({
     color: colorScheme(theme).TextColor,
     backgroundColor: colorScheme(theme).secondaryColor,
     borderColor: theme.palette.grey[400],
-    [theme.breakpoints.down("sm")]:{
-        flex:1
+    [theme.breakpoints.down("sm")]: {
+        flex: 1
     }
 }))
 
@@ -124,12 +124,12 @@ export const SearchInputWrap = styled(Box)(({ theme }) => ({
     flexBasis: '78%',
     display: 'flex',
     alignItems: 'center',
-    transition:'0.3s all',
+    transition: '0.3s all',
     backgroundColor: colorScheme(theme).secondaryColor,
     borderRadius: CSS_PROPERTIES.radius5,
     border: `1px solid ${colorScheme(theme).chatBoarderColor}`,
-    '&:hover':{
-        borderBottom:`2px solid ${colors.teal[400]}`
+    '&:hover': {
+        borderBottom: `2px solid ${colors.teal[400]}`
     },
     [theme.breakpoints.down("sm")]: {
         flex: 1
@@ -138,7 +138,7 @@ export const SearchInputWrap = styled(Box)(({ theme }) => ({
 export const SearchInput = styled(InputBase)(({ theme }) => ({
     flex: 1,
     padding: '8px 10px 8px 0',
-    backgroundColor:'transparent',
+    backgroundColor: 'transparent',
     borderRadius: CSS_PROPERTIES.radius5,
 }))
 
@@ -151,6 +151,18 @@ export const StyledButton = styled(ButtonBase)(({ theme }) => ({
     fontSize: 16,
     borderRadius: CSS_PROPERTIES.radius5,
     backgroundColor: colors.teal[400],
+}))
+export const StyledButtonOutlined = styled(StyledButton)(({ theme }) => ({
+    fontSize: 15,
+    color: colors.teal[400],
+    border: '1px solid',
+    borderColor: colors.teal[400],
+    backgroundColor: 'transparent',
+    transition: '0.3s all',
+    '&:hover': {
+        color: '#fff',
+        backgroundColor: colors.teal[400]
+    }
 }))
 
 

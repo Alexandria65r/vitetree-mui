@@ -107,3 +107,11 @@ export const tutorServices: TutorService[] = [
         for them on their preffered topic and they'll pay for it. `
     }
 ]
+
+
+export function nomalizedText(subjects: string[], index: number) {
+    const subsLen = subjects.length - 1
+    return subsLen === 1 && index !== subsLen ? ' and ' :
+        index !== subsLen && index + 1 !== subsLen ? ',' :
+            index + 1 === subsLen ? ' and ' : ''
+}

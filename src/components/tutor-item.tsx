@@ -11,6 +11,10 @@ import { tutorsActions } from '../../reducers/tutors-reducer'
 import { inquiryActions } from '../../reducers/inquiry-reducer'
 import Randomstring from 'randomstring'
 import { teal } from '@mui/material/colors'
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
+import { nomalizedText } from '../reusable/helpers'
+
+
 
 const TutorContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -69,19 +73,15 @@ const ItemFooter = styled(Box)(({ theme }) => ({
 
 
 type Props = {
-    tutor: User
+    tutor: User,
+    mode: 'Send inquiry' | 'View inquiry' | ''
 }
 
 
-function nomalizedText(subjects: string[], index: number) {
-    const subsLen = subjects.length - 1
-    return subsLen === 1 && index !== subsLen ? ' and ' :
-        index !== subsLen && index + 1 !== subsLen ? ',' :
-            index + 1 === subsLen ? ' and ' : ''
-}
 
 
-export default function TutorItem({ tutor }: Props) {
+
+export default function TutorItem({ tutor, mode }: Props) {
     const dispatch = useAppDispatch()
     const user = useAppSelector((state) => state.AuthReducer.user)
     const inquiry = useAppSelector((state) => state.InquiryReducer.inquiry)
@@ -89,12 +89,17 @@ export default function TutorItem({ tutor }: Props) {
     const inquiryId = Randomstring.generate(17)
 
     function viewTutor() {
-        dispatch(inquiryActions.setInquiry({
-            ...inquiry,
-            _id: inquiryId,
-            authorId: user._id ?? '',
-            tutorId: tutor._id ?? ''
-        }))
+        if (mode == 'View inquiry') {
+
+        } else {
+            dispatch(inquiryActions.setInquiry({
+                ...inquiry,
+                _id: inquiryId,
+                authorId: user._id ?? '',
+                tutorId: tutor._id ?? ''
+            }))
+        }
+
         dispatch(inquiryActions.setInquiryNetworkStatus(''))
         dispatch(tutorsActions.setTutor(tutor))
     }
@@ -103,7 +108,7 @@ export default function TutorItem({ tutor }: Props) {
         <TutorContainer
             sx={{
                 border: 1,
-                transition:'0.3s all',
+                transition: '0.3s all',
                 borderColor: selectedTutor._id === tutor._id ? colors.teal[400] : 'transparent'
             }}>
             <TutorImage></TutorImage>
@@ -173,8 +178,12 @@ export default function TutorItem({ tutor }: Props) {
                                 backgroundColor: colors.teal[400]
                             }
                         }}>
-                        <AddCommentOutlinedIcon fontSize='small' sx={{ mr: 1 }} />
-                        Send Inquiry
+                        {mode == 'View inquiry' ? (
+                            <VisibilityOutlinedIcon fontSize='small' sx={{ mr: 1 }} />
+                        ) : (
+                            <AddCommentOutlinedIcon fontSize='small' sx={{ mr: 1 }} />
+                        )}
+                        {mode}
                     </StyledButton>
                 </ItemFooter>
             </TutorItemBody>

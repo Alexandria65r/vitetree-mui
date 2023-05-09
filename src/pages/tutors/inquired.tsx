@@ -13,13 +13,14 @@ import { Avatar, ButtonIcon, SearchInput, SearchInputWrap, StyledButton } from '
 import InquiryForm from '../../components/inquiry-form/forum-post-form'
 import SearchIcon from '@mui/icons-material/Search';
 import { TutorService } from '../../reusable/interfaces'
-import { fetchTutorsThunk } from '../../../reducers/tutors-reducer/tutors-thunks'
+import { fetchInquiredTutorsThunk, fetchTutorsThunk } from '../../../reducers/tutors-reducer/tutors-thunks'
 import { tutorsActions } from '../../../reducers/tutors-reducer'
 import { UserSchema } from '../../reusable/schemas'
 import InquireSuccess from './inquire-success'
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import ManageSearchOutlinedIcon from '@mui/icons-material/ManageSearchOutlined';
 import CoPresentIcon from '@mui/icons-material/CoPresent';
+import InquiredItem from './inquiredItem'
 
 const Container = styled(Box)(({ theme }) => ({
     maxWidth: '90%',
@@ -125,10 +126,12 @@ export default function Tutors({ }: Props) {
     const tutors = useAppSelector((state) => state.TutorsReducer.tutors)
     const tutor = useAppSelector((state) => state.TutorsReducer.tutor)
     const inquiryNetworkStatus = useAppSelector((state) => state.InquiryReducer.inquiryNetworkStatus)
+    const inquiry = useAppSelector((state) => state.InquiryReducer.inquiry)
+    const pathname = router.pathname
 
 
     const loadTutors = useCallback(() => {
-        dispatch(fetchTutorsThunk())
+        dispatch(fetchInquiredTutorsThunk())
     }, [])
 
 
@@ -197,21 +200,25 @@ export default function Tutors({ }: Props) {
                             <SearchInput placeholder='Search for tutor' />
                         </SearchInputWrap>
                         <TabButton>
-                            <CoPresentIcon fontSize='small' sx={{ mr: 1 }} />
+                            <CoPresentIcon fontSize='small' sx={{ mr: .5 }} />
                             Available
                         </TabButton>
                         <TabButton>
-                            <FavoriteBorderOutlinedIcon fontSize='small' sx={{ mr: 1 }} />
+                            <FavoriteBorderOutlinedIcon fontSize='small' sx={{ mr: .5 }} />
                             Favourites
                         </TabButton>
-                        <TabButton onClick={()=>router.push('/tutors/inquired')}>
-                            <ManageSearchOutlinedIcon fontSize='small' sx={{ mr: 1 }} />
+                        <TabButton
+                            sx={{
+                                backgroundColor: pathname?.includes('inquired') ? colors.teal[400] : '',
+                                color: pathname?.includes('inquired') ? '#fff' : ''
+                            }}>
+                            <ManageSearchOutlinedIcon fontSize='small' sx={{ mr: .5 }} />
                             Inquired
                         </TabButton>
 
                     </Box>
                     {tutors.map((tutor, index) => (
-                        <TutorItem key={index} tutor={tutor} mode='Send inquiry' />
+                        <TutorItem key={index} tutor={tutor} mode='View inquiry' />
                     ))}
                 </TutorsColumn>
                 <TutorDetail sx={(theme) => ({
@@ -234,13 +241,8 @@ export default function Tutors({ }: Props) {
                         <InquireSuccess />
                     ) : (
                         <>
-                            {tutor._id ? (
-                                <FormContainer>
-                                    <InquiryForm
-                                        tutor={tutor}
-                                        submitHandler={() => { }}
-                                    />
-                                </FormContainer>
+                            {tutor._id? (
+                                <InquiredItem />
                             ) : (
                                 <></>
                             )}
