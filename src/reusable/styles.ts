@@ -51,6 +51,15 @@ export const Avatar = styled(Box)(({ theme }) => ({
     }
 }))
 
+export const ActiveIndicator = styled(Box)(()=>({
+    display: 'inline-block',
+    marginLeft:5,
+    height: 12,
+    width: 12,
+    borderRadius: 29,
+    backgroundColor: colors.teal[400]
+}))
+
 export const CustomFormControl = styled(Box)(({ theme }) => ({
     width: '100%',
     display: 'flex',

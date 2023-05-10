@@ -20,6 +20,10 @@ import InquireSuccess from './inquire-success'
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import ManageSearchOutlinedIcon from '@mui/icons-material/ManageSearchOutlined';
 import CoPresentIcon from '@mui/icons-material/CoPresent';
+import InquiredItem from './inquiredItem'
+import { HiOutlineViewGrid } from 'react-icons/hi'
+import SelectTutor from './select-tutor'
+import PersonSearchOutlinedIcon from '@mui/icons-material/PersonSearchOutlined';
 
 const Container = styled(Box)(({ theme }) => ({
     maxWidth: '90%',
@@ -100,6 +104,23 @@ const FormContainer = styled(Box)(({ theme }) => ({
 
     }
 }))
+const TabHeader = styled(Box)(({ theme }) => ({
+    flex: 1,
+    display: 'flex',
+    alignItems: 'center',
+    padding: '5px 10px',
+
+    borderRadius: CSS_PROPERTIES.radius5,
+
+    [theme.breakpoints.down('sm')]: {
+        width: '94vw',
+        overflowX: 'auto',
+
+    },
+    "::-webkit-scrollbar": {
+        display: 'none'
+    }
+}))
 
 const TabButton = styled(StyledButton)(({ theme }) => ({
     padding: '0 10px',
@@ -115,6 +136,7 @@ const TabButton = styled(StyledButton)(({ theme }) => ({
 
 
 
+
 type Props = {}
 
 export default function Tutors({ }: Props) {
@@ -125,7 +147,10 @@ export default function Tutors({ }: Props) {
     const tutors = useAppSelector((state) => state.TutorsReducer.tutors)
     const tutor = useAppSelector((state) => state.TutorsReducer.tutor)
     const inquiryNetworkStatus = useAppSelector((state) => state.InquiryReducer.inquiryNetworkStatus)
-
+    const user = useAppSelector((state) => state.AuthReducer.user)
+    const [sort, inquiry, inquiryId]: any = router.query.params || []
+    const inquiredList = user.inquiredList
+    console.log(inquiryId)
 
     const loadTutors = useCallback(() => {
         dispatch(fetchTutorsThunk())
@@ -139,7 +164,11 @@ export default function Tutors({ }: Props) {
         }
     }, [])
 
-
+    const inquired = (function () {
+        const inquired = inquiredList?.find((item) => item.tutorId === tutor._id && item.status === 'active')
+        console.log(inquired)
+        return inquired
+    })()
 
     return (
         <Layout>
@@ -196,22 +225,51 @@ export default function Tutors({ }: Props) {
                             })} />
                             <SearchInput placeholder='Search for tutor' />
                         </SearchInputWrap>
-                        <TabButton>
-                            <CoPresentIcon fontSize='small' sx={{ mr: 1 }} />
-                            Available
-                        </TabButton>
-                        <TabButton>
-                            <FavoriteBorderOutlinedIcon fontSize='small' sx={{ mr: 1 }} />
-                            Favourites
-                        </TabButton>
-                        <TabButton onClick={()=>router.push('/tutors/inquired')}>
-                            <ManageSearchOutlinedIcon fontSize='small' sx={{ mr: 1 }} />
-                            Inquired
-                        </TabButton>
-
+                        <TabHeader>
+                            <TabButton
+                                onClick={() => router.push(`/tutors/all`)}
+                                sx={{
+                                    backgroundColor: sort === 'all' ? colors.teal[400] : '',
+                                    color: sort === 'all' ? '#fff' : ''
+                                }}
+                            >
+                                <PersonSearchOutlinedIcon fontSize='small' style={{ marginRight: '.1em' }} />
+                                All
+                            </TabButton>
+                            <TabButton
+                                onClick={() => router.push(`/tutors/available`)}
+                                sx={{
+                                    backgroundColor: sort === 'available' ? colors.teal[400] : '',
+                                    color: sort === 'available' ? '#fff' : ''
+                                }}
+                            >
+                                <CoPresentIcon fontSize='small' sx={{ mr: .5 }} />
+                                Available
+                            </TabButton>
+                            <TabButton
+                                onClick={() => router.push(`/tutors/favourites`)}
+                                sx={{
+                                    backgroundColor: sort === 'favourites' ? colors.teal[400] : '',
+                                    color: sort === 'favourites' ? '#fff' : ''
+                                }}
+                            >
+                                <FavoriteBorderOutlinedIcon fontSize='small' sx={{ mr: .5 }} />
+                                Favourites
+                            </TabButton>
+                            <TabButton
+                                sx={{
+                                    backgroundColor: sort === 'inquired' ? colors.teal[400] : '',
+                                    color: sort === 'inquired' ? '#fff' : ''
+                                }}
+                                onClick={() => router.push(`/tutors/inquired`)}>
+                                <ManageSearchOutlinedIcon fontSize='small' sx={{ mr: .5 }} />
+                                Inquired
+                            </TabButton>
+                        </TabHeader>
                     </Box>
                     {tutors.map((tutor, index) => (
-                        <TutorItem key={index} tutor={tutor} mode='Send inquiry' />
+                        <TutorItem key={index}
+                         tutor={tutor} inquired={inquired} mode='Send inquiry' />
                     ))}
                 </TutorsColumn>
                 <TutorDetail sx={(theme) => ({
@@ -234,16 +292,16 @@ export default function Tutors({ }: Props) {
                         <InquireSuccess />
                     ) : (
                         <>
-                            {tutor._id ? (
+                            {inquiry === 'inquiry' ? (
+                                <InquiredItem inquiryId={inquiryId} />
+                                ) : tutor._id !== inquired?.tutorId ? (
                                 <FormContainer>
                                     <InquiryForm
                                         tutor={tutor}
                                         submitHandler={() => { }}
                                     />
                                 </FormContainer>
-                            ) : (
-                                <></>
-                            )}
+                            ) : <SelectTutor />}
 
                         </>
 

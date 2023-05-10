@@ -11,6 +11,7 @@ const UserSchema = new mongoose.Schema({
   imageAsset: { imageURL: String, public_id: String },
   courses: { type: Array, required: false },
   tutorInfo: { type: Object, required: false },
+  inquiredList: { type: Array, required: false },
   studentInfo: { type: Object, required: false },
   createdAt: { type: Date, default: Date.now },
 });

@@ -94,7 +94,7 @@ export default function NavBar() {
                             <Badge>{cartItems.length}</Badge>
                         </ButtonIcon>
                     )}
-                    {!isMobile && (<>
+                    {!isMobile && user._id && (<>
                         <ButtonIcon onClick={() => router.push('/conversations/conv-list')} sx={{ position: 'relative' }}>
                             <ChatOutlinedIcon />
                         </ButtonIcon>

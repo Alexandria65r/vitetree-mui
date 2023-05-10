@@ -201,7 +201,7 @@ const dashCardList = (userRole: 'Tutor' | 'Student' | string) => {
                 icon: <SlGraduation size={40} color={colors.teal[400]} />
             },
             {
-                title: 'Hire Tutor', route: '/tutors',
+                title: 'Hire Tutor', route: '/tutors/all',
                 accent: colors.indigo[400],
                 icon: <BiSearchAlt size={40} color={colors.indigo[400]} />
             },

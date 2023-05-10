@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import SignInWithGoogleButton from '../components/auth/google-button'
 import { SignInThunk } from '../../reducers/thunks'
 import { authActions } from '../../reducers/auth-reducer'
+import Link from 'next/link'
 
 
 
@@ -101,6 +102,14 @@ export default function SigninPage({ }: Props) {
                     <Button onClick={() => dispatch(SignInThunk(schooyardProvider))}>
                         Sign in
                     </Button>
+                    <Typography sx={{ flexBasis: '100%', mt: .5, fontSize: 13 }}>
+                        Don't have an account yet?
+                        <Link href="/signup">
+                            <span style={{ marginLeft: 5, color: colors.lightBlue[400] }}>
+                                register
+                            </span>
+                        </Link>
+                    </Typography>
                 </FormControl>
                 <FormControl sx={{ marginTop: 3 }}>
                     <ContinueWith >

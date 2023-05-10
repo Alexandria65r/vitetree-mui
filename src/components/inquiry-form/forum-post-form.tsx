@@ -12,6 +12,7 @@ import { TutorService, User } from '../../reusable/interfaces'
 import { inquiryActions } from '../../../reducers/inquiry-reducer'
 import InquiryAPI from '../../api-services/inquiry'
 import { AppSpinner } from '../activity-indicators'
+import { authActions } from '../../../reducers/auth-reducer'
 
 const ChoicesContainer = styled(Box)(({ theme }) => ({
     [theme.breakpoints.down('sm')]: {
@@ -98,7 +99,7 @@ export default function InquiryForm({ tutor, submitHandler }: Props) {
                 message = classMessage(inquiry.dueDate ?? '', inquiry.subjects[0] ?? '')
                 break
             case 'assignment':
-                message = assignMentMessage(inquiry.dueDate ?? '', inquiry.subjects[0] ?? '',inquiry.topic??'')
+                message = assignMentMessage(inquiry.dueDate ?? '', inquiry.subjects[0] ?? '', inquiry.topic ?? '')
                 break
             case 'course':
                 message = couseMessage(inquiry.dueDate ?? '', inquiry.topic ?? '')
@@ -126,9 +127,10 @@ export default function InquiryForm({ tutor, submitHandler }: Props) {
             try {
                 dispatch(inquiryActions.setError(false))
                 dispatch(inquiryActions.setInquiryNetworkStatus('creatingInquiry'))
-                const newInquiry = await InquiryAPI.create(inquiry)
-                if (newInquiry) {
+                const data = await InquiryAPI.create(inquiry)
+                if (data?.newInquiry) {
                     dispatch(inquiryActions.setInquiryNetworkStatus('creatingInquirySuccess'))
+                    dispatch(authActions.setAuhtUser(data?.updatedUser))
                 }
 
             } catch (error) {

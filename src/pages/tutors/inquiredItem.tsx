@@ -31,6 +31,7 @@ const Detailed = styled(Box)(() => ({
     justifyContent: 'space-between'
 }))
 const DetailedItemContainer = styled(Box)(({ theme }) => ({
+    flexBasis:'33%',
     padding: '5px 15px',
     borderRadius: CSS_PROPERTIES.radius5,
     backgroundColor: theme.palette.mode === 'light' ? colors.grey[300] : colorScheme(theme).primaryColor
@@ -45,16 +46,18 @@ const ItemFooter = styled(Box)(() => ({
 
 
 
-type Props = {}
+type Props = {
+    inquiryId:string
+}
 
-export default function InquiredItem({ }: Props) {
+export default function InquiredItem({ inquiryId }: Props) {
     const dispatch = useAppDispatch()
     const tutor = useAppSelector((state) => state.TutorsReducer.tutor)
     const inquiry = useAppSelector((state) => state.InquiryReducer.inquiry)
     const _theme = useTheme()
     const loadTutors = useCallback(() => {
-        dispatch(fetchInquiryThunk(tutor.tutorInfo?.inquiryId ?? ''))
-    }, [])
+        dispatch(fetchInquiryThunk(inquiryId ?? ''))
+    }, [inquiryId])
 
 
     useEffect(() => {
@@ -62,7 +65,7 @@ export default function InquiredItem({ }: Props) {
         return () => {
             //dispatch(tutorsActions.setTutors([]))
         }
-    }, [])
+    }, [inquiryId])
 
 
     function handleClose() {
@@ -99,12 +102,12 @@ export default function InquiredItem({ }: Props) {
                             <Typography sx={(theme) => ({ fontSize: 14, color: colorScheme(theme).TextColor })}>
                                 Subjects
                             </Typography>
-                            <Typography sx={{ fontSize: 13, color: colors.teal[400] }}>
+                            <Typography sx={{ fontSize: 13,lineHeight:1.2, color: colors.teal[400] }}>
                                 {tutor.tutorInfo?.subjects.map((subject, index) => (
                                     <>
                                         {subject}
                                         {nomalizedText(tutor.tutorInfo?.subjects ?? [], index)}
-                                    </>
+                                    </> 
                                 ))}
                             </Typography>
                         </DetailedItemContainer>
@@ -141,6 +144,7 @@ type DetailedItemProps = {
 }
 const DetailedItem = ({ title, text }: DetailedItemProps) => (
     <DetailedItemContainer sx={(theme) => ({
+        
         [theme.breakpoints.down("sm")]: {
             flexBasis: '48%'
         }

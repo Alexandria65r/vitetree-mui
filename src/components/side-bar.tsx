@@ -137,7 +137,7 @@ export default function SideBar({ }: Props) {
                 </SideBarHeader>
                 <SideBarContent>
                     {user?._id ? (<>
-                        <SideBarItem onClick={() => router.push('/profile')}>
+                        <SideBarItem onClick={() => router.push(`/account/${user._id}`)}>
                             <AccountCircleOutlinedIcon sx={{ mr: 1 }} />
                             Profile
                         </SideBarItem>

@@ -1,4 +1,4 @@
-import { StudentInquiry } from "../reusable/interfaces";
+import { StudentInquiry, User } from "../reusable/interfaces";
 import axios from 'axios'
 
 
@@ -8,7 +8,12 @@ export default class InquiryAPI {
     static async create(newInquiry: StudentInquiry) {
         const { data } = await axios.post('/api/inquiry/create', newInquiry)
         if (data.success) {
-            return data.newInquiry as StudentInquiry
+            const newInquiry = data.newInquiry as StudentInquiry
+            const updatedUser = data.updated as User
+            return {
+                newInquiry,
+                updatedUser
+            }
         }
     }
 

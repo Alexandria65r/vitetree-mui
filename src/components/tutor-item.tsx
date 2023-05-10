@@ -13,6 +13,7 @@ import Randomstring from 'randomstring'
 import { teal } from '@mui/material/colors'
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { nomalizedText } from '../reusable/helpers'
+import { useRouter } from 'next/router'
 
 
 
@@ -83,14 +84,25 @@ type Props = {
 
 export default function TutorItem({ tutor, mode }: Props) {
     const dispatch = useAppDispatch()
+    const router = useRouter()
     const user = useAppSelector((state) => state.AuthReducer.user)
     const inquiry = useAppSelector((state) => state.InquiryReducer.inquiry)
     const selectedTutor = useAppSelector((state) => state.TutorsReducer.tutor)
+
     const inquiryId = Randomstring.generate(17)
+    const inquiredList = user.inquiredList
+
+    const [sort, ...rest]: any = router.query.params || []
+
+    const inquired = (function () {
+        const inquired = inquiredList?.find((item) => item.tutorId === tutor._id && item.status === 'active')
+        console.log(inquired)
+        return inquired
+    })()
 
     function viewTutor() {
-        if (mode == 'View inquiry') {
-
+        if (inquired?.tutorId === tutor._id) {
+            router.push(`/tutors/${sort}/inquiry/${inquired?.inquiryId}`)
         } else {
             dispatch(inquiryActions.setInquiry({
                 ...inquiry,
@@ -98,11 +110,13 @@ export default function TutorItem({ tutor, mode }: Props) {
                 authorId: user._id ?? '',
                 tutorId: tutor._id ?? ''
             }))
+            dispatch(inquiryActions.setInquiryNetworkStatus(''))
         }
 
-        dispatch(inquiryActions.setInquiryNetworkStatus(''))
         dispatch(tutorsActions.setTutor(tutor))
+
     }
+
 
     return (
         <TutorContainer
@@ -178,12 +192,12 @@ export default function TutorItem({ tutor, mode }: Props) {
                                 backgroundColor: colors.teal[400]
                             }
                         }}>
-                        {mode == 'View inquiry' ? (
+                        {inquired?.tutorId === tutor._id ? (
                             <VisibilityOutlinedIcon fontSize='small' sx={{ mr: 1 }} />
                         ) : (
                             <AddCommentOutlinedIcon fontSize='small' sx={{ mr: 1 }} />
                         )}
-                        {mode}
+                        {inquired?.tutorId === tutor._id ? 'View inquiry' : 'Send inquiry'}
                     </StyledButton>
                 </ItemFooter>
             </TutorItemBody>

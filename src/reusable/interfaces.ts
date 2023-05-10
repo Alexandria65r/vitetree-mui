@@ -11,6 +11,12 @@ export type TutorService = {
     description?: string
 }
 
+export type Inquired = {
+    tutorId: string
+    inquiryId: string
+    status: 'active' | 'done'
+}
+
 export type TutorInfo = {
     inquiryId?: string
     tutorId: string,
@@ -52,6 +58,7 @@ export type User = {
     role: 'tutor' | 'student' | string,
     tutorInfo?: TutorInfo
     studentInfo?: StudentInfo
+    inquiredList?: Inquired[]
     createdAt?: string
 }
 
