@@ -269,7 +269,7 @@ export default function Tutors({ }: Props) {
                     </Box>
                     {tutors.map((tutor, index) => (
                         <TutorItem key={index}
-                         tutor={tutor} inquired={inquired} mode='Send inquiry' />
+                         tutor={tutor} mode='Send inquiry' />
                     ))}
                 </TutorsColumn>
                 <TutorDetail sx={(theme) => ({
