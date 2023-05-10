@@ -154,7 +154,7 @@ export default function Tutors({ }: Props) {
 
     const loadTutors = useCallback(() => {
         dispatch(fetchTutorsThunk())
-    }, [])
+    }, [router.pathname])
 
 
     useEffect(() => {
@@ -162,11 +162,11 @@ export default function Tutors({ }: Props) {
         return () => {
             dispatch(tutorsActions.setTutors([]))
         }
-    }, [])
+    }, [router.pathname])
 
     const inquired = (function () {
-        const inquired = inquiredList?.find((item) => item.tutorId === tutor._id && item.status === 'active')
-        console.log(inquired)
+        const inquired = inquiredList?.find(
+        (item) => item.tutorId === tutor._id && item.status === 'active')
         return inquired
     })()
 

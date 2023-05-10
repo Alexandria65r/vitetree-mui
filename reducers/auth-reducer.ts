@@ -1,12 +1,12 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { TutorService, User } from '../src/reusable/interfaces';
 import { TutorServiceSchema, UserSchema } from '../src/reusable/schemas';
-
+type Role = 'tutor' | 'student' | ''
 type AuthState = {
     user: User,
     tutorService: TutorService
     isRedirecting: boolean
-    gettingStartedRole: 'Tutor' | 'Student' | ''
+    gettingStartedRole: Role
 }
 
 const initialState: AuthState = {
@@ -27,7 +27,7 @@ const authSlice = createSlice({
         setRedirecting: (state, { payload }: PayloadAction<boolean>) => {
             state.isRedirecting = payload
         },
-        setGettingStartedRole: (state, { payload }: PayloadAction<'Tutor' | 'Student' | ''>) => {
+        setGettingStartedRole: (state, { payload }: PayloadAction<Role>) => {
             state.gettingStartedRole = payload
         },
         setUserProps: (state, { payload }: PayloadAction<{ name: string, value: any }>) => {

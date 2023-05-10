@@ -5,6 +5,8 @@ import { colorScheme } from '../../theme'
 import { ActiveIndicator, Avatar as AvatarContainer, ButtonIcon } from '../../reusable/styles'
 import { CSS_PROPERTIES } from '../../reusable'
 import ChevronRightOutlinedIcon from '@mui/icons-material/ChevronRightOutlined';
+import { User } from '../../database/schema'
+import { useAppSelector } from '../../../store/hooks'
 
 const Container = styled(Box)(({ theme }) => ({
   width: '80%',
@@ -29,7 +31,7 @@ const Avatar = styled(AvatarContainer)(({ theme }) => ({
 
 }))
 const UsernameColumn = styled(Box)(({ theme }) => ({
-  position:'relative',
+  position: 'relative',
   margin: '-15px 0 0 15px',
   [theme.breakpoints.down("sm")]: {
     margin: '0px 0 0 15px',
@@ -57,6 +59,7 @@ const InfoRightColumn = styled(Box)(({ theme }) => ({
 type Props = {}
 
 export default function Profile({ }: Props) {
+  const user = useAppSelector((state) => state.AuthReducer.user)
   return (
     <Layout>
       <Container>
@@ -64,15 +67,15 @@ export default function Profile({ }: Props) {
           <Avatar></Avatar>
           <UsernameColumn>
             <Typography sx={{ fontSize: 18, fontWeight: 500 }}>
-              Robert Ching'ambu
+              {user.firstName} {user.lastName}
             </Typography>
             <Typography sx={{ fontSize: 14, fontWeight: 500 }}>
-              robertchingambu65@mail.com
+              {user.email}
             </Typography>
             <Typography sx={{ fontSize: 14, fontWeight: 500 }}>
               Available
             </Typography>
-              <ActiveIndicator sx={{position:'absolute',left:55,bottom:3 }}></ActiveIndicator>
+            <ActiveIndicator sx={{ position: 'absolute', left: 55, bottom: 3 }}></ActiveIndicator>
           </UsernameColumn>
         </TopHeader>
         <InfoItem>

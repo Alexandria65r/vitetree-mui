@@ -132,7 +132,7 @@ const IndexPage: NextPage = () => {
   }
 
 
-  function gettingStartedRole(role: 'Tutor' | 'Student') {
+  function gettingStartedRole(role: 'tutor' | 'student') {
     dispatch(authActions.setGettingStartedRole(role))
     dispatch(authActions.setAuhtUser({ ...user, role }))
     router.push('/signup')
@@ -186,7 +186,7 @@ const IndexPage: NextPage = () => {
               [theme.breakpoints.down("sm")]: {
                 height: 50,
               }
-            })} onClick={() => gettingStartedRole('Tutor')}
+            })} onClick={() => gettingStartedRole('tutor')}
               color='secondary'>
               <AddIcon /> Become a tutor
             </CommunityButton>
@@ -199,7 +199,7 @@ const IndexPage: NextPage = () => {
               [theme.breakpoints.down("sm")]: {
                 height: 50,
               }
-            })} onClick={() => gettingStartedRole('Student')}
+            })} onClick={() => gettingStartedRole('student')}
               color='secondary'>
               <SlGraduation size={21} style={{ marginRight: 6 }} />Start Learnning
             </CommunityButton>
