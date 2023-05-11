@@ -81,8 +81,8 @@ export default function Notifications({ }: Props) {
                         </ButtonIcon>
                     </AsideHeader>
 
-                    <NotificationItem type="Bid" isOpen={isOpen} setOpen={setOpen} />
-                    <NotificationItem type="Answer" isOpen={isOpen} setOpen={setOpen} />
+                    <NotificationItem title='' description='' createdAt=''  type="Bid" isOpen={isOpen} setOpen={setOpen} />
+                    <NotificationItem title='' description='' createdAt='' type="Answer" isOpen={isOpen} setOpen={setOpen} />
                 </AsideLeft>
                 <MainCol sx={(theme) => ({
                     [theme.breakpoints.down('sm')]: {
