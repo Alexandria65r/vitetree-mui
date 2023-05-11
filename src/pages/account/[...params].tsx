@@ -27,7 +27,7 @@ export default function Profile({ }: Props) {
   console.log(router.query)
   return (
     <>
-      {params[0] === user?._id ? <AccountLinks /> : <></>}
+      {/* {params[0] === user?._id ? <AccountLinks /> : <></>} */}
       {params[0] === 'profile-photo' ? <ProfilePhoto /> : <></>}
       {params[0] === 'primary-info' ? <PrimaryInfo /> : <></>}
       {params[0] === 'role-info' ? <RoleInfo /> : <></>}
