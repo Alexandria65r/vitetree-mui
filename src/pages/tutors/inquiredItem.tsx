@@ -41,7 +41,8 @@ const Description = styled(Box)(() => ({
 }))
 const ItemFooter = styled(Box)(() => ({
     display: 'flex',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    marginTop:10,
 }))
 
 
@@ -55,6 +56,8 @@ export default function InquiredItem({ inquiryId }: Props) {
     const tutor = useAppSelector((state) => state.TutorsReducer.tutor)
     const inquiry = useAppSelector((state) => state.InquiryReducer.inquiry)
     const _theme = useTheme()
+
+
     const loadTutors = useCallback(() => {
         dispatch(fetchInquiryThunk(inquiryId ?? ''))
     }, [inquiryId])
@@ -63,7 +66,7 @@ export default function InquiredItem({ inquiryId }: Props) {
     useEffect(() => {
         loadTutors()
         return () => {
-            //dispatch(tutorsActions.setTutors([]))
+            dispatch(inquiryActions.setInquiry(StudentInquiry))
         }
     }, [inquiryId])
 
@@ -144,7 +147,6 @@ type DetailedItemProps = {
 }
 const DetailedItem = ({ title, text }: DetailedItemProps) => (
     <DetailedItemContainer sx={(theme) => ({
-        
         [theme.breakpoints.down("sm")]: {
             flexBasis: '48%'
         }

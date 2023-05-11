@@ -3,6 +3,7 @@ import React from 'react'
 
 
 const Container = styled(Box)(() => ({
+    width:'100%',
     padding: 10,
 }))
 const Detailed = styled(Box)(() => ({
@@ -12,6 +13,7 @@ const Detailed = styled(Box)(() => ({
     justifyContent: 'space-between'
 }))
 const ItemFooter = styled(Box)(() => ({
+    flex: 1,
     display: 'flex',
     justifyContent: 'space-between'
 }))
@@ -27,21 +29,21 @@ export default function InquiredSkeleton({ }: Props) {
             <Skeleton sx={{ height: 78, my: -1 }} />
             <Detailed>
                 <Skeleton sx={{
-                    width: 120, height: 85,my:-1.3,
+                    flexBasis: '33%', height: 85, my: -1.3,
                     [_theme.breakpoints.down("sm")]: {
                         flexBasis: '48%',
                         my: -1
                     }
                 }} />
                 <Skeleton sx={{
-                    width: 120, height: 85,my:-1.3,
+                   flexBasis: '33%', height: 85, my: -1.3,
                     [_theme.breakpoints.down("sm")]: {
                         flexBasis: '48%',
                         my: -1
                     }
                 }} />
                 <Skeleton sx={{
-                    width: 200, height: 85,my:-1.3,
+                  flexBasis: '33%', height: 85, my: -1.3,
                     [_theme.breakpoints.down("sm")]: {
                         flexBasis: '100%',
                         my: -1.3
@@ -55,12 +57,14 @@ export default function InquiredSkeleton({ }: Props) {
             <Skeleton sx={{ width: 200, height: 25, my: -1 }} />
             <ItemFooter>
                 <Skeleton sx={{
-                    width: 240, height: 78, [_theme.breakpoints.down("sm")]: {
+                    flexBasis: '48%', height: 78,
+                    [_theme.breakpoints.down("sm")]: {
                         flexBasis: '48%',
                     }
                 }} />
                 <Skeleton sx={{
-                    width: 240, height: 78, [_theme.breakpoints.down("sm")]: {
+                    flexBasis: '48%', height: 78,
+                    [_theme.breakpoints.down("sm")]: {
                         flexBasis: '48%',
                     }
                 }} />

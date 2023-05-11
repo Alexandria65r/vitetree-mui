@@ -18,6 +18,7 @@ import { TutorInfo, TutorServiceSchema } from '../../reusable/schemas'
 import { BiTrash } from 'react-icons/bi'
 import AuthAPI from '../../api-services/auth'
 import { Role } from '../../reusable/interfaces'
+import Randomstring from 'randomstring'
 
 const Container = styled(Box)(({ theme }) => ({
     height: 'calc(100vh - 66px)',
@@ -97,7 +98,7 @@ export default function TutorForm({ }: Props) {
     const [isNext, setNext] = useState<boolean>(false)
     const role = router.query.role || []
     const selectedTutorService = useAppSelector((state) => state.AuthReducer.tutorService)
-
+    const id = Randomstring.generate(17)
     const prepareAccountSetup = React.useCallback(() => {
         dispatch(authActions.setUserProps({
             name: 'tutorInfo',
@@ -148,11 +149,12 @@ export default function TutorForm({ }: Props) {
     }
 
     async function handleSignUp() {
-        console.log(signUpData.tutorInfo)
+        const fullname = `${signUpData.firstName}${signUpData.lastName}`
+        const tutorId = `@${fullname}`
         try {
             const { data } = await AuthAPI.update(
-        signUpData._id ?? '',
-        { tutorInfo: signUpData.tutorInfo })
+                signUpData._id ?? '',
+                { tutorInfo: { ...signUpData.tutorInfo, fullname, tutorId } })
             if (data.success) {
                 dispatch(authActions.setAuhtUser(data.user))
                 router.replace(`/dashboard`)
@@ -163,7 +165,7 @@ export default function TutorForm({ }: Props) {
     }
 
     function selectTutorService(service: string) {
-        if (!signUpData.tutorInfo?.services) return 
+        if (!signUpData.tutorInfo?.services) return
         const isExist = signUpData.tutorInfo?.services.find((item) => item.value === service)
         if (isExist) {
             const services = signUpData.tutorInfo?.services.filter((item) => item.value !== isExist.value)
@@ -275,7 +277,7 @@ export default function TutorForm({ }: Props) {
                                         {service.label}
                                     </Typography>
                                     <ButtonIcon
-                                        onClick={() => selectTutorService(service.value??'')}
+                                        onClick={() => selectTutorService(service.value ?? '')}
                                         sx={{
                                             height: 30, width: 30,
                                             border: `1px solid ${colors.grey[400]}`,
@@ -287,7 +289,7 @@ export default function TutorForm({ }: Props) {
                                             }
                                         }}>
 
-                                        {isAdded(service.value??'') ? <BiTrash /> : <Add fontSize='small' />}
+                                        {isAdded(service.value ?? '') ? <BiTrash /> : <Add fontSize='small' />}
                                     </ButtonIcon>
                                 </ServiceItem>
 

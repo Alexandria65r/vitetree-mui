@@ -84,11 +84,11 @@ export default function Notifications({ }: Props) {
                     <NotificationItem
                         title=""
                         description=''
-                        createdAt='' type="Bid" isOpen={isOpen} setOpen={setOpen} />
+                        createdAt='' type="Bid" open={()=>{}} />
                     <NotificationItem
                         title=""
                         description=''
-                        createdAt='' type="Answer" isOpen={isOpen} setOpen={setOpen} />
+                        createdAt='' type="Answer" open={()=>{}} />
                 </AsideLeft>
                 <MainCol sx={(theme) => ({
                     [theme.breakpoints.down('sm')]: {

@@ -47,23 +47,23 @@ a {
 
 .light ::-webkit-scrollbar {
   background-color: #ddd;
-  width: 8px;
-  border-radius: 6px;
+  width: 6px;
+  border-radius: 0px;
 }
 .light ::-webkit-scrollbar-thumb {
-  background-color: #9e9e9e;
-  border-radius: 6px;
+  background-color: #c9c9c9;
+  border-radius: 0px;
 }
 
 .dark ::-webkit-scrollbar {
   background-color: #181b34;
-  width: 8px;
-  border-radius: 6px;
+  width: 6px;
+  border-radius: 0px;
 }
 
 .dark ::-webkit-scrollbar-thumb {
   background-color: #393e5b;
-  border-radius: 6px;
+  border-radius: 0px;
 }
 
 .forumFormTabs .Mui-selected {

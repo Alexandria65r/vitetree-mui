@@ -63,6 +63,7 @@ export const StudentInquiry: Types.StudentInquiry = {
     _id: '',
     tutorId: '',
     authorId: '',
+    fullname: '',
     service: TutorServiceSchema,
     topic: '',
     subjects: [],

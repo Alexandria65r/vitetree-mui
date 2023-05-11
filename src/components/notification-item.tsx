@@ -2,6 +2,7 @@ import React from 'react'
 import { colorScheme } from '../theme'
 import { Box, Typography, styled } from '@mui/material'
 import moment from 'moment'
+import NotificationItemSkeleton from './notification-item-sekeleton'
 
 
 
@@ -34,26 +35,27 @@ type Props = {
     type: 'Bid' | 'Answer' | 'Inquiry' | string
     description: string
     createdAt: string
-    isOpen: boolean
-    setOpen: (bool: boolean) => void
+    open: () => void
+
 }
 
-export default function NotificationItem({ type, title, description, createdAt, isOpen, setOpen }: Props) {
+export default function NotificationItem({ open, type, title, description, createdAt }: Props) {
+   
     return (
-        <Card onClick={() => setOpen(!isOpen)}>
+        <Card onClick={open}>
             <Typography sx={{ flex: 1, fontSize: 15, fontWeight: 600 }}>
                 {title}
             </Typography>
             <Typography sx={{ fontSize: 14, lineHeight: 1.2, color: 'GrayText', fontWeight: 600 }}>
                 {type}
             </Typography>
-            <Box sx={{height:30, overflow:'clip', }}>
-                <Typography sx={{ flex: 1, mt: .3, whiteSpace:'normal', overflow:'hidden', textOverflow:'ellipsis', fontSize: 13, lineHeight: 1.2, color: 'GrayText', fontWeight: 500 }}>
+            <Box sx={{ height: 30, overflow: 'clip', }}>
+                <Typography sx={{ flex: 1, mt: .3, whiteSpace: 'normal', overflow: 'hidden', textOverflow: 'ellipsis', fontSize: 13, lineHeight: 1.2, color: 'GrayText', fontWeight: 500 }}>
                     {description}
                 </Typography>
             </Box>
             <CardFooter>
-                <Typography sx={{ fontSize: 14, lineHeight: 1.2, color: 'GrayText', fontWeight: 500 }}>
+                <Typography sx={{ fontSize: 13, lineHeight: 1.2, color: 'GrayText', fontWeight: 500 }}>
                     {moment(createdAt).fromNow()}
                 </Typography>
             </CardFooter>

@@ -41,7 +41,7 @@ export default class InquiryAPI {
     }
 
     static async fetchInquiries(tutorId: string) {
-        const { data } = await axios.get(`/api/inquiry/inquiries/${tutorId}`)
+        const { data } = await axios.get(`/api/inquiry/fetch-inquiries/${tutorId}`)
         if (data.success) {
             return data.inquiries as StudentInquiry[]
         }

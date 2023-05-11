@@ -1,19 +1,23 @@
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Layout from '../components/layout'
-import { Box, Typography, styled, useMediaQuery } from '@mui/material'
+import { Box, Skeleton, Typography, styled, useMediaQuery } from '@mui/material'
 import { colorScheme } from '../theme'
-import { CSS_PROPERTIES } from '../reusable'
 import { ButtonIcon } from '../reusable/styles'
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import WestIcon from '@mui/icons-material/West';
-import { normalizedDate } from '../reusable/helpers'
 import NotificationItem from '../components/notification-item'
 import { BiSearchAlt } from 'react-icons/bi'
+import { useAppDispatch, useAppSelector } from '../../store/hooks'
+import { fetchInquiriesThunk } from '../../reducers/inquiry-reducer/inquiry-thunks'
+import { inquiryActions } from '../../reducers/inquiry-reducer'
+import { useRouter } from 'next/router'
+import InquiredItem from './tutors/inquiredItem'
+import { StudentInquiry } from '../reusable/schemas'
+import NotificationItemSkeleton from '../components/notification-item-sekeleton'
 
 
 const Container = styled(Box)(({ theme }) => ({
     width: '80%',
-    margin: '20px auto',
+    margin: '20px auto 0 auto',
     display: 'flex',
     height: 'calc(100vh - 100px)',
     borderRadius: 10,
@@ -33,6 +37,7 @@ const AsideLeft = styled(Box)(({ theme }) => ({
 }))
 const MainCol = styled(Box)(() => ({
     flex: 1,
+    //border:'1px solid '
 }))
 
 const Header = styled(Box)(({ theme }) => ({
@@ -49,10 +54,17 @@ const AsideHeader = styled(Header)(({ theme }) => ({
 const MainHeader = styled(Header)(({ theme }) => ({
 
 }))
+const ItemContainer = styled(Box)(({ theme }) => ({
+    display: 'flex',
 
-
-
-
+    flexWrap: 'wrap',
+    width: '85%',
+    height: 'calc(100% - 66px)',
+    margin: '0px auto',
+    [theme.breakpoints.down("sm")]: {
+        width: '100%',
+    }
+}))
 
 
 
@@ -60,8 +72,36 @@ const MainHeader = styled(Header)(({ theme }) => ({
 type Props = {}
 
 export default function Notifications({ }: Props) {
-    const [isOpen, setOpen] = useState<boolean>(false)
+    const dispatch = useAppDispatch()
+    const router = useRouter()
     const isMobile = useMediaQuery('(max-width:600px)')
+    const inquiry = useAppSelector((state) => state.InquiryReducer.inquiry)
+    const inquiries = useAppSelector((state) => state.InquiryReducer.inquiries)
+    const inquiryNetworkStatus = useAppSelector((state) => state.InquiryReducer.inquiryNetworkStatus)
+    const user = useAppSelector((state) => state.AuthReducer.user)
+    const params = router.query.params || []
+
+
+
+
+    const loadInquiries = useCallback(() =>
+        dispatch(fetchInquiriesThunk()),
+        [dispatch, user, router.pathname])
+
+    useEffect(() => {
+        loadInquiries()
+        return () => {
+            dispatch(inquiryActions.setInquiries([]))
+        }
+    }, [dispatch, user, router.pathname])
+
+
+    function openInquiry(inquiryId: string) {
+        router.replace(`/yard/inquiries/detail/${inquiryId}`)
+        //dispatch(inquiryActions.setInquiry(inquiry))
+    }
+
+
     return (
         <Layout>
             <Container sx={(theme) => ({
@@ -72,49 +112,77 @@ export default function Notifications({ }: Props) {
                 <AsideLeft sx={(theme) => ({
                     [theme.breakpoints.down('sm')]: {
                         width: '100%',
-                        display: isOpen ? 'none' : 'block'
+                        display: params[2] === 'detail' ? 'none' : 'block'
                     }
                 })}>
                     <AsideHeader sx={{}}>
-                        <Typography sx={{ flex: 1, fontSize: 18, fontWeight: 600 }}>
+                        <Typography sx={{ flex: 1,ml:.6, fontSize: 18, fontWeight: 600 }}>
                             Service Inquiries
                         </Typography>
                         <ButtonIcon sx={{ bgcolor: 'transparent' }}>
                             <BiSearchAlt size={23} />
                         </ButtonIcon>
                     </AsideHeader>
+                    <Box sx={(theme) => ({
+                        height: 'calc(100vh - 168px)',
+                        overflowY: 'auto',
+                        [theme.breakpoints.down('sm')]: {
+                            height: 'calc(100vh - 142px)',
+                        }
+                    })}>
+                        {inquiries.length && inquiryNetworkStatus !== 'fetch-inquiries' ? (<>
+                            {inquiries.map((inquiry, index) => (
+                                <NotificationItem
+                                    key={index}
+                                    title={inquiry.service.label}
+                                    createdAt={inquiry?.createdAt ?? ''}
+                                    description={inquiry.description}
+                                    type={`John Doe - student`}
+                                    open={() => openInquiry(inquiry._id)}
+                                />
+                            ))}
 
-                    <NotificationItem
-                        title='Assignment Solving'
-                        createdAt='2023-05-11T15:03:49.234Z'
-                        description={`Help me finish my physics assignment,
-                         I have a physics assignment that needs to be submitted
-                          on the 10th May I want a tutor who can assist me on that
-                           assignment cause I have other assignments to work on.`}
-                        type="John Doe - student"
-                        isOpen={isOpen}
-                        setOpen={setOpen}
-                    />
+                        </>) : !inquiries.length && inquiryNetworkStatus === 'fetch-inquiries' ?
+                            <NotificationItemSkeleton /> : <></>}
+                    </Box>
 
                 </AsideLeft>
                 <MainCol sx={(theme) => ({
                     [theme.breakpoints.down('sm')]: {
                         width: '100%',
-                        display: !isOpen ? 'none' : 'block'
+                        display: !params[2] ? 'none' : 'block'
                     }
                 })}>
                     <MainHeader>
-                        <ButtonIcon sx={{
-                            display: isMobile && isOpen ? 'flex' : 'none',
-                            bgcolor: 'transparent'
-                        }}
-                            onClick={() => setOpen(!isOpen)}
+                        <ButtonIcon
+                            onClick={() => {router.push('/yard/inquiries')}}
+                            sx={{
+                                display: isMobile && params[2] === 'detail' ? 'flex' : 'none',
+                                bgcolor: 'transparent'
+                            }}
                         >
                             <WestIcon />
                         </ButtonIcon>
+                        <Typography sx={{ flex: 1, ml: .5, fontSize: 18, fontWeight: 600 }}>
+                            {params[2] === 'detail' ? `Service - ${inquiry.service.label}` : <Skeleton sx={{ width: 260 }} />}
+                        </Typography>
                     </MainHeader>
+                    <ItemContainer>
+                        <Box sx={{ flexBasis: '100%', mt: 2 }}>
+                            <Typography sx={(theme) => ({
+                                flex: 1,
+                                ml: 1,
+                                color: theme.palette.mode === 'light' ? 'GrayText' : colorScheme(theme).TextColor,
+                                fontSize: 18,
+                                fontWeight: 600
+                            })}>
+                                {params[2] === 'detail' ? `John Doe - Student` : <Skeleton sx={{ width: 260 }} />}
+                            </Typography>
+                        </Box>
+                        <InquiredItem inquiryId={params[3]} />
+                    </ItemContainer>
                 </MainCol>
             </Container>
-        </Layout>
+        </Layout >
     )
 }

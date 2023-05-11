@@ -264,6 +264,7 @@ export type Bid = {
 export type StudentInquiry = {
     _id: string,
     authorId: string,
+    fullname: string,
     tutorId: string
     service: TutorService
     subjects: string[]
