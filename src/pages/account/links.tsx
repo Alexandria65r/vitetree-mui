@@ -27,14 +27,14 @@ export default function AccountLinks({ }: Props) {
                 <Header />
                 <InfoItem
                     StartIcon={MdOutlineAddAPhoto}
-                    title=' Profile Photo'
-                    description=' Manage your profile photo'
+                    title='Profile Photo'
+                    description='Manage your profile photo'
                     routeParam='profile-photo'
                 />
                 <InfoItem
                     StartIcon={RiContactsLine}
                     title='Primary Information'
-                    description='  Manage your contact Information and password'
+                    description='Manage your contact Information and password'
                     routeParam='primary-info'
                 />
                 <InfoItem
