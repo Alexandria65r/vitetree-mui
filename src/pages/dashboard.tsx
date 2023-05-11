@@ -14,6 +14,10 @@ import Link from 'next/link'
 import { SlGraduation } from 'react-icons/sl'
 import { BiDetail, BiSearchAlt } from 'react-icons/bi'
 import { FaQuestionCircle } from 'react-icons/fa'
+import { Role } from '../reusable/interfaces'
+import AddTaskOutlinedIcon from '@mui/icons-material/AddTaskOutlined';
+import { MdDesignServices, MdMedicalServices, MdMonetizationOn, MdOutlineAddTask, MdOutlineDesignServices } from 'react-icons/md'
+
 const FlexContainer = styled(Box)(({ theme }) => ({
     display: 'flex'
 }))
@@ -156,10 +160,7 @@ export default function Darshboard({ }: Props) {
                             </Link>
                         ))}
                     </MappedCards>
-
-                    {/* <ButtonIcon onClick={() => router.push('/create-new-test')}>
-                        <AddIcon fontSize="medium" />
-                    </ButtonIcon> */}
+ 
                 </Container>
             </FlexContainer>
         </Layout>
@@ -168,14 +169,14 @@ export default function Darshboard({ }: Props) {
 
 
 
-const dashCardList = (userRole: 'Tutor' | 'Student' | string) => {
+const dashCardList = (userRole: Role) => {
 
-    if (userRole === 'Tutor') {
+    if (userRole === 'tutor') {
         return [
             {
                 title: 'Assessments', route: '/yard/tests',
                 accent: colors.teal[400],
-                icon: <SlGraduation size={40} color={colors.teal[400]} />
+                icon: <MdOutlineDesignServices size={40} color={colors.teal[400]} />
             },
             {
                 title: 'Courses', route: '/yard/courses',
@@ -183,14 +184,24 @@ const dashCardList = (userRole: 'Tutor' | 'Student' | string) => {
                 icon: <SlGraduation size={40} color={colors.deepOrange[400]} />
             },
             {
-                title: 'Inquiries', route: '/yard/inquiries',
+                title: 'Service Inquiries', route: '/yard/inquiries',
                 accent: colors.cyan[400],
-                icon: <BiDetail size={40} color={colors.cyan[400]} />
+                icon: <MdMedicalServices size={40} color={colors.cyan[400]} />
             },
             {
                 title: 'Stuck Overflow', route: `/forum/all`,
                 accent: colors.cyan[400],
                 icon: <FaQuestionCircle size={40} color={colors.cyan[400]} />
+            },
+            {
+                title: 'Tasks', route: `/forum/all`,
+                accent: colors.cyan[400],
+                icon: <MdOutlineAddTask size={40} color={colors.cyan[400]} />
+            },
+            {
+                title: 'Earnings', route: `/forum/all`,
+                accent: colors.cyan[400],
+                icon: <MdMonetizationOn size={40} color={colors.cyan[400]} />
             },
         ]
     } else {
@@ -198,7 +209,7 @@ const dashCardList = (userRole: 'Tutor' | 'Student' | string) => {
             {
                 title: 'Assessments', route: '/yard/tests',
                 accent: colors.teal[400],
-                icon: <SlGraduation size={40} color={colors.teal[400]} />
+                icon: <MdOutlineDesignServices size={40} color={colors.teal[400]} />
             },
             {
                 title: 'Hire Tutor', route: '/tutors/all',

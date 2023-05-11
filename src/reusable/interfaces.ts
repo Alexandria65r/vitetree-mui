@@ -46,7 +46,7 @@ export type StudentInfo = {
     endYear: string
     description: string
 }
-
+export type Role = 'tutor' | 'student' | ''
 export type User = {
     _id?: string,
     firstName: string
@@ -55,7 +55,7 @@ export type User = {
     password: string
     imageAsset?: Asset,
     courses?: string[],
-    role: 'tutor' | 'student' | string,
+    role: Role,
     tutorInfo?: TutorInfo
     studentInfo?: StudentInfo
     inquiredList?: Inquired[]

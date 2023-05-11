@@ -104,6 +104,7 @@ export default function TutorItem({ tutor, mode }: Props) {
         if (inquired?.tutorId === tutor._id) {
             router.push(`/tutors/${sort}/inquiry/${inquired?.inquiryId}`)
         } else {
+            router.back()
             dispatch(inquiryActions.setInquiry({
                 ...inquiry,
                 _id: inquiryId,

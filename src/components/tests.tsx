@@ -46,7 +46,7 @@ const MappedCards = styled(Box)(({ theme }) => ({
     [theme.breakpoints.down("sm")]: {
         gap: 5,
         width: '96%',
-        gridTemplateColumns: '1fr',
+         gridTemplateColumns: 'repeat(2,1fr)',
     }
 }))
 const Card = styled(Box)(({ theme }) => ({
@@ -153,7 +153,7 @@ export default function Tests({ }: Props) {
                                     <Box sx={(theme) => ({
                                         width: 180,
                                         [theme.breakpoints.down('sm')]: {
-                                            width: 230,
+                                            width: 160,
                                         },
                                         // [theme.breakpoints.down('xs')]: {
                                         //     width: 230,
@@ -161,9 +161,10 @@ export default function Tests({ }: Props) {
                                     })}>
                                         <Typography sx={{
                                             fontWeight: 600,
-                                            whiteSpace: 'nowrap',
+                                           // whiteSpace: 'nowrap',
                                             textOverflow: 'ellipsis',
-                                            overflow: 'hidden'
+                                            overflow: 'hidden',
+                                            lineHeight:1.2,
                                         }}>{testData.subjectOrlanguage}</Typography>
                                     </Box>
                                     <Typography>{testData.cartegory}</Typography>

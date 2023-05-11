@@ -3,7 +3,7 @@ import { Box, ButtonBase, CircularProgress, Link, TextField, Typography, colors,
 import { CSS_PROPERTIES, SCHOOYARD_AUTH_TOKEN } from '../reusable'
 import { ContinueWith, ContinueWithOverlayText, FormContainer, FormHeader, FormLogo, RedirectingCard } from '../reusable/styles'
 import AuthAPI from '../api-services/auth'
-import { User } from '../reusable/interfaces'
+import { Role, User } from '../reusable/interfaces'
 import { UserSchema } from '../reusable/schemas'
 import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
@@ -85,7 +85,7 @@ export default function Signup({ }: Props) {
     const role = localStorage.getItem('getting-started-role')
     if (role !== null) {
       console.log(role)
-      return role
+      return role as Role
     }
   }
 

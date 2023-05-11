@@ -17,6 +17,7 @@ import AddService from './add-service'
 import { TutorInfo, TutorServiceSchema } from '../../reusable/schemas'
 import { BiTrash } from 'react-icons/bi'
 import AuthAPI from '../../api-services/auth'
+import { Role } from '../../reusable/interfaces'
 
 const Container = styled(Box)(({ theme }) => ({
     height: 'calc(100vh - 66px)',
@@ -120,7 +121,7 @@ export default function TutorForm({ }: Props) {
         const role = localStorage.getItem('getting-started-role')
         if (role !== null) {
             console.log(role)
-            return role
+            return role as Role
         }
     }
 
