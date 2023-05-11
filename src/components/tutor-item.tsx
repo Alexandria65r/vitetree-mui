@@ -92,7 +92,7 @@ export default function TutorItem({ tutor, mode }: Props) {
     const inquiryId = Randomstring.generate(17)
     const inquiredList = user.inquiredList
 
-    const [sort, ...rest]: any = router.query.params || []
+    const [sort, _inquiry]: any = router.query.params || []
 
     const inquired = (function () {
         const inquired = inquiredList?.find((item) => item.tutorId === tutor._id && item.status === 'active')
@@ -104,7 +104,9 @@ export default function TutorItem({ tutor, mode }: Props) {
         if (inquired?.tutorId === tutor._id) {
             router.push(`/tutors/${sort}/inquiry/${inquired?.inquiryId}`)
         } else {
-            router.back()
+            if (_inquiry === 'inquiry') {
+                router.back()
+            }
             dispatch(inquiryActions.setInquiry({
                 ...inquiry,
                 _id: inquiryId,

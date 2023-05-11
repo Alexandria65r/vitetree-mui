@@ -194,12 +194,12 @@ const dashCardList = (userRole: Role) => {
                 icon: <FaQuestionCircle size={40} color={colors.cyan[400]} />
             },
             {
-                title: 'Tasks', route: `/forum/all`,
+                title: 'Tasks', route: `/yard/tasks`,
                 accent: colors.cyan[400],
                 icon: <MdOutlineAddTask size={40} color={colors.cyan[400]} />
             },
             {
-                title: 'Earnings', route: `/forum/all`,
+                title: 'Earnings', route: `/yard/earnings`,
                 accent: colors.cyan[400],
                 icon: <MdMonetizationOn size={40} color={colors.cyan[400]} />
             },

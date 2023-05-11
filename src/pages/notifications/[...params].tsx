@@ -81,8 +81,8 @@ export default function Notifications({ }: Props) {
                         </ButtonIcon>
                     </AsideHeader>
 
-                    <NotificationItem type="Bid" isOpen={isOpen} setOpen={setOpen} />
-                    <NotificationItem type="Answer" isOpen={isOpen} setOpen={setOpen} />
+                    <NotificationItem title='Physics Assignment' description='' createdAt='' type="Bid" isOpen={isOpen} setOpen={setOpen} />
+                    <NotificationItem title='Chemistry rate of a chemical reaction' description='' createdAt='' type="Answer" isOpen={isOpen} setOpen={setOpen} />
                 </AsideLeft>
                 <MainCol sx={(theme) => ({
                     [theme.breakpoints.down('sm')]: {

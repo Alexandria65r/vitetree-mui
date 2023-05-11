@@ -5,6 +5,7 @@ import { ButtonIcon } from '../../reusable/styles'
 import { colorScheme } from '../../theme'
 import ChevronRightOutlinedIcon from '@mui/icons-material/ChevronRightOutlined';
 import { useRouter } from 'next/router'
+import Link from 'next/link'
 
 const Container = styled(Box)(({ theme }) => ({
     height: 100,
@@ -44,25 +45,26 @@ type Props = {
 export default function InfoItem({ title, description, StartIcon, routeParam }: Props) {
     const router = useRouter()
     return (
-        <Container>
-            <LeftIconColumn>
-                <StartIcon size={20} />
-            </LeftIconColumn>
-            <InfoMainColumn>
-                <Typography sx={{ textTransform: 'capitalize', fontSize: 18, fontWeight: 500 }}>
-                    {title}
-                </Typography>
-                <Typography sx={{ fontSize: 14, fontWeight: 500 }}>
-                    {description}
-                </Typography>
-            </InfoMainColumn>
-            <InfoRightColumn>
-                <ButtonIcon
-                    onClick={() => router.push(`/account/${routeParam}`)}
-                    sx={{ backgroundColor: 'transparent' }}>
-                    <ChevronRightOutlinedIcon fontSize='medium' />
-                </ButtonIcon>
-            </InfoRightColumn>
-        </Container>
+        <Link href={`/account/${routeParam}`}>
+            <Container>
+                <LeftIconColumn>
+                    <StartIcon size={20} />
+                </LeftIconColumn>
+                <InfoMainColumn>
+                    <Typography sx={{ textTransform: 'capitalize', fontSize: 18, fontWeight: 500 }}>
+                        {title}
+                    </Typography>
+                    <Typography sx={{ fontSize: 14, fontWeight: 500 }}>
+                        {description}
+                    </Typography>
+                </InfoMainColumn>
+                <InfoRightColumn>
+                    <ButtonIcon
+                        sx={{ backgroundColor: 'transparent' }}>
+                        <ChevronRightOutlinedIcon fontSize='medium' />
+                    </ButtonIcon>
+                </InfoRightColumn>
+            </Container>
+        </Link>
     )
 }
