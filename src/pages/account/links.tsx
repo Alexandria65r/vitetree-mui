@@ -41,7 +41,7 @@ export default function AccountLinks({ }: Props) {
                     StartIcon={FaGraduationCap}
                     title={`${user.role} Information`}
                     description='Manage your tutor information and availability status'
-                    routeParam='primary-info'
+                    routeParam='role-info'
                 />
                 <InfoItem
                     StartIcon={MdPayment}

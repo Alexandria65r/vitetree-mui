@@ -33,10 +33,10 @@ type Props = {
     height?: number
 }
 
-export default function Header({ height}: Props) {
+export default function Header({ height }: Props) {
     const user = useAppSelector((state) => state.AuthReducer.user)
     return (
-        <TopHeader sx={{ height }}>
+        <TopHeader sx={{ height: height ? height : 180 }}>
             <Avatar></Avatar>
             <UsernameColumn>
                 <Typography sx={{ fontSize: 18, fontWeight: 500 }}>

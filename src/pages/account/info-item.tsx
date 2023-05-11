@@ -4,7 +4,6 @@ import { CSS_PROPERTIES } from '../../reusable'
 import { ButtonIcon } from '../../reusable/styles'
 import { colorScheme } from '../../theme'
 import ChevronRightOutlinedIcon from '@mui/icons-material/ChevronRightOutlined';
-import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
 import { useRouter } from 'next/router'
 
 const Container = styled(Box)(({ theme }) => ({
@@ -27,7 +26,7 @@ const InfoMainColumn = styled(Box)(({ theme }) => ({
     padding: 18,
 }))
 const InfoRightColumn = styled(Box)(({ theme }) => ({
-    flexBasis:45,
+    flexBasis: 45,
     display: 'flex',
     alignItems: 'center'
 }))
@@ -39,18 +38,18 @@ type Props = {
     title: string
     description: string,
     routeParam: string
-    StartIcon:any
+    StartIcon: any
 }
 
-export default function InfoItem({ title, description,StartIcon, routeParam }: Props) {
-    const router =useRouter()
+export default function InfoItem({ title, description, StartIcon, routeParam }: Props) {
+    const router = useRouter()
     return (
         <Container>
             <LeftIconColumn>
                 <StartIcon size={20} />
             </LeftIconColumn>
             <InfoMainColumn>
-                <Typography sx={{textTransform:'capitalize', fontSize: 18, fontWeight: 500 }}>
+                <Typography sx={{ textTransform: 'capitalize', fontSize: 18, fontWeight: 500 }}>
                     {title}
                 </Typography>
                 <Typography sx={{ fontSize: 14, fontWeight: 500 }}>
@@ -59,8 +58,8 @@ export default function InfoItem({ title, description,StartIcon, routeParam }: P
             </InfoMainColumn>
             <InfoRightColumn>
                 <ButtonIcon
-                onClick={()=> router.push(`/account/${routeParam}`)}
-                 sx={{ backgroundColor: 'transparent' }}>
+                    onClick={() => router.push(`/account/${routeParam}`)}
+                    sx={{ backgroundColor: 'transparent' }}>
                     <ChevronRightOutlinedIcon fontSize='medium' />
                 </ButtonIcon>
             </InfoRightColumn>
