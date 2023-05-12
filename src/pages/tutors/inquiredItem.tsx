@@ -10,6 +10,7 @@ import { inquiryActions } from '../../../reducers/inquiry-reducer'
 import { StudentInquiry, UserSchema } from '../../reusable/schemas'
 import { tutorsActions } from '../../../reducers/tutors-reducer'
 import InquiredSkeleton from './inquired-skeleton'
+import { ReactJSXElement } from '@emotion/react/types/jsx-namespace'
 
 
 
@@ -31,7 +32,7 @@ const Detailed = styled(Box)(() => ({
     justifyContent: 'space-between'
 }))
 const DetailedItemContainer = styled(Box)(({ theme }) => ({
-    flexBasis:'33%',
+    flexBasis: '33%',
     padding: '5px 15px',
     borderRadius: CSS_PROPERTIES.radius5,
     backgroundColor: theme.palette.mode === 'light' ? colors.grey[300] : colorScheme(theme).primaryColor
@@ -42,16 +43,17 @@ const Description = styled(Box)(() => ({
 const ItemFooter = styled(Box)(() => ({
     display: 'flex',
     justifyContent: 'space-between',
-    marginTop:10,
+    marginTop: 10,
 }))
 
 
 
 type Props = {
-    inquiryId:string
+    inquiryId: string
+    Footer: any
 }
 
-export default function InquiredItem({ inquiryId }: Props) {
+export default function InquiredItem({ inquiryId, Footer }: Props) {
     const dispatch = useAppDispatch()
     const tutor = useAppSelector((state) => state.TutorsReducer.tutor)
     const inquiry = useAppSelector((state) => state.InquiryReducer.inquiry)
@@ -71,10 +73,7 @@ export default function InquiredItem({ inquiryId }: Props) {
     }, [inquiryId])
 
 
-    function handleClose() {
-        dispatch(inquiryActions.setInquiry(StudentInquiry))
-        dispatch(tutorsActions.setTutor(UserSchema))
-    }
+
 
 
     return (
@@ -105,12 +104,12 @@ export default function InquiredItem({ inquiryId }: Props) {
                             <Typography sx={(theme) => ({ fontSize: 14, color: colorScheme(theme).TextColor })}>
                                 Subjects
                             </Typography>
-                            <Typography sx={{ fontSize: 13,lineHeight:1.2, color: colors.teal[400] }}>
+                            <Typography sx={{ fontSize: 13, lineHeight: 1.2, color: colors.teal[400] }}>
                                 {tutor.tutorInfo?.subjects.map((subject, index) => (
                                     <>
                                         {subject}
                                         {nomalizedText(tutor.tutorInfo?.subjects ?? [], index)}
-                                    </> 
+                                    </>
                                 ))}
                             </Typography>
                         </DetailedItemContainer>
@@ -127,14 +126,7 @@ export default function InquiredItem({ inquiryId }: Props) {
                         }}>
                         {inquiry.description}
                     </Typography>
-                    <ItemFooter>
-                        <StyledButtonOutlined
-                            onClick={handleClose}
-                            sx={{ flexBasis: '48%', }}>
-                            Close
-                        </StyledButtonOutlined>
-                        <StyledButton sx={{ flexBasis: '48%' }}>Update</StyledButton>
-                    </ItemFooter>
+                    <Footer />
                 </Container>
             ) : <InquiredSkeleton />}
         </>

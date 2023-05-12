@@ -1,5 +1,5 @@
 
-import { colors, Theme } from "@mui/material";
+import { colors, Theme, useTheme } from "@mui/material";
 import { createContext } from "react";
 
 export const ColorModeContext = createContext({ toggleColorMode: () => { } })
@@ -16,17 +16,17 @@ export const colorScheme = (theme: Theme) => ({
     // CHAT COLORSCHEME
     chatBGColor: isDarkMode(theme) ? colors.grey[900] : '#FFFFFF',
     chatBodyBGColor: isDarkMode(theme) ? '#1b1d31' : '#f4fcff',
-    threadChildColor: isDarkMode(theme) ? '#292d48': colors.grey[100],
-    chatPrimaryColor: isDarkMode(theme) ?'#292d48' : '#FFFFFF',
-    chatSecondaryColor: isDarkMode(theme) ?'#33385d' : '#FFFFFF',
+    threadChildColor: isDarkMode(theme) ? '#292d48' : colors.grey[100],
+    chatPrimaryColor: isDarkMode(theme) ? '#292d48' : '#FFFFFF',
+    chatSecondaryColor: isDarkMode(theme) ? '#33385d' : '#FFFFFF',
     chatAvatarColor: isDarkMode(theme) ? '#FFFFFF' : '#33385d',
-    chatBoarderColor: isDarkMode(theme) ?'#181b34' : '#ccc',
+    chatBoarderColor: isDarkMode(theme) ? '#181b34' : '#ccc',
 
     // SIDEBAR
-    sideBarColor: isDarkMode(theme) ? '#181b34': '#FFFFFF',
+    sideBarColor: isDarkMode(theme) ? '#181b34' : '#FFFFFF',
 
     //BORDERS
-    borderColor: isDarkMode(theme) ? '#292d48': colors.grey[300],
+    borderColor: isDarkMode(theme) ? '#292d48' : colors.grey[300],
 
     //MENU ITEM
     menuItemHoverColor: isDarkMode(theme) ? '#33385d' : colors.grey[200],
@@ -39,6 +39,11 @@ export const colorScheme = (theme: Theme) => ({
     CardBg: isDarkMode(theme) ? colors.grey[800] : colors.grey[200],
     TextColor: isDarkMode(theme) ? colors.grey[200] : colors.grey[800],
 })
+
+export function useColorScheme() {
+    const _theme = useTheme()
+    return colorScheme(_theme)
+}
 
 
 

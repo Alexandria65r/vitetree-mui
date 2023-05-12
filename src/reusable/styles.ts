@@ -35,7 +35,7 @@ export const ButtonIcon = styled(ButtonBase)(({ theme }) => ({
     margin: '0 5px',
     borderRadius: '50%',
     color: colorScheme(theme).TextColor,
-    transition:'0.3s all',
+    transition: '0.3s all',
     backgroundColor: colorScheme(theme).buttonIconBGColor,
     '&:hover': {
         backgroundColor: colorScheme(theme).buttonIconBGColor
@@ -167,6 +167,7 @@ export const StyledButton = styled(ButtonBase)(({ theme }) => ({
 }))
 export const StyledButtonOutlined = styled(StyledButton)(({ theme }) => ({
     fontSize: 15,
+    padding: '0 10px',
     color: colors.teal[400],
     border: '1px solid',
     borderColor: colors.teal[400],
@@ -176,6 +177,18 @@ export const StyledButtonOutlined = styled(StyledButton)(({ theme }) => ({
         color: '#fff',
         backgroundColor: colors.teal[400]
     }
+}))
+
+export const TabButton = styled(StyledButton)(({ theme }) => ({
+    fontWeight: 500,
+    padding: '0 10px',
+    margin: '0 5px',
+    fontSize: 13,
+    whiteSpace: 'nowrap',
+    borderRadius: 29,
+    color: colorScheme(theme).TextColor,
+    backgroundColor: theme.palette.mode === 'light' ? '#fff' : colorScheme(theme).secondaryColor,
+    boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
 }))
 
 

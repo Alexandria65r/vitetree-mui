@@ -13,6 +13,7 @@ import { useRouter } from 'next/router'
 import InquiredItem from './tutors/inquiredItem'
 import NotificationItemSkeleton from '../components/notification-item-sekeleton'
 import { Close, KeyboardBackspace } from '@mui/icons-material'
+import ResponseFooter from '../components/service-inquiry/response-footer'
 
 
 const Container = styled(Box)(({ theme }) => ({
@@ -27,7 +28,7 @@ const Container = styled(Box)(({ theme }) => ({
         width: '100%',
         margin: 0,
         borderRadius: 0,
-        height: 'calc(100vh - 60px)',
+        height: 'auto',
     }
 }))
 const AsideLeft = styled(Box)(({ theme }) => ({
@@ -37,6 +38,7 @@ const AsideLeft = styled(Box)(({ theme }) => ({
 }))
 const MainCol = styled(Box)(() => ({
     flex: 1,
+
     //border:'1px solid '
 }))
 
@@ -57,9 +59,10 @@ const MainHeader = styled(Header)(({ theme }) => ({
 const ItemContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
     flexWrap: 'wrap',
-    width: '85%',
+    //width: '85%',
     height: 'calc(100% - 66px)',
-    margin: '0px auto',
+    overflowY: 'auto',
+    padding: 10,
     [theme.breakpoints.down("sm")]: {
         width: '100%',
     }
@@ -132,7 +135,7 @@ export default function Notifications({ }: Props) {
                                 width: 40, height: 40,
                                 order: isSearchToggled ? 1 : 2,
                                 bgcolor: 'transparent',
-                                '&:hover':{
+                                '&:hover': {
                                     color: colors.teal[400],
                                 }
                             }}>
@@ -183,6 +186,7 @@ export default function Notifications({ }: Props) {
                             {params[2] === 'detail' ? `Service - ${inquiry.service.label}` : <Skeleton sx={{ width: 260 }} />}
                         </Typography>
                     </MainHeader>
+
                     <ItemContainer>
                         <Box sx={{ flexBasis: '100%', mt: 2 }}>
                             <Typography sx={(theme) => ({
@@ -195,8 +199,13 @@ export default function Notifications({ }: Props) {
                                 {params[2] === 'detail' ? `John Doe - Student` : <Skeleton sx={{ width: 260 }} />}
                             </Typography>
                         </Box>
-                        <InquiredItem inquiryId={params[3]} />
+                        <InquiredItem
+                            Footer={ResponseFooter}
+                            inquiryId={params[3]}
+                        />
                     </ItemContainer>
+
+
                 </MainCol>
             </Container>
         </Layout >

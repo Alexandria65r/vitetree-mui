@@ -7,7 +7,7 @@ import { CSS_PROPERTIES } from '../../reusable'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import TutorItem from '../../components/tutor-item'
 import KeyboardBackspaceOutlinedIcon from '@mui/icons-material/KeyboardBackspaceOutlined';
-import { Avatar, ButtonIcon, SearchInput, SearchInputWrap, StyledButton } from '../../reusable/styles'
+import { Avatar, ButtonIcon, SearchInput, SearchInputWrap, StyledButton, TabButton } from '../../reusable/styles'
 import InquiryForm from '../../components/inquiry-form/forum-post-form'
 import SearchIcon from '@mui/icons-material/Search';
 import { fetchTutorsThunk } from '../../../reducers/tutors-reducer/tutors-thunks'
@@ -20,6 +20,7 @@ import CoPresentIcon from '@mui/icons-material/CoPresent';
 import InquiredItem from './inquiredItem'
 import SelectTutor from './select-tutor'
 import PersonSearchOutlinedIcon from '@mui/icons-material/PersonSearchOutlined';
+import InquiredFooter from '../../components/service-inquiry/inquired-footer'
 
 const Container = styled(Box)(({ theme }) => ({
     maxWidth: '90%',
@@ -118,17 +119,7 @@ const TabHeader = styled(Box)(({ theme }) => ({
     }
 }))
 
-const TabButton = styled(StyledButton)(({ theme }) => ({
-    fontWeight:500,
-    padding: '0 10px',
-    margin: '0 5px',
-    fontSize: 13,
-    whiteSpace: 'nowrap',
-    borderRadius: 29,
-    color: colorScheme(theme).TextColor,
-    backgroundColor: theme.palette.mode === 'light' ? '#fff' : colorScheme(theme).secondaryColor,
-    boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
-}))
+
 
 
 
@@ -289,7 +280,7 @@ export default function Tutors({ }: Props) {
                     ) : (
                         <>
                             {inquiry === 'inquiry' ? (
-                                <InquiredItem inquiryId={inquiryId} />
+                                <InquiredItem Footer={InquiredFooter} inquiryId={inquiryId} />
                                 ) : tutor._id !== inquired?.tutorId ? (
                                 <FormContainer>
                                     <InquiryForm
