@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import Layout from '../components/layout'
-import { Box, Typography, colors, styled } from '@mui/material'
+import { Box, Typography, colors, styled, useTheme } from '@mui/material'
 import { colorScheme } from '../theme'
 import { CSS_PROPERTIES } from '../reusable'
 import SearchIcon from '@mui/icons-material/Search';
@@ -86,6 +86,8 @@ export default function Darshboard({ }: Props) {
     const user = useAppSelector((state) => state.AuthReducer.user)
     const testsList = useAppSelector((state) => state.TestReducer.testList)
     const params: any = router.query.params || []
+    const _theme = useTheme()
+    const lightMode = _theme.palette.mode === 'light'
 
     const fetchDashboardData = useCallback(async () => {
         setFetching(true)
@@ -122,7 +124,7 @@ export default function Darshboard({ }: Props) {
                         <CreateButtonOptions />
                     </SearchContainer>
                     <MappedCards>
-                        {dashCardList(user.role).map((card, index) => (
+                        {dashCardList(user.role, lightMode).map((card, index) => (
                             <Link key={index} href={card.route}>
                                 <DashCard sx={(theme) => ({
                                     borderColor: card.accent,
@@ -170,7 +172,7 @@ export default function Darshboard({ }: Props) {
 
 
 
-const dashCardList = (userRole: Role) => {
+const dashCardList = (userRole: Role, lightMode: boolean) => {
 
     if (userRole === 'tutor') {
         return [
@@ -178,37 +180,37 @@ const dashCardList = (userRole: Role) => {
                 title: 'Assessments', route: '/yard/assessments',
                 accent: colors.teal[400],
                 // icon: <MdOutlineDesignServices size={40} color={colors.teal[400]} />
-                icon: <img src='/quiz.png' height={30} alt='' />
+                icon: <img src={lightMode ? '/quiz.png' : '/quiz-white.png'} height={30} alt='' />
             },
             {
                 title: 'Courses', route: '/yard/courses',
                 accent: colors.deepOrange[400],
                 // icon: <SlGraduation size={40} color={colors.deepOrange[400]} />
-                icon: <img src='/video-ios.png' height={30} alt='' />
+                icon: <img src={lightMode ? '/video-ios.png' : `/video-white.png`} height={30} alt='' />
             },
             {
                 title: 'Service Inquiries', route: '/yard/inquiries',
                 accent: colors.lime[400],
                 // icon: <MdMedicalServices size={40} color={colors.lime[400]} />
-                icon: <img src='/request-service.png' height={30} alt='' />
+                icon: <img src={lightMode ? '/request-service.png' : '/service-white.png'} height={30} alt='' />
             },
             {
                 title: 'Stuck Overflow', route: `/forum/all`,
                 accent: colors.cyan[400],
-               // icon: <FaQuestionCircle size={40} color={colors.cyan[400]} />
-                icon: <img src='/puzzled.png' height={30} alt='' />
+                // icon: <FaQuestionCircle size={40} color={colors.cyan[400]} />
+                icon: <img src={lightMode ? '/puzzled.png' : '/puzzled-white.png'} height={30} alt='' />
             },
             {
                 title: 'Tasks', route: `/yard/tasks`,
                 accent: colors.cyan[400],
                 // icon: <MdOutlineAddTask size={40} color={colors.cyan[400]} />
-                icon: <img src='/reminders.png' height={30} alt='' />
+                icon: <img src={lightMode ? '/reminders.png' : '/todo-white.png'} height={30} alt='' />
             },
             {
                 title: 'Earnings', route: `/yard/earnings`,
                 accent: colors.cyan[400],
                 // icon: <MdMonetizationOn size={40} color={colors.cyan[400]} />
-                icon: <img src='/earning.png' height={32} alt='' />
+                icon: <img src={lightMode ? '/earning.png' : '/earning-white.png'} height={32} alt='' />
             },
         ]
     } else {
