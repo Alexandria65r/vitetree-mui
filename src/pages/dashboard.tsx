@@ -178,34 +178,37 @@ const dashCardList = (userRole: Role) => {
                 title: 'Assessments', route: '/yard/assessments',
                 accent: colors.teal[400],
                 // icon: <MdOutlineDesignServices size={40} color={colors.teal[400]} />
-                icon: <img src='/assessments.png' alt='' />
+                icon: <img src='/quiz.png' alt='' />
             },
             {
                 title: 'Courses', route: '/yard/courses',
                 accent: colors.deepOrange[400],
                 // icon: <SlGraduation size={40} color={colors.deepOrange[400]} />
-                icon: <img src='/videos.png' alt='' />
+                icon: <img src='/video-ios.png' alt='' />
             },
             {
                 title: 'Service Inquiries', route: '/yard/inquiries',
                 accent: colors.lime[400],
                 // icon: <MdMedicalServices size={40} color={colors.lime[400]} />
-                icon: <img src='/service.png' alt='' />
+                icon: <img src='/request-service.png' alt='' />
             },
             {
                 title: 'Stuck Overflow', route: `/forum/all`,
                 accent: colors.cyan[400],
-                icon: <FaQuestionCircle size={40} color={colors.cyan[400]} />
+               // icon: <FaQuestionCircle size={40} color={colors.cyan[400]} />
+                icon: <img src='/puzzled.png' alt='' />
             },
             {
                 title: 'Tasks', route: `/yard/tasks`,
                 accent: colors.cyan[400],
-                icon: <MdOutlineAddTask size={40} color={colors.cyan[400]} />
+                // icon: <MdOutlineAddTask size={40} color={colors.cyan[400]} />
+                icon: <img src='/reminders.png' alt='' />
             },
             {
                 title: 'Earnings', route: `/yard/earnings`,
                 accent: colors.cyan[400],
-                icon: <MdMonetizationOn size={40} color={colors.cyan[400]} />
+                // icon: <MdMonetizationOn size={40} color={colors.cyan[400]} />
+                icon: <img src='/earning.png' alt='' />
             },
         ]
     } else {
