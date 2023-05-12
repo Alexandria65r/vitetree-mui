@@ -178,37 +178,37 @@ const dashCardList = (userRole: Role) => {
                 title: 'Assessments', route: '/yard/assessments',
                 accent: colors.teal[400],
                 // icon: <MdOutlineDesignServices size={40} color={colors.teal[400]} />
-                icon: <img src='/quiz.png' alt='' />
+                icon: <img src='/quiz.png' height={30} alt='' />
             },
             {
                 title: 'Courses', route: '/yard/courses',
                 accent: colors.deepOrange[400],
                 // icon: <SlGraduation size={40} color={colors.deepOrange[400]} />
-                icon: <img src='/video-ios.png' alt='' />
+                icon: <img src='/video-ios.png' height={30} alt='' />
             },
             {
                 title: 'Service Inquiries', route: '/yard/inquiries',
                 accent: colors.lime[400],
                 // icon: <MdMedicalServices size={40} color={colors.lime[400]} />
-                icon: <img src='/request-service.png' alt='' />
+                icon: <img src='/request-service.png' height={30} alt='' />
             },
             {
                 title: 'Stuck Overflow', route: `/forum/all`,
                 accent: colors.cyan[400],
                // icon: <FaQuestionCircle size={40} color={colors.cyan[400]} />
-                icon: <img src='/puzzled.png' alt='' />
+                icon: <img src='/puzzled.png' height={30} alt='' />
             },
             {
                 title: 'Tasks', route: `/yard/tasks`,
                 accent: colors.cyan[400],
                 // icon: <MdOutlineAddTask size={40} color={colors.cyan[400]} />
-                icon: <img src='/reminders.png' alt='' />
+                icon: <img src='/reminders.png' height={30} alt='' />
             },
             {
                 title: 'Earnings', route: `/yard/earnings`,
                 accent: colors.cyan[400],
                 // icon: <MdMonetizationOn size={40} color={colors.cyan[400]} />
-                icon: <img src='/earning.png' alt='' />
+                icon: <img src='/earning.png' height={32} alt='' />
             },
         ]
     } else {
