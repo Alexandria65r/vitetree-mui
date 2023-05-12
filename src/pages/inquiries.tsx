@@ -179,7 +179,7 @@ export default function Notifications({ }: Props) {
                         >
                             <WestIcon />
                         </ButtonIcon>
-                        <Typography sx={{ flex: 1, ml: .5, fontSize: 18, fontWeight: 600 }}>
+                        <Typography sx={{ flex: 1, ml: .5, fontSize: 18, fontWeight: 500 }}>
                             {params[2] === 'detail' ? `Service - ${inquiry.service.label}` : <Skeleton sx={{ width: 260 }} />}
                         </Typography>
                     </MainHeader>
@@ -189,8 +189,8 @@ export default function Notifications({ }: Props) {
                                 flex: 1,
                                 ml: 1,
                                 color: theme.palette.mode === 'light' ? 'GrayText' : colorScheme(theme).TextColor,
-                                fontSize: 18,
-                                fontWeight: 600
+                                fontSize: 17,
+                                fontWeight: 500
                             })}>
                                 {params[2] === 'detail' ? `John Doe - Student` : <Skeleton sx={{ width: 260 }} />}
                             </Typography>
