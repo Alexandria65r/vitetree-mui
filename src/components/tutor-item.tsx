@@ -10,7 +10,6 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { tutorsActions } from '../../reducers/tutors-reducer'
 import { inquiryActions } from '../../reducers/inquiry-reducer'
 import Randomstring from 'randomstring'
-import { teal } from '@mui/material/colors'
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { nomalizedText } from '../reusable/helpers'
 import { useRouter } from 'next/router'
@@ -111,7 +110,8 @@ export default function TutorItem({ tutor, mode }: Props) {
                 ...inquiry,
                 _id: inquiryId,
                 authorId: user._id ?? '',
-                tutorId: tutor._id ?? ''
+                tutorId: tutor.tutorInfo?.tutorId ?? '',
+                fullname: `${user.firstName} ${user.lastName}`
             }))
             dispatch(inquiryActions.setInquiryNetworkStatus(''))
         }

@@ -109,8 +109,9 @@ export default function CreateButtonOptions({ }: Props) {
                         })} />
                         Create
                         <Box sx={(theme) => ({
-                            ml: 2, [theme.breakpoints.down('sm')]: {
-                                ml: 1
+                            ml:.5, [theme.breakpoints.down('sm')]: {
+                                ml: .5,
+                                mt:.3
                             }
                         })}>
                             {popupState.isOpen ? <ExpandLessIcon /> : (

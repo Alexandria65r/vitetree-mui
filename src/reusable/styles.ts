@@ -35,7 +35,11 @@ export const ButtonIcon = styled(ButtonBase)(({ theme }) => ({
     margin: '0 5px',
     borderRadius: '50%',
     color: colorScheme(theme).TextColor,
-    backgroundColor: colorScheme(theme).buttonIconBGColor
+    transition:'0.3s all',
+    backgroundColor: colorScheme(theme).buttonIconBGColor,
+    '&:hover': {
+        backgroundColor: colorScheme(theme).buttonIconBGColor
+    }
 }))
 
 
@@ -51,9 +55,9 @@ export const Avatar = styled(Box)(({ theme }) => ({
     }
 }))
 
-export const ActiveIndicator = styled(Box)(()=>({
+export const ActiveIndicator = styled(Box)(() => ({
     display: 'inline-block',
-    marginLeft:5,
+    marginLeft: 5,
     height: 12,
     width: 12,
     borderRadius: 29,
@@ -154,7 +158,7 @@ export const SearchInput = styled(InputBase)(({ theme }) => ({
 
 export const StyledButton = styled(ButtonBase)(({ theme }) => ({
     textTransform: 'capitalize',
-    fontWeight: 600,
+    fontWeight: 500,
     height: 40,
     color: '#fff',
     fontSize: 16,

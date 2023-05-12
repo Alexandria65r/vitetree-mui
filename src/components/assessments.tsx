@@ -96,7 +96,7 @@ const ButtonIcon = styled(IconButton)(({ theme }) => ({
 
 type Props = {}
 
-export default function Tests({ }: Props) {
+export default function Assessments({ }: Props) {
     const router = useRouter()
     const dispatch = useAppDispatch()
     const [isFetching, setFetching] = useState<boolean>()

@@ -102,7 +102,7 @@ export default function SigninPage({ }: Props) {
                     <Button onClick={() => dispatch(SignInThunk(schooyardProvider))}>
                         Sign in
                     </Button>
-                    <Typography sx={{ flexBasis: '100%', mt: .5, fontSize: 13 }}>
+                    <Typography sx={{ flexBasis: '100%', mt: .5, fontSize: 14 }}>
                         Don't have an account yet?
                         <Link href="/signup">
                             <span style={{ marginLeft: 5, color: colors.lightBlue[400] }}>

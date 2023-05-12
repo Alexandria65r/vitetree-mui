@@ -24,7 +24,6 @@ export default function Profile({ }: Props) {
   const router = useRouter()
   const params = router.query.params || []
   const user = useAppSelector((state) => state.AuthReducer.user)
-  console.log(router.query)
   return (
     <>
       {params[0] === user?._id ? <AccountLinks /> : <></>}

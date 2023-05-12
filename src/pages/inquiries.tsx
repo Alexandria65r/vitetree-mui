@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import Layout from '../components/layout'
-import { Box, Skeleton, Typography, styled, useMediaQuery } from '@mui/material'
+import { Box, Skeleton, Typography, colors, styled, useMediaQuery } from '@mui/material'
 import { colorScheme } from '../theme'
-import { ButtonIcon } from '../reusable/styles'
+import { ButtonIcon, SearchInput, SearchInputWrap } from '../reusable/styles'
 import WestIcon from '@mui/icons-material/West';
 import NotificationItem from '../components/notification-item'
 import { BiSearchAlt } from 'react-icons/bi'
@@ -11,8 +11,8 @@ import { fetchInquiriesThunk } from '../../reducers/inquiry-reducer/inquiry-thun
 import { inquiryActions } from '../../reducers/inquiry-reducer'
 import { useRouter } from 'next/router'
 import InquiredItem from './tutors/inquiredItem'
-import { StudentInquiry } from '../reusable/schemas'
 import NotificationItemSkeleton from '../components/notification-item-sekeleton'
+import { Close, KeyboardBackspace } from '@mui/icons-material'
 
 
 const Container = styled(Box)(({ theme }) => ({
@@ -56,7 +56,6 @@ const MainHeader = styled(Header)(({ theme }) => ({
 }))
 const ItemContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
-
     flexWrap: 'wrap',
     width: '85%',
     height: 'calc(100% - 66px)',
@@ -81,7 +80,7 @@ export default function Notifications({ }: Props) {
     const user = useAppSelector((state) => state.AuthReducer.user)
     const params = router.query.params || []
 
-
+    const [isSearchToggled, toggleSearch] = useState<boolean>(false)
 
 
     const loadInquiries = useCallback(() =>
@@ -98,7 +97,6 @@ export default function Notifications({ }: Props) {
 
     function openInquiry(inquiryId: string) {
         router.replace(`/yard/inquiries/detail/${inquiryId}`)
-        //dispatch(inquiryActions.setInquiry(inquiry))
     }
 
 
@@ -116,11 +114,29 @@ export default function Notifications({ }: Props) {
                     }
                 })}>
                     <AsideHeader sx={{}}>
-                        <Typography sx={{ flex: 1,ml:.6, fontSize: 18, fontWeight: 600 }}>
-                            Service Inquiries
-                        </Typography>
-                        <ButtonIcon sx={{ bgcolor: 'transparent' }}>
-                            <BiSearchAlt size={23} />
+
+                        {isSearchToggled ? (
+                            <SearchInputWrap sx={{ order: isSearchToggled ? 2 : 1, flex: 1, px: 1.5, height: 44 }}>
+                                <SearchInput
+                                    placeholder='Search' />
+                            </SearchInputWrap>) : (<>
+                                <Typography sx={{ flex: 1, ml: .6, fontSize: 18, fontWeight: 500 }}>
+                                    Service Inquiries
+                                </Typography>
+                            </>
+                        )}
+
+                        <ButtonIcon
+                            onClick={() => toggleSearch(!isSearchToggled)}
+                            sx={{
+                                width: 40, height: 40,
+                                order: isSearchToggled ? 1 : 2,
+                                bgcolor: 'transparent',
+                                '&:hover':{
+                                    color: colors.teal[400],
+                                }
+                            }}>
+                            {isSearchToggled ? <KeyboardBackspace /> : <BiSearchAlt size={23} />}
                         </ButtonIcon>
                     </AsideHeader>
                     <Box sx={(theme) => ({
@@ -155,7 +171,7 @@ export default function Notifications({ }: Props) {
                 })}>
                     <MainHeader>
                         <ButtonIcon
-                            onClick={() => {router.push('/yard/inquiries')}}
+                            onClick={() => { router.push('/yard/inquiries') }}
                             sx={{
                                 display: isMobile && params[2] === 'detail' ? 'flex' : 'none',
                                 bgcolor: 'transparent'

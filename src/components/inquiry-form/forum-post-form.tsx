@@ -2,9 +2,7 @@ import { Box, FormControlLabel, FormLabel, MenuItem, Radio, RadioGroup, TextFiel
 import React, { useCallback, useEffect } from 'react'
 import SelectWithCheckMarks from '../form-inputs/select-with-checkmarks'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
-import { testActions } from '../../../reducers/test-reducer'
 import { StyledButton, Textarea } from '../../reusable/styles'
-import { forumActions } from '../../../reducers/forum-reducer'
 import AddCommentOutlinedIcon from '@mui/icons-material/AddCommentOutlined';
 import { colorScheme } from '../../theme'
 import { CSS_PROPERTIES } from '../../reusable'

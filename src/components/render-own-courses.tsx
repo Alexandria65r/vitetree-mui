@@ -1,21 +1,17 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import Layout from './layout'
-import { Box, IconButton, Typography, colors, styled } from '@mui/material'
+import { Box, IconButton, colors, styled } from '@mui/material'
 import { colorScheme } from '../theme'
 import { CSS_PROPERTIES } from '../reusable'
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
 import { useRouter } from 'next/router'
-import TestAPI from '../api-services/test'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import TestCardOptions from './test-card-options'
-import { Avatar, SearchInput, SearchInputWrap } from '../reusable/styles'
+import { SearchInput, SearchInputWrap } from '../reusable/styles'
 import SideBar from './side-bar'
-import { testActions } from '../../reducers/test-reducer'
 import CreateButtonOptions from './menus/create-button-options'
 import CourseAPI from '../api-services/course'
 import { courseActions } from '../../reducers/course-reducer'
-import CourseCard from './course/course-card'
 import RenderCourses from './render-courses'
 
 

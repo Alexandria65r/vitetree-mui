@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { Box, ButtonBase, CircularProgress, Link, TextField, Typography, colors, styled } from '@mui/material'
 import { CSS_PROPERTIES, SCHOOYARD_AUTH_TOKEN } from '../reusable'
 import { ContinueWith, ContinueWithOverlayText, FormContainer, FormHeader, FormLogo, RedirectingCard } from '../reusable/styles'
 import AuthAPI from '../api-services/auth'
-import { Role, User } from '../reusable/interfaces'
-import { UserSchema } from '../reusable/schemas'
+import { Role } from '../reusable/interfaces'
 import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
 import { authActions } from '../../reducers/auth-reducer'
@@ -179,7 +178,7 @@ export default function Signup({ }: Props) {
             <Button onClick={handleSignUp} sx={{ flexBasis: '100%' }}>
               Sign Up
             </Button>
-            <Typography sx={{ mt: .5, fontSize: 13 }}>
+            <Typography sx={{ mt: .5, fontSize: 14 }}>
               Alredy have an account
               <Link href="/signin">
                 <span style={{ marginLeft: 5, color: colors.lightBlue[500] }}>

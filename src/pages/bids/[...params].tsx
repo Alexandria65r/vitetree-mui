@@ -2,11 +2,9 @@ import React, { useState } from 'react'
 import Layout from '../../components/layout'
 import { Box, Typography, styled, useMediaQuery } from '@mui/material'
 import { colorScheme } from '../../theme'
-import { CSS_PROPERTIES } from '../../reusable'
 import { ButtonIcon } from '../../reusable/styles'
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import WestIcon from '@mui/icons-material/West';
-import { normalizedDate } from '../../reusable/helpers'
 import NotificationItem from '../../components/notification-item'
 
 
@@ -46,12 +44,6 @@ const AsideHeader = styled(Header)(({ theme }) => ({
 const MainHeader = styled(Header)(({ theme }) => ({
 
 }))
-
-
-
-
-
-
 
 
 type Props = {}

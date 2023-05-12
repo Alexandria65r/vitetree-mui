@@ -1,10 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import Layout from '../../components/layout'
-import { Box, FormControl, FormControlLabel, FormLabel, MenuItem, Radio, RadioGroup, Typography, colors, styled } from '@mui/material'
+import { Box, Typography, colors, styled } from '@mui/material'
 import { colorScheme } from '../../theme'
-import CartItemCard from '../../components/cart-item'
-import { FormatMoney } from 'format-money-js'
-import { Router, useRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import { CSS_PROPERTIES } from '../../reusable'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import TutorItem from '../../components/tutor-item'
@@ -12,7 +10,6 @@ import KeyboardBackspaceOutlinedIcon from '@mui/icons-material/KeyboardBackspace
 import { Avatar, ButtonIcon, SearchInput, SearchInputWrap, StyledButton } from '../../reusable/styles'
 import InquiryForm from '../../components/inquiry-form/forum-post-form'
 import SearchIcon from '@mui/icons-material/Search';
-import { TutorService } from '../../reusable/interfaces'
 import { fetchTutorsThunk } from '../../../reducers/tutors-reducer/tutors-thunks'
 import { tutorsActions } from '../../../reducers/tutors-reducer'
 import { UserSchema } from '../../reusable/schemas'
@@ -21,7 +18,6 @@ import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlin
 import ManageSearchOutlinedIcon from '@mui/icons-material/ManageSearchOutlined';
 import CoPresentIcon from '@mui/icons-material/CoPresent';
 import InquiredItem from './inquiredItem'
-import { HiOutlineViewGrid } from 'react-icons/hi'
 import SelectTutor from './select-tutor'
 import PersonSearchOutlinedIcon from '@mui/icons-material/PersonSearchOutlined';
 
@@ -123,6 +119,7 @@ const TabHeader = styled(Box)(({ theme }) => ({
 }))
 
 const TabButton = styled(StyledButton)(({ theme }) => ({
+    fontWeight:500,
     padding: '0 10px',
     margin: '0 5px',
     fontSize: 13,
@@ -141,7 +138,6 @@ type Props = {}
 
 export default function Tutors({ }: Props) {
     const dispatch = useAppDispatch()
-    const cartItems = useAppSelector((state) => state.CartReducer.cartItems)
     const router = useRouter()
     const [isOpen, setOpen] = useState<boolean>(false)
     const tutors = useAppSelector((state) => state.TutorsReducer.tutors)

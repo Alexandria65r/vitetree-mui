@@ -3,7 +3,6 @@ import AppNavigationBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Link from 'next/link';
@@ -27,8 +26,8 @@ const Button = styled(ButtonBase)(({ theme }) => ({
     color: colorScheme(theme).TextColor,
     margin: '0 5px',
     fontSize: 14,
-    fontWeight: 600,
-    border: `2px solid ${colors.teal[400]}`,
+    fontWeight: 500,
+    border: `1px solid ${colors.teal[400]}`,
     borderRadius: CSS_PROPERTIES.radius5,
     backgroundColor: colors.teal[400]
 }))

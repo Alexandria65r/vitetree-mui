@@ -149,7 +149,8 @@ export default function Darshboard({ }: Props) {
                                             {card.icon}
                                         </Box>
                                         <Typography sx={{
-                                            fontWeight: 600,
+                                            fontSize:17,
+                                            fontWeight: 500,
                                             textOverflow: 'ellipsis',
                                             overflow: 'hidden'
                                         }}>{card.title}</Typography>
@@ -174,7 +175,7 @@ const dashCardList = (userRole: Role) => {
     if (userRole === 'tutor') {
         return [
             {
-                title: 'Assessments', route: '/yard/tests',
+                title: 'Assessments', route: '/yard/assessments',
                 accent: colors.teal[400],
                 icon: <MdOutlineDesignServices size={40} color={colors.teal[400]} />
             },
@@ -185,8 +186,8 @@ const dashCardList = (userRole: Role) => {
             },
             {
                 title: 'Service Inquiries', route: '/yard/inquiries',
-                accent: colors.cyan[400],
-                icon: <MdMedicalServices size={40} color={colors.cyan[400]} />
+                accent: colors.lime[400],
+                icon: <MdMedicalServices size={40} color={colors.lime[400]} />
             },
             {
                 title: 'Stuck Overflow', route: `/forum/all`,
@@ -207,7 +208,7 @@ const dashCardList = (userRole: Role) => {
     } else {
         return [
             {
-                title: 'Assessments', route: '/yard/tests',
+                title: 'Assessments', route: '/yard/assessments',
                 accent: colors.teal[400],
                 icon: <MdOutlineDesignServices size={40} color={colors.teal[400]} />
             },
@@ -223,8 +224,8 @@ const dashCardList = (userRole: Role) => {
             },
             {
                 title: 'Stuck Overflow', route: `/forum/all`,
-                accent: colors.cyan[400],
-                icon: <FaQuestionCircle size={40} color={colors.cyan[400]} />
+                accent: colors.blueGrey[400],
+                icon: <FaQuestionCircle size={40} color={colors.blueGrey[400]} />
             },
             {
                 title: 'My Posts', route: '/forum/my-posts',
@@ -233,8 +234,8 @@ const dashCardList = (userRole: Role) => {
             },
             {
                 title: 'Inquiries', route: '/inquiries',
-                accent: colors.cyan[400],
-                icon: <BiDetail size={40} color={colors.cyan[400]} />
+                accent: colors.lime[400],
+                icon: <BiDetail size={40} color={colors.lime[400]} />
             },
         ]
     }

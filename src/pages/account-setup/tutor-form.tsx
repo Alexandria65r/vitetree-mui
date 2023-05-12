@@ -154,7 +154,7 @@ export default function TutorForm({ }: Props) {
         try {
             const { data } = await AuthAPI.update(
                 signUpData._id ?? '',
-                { tutorInfo: { ...signUpData.tutorInfo, fullname, tutorId } })
+                { tutorInfo: { ...signUpData.tutorInfo, tutorId } })
             if (data.success) {
                 dispatch(authActions.setAuhtUser(data.user))
                 router.replace(`/dashboard`)
