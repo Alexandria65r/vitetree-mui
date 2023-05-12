@@ -102,7 +102,7 @@ export default function Darshboard({ }: Props) {
     useEffect(() => {
         fetchDashboardData()
     }, [router.pathname, user, dispatch])
-   
+
 
     return (
         <Layout>
@@ -149,7 +149,7 @@ export default function Darshboard({ }: Props) {
                                             {card.icon}
                                         </Box>
                                         <Typography sx={{
-                                            fontSize:17,
+                                            fontSize: 17,
                                             fontWeight: 500,
                                             textOverflow: 'ellipsis',
                                             overflow: 'hidden'
@@ -161,7 +161,7 @@ export default function Darshboard({ }: Props) {
                             </Link>
                         ))}
                     </MappedCards>
- 
+
                 </Container>
             </FlexContainer>
         </Layout>
@@ -177,17 +177,20 @@ const dashCardList = (userRole: Role) => {
             {
                 title: 'Assessments', route: '/yard/assessments',
                 accent: colors.teal[400],
-                icon: <MdOutlineDesignServices size={40} color={colors.teal[400]} />
+                // icon: <MdOutlineDesignServices size={40} color={colors.teal[400]} />
+                icon: <img src='/assessments.png' alt='' />
             },
             {
                 title: 'Courses', route: '/yard/courses',
                 accent: colors.deepOrange[400],
-                icon: <SlGraduation size={40} color={colors.deepOrange[400]} />
+                // icon: <SlGraduation size={40} color={colors.deepOrange[400]} />
+                icon: <img src='/videos.png' alt='' />
             },
             {
                 title: 'Service Inquiries', route: '/yard/inquiries',
                 accent: colors.lime[400],
-                icon: <MdMedicalServices size={40} color={colors.lime[400]} />
+                // icon: <MdMedicalServices size={40} color={colors.lime[400]} />
+                icon: <img src='/service.png' alt='' />
             },
             {
                 title: 'Stuck Overflow', route: `/forum/all`,
