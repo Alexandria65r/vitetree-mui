@@ -68,6 +68,7 @@ export const CustomFormControl = styled(Box)(({ theme }) => ({
     width: '100%',
     display: 'flex',
     alignItems: 'center',
+    justifyContent:'space-between',
     margin: '20px 0',
     [theme.breakpoints.down("sm")]: {
         margin: '10px 0',

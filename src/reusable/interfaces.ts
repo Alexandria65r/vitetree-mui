@@ -271,6 +271,7 @@ export type StudentInquiry = {
     topic?: string
     description: string
     dueDate?: string
+    
     createdAt?: string
 }
 

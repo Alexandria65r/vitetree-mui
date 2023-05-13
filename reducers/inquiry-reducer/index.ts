@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import *as Types from '../../src/reusable/interfaces'
+import * as Types from '../../src/reusable/interfaces'
 import { StudentInquiry } from '../../src/reusable/schemas'
+import { InquiryFeedback, inquiryFeedbackModel } from '../../src/models/inquiry-feedback'
 
 type InquiryNetworkStatus =
     'creatingInquiry' |
@@ -8,7 +9,11 @@ type InquiryNetworkStatus =
     'creatingInquiryError' | 'fetch-inquiry' |
     'fetch-inquiry-success' | 'fetch-inquiry-error' | '' |
     'fetch-inquiries' | 'fetch-inquiries-success' |
-    'fetch-inquiries-error' | ''
+    'fetch-inquiries-error' |
+    'send-inquiry-feedback' | 'send-inquiry-feedback-success' |
+    'send-inquiry-feedback-error' | '' |
+    'fecth-inquiry-feedback' | 'fecth-inquiry-feedback-success' |
+    'fecth-inquiry-feedback-error' | ''
 
 
 type InquiryState = {
@@ -16,13 +21,15 @@ type InquiryState = {
     inquiries: Types.StudentInquiry[]
     isErr: boolean
     inquiryNetworkStatus: InquiryNetworkStatus
+    inquiryFeedback: InquiryFeedback
 
 }
 const initialState: InquiryState = {
+    inquiryNetworkStatus: '',
     inquiry: StudentInquiry,
     inquiries: [],
     isErr: false,
-    inquiryNetworkStatus: ''
+    inquiryFeedback: inquiryFeedbackModel
 }
 
 const inquirySlice = createSlice({
@@ -43,6 +50,12 @@ const inquirySlice = createSlice({
         },
         setInquiryNetworkStatus: (state, { payload }: PayloadAction<InquiryNetworkStatus>) => {
             state.inquiryNetworkStatus = payload
+        },
+        setInquiryFeedbackProps: (state, { payload }: PayloadAction<{ name: string, value: any }>) => {
+            state.inquiryFeedback = { ...state.inquiryFeedback, [payload.name]: payload.value }
+        },
+        setInquiryFeedback: (state, { payload }: PayloadAction<InquiryFeedback>) => {
+            state.inquiryFeedback = payload
         }
     }
 })

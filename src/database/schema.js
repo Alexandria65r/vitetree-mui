@@ -120,3 +120,34 @@ export const Inquiry = mongoose.model(
     createdAt: { type: Date, default: Date.now },
   })
 );
+
+
+
+export const InquiryFeedbackSchema = mongoose.model(
+  "inquiry-feedback",
+  new mongoose.Schema({
+    _id: String,
+    type: String,
+    tutorId: String,
+    studentId: String,
+    service: Object,
+    serviceTerms: {
+      price: String,
+      dueDate: String,
+    },
+    description: String,
+    createdAt: { type: Date, default: Date.now },
+  })
+);
+
+export const NotificationSchema = mongoose.model(
+  "notifications",
+  new mongoose.Schema({
+    owner: String,
+    refId: String,
+    type: String,
+    title: String,
+    description: String,
+    createdAt: { type: Date, default: Date.now },
+  })
+);

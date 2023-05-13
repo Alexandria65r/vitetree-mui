@@ -1,35 +1,46 @@
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Layout from '../../components/layout'
-import { Box, Typography, styled, useMediaQuery } from '@mui/material'
+import { Box, Skeleton, Typography, colors, styled, useMediaQuery } from '@mui/material'
 import { colorScheme } from '../../theme'
-import { CSS_PROPERTIES } from '../../reusable'
-import { ButtonIcon } from '../../reusable/styles'
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+import { ButtonIcon, SearchInput, SearchInputWrap } from '../../reusable/styles'
 import WestIcon from '@mui/icons-material/West';
-import { normalizedDate } from '../../reusable/helpers'
 import NotificationItem from '../../components/notification-item'
+import { BiSearchAlt } from 'react-icons/bi'
+import { useAppDispatch, useAppSelector } from '../../../store/hooks'
+import { fetchInquiriesThunk } from '../../../reducers/inquiry-reducer/inquiry-thunks'
+import { inquiryActions } from '../../../reducers/inquiry-reducer'
+import { useRouter } from 'next/router'
+import InquiredItem from '../tutors/inquiredItem'
+import NotificationItemSkeleton from '../../components/notification-item-sekeleton'
+import { Close, KeyboardBackspace } from '@mui/icons-material'
+import ResponseFooter from '../../components/service-inquiry/response-footer'
+import { fetchNotificationsThunk } from '../../../reducers/notification-reducer/notifications-thunks'
 
 
 const Container = styled(Box)(({ theme }) => ({
-    margin: 15,
+    width: '80%',
+    margin: '20px auto 0 auto',
     display: 'flex',
     height: 'calc(100vh - 100px)',
     borderRadius: 10,
     backgroundColor: theme.palette.mode === 'light' ? '#fff' : colorScheme(theme).primaryColor,
     border: `1px solid ${colorScheme(theme).borderColor}`,
     [theme.breakpoints.down('sm')]: {
+        width: '100%',
         margin: 0,
         borderRadius: 0,
-        height: 'calc(100vh - 60px)',
+        height: 'auto',
     }
 }))
 const AsideLeft = styled(Box)(({ theme }) => ({
-    flexBasis: '30%',
+    flexBasis: '35%',
     height: '100%',
     borderRight: `1px solid ${colorScheme(theme).borderColor}`
 }))
 const MainCol = styled(Box)(() => ({
     flex: 1,
+
+    //border:'1px solid '
 }))
 
 const Header = styled(Box)(({ theme }) => ({
@@ -46,10 +57,17 @@ const AsideHeader = styled(Header)(({ theme }) => ({
 const MainHeader = styled(Header)(({ theme }) => ({
 
 }))
-
-
-
-
+const ItemContainer = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    flexWrap: 'wrap',
+    //width: '85%',
+    height: 'calc(100% - 66px)',
+    overflowY: 'auto',
+    padding: 10,
+    [theme.breakpoints.down("sm")]: {
+        width: '100%',
+    }
+}))
 
 
 
@@ -57,8 +75,35 @@ const MainHeader = styled(Header)(({ theme }) => ({
 type Props = {}
 
 export default function Notifications({ }: Props) {
-    const [isOpen, setOpen] = useState<boolean>(false)
+    const dispatch = useAppDispatch()
+    const router = useRouter()
     const isMobile = useMediaQuery('(max-width:600px)')
+    const inquiry = useAppSelector((state) => state.InquiryReducer.inquiry)
+    const notifications = useAppSelector((state) => state.NotificationsReducer.notifications)
+    const NotificationNetworkStatus = useAppSelector((state) => state.NotificationsReducer.NotificationNetworkStatus)
+    const user = useAppSelector((state) => state.AuthReducer.user)
+    const params = router.query.params || []
+
+    const [isSearchToggled, toggleSearch] = useState<boolean>(false)
+
+
+    const loadInquiries = useCallback(() =>
+        dispatch(fetchNotificationsThunk()),
+        [dispatch, user, router.pathname])
+
+    useEffect(() => {
+        loadInquiries()
+        return () => {
+            dispatch(inquiryActions.setInquiries([]))
+        }
+    }, [dispatch, user, router.pathname])
+
+
+    function openInquiry(inquiryId: string) {
+        router.replace(`/yard/inquiries/detail/${inquiryId}`)
+    }
+
+
     return (
         <Layout>
             <Container sx={(theme) => ({
@@ -69,39 +114,85 @@ export default function Notifications({ }: Props) {
                 <AsideLeft sx={(theme) => ({
                     [theme.breakpoints.down('sm')]: {
                         width: '100%',
-                        display: isOpen ? 'none' : 'block'
+                        display: params[2] === 'detail' ? 'none' : 'block'
                     }
                 })}>
                     <AsideHeader sx={{}}>
-                        <Typography sx={{ flex: 1, fontSize: 18, fontWeight: 600 }}>
-                            Notifications
-                        </Typography>
-                        <ButtonIcon sx={{ bgcolor: 'transparent' }}>
-                            <NotificationsNoneIcon />
+
+                        {isSearchToggled ? (
+                            <SearchInputWrap sx={{ order: isSearchToggled ? 2 : 1, flex: 1, px: 1.5, height: 44 }}>
+                                <SearchInput
+                                    placeholder='Search' />
+                            </SearchInputWrap>) : (<>
+                                <Typography sx={{ flex: 1, ml: .6, fontSize: 18, fontWeight: 500 }}>
+                                   Notifications
+                                </Typography>
+                            </>
+                        )}
+
+                        <ButtonIcon
+                            onClick={() => toggleSearch(!isSearchToggled)}
+                            sx={{
+                                width: 40, height: 40,
+                                order: isSearchToggled ? 1 : 2,
+                                bgcolor: 'transparent',
+                                '&:hover': {
+                                    color: colors.teal[400],
+                                }
+                            }}>
+                            {isSearchToggled ? <KeyboardBackspace /> : <BiSearchAlt size={23} />}
                         </ButtonIcon>
                     </AsideHeader>
+                    <Box sx={(theme) => ({
+                        height: 'calc(100vh - 168px)',
+                        overflowY: 'auto',
+                        [theme.breakpoints.down('sm')]: {
+                            height: 'calc(100vh - 142px)',
+                        }
+                    })}>
+                        {notifications.length && NotificationNetworkStatus !== 'fetch-notifications' ? (<>
+                            {notifications.map((notification, index) => (
+                                <NotificationItem
+                                    key={index}
+                                    title={notification.title}
+                                    createdAt={notification?.createdAt ?? ''}
+                                    description={notification.description}
+                                    type={`John Doe - student`}
+                                    open={() => {}}
+                                />
+                            ))}
 
-                    <NotificationItem title='Physics Assignment' description='' createdAt='' type="Bid" open={() => { }} />
-                    <NotificationItem title='Chemistry rate of a chemical reaction' description='' createdAt='' type="Answer" open={() => { }} />
+                        </>) : !notifications.length && NotificationNetworkStatus === 'fetch-notifications' ?
+                            <NotificationItemSkeleton /> : <></>}
+                    </Box>
+
                 </AsideLeft>
                 <MainCol sx={(theme) => ({
                     [theme.breakpoints.down('sm')]: {
                         width: '100%',
-                        display: !isOpen ? 'none' : 'block'
+                        display: !params[2] ? 'none' : 'block'
                     }
                 })}>
                     <MainHeader>
-                        <ButtonIcon sx={{
-                            display: isMobile && isOpen ? 'flex' : 'none',
-                            bgcolor: 'transparent'
-                        }}
-                            onClick={() => setOpen(!isOpen)}
+                        <ButtonIcon
+                            onClick={() => { router.push('/yard/inquiries') }}
+                            sx={{
+                                display: isMobile && params[2] === 'detail' ? 'flex' : 'none',
+                                bgcolor: 'transparent'
+                            }}
                         >
                             <WestIcon />
                         </ButtonIcon>
+                        <Typography sx={{ flex: 1, ml: .5, fontSize: 18, fontWeight: 500 }}>
+                            {params[2] === 'detail' ? `Service - ${inquiry.service.label}` : <Skeleton sx={{ width: 260 }} />}
+                        </Typography>
                     </MainHeader>
+
+                    <ItemContainer>
+                
+                    </ItemContainer>
                 </MainCol>
             </Container>
-        </Layout>
+        </Layout >
     )
 }
