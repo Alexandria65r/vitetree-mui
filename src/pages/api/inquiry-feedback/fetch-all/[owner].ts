@@ -1,7 +1,8 @@
 
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import connection from '../../../../database/connection'
-import { NotificationSchema } from '../../../../models/notifications'
+import { NotificationSchema } from "../../../../database/schema";
+
 
 
 const FetchAll: NextApiHandler = async (req: NextApiRequest, res: NextApiResponse) => {
