@@ -190,7 +190,7 @@ export default function Notifications({ }: Props) {
                         >
                             <WestIcon />
                         </ButtonIcon>
-                        <Typography sx={{ flex: 1, ml: .5, fontSize: 18, fontWeight: 500 }}>
+                        <Typography sx={{ flex: 1,lineHeight:1.3, ml: .5, fontSize: 18, fontWeight: 500 }}>
                             {notification.title || <Skeleton sx={{ width: 260 }} />}
                         </Typography>
                     </MainHeader>

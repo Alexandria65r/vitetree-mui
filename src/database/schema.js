@@ -113,7 +113,7 @@ export const Inquiry = mongoose.model(
       price: String,
       perHour: Boolean,
     },
-    subject: String,
+    subjects: Array,
     topic: String,
     description: String,
     dueDate: String,

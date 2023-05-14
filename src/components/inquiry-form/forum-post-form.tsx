@@ -73,8 +73,6 @@ export default function InquiryForm({ tutor, submitHandler }: Props) {
     const inquiryNetworkStatus = useAppSelector((state) => state.InquiryReducer.inquiryNetworkStatus)
 
 
-
-
     function handleOnChange({ target: { name, value } }: any) {
         if (name === 'service') {
             const selected = tutorServices.find((service) => service.value === value)

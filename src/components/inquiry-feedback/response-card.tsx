@@ -30,10 +30,10 @@ const ResponseCard = ({ title, btValue, description, clickHandler }: RenderRespo
     const _colorScheme = useColorScheme()
     return (
         <Container>
-            <Typography sx={{ mb: .5, fontSize: 14, color: colors.teal[400], fontWeight: 500 }}>
+            <Typography sx={{fontSize: 15, color: colors.teal[400], fontWeight: 500 }}>
                 {title}
             </Typography>
-            <Typography sx={{ my: 1, fontSize: 13, color: _colorScheme.TextColor }}>
+            <Typography sx={{ my: 1, fontSize: 13,lineHeight:1.3, color: _colorScheme.TextColor }}>
                 {description}
             </Typography>
             <Box sx={(theme) => ({
