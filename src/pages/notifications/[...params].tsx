@@ -15,6 +15,9 @@ import NotificationItemSkeleton from '../../components/notification-item-sekelet
 import { Close, KeyboardBackspace } from '@mui/icons-material'
 import ResponseFooter from '../../components/service-inquiry/response-footer'
 import { fetchNotificationsThunk } from '../../../reducers/notification-reducer/notifications-thunks'
+import { Notification } from '../../models/notifications'
+import { notificationActions } from '../../../reducers/notification-reducer'
+import InquiryFeedback from '../../components/inquiry-feedback/inquiry-feedback'
 
 
 const Container = styled(Box)(({ theme }) => ({
@@ -33,7 +36,7 @@ const Container = styled(Box)(({ theme }) => ({
     }
 }))
 const AsideLeft = styled(Box)(({ theme }) => ({
-    flexBasis: '35%',
+    flexBasis: '40%',
     height: '100%',
     borderRight: `1px solid ${colorScheme(theme).borderColor}`
 }))
@@ -72,6 +75,8 @@ const ItemContainer = styled(Box)(({ theme }) => ({
 
 
 
+
+
 type Props = {}
 
 export default function Notifications({ }: Props) {
@@ -79,6 +84,7 @@ export default function Notifications({ }: Props) {
     const router = useRouter()
     const isMobile = useMediaQuery('(max-width:600px)')
     const inquiry = useAppSelector((state) => state.InquiryReducer.inquiry)
+    const notification = useAppSelector((state) => state.NotificationsReducer.notification)
     const notifications = useAppSelector((state) => state.NotificationsReducer.notifications)
     const NotificationNetworkStatus = useAppSelector((state) => state.NotificationsReducer.NotificationNetworkStatus)
     const user = useAppSelector((state) => state.AuthReducer.user)
@@ -99,8 +105,9 @@ export default function Notifications({ }: Props) {
     }, [dispatch, user, router.pathname])
 
 
-    function openInquiry(inquiryId: string) {
-        router.replace(`/yard/inquiries/detail/${inquiryId}`)
+    function handleOpen(notification: Notification) {
+        router.replace(`/notifications/detail/${notification.refId}`)
+        dispatch(notificationActions.setNotification(notification))
     }
 
 
@@ -114,7 +121,7 @@ export default function Notifications({ }: Props) {
                 <AsideLeft sx={(theme) => ({
                     [theme.breakpoints.down('sm')]: {
                         width: '100%',
-                        display: params[2] === 'detail' ? 'none' : 'block'
+                        display: params[0] === 'detail' ? 'none' : 'block'
                     }
                 })}>
                     <AsideHeader sx={{}}>
@@ -125,7 +132,7 @@ export default function Notifications({ }: Props) {
                                     placeholder='Search' />
                             </SearchInputWrap>) : (<>
                                 <Typography sx={{ flex: 1, ml: .6, fontSize: 18, fontWeight: 500 }}>
-                                   Notifications
+                                    Notifications
                                 </Typography>
                             </>
                         )}
@@ -158,7 +165,7 @@ export default function Notifications({ }: Props) {
                                     createdAt={notification?.createdAt ?? ''}
                                     description={notification.description}
                                     type={`John Doe - student`}
-                                    open={() => {}}
+                                    open={() => handleOpen(notification)}
                                 />
                             ))}
 
@@ -170,26 +177,27 @@ export default function Notifications({ }: Props) {
                 <MainCol sx={(theme) => ({
                     [theme.breakpoints.down('sm')]: {
                         width: '100%',
-                        display: !params[2] ? 'none' : 'block'
+                        display: !params[0] ? 'none' : 'block'
                     }
                 })}>
                     <MainHeader>
                         <ButtonIcon
-                            onClick={() => { router.push('/yard/inquiries') }}
+                            onClick={() => { router.push(`/notifications/selected=none`) }}
                             sx={{
-                                display: isMobile && params[2] === 'detail' ? 'flex' : 'none',
+                                display: isMobile && params[0] === 'detail' ? 'flex' : 'none',
                                 bgcolor: 'transparent'
                             }}
                         >
                             <WestIcon />
                         </ButtonIcon>
                         <Typography sx={{ flex: 1, ml: .5, fontSize: 18, fontWeight: 500 }}>
-                            {params[2] === 'detail' ? `Service - ${inquiry.service.label}` : <Skeleton sx={{ width: 260 }} />}
+                            {notification.title || <Skeleton sx={{ width: 260 }} />}
                         </Typography>
                     </MainHeader>
 
                     <ItemContainer>
-                
+                        {/* {notification.description} */}
+                        <InquiryFeedback />
                     </ItemContainer>
                 </MainCol>
             </Container>

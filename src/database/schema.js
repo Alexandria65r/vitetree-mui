@@ -130,6 +130,7 @@ export const InquiryFeedbackSchema = mongoose.model(
     type: String,
     tutorId: String,
     studentId: String,
+    inquiryId: String,
     service: Object,
     serviceTerms: {
       price: String,

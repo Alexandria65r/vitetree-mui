@@ -50,7 +50,7 @@ const ItemFooter = styled(Box)(() => ({
 
 type Props = {
     inquiryId: string
-    Footer: any
+    Footer?: any
 }
 
 export default function InquiredItem({ inquiryId, Footer }: Props) {
@@ -126,7 +126,7 @@ export default function InquiredItem({ inquiryId, Footer }: Props) {
                         }}>
                         {inquiry.description}
                     </Typography>
-                    <Footer />
+                    {Footer ? <Footer /> : <></>}
                 </Container>
             ) : <InquiredSkeleton />}
         </>

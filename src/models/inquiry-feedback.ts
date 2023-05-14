@@ -13,6 +13,7 @@ export interface InquiryFeedback {
     type: InquiryFeedbacType
     tutorId: string
     studentId: string
+    inquiryId: string
     service: TutorService
     serviceTerms: ServiceTerms
     description: string
@@ -24,6 +25,7 @@ export const inquiryFeedbackModel: InquiryFeedback = {
     type: '',
     tutorId: '',
     studentId: '',
+    inquiryId: '',
     service: TutorServiceSchema,
     serviceTerms: {
         price: '',

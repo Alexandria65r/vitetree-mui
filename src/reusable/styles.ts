@@ -160,6 +160,7 @@ export const SearchInput = styled(InputBase)(({ theme }) => ({
 export const StyledButton = styled(ButtonBase)(({ theme }) => ({
     textTransform: 'capitalize',
     fontWeight: 500,
+    padding:'0 10px',
     height: 40,
     color: '#fff',
     fontSize: 16,

@@ -12,6 +12,7 @@ import Randomstring from 'randomstring'
 import { inquiryFeedbackModel } from '../../models/inquiry-feedback'
 import { sendInquiryFeedbackThunk } from '../../../reducers/inquiry-reducer/inquiry-thunks'
 import { AppSpinner } from '../activity-indicators'
+import ResponseCard from '../inquiry-feedback/response-card'
 
 const Container = styled(Box)(() => ({
     marginTop: 10,
@@ -23,17 +24,7 @@ const ItemFooter = styled(Box)(() => ({
     marginTop: 10,
 }))
 
-const ResponseCard = styled(Box)(({ theme }) => ({
-    flexBasis: '49%',
-    minHeight: 120,
-    borderRadius: CSS_PROPERTIES.radius5,
-    padding: 10,
-    border: `1px solid ${colorScheme(theme).borderColor}`,
-    [theme.breakpoints.down("sm")]: {
-        flexBasis: '100%',
-        marginBottom: 10
-    }
-}))
+
 
 
 
@@ -81,6 +72,7 @@ export default function ResponseFooter({ }: Props) {
             tutorId: inquiry.tutorId,
             studentId: inquiry.authorId,
             service: inquiry.service,
+            inquiryId: inquiry._id,
             serviceTerms: {
                 price: inquiry.service.price,
                 dueDate: inquiry.dueDate ?? ''
@@ -170,12 +162,12 @@ export default function ResponseFooter({ }: Props) {
                 </Box>
             ) : (
                 <ItemFooter>
-                    <RenderResponseCard
+                    <ResponseCard
                         title="Change Terms Feedback"
                         clickHandler={() => selectFeedbackType('terms')}
                         description='Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, deserunt?'
                     />
-                    <RenderResponseCard
+                    <ResponseCard
                         title="Purchase Feeback"
                         clickHandler={() => selectFeedbackType('purchase')}
                         description='Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, deserunt?'
@@ -187,33 +179,3 @@ export default function ResponseFooter({ }: Props) {
     )
 }
 
-type RenderResponseCardProps = {
-    title: string,
-    description: string
-    clickHandler: () => void
-}
-const RenderResponseCard = ({ title, description, clickHandler }: RenderResponseCardProps) => {
-    const _colorScheme = useColorScheme()
-    return (
-        <ResponseCard>
-            <Typography sx={{ mb: .5, fontSize: 14, color: colors.teal[400], fontWeight: 500 }}>
-                {title}
-            </Typography>
-            <Typography sx={{ my: 1, fontSize: 13, color: _colorScheme.TextColor }}>
-                {description}
-            </Typography>
-            <Box sx={(theme) => ({
-                display: 'flex',
-                justifyContent: 'flex-end',
-                [theme.breakpoints.down("sm")]: {
-
-                }
-            })}>
-                <StyledButtonOutlined onClick={clickHandler}>
-                    Send Feedback <KeyboardArrowRightOutlined />
-                </StyledButtonOutlined>
-            </Box>
-
-        </ResponseCard>
-    )
-}

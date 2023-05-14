@@ -12,8 +12,8 @@ type InquiryNetworkStatus =
     'fetch-inquiries-error' |
     'send-inquiry-feedback' | 'send-inquiry-feedback-success' |
     'send-inquiry-feedback-error' | '' |
-    'fecth-inquiry-feedback' | 'fecth-inquiry-feedback-success' |
-    'fecth-inquiry-feedback-error' | ''
+    'fetch-inquiry-feedback' | 'fetch-inquiry-feedback-success' |
+    'fetch-inquiry-feedback-error' | ''
 
 
 type InquiryState = {

@@ -38,3 +38,20 @@ export const sendInquiryFeedbackThunk = createAsyncThunk<void, InquiryFeedback, 
             dispatch(inquiryActions.setInquiryNetworkStatus('send-inquiry-feedback-error'))
         }
     })
+export const fetchInquiryFeedbackThunk = createAsyncThunk<void, string, { state: AppState }>
+    ('inquirySlice/fetchInquiryFeedbackThunk', async (id, thunkAPI) => {
+        const dispatch = thunkAPI.dispatch
+        const state = thunkAPI.getState()
+        const user = state.AuthReducer.user
+        try {
+            dispatch(inquiryActions.setInquiryNetworkStatus('fetch-inquiry-feedback'))
+            const { data } = await axios.get(`/api/inquiry-feedback/fetch-inquiry-feedback/${id}`)
+            if (data.success) {
+                dispatch(inquiryActions.setInquiryNetworkStatus('fetch-inquiry-feedback-success'))
+                dispatch(inquiryActions.setInquiryFeedback(data.feedback))
+            }
+
+        } catch (error) {
+            dispatch(inquiryActions.setInquiryNetworkStatus('fetch-inquiry-feedback-error'))
+        }
+    })
