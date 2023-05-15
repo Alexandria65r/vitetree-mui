@@ -24,6 +24,12 @@ export default class AuthAPI {
             return data.users as User[]
         }
     }
+    static async fetchUser(id: string) {
+        const { data } = await axios.get(`/api/auth/fetch-user/${id}`)
+        if (data.success) {
+            return data.user as User
+        }
+    }
     static async fetchInquired(authorId: string) {
         const { data } = await axios.get(`/api/inquiry/fetch-inquired/${authorId}`)
         if (data.success) {

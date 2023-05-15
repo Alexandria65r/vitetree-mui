@@ -20,6 +20,22 @@ export const fetchTutorsThunk = createAsyncThunk<void, undefined, { state: AppSt
             dispatch(tutorsActions.setTutorsNetworkStatus('fetching-tutors-error'))
         }
     })
+    
+export const fetchTutorThunk = createAsyncThunk<void, string, { state: AppState }>
+    ('tutorsSlice/fetchTutorThunk', async (tutorId, thunkAPI) => {
+        const dispatch = thunkAPI.dispatch
+        try {
+            dispatch(tutorsActions.setTutorsNetworkStatus('fetching-tutor'))
+            const tutor = await AuthAPI.fetchUser(tutorId)
+            if (tutor) {
+                dispatch(tutorsActions.setTutorsNetworkStatus('fetching-tutor-success'))
+                dispatch(tutorsActions.setTutor(tutor))
+            }
+
+        } catch (error) {
+            dispatch(tutorsActions.setTutorsNetworkStatus('fetching-tutor-error'))
+        }
+    })
 
 export const fetchInquiredTutorsThunk = createAsyncThunk<void, undefined, { state: AppState }>
     ('tutorsSlice/fetchInquiredTutorsThunk', async (_, thunkAPI) => {

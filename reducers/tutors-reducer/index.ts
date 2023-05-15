@@ -5,7 +5,10 @@ import { StudentInquiry, UserSchema } from '../../src/reusable/schemas'
 export type TutorsNetworkStatus =
     'fetching-tutors' |
     'fetching-tutors-success' |
-    'fetching-tutors-error' | ''
+    'fetching-tutors-error' |
+    'fetching-tutor' |
+    'fetching-tutor-success' |
+    'fetching-tutor-error' | ''
 
 type InquiryState = {
     tutors: Types.User[]

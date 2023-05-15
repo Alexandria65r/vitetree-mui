@@ -74,7 +74,7 @@ const ItemFooter = styled(Box)(({ theme }) => ({
 
 type Props = {
     tutor: User,
-    mode: 'Send inquiry' | 'View inquiry' | ''
+    mode: 'Send inquiry' | 'View inquiry' | 'read-only' | ''
 }
 
 
@@ -165,6 +165,7 @@ export default function TutorItem({ tutor, mode }: Props) {
                         {tutor.tutorInfo?.description}
                     </Typography>
                 </Box>
+                
                 <ItemFooter>
                     <ButtonIcon sx={{
                         color: colors.teal[400],

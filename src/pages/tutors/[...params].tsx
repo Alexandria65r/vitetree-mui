@@ -43,7 +43,7 @@ const CheckoutHeader = styled(Box)(({ theme }) => ({
     padding: '0 10px',
     marginBottom: 10,
     //backgroundColor: colorScheme(theme).secondaryColor,
-    borderRadius: CSS_PROPERTIES.radius5,
+    borderRadius: CSS_PROPERTIES.radius10,
     borderEndEndRadius: 0,
     borderBottomLeftRadius: 0,
     // boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
@@ -184,7 +184,7 @@ export default function Tutors({ }: Props) {
                             fontSize: 25,
                             fontWeight: 600,
                             [theme.breakpoints.down("sm")]: {
-                                fontSize: 18
+                                fontSize: 22
                             }
                         })}>
                         {tutor?._id ? 'Inquire Now' : 'Tutors'}

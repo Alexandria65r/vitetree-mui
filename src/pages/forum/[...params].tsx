@@ -61,7 +61,7 @@ const TabHeader = styled(Box)(({ theme }) => ({
 const TestInfoCol = styled(Box)(({ theme }) => ({
     flexBasis: '30%',
     height: 200,
-    borderRadius: CSS_PROPERTIES.radius5,
+    borderRadius: CSS_PROPERTIES.radius10,
     backgroundColor: colorScheme(theme).secondaryColor,
     boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
     [theme.breakpoints.down("sm")]: {

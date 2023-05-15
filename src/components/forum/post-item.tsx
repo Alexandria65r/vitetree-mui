@@ -17,7 +17,7 @@ const PostItem = styled(Box)(({ theme }) => ({
     minHeight: 100,
     cursor: 'pointer',
     backgroundColor: colorScheme(theme).secondaryColor,
-    borderRadius: CSS_PROPERTIES.radius5,
+    borderRadius: CSS_PROPERTIES.radius10,
     boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
     [theme.breakpoints.down("sm")]: {
         marginLeft: 0, flexBasis: '100%',

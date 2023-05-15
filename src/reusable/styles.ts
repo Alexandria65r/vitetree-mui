@@ -129,6 +129,10 @@ export const Textarea = styled(TextareaAutosize)(({ theme }) => ({
     color: colorScheme(theme).TextColor,
     backgroundColor: colorScheme(theme).secondaryColor,
     borderColor: theme.palette.grey[400],
+    transition: '0.3s all',
+    '&:hover': {
+        borderBottom: `4px solid ${colors.teal[400]}`
+    },
     [theme.breakpoints.down("sm")]: {
         flex: 1
     }
@@ -143,13 +147,19 @@ export const SearchInputWrap = styled(Box)(({ theme }) => ({
     borderRadius: CSS_PROPERTIES.radius5,
     border: `1px solid ${colorScheme(theme).chatBoarderColor}`,
     '&:hover': {
-        borderBottom: `2px solid ${colors.teal[400]}`
+        borderBottom: `4px solid ${colors.teal[400]}`
     },
     [theme.breakpoints.down("sm")]: {
         flex: 1
     }
 }))
 export const SearchInput = styled(InputBase)(({ theme }) => ({
+    flex: 1,
+    padding: '8px 10px 8px 0',
+    backgroundColor: 'transparent',
+    borderRadius: CSS_PROPERTIES.radius5,
+}))
+export const StyledInput = styled(InputBase)(({ theme }) => ({
     flex: 1,
     padding: '8px 10px 8px 0',
     backgroundColor: 'transparent',

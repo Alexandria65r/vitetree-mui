@@ -87,7 +87,8 @@ export default function InquiryFeedback({ }: Props) {
                     <ResponseCard
                         title="Hire Tutor"
                         btValue='Hire Tutor'
-                        clickHandler={() => { }}
+                        clickHandler={
+                            () => router.push(`/complete-hiring-process/${inquiryFeedback.tutorId}/feedbackid/${inquiryFeedback._id}`)}
                         description="This tutor is ready to start working immediately, procceed and hire
                          the tutor."
                     />
