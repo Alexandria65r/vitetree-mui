@@ -5,6 +5,7 @@ import { InquiryFeedback } from "../../../models/inquiry-feedback";
 import { Notification, NotificationModel, NotificationType } from "../../../models/notifications";
 import { ObjMapperSingle } from "../../../database/objectMapper";
 import moment from "moment";
+import { notifyAPI } from "../notification/helpers";
 
 
 const CreateTest: NextApiHandler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -19,7 +20,7 @@ const CreateTest: NextApiHandler = async (req: NextApiRequest, res: NextApiRespo
                 feedbackData.studentId
             )
             if (from) {
-                await notificationAPI(
+                await notifyAPI(
                     feedbackData.studentId,
                     feedbackData._id,
                     type,
@@ -48,28 +49,7 @@ const CreateTest: NextApiHandler = async (req: NextApiRequest, res: NextApiRespo
 
 export default CreateTest
 
-//NOTE: TODO ids to change to @username protocal
-async function notificationAPI(
-    toId: string,
-    refId:string,
-    type: NotificationType,
-    title: string,
-    description: string) {
 
-    const notification: Notification = {
-        owner: toId ?? '',
-        refId,
-        title,
-        type,
-        description
-    }
-    const newNotification = await NotificationSchema.create(notification)
-    if (newNotification) {
-        console.log(newNotification)
-    }
-
-
-}
 
 async function getUsers(fromId: string, toId: string) {
     const fromUserRaw = await User.findById({ _id: fromId });

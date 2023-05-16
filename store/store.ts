@@ -1,5 +1,5 @@
 import { configureStore, ThunkAction, Action, combineReducers } from '@reduxjs/toolkit'
-import { MakeStore, createWrapper } from 'next-redux-wrapper'
+import { createWrapper } from 'next-redux-wrapper'
 import MainReducer from '../reducers'
 import ChatReducer from '../reducers/chat-reducer'
 import TestReducer from '../reducers/test-reducer'
@@ -12,6 +12,7 @@ import ForumReducer from '../reducers/forum-reducer'
 import InquiryReducer from '../reducers/inquiry-reducer'
 import TutorsReducer from '../reducers/tutors-reducer'
 import NotificationsReducer from '../reducers/notification-reducer'
+import TaskReducer from '../reducers/task-reducer'
 
 const rootReducer = combineReducers({
   AuthReducer,
@@ -25,7 +26,8 @@ const rootReducer = combineReducers({
   ForumReducer,
   InquiryReducer,
   TutorsReducer,
-  NotificationsReducer
+  NotificationsReducer,
+  TaskReducer
 })
 
 

@@ -88,6 +88,10 @@ export default function SideBar({ }: Props) {
             console.log(error)
         }
     }
+
+    if (!isMobile) return<></>
+
+
     return (
         <Modal
             open={isSidebarOpen}

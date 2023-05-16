@@ -47,7 +47,7 @@ const MappedCards = styled(Box)(({ theme }) => ({
     gridTemplateColumns: 'repeat(3,1fr)',
     [theme.breakpoints.down("sm")]: {
         gap: 1,
-        width: '96%',
+        width: '97%',
         gridTemplateColumns: 'repeat(2,1fr)',
     }
 }))
@@ -88,7 +88,7 @@ export default function Darshboard({ }: Props) {
     const params: any = router.query.params || []
     const _theme = useTheme()
     const lightMode = _theme.palette.mode === 'light'
-
+    const isSidebarOpen = useAppSelector((state) => state.MainReducer.isSidebarOpen)
     const fetchDashboardData = useCallback(async () => {
         setFetching(true)
         if (user._id) {
@@ -172,6 +172,8 @@ export default function Darshboard({ }: Props) {
 
 
 
+
+
 const dashCardList = (userRole: Role, lightMode: boolean) => {
 
     if (userRole === 'tutor') {
@@ -218,7 +220,8 @@ const dashCardList = (userRole: Role, lightMode: boolean) => {
             {
                 title: 'Assessments', route: '/yard/assessments',
                 accent: colors.teal[400],
-                icon: <MdOutlineDesignServices size={40} color={colors.teal[400]} />
+                // icon: <MdOutlineDesignServices size={40} color={colors.teal[400]} />
+                icon: <img src={lightMode ? '/quiz.png' : '/quiz-white.png'} height={30} alt='' />
             },
             {
                 title: 'Hire Tutor', route: '/tutors/all',
@@ -226,14 +229,16 @@ const dashCardList = (userRole: Role, lightMode: boolean) => {
                 icon: <BiSearchAlt size={40} color={colors.indigo[400]} />
             },
             {
-                title: 'Learnning', route: '/learnning',
+                title: 'Learning', route: '/learnning',
                 accent: colors.deepOrange[400],
-                icon: <SlGraduation size={40} color={colors.deepOrange[400]} />
+                // icon: <SlGraduation size={40} color={colors.deepOrange[400]} />
+                icon: <img src={lightMode ? '/video-ios.png' : `/video-white.png`} height={30} alt='' />
             },
             {
                 title: 'Stuck Overflow', route: `/forum/all`,
-                accent: colors.blueGrey[400],
-                icon: <FaQuestionCircle size={40} color={colors.blueGrey[400]} />
+                accent: colors.cyan[400],
+                // icon: <FaQuestionCircle size={40} color={colors.cyan[400]} />
+                icon: <img src={lightMode ? '/puzzled.png' : '/puzzled-white.png'} height={30} alt='' />
             },
             {
                 title: 'My Posts', route: '/forum/my-posts',
@@ -241,9 +246,10 @@ const dashCardList = (userRole: Role, lightMode: boolean) => {
                 icon: <BiDetail size={40} color={colors.cyan[400]} />
             },
             {
-                title: 'Inquiries', route: '/inquiries',
+                title: 'Hired', route: '/tasks',
                 accent: colors.lime[400],
-                icon: <BiDetail size={40} color={colors.lime[400]} />
+                // icon: <MdMedicalServices size={40} color={colors.lime[400]} />
+                icon: <img src={lightMode ? '/request-service.png' : '/service-white.png'} height={30} alt='' />
             },
         ]
     }

@@ -1,5 +1,6 @@
 import mongoose from "mongoose"
-export type NotificationType = 'default' |
+export type NotificationType = 'default-notification' |
+    'default-hired' |
     'inquiry' |
     'inquiry-terms-feedback' |
     'inquiry-purchase-feedback' | ''
@@ -7,8 +8,8 @@ export type NotificationType = 'default' |
 
 export interface Notification {
     _id?: string
-    owner:string
-    refId:string
+    owner: string
+    refId: string
     type: NotificationType
     title: string
     description: string
@@ -16,8 +17,8 @@ export interface Notification {
 }
 export const NotificationModel: Notification = {
     _id: '',
-    owner:'',
-    refId:'',
+    owner: '',
+    refId: '',
     type: '',
     title: '',
     description: ''

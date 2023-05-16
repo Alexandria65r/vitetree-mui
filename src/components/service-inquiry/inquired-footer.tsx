@@ -5,6 +5,7 @@ import { inquiryActions } from '../../../reducers/inquiry-reducer'
 import { StudentInquiry, UserSchema } from '../../reusable/schemas'
 import { useAppDispatch } from '../../../store/hooks'
 import { tutorsActions } from '../../../reducers/tutors-reducer'
+import { useRouter } from 'next/router'
 
 
 const ItemFooter = styled(Box)(() => ({
@@ -17,10 +18,12 @@ type Props = {}
 
 export default function InquiredFooter({ }: Props) {
     const dispatch = useAppDispatch()
+    const router = useRouter()
 
     function handleClose() {
         dispatch(inquiryActions.setInquiry(StudentInquiry))
         dispatch(tutorsActions.setTutor(UserSchema))
+        router.replace('/tutors/all')
     }
 
 

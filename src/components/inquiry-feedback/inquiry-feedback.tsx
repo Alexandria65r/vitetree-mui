@@ -23,7 +23,7 @@ const ThreadContainer = styled(Box)(({ theme }) => ({
     borderColor: theme.palette.mode === 'light' ? '#ddd' : colorScheme(theme).secondaryColor,
     [theme.breakpoints.down('sm')]: {
         padding: '0 10px 25px 10px',
-        marginBottom:25
+        marginBottom: 25
     }
 }))
 
@@ -59,6 +59,7 @@ export default function InquiryFeedback({ }: Props) {
     const router = useRouter()
     const dispatch = useAppDispatch()
     const params: any = router.query.params || []
+    const inquiry = useAppSelector((state) => state.InquiryReducer.inquiry)
     const inquiryFeedback = useAppSelector((state) => state.InquiryReducer.inquiryFeedback)
     const loadFeedback = useCallback(() => dispatch(fetchInquiryFeedbackThunk(params[1])), [params])
     const [showInquired, toggleInquired] = useState<boolean>(false)
@@ -72,7 +73,24 @@ export default function InquiryFeedback({ }: Props) {
 
     }
 
+    let title = 'Hire Tutor'
+    title += inquiryFeedback.type === 'terms' ? ' (Terms Changed)' : ''
+    const isPriceChanged = inquiryFeedback.serviceTerms.price !== inquiryFeedback.service.price
+    const isDueDateChanged = inquiryFeedback.serviceTerms.dueDate !== inquiry?.dueDate ?? ''
+    const defaultPrice = inquiryFeedback.service.price
+    const newPrice = inquiryFeedback.serviceTerms.price
+    const inquiryDueDate = inquiry?.dueDate ?? ''
+    const newDueDate = inquiryFeedback.serviceTerms.dueDate
 
+    const desc = `This tutor is ready to start working immediately, procceed and hire
+                the tutor.`
+    const terms_description =
+        `Tutor changed the terms of work for this service.
+        ${isPriceChanged ? ` Price changed from ${defaultPrice} to ${newPrice}` : ''}
+        ${isDueDateChanged ? `, Due date changed from ${inquiryDueDate} to ${newDueDate}` : ''}.
+        If the terms are okay with you procceed and hire tutor.
+     `
+   
     return (
         <Container>
             <ThreadContainer>
@@ -85,12 +103,14 @@ export default function InquiryFeedback({ }: Props) {
 
                 <ItemFooter>
                     <ResponseCard
-                        title="Hire Tutor"
+                        title={title}
                         btValue='Hire Tutor'
                         clickHandler={
                             () => router.push(`/complete-hiring-process/${inquiryFeedback.tutorId}/feedbackid/${inquiryFeedback._id}`)}
-                        description="This tutor is ready to start working immediately, procceed and hire
-                         the tutor."
+                        description={
+                            isPriceChanged || isDueDateChanged && inquiryFeedback.type
+                                === 'terms' ? terms_description : desc
+                        }
                     />
                     <ResponseCard
                         title="Cancel Hiring"
@@ -100,10 +120,11 @@ export default function InquiryFeedback({ }: Props) {
                          otherwise you won't be able to inquire again from this tutor."
                     />
                 </ItemFooter>
-
-                <ShowInquiredThread onClick={() => toggleInquired(!showInquired)}>
-                    {showInquired ? 'Show' : 'Hide'} inquiry {!showInquired ? <KeyboardArrowUpOutlinedIcon /> : <ExpandMoreOutlinedIcon />}
-                </ShowInquiredThread>
+                {inquiryFeedback.type !== 'terms' && (
+                    <ShowInquiredThread onClick={() => toggleInquired(!showInquired)}>
+                        {showInquired ? 'Show' : 'Hide'} inquiry {!showInquired ? <KeyboardArrowUpOutlinedIcon /> : <ExpandMoreOutlinedIcon />}
+                    </ShowInquiredThread>
+                )}
             </ThreadContainer>
 
             {!showInquired && (

@@ -101,6 +101,7 @@ export default function TutorItem({ tutor, mode }: Props) {
 
     function viewTutor() {
         if (inquired?.tutorId === tutor._id) {
+
             router.push(`/tutors/${sort}/inquiry/${inquired?.inquiryId}`)
         } else {
             if (_inquiry === 'inquiry') {
@@ -110,12 +111,13 @@ export default function TutorItem({ tutor, mode }: Props) {
                 ...inquiry,
                 _id: inquiryId,
                 authorId: user._id ?? '',
-                tutorId: tutor.tutorInfo?.tutorId ?? '',
-                fullname: `${user.firstName} ${user.lastName}`
+                tutorId: tutor._id ?? '',
+                studentName: `${user.firstName} ${user.lastName}`,
+                tutorName: `${tutor.firstName} ${tutor.lastName}`
             }))
-            dispatch(inquiryActions.setInquiryNetworkStatus(''))
         }
-
+        
+        dispatch(inquiryActions.setInquiryNetworkStatus(''))
         dispatch(tutorsActions.setTutor(tutor))
 
     }
@@ -126,7 +128,7 @@ export default function TutorItem({ tutor, mode }: Props) {
             sx={{
                 border: 1,
                 transition: '0.3s all',
-                borderColor: selectedTutor._id === tutor._id ? colors.teal[400] : 'transparent'
+                borderColor: selectedTutor._id === tutor._id && router.pathname.includes('/tutors') ? colors.teal[400] : 'transparent'
             }}>
             <TutorImage></TutorImage>
             <TutorItemBody>
@@ -165,7 +167,7 @@ export default function TutorItem({ tutor, mode }: Props) {
                         {tutor.tutorInfo?.description}
                     </Typography>
                 </Box>
-                
+
                 <ItemFooter>
                     <ButtonIcon sx={{
                         color: colors.teal[400],

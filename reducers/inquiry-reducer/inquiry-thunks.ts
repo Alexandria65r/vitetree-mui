@@ -4,6 +4,28 @@ import InquiryAPI from "../../src/api-services/inquiry";
 import { inquiryActions } from ".";
 import axios from 'axios'
 import { InquiryFeedback } from "../../src/models/inquiry-feedback";
+import { authActions } from "../auth-reducer";
+
+
+export const createInquiryThunk = createAsyncThunk<void, undefined, { state: AppState }>
+    ('inquirySlice/createInquiryThunk', async (_, thunkAPI) => {
+        const dispatch = thunkAPI.dispatch
+        const state = thunkAPI.getState()
+        const inquiry = state.InquiryReducer.inquiry
+        console.log(inquiry)
+        try {
+            dispatch(inquiryActions.setError(false))
+            dispatch(inquiryActions.setInquiryNetworkStatus('creatingInquiry'))
+            const data = await InquiryAPI.create(inquiry)
+            if (data?.newInquiry) {
+                dispatch(inquiryActions.setInquiryNetworkStatus('creatingInquirySuccess'))
+                dispatch(authActions.setAuhtUser(data?.updatedUser))
+            }
+
+        } catch (error) {
+            dispatch(inquiryActions.setInquiryNetworkStatus('creatingInquiryError'))
+        }
+    })
 
 
 export const fetchInquiriesThunk = createAsyncThunk<void, undefined, { state: AppState }>
@@ -33,8 +55,8 @@ export const sendInquiryFeedbackThunk = createAsyncThunk<void, InquiryFeedback, 
             if (data.success) {
                 dispatch(inquiryActions.setInquiryNetworkStatus('send-inquiry-feedback-success'))
             }
-
         } catch (error) {
+            console.log(error)
             dispatch(inquiryActions.setInquiryNetworkStatus('send-inquiry-feedback-error'))
         }
     })

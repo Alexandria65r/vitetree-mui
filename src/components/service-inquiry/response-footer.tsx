@@ -86,6 +86,8 @@ export default function ResponseFooter({ }: Props) {
         dispatch(sendInquiryFeedbackThunk(inquiryFeedback))
     }
 
+    
+
 
     return (
         <Container>

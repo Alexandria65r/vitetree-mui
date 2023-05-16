@@ -55,20 +55,24 @@ export const Avatar = styled(Box)(({ theme }) => ({
     }
 }))
 
-export const ActiveIndicator = styled(Box)(() => ({
+export const ActiveIndicator = styled(Box)(({ theme }) => ({
     display: 'inline-block',
     marginLeft: 5,
-    height: 12,
-    width: 12,
+    height: 14,
+    width: 14,
     borderRadius: 29,
-    backgroundColor: colors.teal[400]
+    borderStyle: 'solid',
+    borderWidth: 2,
+    borderColor: theme.palette.mode === 'light' ? '#fff' : colorScheme(theme).secondaryColor,
+    backgroundColor: colors.teal[400],
+    boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
 }))
 
 export const CustomFormControl = styled(Box)(({ theme }) => ({
     width: '100%',
     display: 'flex',
     alignItems: 'center',
-    justifyContent:'space-between',
+    justifyContent: 'space-between',
     margin: '20px 0',
     [theme.breakpoints.down("sm")]: {
         margin: '10px 0',
@@ -170,7 +174,7 @@ export const StyledInput = styled(InputBase)(({ theme }) => ({
 export const StyledButton = styled(ButtonBase)(({ theme }) => ({
     textTransform: 'capitalize',
     fontWeight: 500,
-    padding:'0 10px',
+    padding: '0 10px',
     height: 40,
     color: '#fff',
     fontSize: 16,
@@ -248,4 +252,12 @@ export const CartAndWishListModalContainer = styled(Box)(({ theme }) => ({
         top: 'unset',
         bottom: 0
     }
+}))
+
+export const StyledBox = styled(Box)(({ theme }) => ({
+    minHeight: 100,
+    padding: 10,
+    borderRadius: CSS_PROPERTIES.radius10,
+    boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
+    backgroundColor: theme.palette.mode === 'light' ? '#fff' : colorScheme(theme).secondaryColor
 }))

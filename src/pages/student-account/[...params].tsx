@@ -103,6 +103,7 @@ type Props = {}
 
 export default function Checkout({ }: Props) {
     const dispatch = useAppDispatch()
+    const user = useAppSelector((state) => state.AuthReducer.user)
     const cartItems = useAppSelector((state) => state.CartReducer.cartItems)
 
     function getSubtotal() {
@@ -147,7 +148,7 @@ export default function Checkout({ }: Props) {
                             Amount(<span style={{ fontSize: 17 }}>USD</span>)
                         </Typography>
                         <Typography sx={{ color: colors.teal[400], fontSize: 26, fontWeight: 600 }}>
-                            ${subtotal}
+                            ${user?.studentInfo?.accountBalance}
                         </Typography>
                     </SubTotal>
                 </ReadyToPayColumn>

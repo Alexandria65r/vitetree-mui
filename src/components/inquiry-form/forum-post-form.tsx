@@ -8,9 +8,8 @@ import { colorScheme } from '../../theme'
 import { CSS_PROPERTIES } from '../../reusable'
 import { TutorService, User } from '../../reusable/interfaces'
 import { inquiryActions } from '../../../reducers/inquiry-reducer'
-import InquiryAPI from '../../api-services/inquiry'
 import { AppSpinner } from '../activity-indicators'
-import { authActions } from '../../../reducers/auth-reducer'
+import { createInquiryThunk } from '../../../reducers/inquiry-reducer/inquiry-thunks'
 
 const ChoicesContainer = styled(Box)(({ theme }) => ({
     [theme.breakpoints.down('sm')]: {
@@ -75,10 +74,13 @@ export default function InquiryForm({ tutor, submitHandler }: Props) {
 
     function handleOnChange({ target: { name, value } }: any) {
         if (name === 'service') {
-            const selected = tutorServices.find((service) => service.value === value)
+            const selected = tutorServices.find((service) => service.label === value)
             dispatch(inquiryActions.setInquiryProps({
                 name,
-                value: selected
+                value: {
+                    label: selected?.label ?? '',
+                    price:selected?.price??''
+                }
             }))
         } else {
             dispatch(inquiryActions.setInquiryProps({
@@ -90,14 +92,14 @@ export default function InquiryForm({ tutor, submitHandler }: Props) {
 
     const disptchServiceMessage = useCallback(() => {
         let message
-        switch (inquiry.service.value) {
-            case 'class':
+        switch (inquiry.service.label) {
+            case 'private class':
                 message = classMessage(inquiry.dueDate ?? '', inquiry.subjects[0] ?? '')
                 break
-            case 'assignment':
+            case 'assignment solving':
                 message = assignMentMessage(inquiry.dueDate ?? '', inquiry.subjects[0] ?? '', inquiry.topic ?? '')
                 break
-            case 'course':
+            case 'prepare video tutorial':
                 message = couseMessage(inquiry.dueDate ?? '', inquiry.topic ?? '')
                 break
         }
@@ -107,31 +109,20 @@ export default function InquiryForm({ tutor, submitHandler }: Props) {
             value: message?.toString()
         }))
 
-    }, [dispatch, inquiry.dueDate, inquiry.topic, inquiry.service.value])
+    }, [dispatch, inquiry.dueDate, inquiry.topic, inquiry.service.label])
 
     useEffect(() => {
         disptchServiceMessage()
-    }, [dispatch, inquiry.dueDate, inquiry.topic, inquiry.service.value])
+    }, [dispatch, inquiry.dueDate, inquiry.topic, inquiry.service.label])
 
 
-
+    //note: Make thunk for this function
     async function handleSubmit() {
-        if (!(inquiry.service.value)) {
+        if (!(inquiry.service.label)) {
             dispatch(inquiryActions.setError(true))
             return true
         } else {
-            try {
-                dispatch(inquiryActions.setError(false))
-                dispatch(inquiryActions.setInquiryNetworkStatus('creatingInquiry'))
-                const data = await InquiryAPI.create(inquiry)
-                if (data?.newInquiry) {
-                    dispatch(inquiryActions.setInquiryNetworkStatus('creatingInquirySuccess'))
-                    dispatch(authActions.setAuhtUser(data?.updatedUser))
-                }
-
-            } catch (error) {
-                dispatch(inquiryActions.setInquiryNetworkStatus('creatingInquiryError'))
-            }
+            dispatch(createInquiryThunk())
             return false
         }
     }
@@ -152,7 +143,7 @@ export default function InquiryForm({ tutor, submitHandler }: Props) {
                     <TutorService
                         key={index}
                         service={service}
-                        error={isErr && !inquiry.service.value}
+                        error={isErr && !inquiry.service.label}
                     />
                 ))}
             </RadioGroup>
@@ -247,7 +238,7 @@ function TutorService({ service, error }: TutorServiceProps) {
                     `${theme.palette.mode === 'light' ? '#ddd' : colorScheme(theme).bgColor}`
             })}>
             <FormControlLabel sx={{ flex: 1 }}
-                value={service.value} control={<Radio sx={RadioStyles} />} label={service.label} />
+                value={service.label} control={<Radio sx={RadioStyles} />} label={service.label} />
             <Typography sx={{ color: colors.teal[400] }}>{service.price}</Typography>
         </MenuItemButton>
     )
@@ -265,7 +256,7 @@ const tutorServices = [
         name: '',
         perHour: true,
         price: '$24.60',
-        label: 'Private class',
+        label: 'private class',
         value: 'class',
         description: ''
     },
@@ -273,7 +264,7 @@ const tutorServices = [
         name: '',
         perHour: false,
         price: '$15.60',
-        label: 'Assignment solving',
+        label: 'assignment solving',
         value: 'assignment',
         description: ''
     },
@@ -281,7 +272,7 @@ const tutorServices = [
         name: '',
         perHour: true,
         price: '$9.60',
-        label: 'Video tutorial',
+        label: 'video tutorial',
         value: 'course',
         description: ''
     }

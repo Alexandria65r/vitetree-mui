@@ -15,12 +15,12 @@ export const UserSchema: Types.User = {
 }
 
 export const StudentInfo: Types.StudentInfo = {
-    accountBalance: '',
+    accountBalance: '00.00',
     startYear: '',
     endYear: '',
     school: '',
     studentId: '',
-    subjects: [],
+   // subjects: [],
     description: ''
 }
 
@@ -43,9 +43,7 @@ export const TutorInfo: Types.TutorInfo = {
 
 export const TutorServiceSchema: TutorService = {
     label: '',
-    perHour: false,
-    price: '9.60',
-    value: '',
+    price: '0.00',
 }
 
 export const testDataSchema: Types.Test = {
@@ -63,7 +61,8 @@ export const StudentInquiry: Types.StudentInquiry = {
     _id: '',
     tutorId: '',
     authorId: '',
-    fullname: '',
+    studentName: '',
+    tutorName: '',
     service: TutorServiceSchema,
     topic: '',
     subjects: [],

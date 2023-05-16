@@ -82,7 +82,7 @@ export default function Notifications({ }: Props) {
     const inquiryNetworkStatus = useAppSelector((state) => state.InquiryReducer.inquiryNetworkStatus)
     const user = useAppSelector((state) => state.AuthReducer.user)
     const params = router.query.params || []
-
+    const isSidebarOpen = useAppSelector((state) => state.MainReducer.isSidebarOpen)
     const [isSearchToggled, toggleSearch] = useState<boolean>(false)
 
 
@@ -106,8 +106,10 @@ export default function Notifications({ }: Props) {
     return (
         <Layout>
             <Container sx={(theme) => ({
+                width: !isSidebarOpen ? '90%' : '80%',
                 [theme.breakpoints.down('sm')]: {
-                    display: 'block'
+                    display: 'block',
+                    width:'97%'
                 }
             })}>
                 <AsideLeft sx={(theme) => ({

@@ -12,6 +12,7 @@ import { colorScheme } from '../../theme'
 import KeyboardBackspaceOutlinedIcon from '@mui/icons-material/KeyboardBackspaceOutlined';
 import SelectWithCheckMarks from '../../components/form-inputs/select-with-checkmarks'
 import { StudentInfo } from '../../reusable/schemas'
+import { User } from '../../database/schema'
 
 const Container = styled(Box)(({ theme }) => ({
     height: 'calc(100vh - 66px)',
@@ -77,7 +78,7 @@ export default function TutorForm({ }: Props) {
 
     const prepareAccountSetup = React.useCallback(() => {
         dispatch(authActions.setUserProps({
-            name: 'StudentInfo',
+            name: 'studentInfo',
             value: StudentInfo
         }))
     }, [role])
@@ -108,17 +109,19 @@ export default function TutorForm({ }: Props) {
 
     async function handleSignUp() {
         console.log(signUpData.studentInfo)
-        // try {
-        //     const { data } = await AuthAPI.update(
-        //signUpData._id ?? '',
-        //{studentInfo:signUpData.studentInfo})
-        //     if (data.success) {
-        //         dispatch(authActions.setAuhtUser(data.user))
-        //         router.replace(`/dashboard`)
-        //     }
-        // } catch (error) {
-        //     console.log('err setup')
-        // }
+        const fullname = `${signUpData.firstName}${signUpData.lastName}`
+        const studentId = `@${fullname}`
+        console.log(studentId)
+        try {
+            const { data } = await AuthAPI.update(
+                signUpData._id ?? '',
+                { studentInfo: { ...signUpData.studentInfo, studentId } })
+            if (data.success) {
+                router.replace(`/dashboard`)
+            }
+        } catch (error) {
+            console.log('err setup')
+        }
     }
 
     return (
@@ -138,28 +141,28 @@ export default function TutorForm({ }: Props) {
                 </FormHeader>
 
                 <FormControl>
-                    <TextInput name="school" value={signUpData.studentInfo?.school}
+                    <TextInput name="school" value={signUpData?.studentInfo?.school}
                         onChange={handleOnChange}
                         sx={{ flex: 1 }} label="School" placeholder="School" />
                 </FormControl>
 
-                <FormControl>
+                {/* <FormControl>
                     <SelectWithCheckMarks error={false}
                         data={["Chemestry", "Physics", "Math"]}
                         label="Subjects"
                         name="subjects"
                         handleSelectedSection={handleOnChange}
                         value={signUpData.studentInfo?.subjects ?? []} />
-                </FormControl>
+                </FormControl> */}
                 <FormControl>
                     <TextInput name="startYear"
-                        value={signUpData.studentInfo?.startYear}
+                        value={signUpData?.studentInfo?.startYear}
                         onChange={handleOnChange}
                         sx={{ flexBasis: '48%' }}
                         label="Start Year"
                         placeholder="YYYY" />
                     <TextInput name="endYear"
-                        value={signUpData.studentInfo?.endYear}
+                        value={signUpData?.studentInfo?.endYear}
                         onChange={handleOnChange}
                         sx={{ flexBasis: '48%' }}
                         label="End Year"
@@ -168,7 +171,7 @@ export default function TutorForm({ }: Props) {
                 <FormControl>
                     <Textarea
                         minRows={6}
-                        value={signUpData.studentInfo?.description}
+                        value={signUpData?.studentInfo?.description}
                         name="description"
                         onChange={handleOnChange}
                         sx={{ color: 'inherit', flex: 1, borderColor: false ? colors.red[400] : colors.grey[400] }}

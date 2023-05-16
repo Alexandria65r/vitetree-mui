@@ -5,8 +5,6 @@ import { PopperPlacementType } from "@mui/material"
 
 export type TutorService = {
     price: string
-    perHour: boolean
-    value?: string
     label: string
     description?: string
 }
@@ -41,12 +39,19 @@ export type StudentInfo = {
     studentId: string
     accountBalance: string
     school: string
-    subjects: string[]
+   // subjects: string[]
     startYear: string
     endYear: string
     description: string
 }
 export type Role = 'tutor' | 'student' | ''
+
+export type Hired = {
+    tutorId:string
+    createdAt?:string
+}
+
+
 export type User = {
     _id?: string,
     firstName: string
@@ -264,7 +269,8 @@ export type Bid = {
 export type StudentInquiry = {
     _id: string,
     authorId: string,
-    fullname: string,
+    studentName: string,
+    tutorName: string,
     tutorId: string
     service: TutorService
     subjects: string[]

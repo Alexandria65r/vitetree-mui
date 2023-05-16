@@ -2,6 +2,7 @@ import { Notification, NotificationType } from "../models/notifications";
 import axios from 'axios'
 import cookies from "js-cookie";
 import { SCHOOYARD_AUTH_TOKEN } from "../reusable";
+import { setAxiosDefaults } from "./helpers";
 export default class NotificationAPI {
 
     static async create(newNotification: Notification) {
@@ -28,7 +29,3 @@ export default class NotificationAPI {
     }
 }
 
-function setAxiosDefaults() {
-    const token = cookies.get(SCHOOYARD_AUTH_TOKEN)
-    axios.defaults.headers.common['Authorization'] = token
-}

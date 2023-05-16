@@ -34,8 +34,9 @@ const Button = styled(ButtonBase)(({ theme }) => ({
 
 const AppBar = styled(AppNavigationBar)(({ theme }) => ({
     //  boxShadow: `0 1px 3px 0 ${isDarkMode(theme) ? colors.grey[800] :'transparent'}`,
-    borderBottom: `1px solid ${colorScheme(theme).secondaryColor}`,
-    backgroundColor: colorScheme(theme).primaryToGrey100Color,
+    //borderBottom: `1px solid ${colorScheme(theme).secondaryColor}`,
+   // backgroundColor: colorScheme(theme).primaryToGrey100Color,
+    backgroundColor: 'transparent',
 }))
 
 
@@ -93,7 +94,7 @@ export default function NavBar() {
                             <Badge>{cartItems.length}</Badge>
                         </ButtonIcon>
                     )}
-                    {!isMobile && user._id && (<>
+                    {!isMobile && user?._id && (<>
                         <ButtonIcon onClick={() => router.push('/conversations/conv-list')} sx={{ position: 'relative' }}>
                             <ChatOutlinedIcon />
                         </ButtonIcon>
@@ -106,14 +107,14 @@ export default function NavBar() {
                     <ButtonIcon onClick={toggleColorMode}>
                         {theme.palette.mode === 'light' ? <DarkModeOutlinedIcon /> : <LightModeOutlinedIcon />}
                     </ButtonIcon>
-                    {!isMobile && !user._id ? (
+                    {!isMobile && !user?._id ? (
                         <Button onClick={() => router.push('/signin')} sx={{
                             backgroundColor: 'transparent',
 
                         }}>Signin</Button>
                     ) : <></>}
 
-                    {!isMobile && !user._id ? (
+                    {!isMobile && !user?._id ? (
                         <Button sx={() => ({
                             color: '#fff'
                         })} onClick={() => router.push('/signup')}>

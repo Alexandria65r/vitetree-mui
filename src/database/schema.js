@@ -108,10 +108,11 @@ export const Inquiry = mongoose.model(
     _id: String,
     authorId: String,
     tutorId: String,
+    tutorName:String,
+    studentName:String,
     service: {
       label: String,
       price: String,
-      perHour: Boolean,
     },
     subjects: Array,
     topic: String,
@@ -120,8 +121,6 @@ export const Inquiry = mongoose.model(
     createdAt: { type: Date, default: Date.now },
   })
 );
-
-
 
 export const InquiryFeedbackSchema = mongoose.model(
   "inquiry-feedback",
@@ -150,5 +149,26 @@ export const NotificationSchema = mongoose.model(
     title: String,
     description: String,
     createdAt: { type: Date, default: Date.now },
+  })
+);
+
+const UserInfo = {
+  id: String,
+  sercureURL: String,
+  publicId: String,
+  name: String,
+};
+
+export const TaskSchema = mongoose.model(
+  "task",
+  new mongoose.Schema({
+    _id: String,
+    studentInfo: UserInfo,
+    tutorInfo: UserInfo,
+    service: { price: String, label: String },
+    dueDate: String,
+    vidAsset: { type: Object, required: false },
+    imageAsset: { type: Object, required: false },
+    status: String,
   })
 );

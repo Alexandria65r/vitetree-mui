@@ -105,10 +105,10 @@ export default function InquiredItem({ inquiryId, Footer }: Props) {
                                 Subjects
                             </Typography>
                             <Typography sx={{ fontSize: 13, lineHeight: 1.2, color: colors.teal[400] }}>
-                                {tutor.tutorInfo?.subjects.map((subject, index) => (
+                                {inquiry?.subjects.map((subject, index) => (
                                     <>
                                         {subject}
-                                        {nomalizedText(tutor.tutorInfo?.subjects ?? [], index)}
+                                        {nomalizedText(inquiry?.subjects ?? [], index)}
                                     </>
                                 ))}
                             </Typography>

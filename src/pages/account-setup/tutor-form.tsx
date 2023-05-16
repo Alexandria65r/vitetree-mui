@@ -151,12 +151,12 @@ export default function TutorForm({ }: Props) {
     async function handleSignUp() {
         const fullname = `${signUpData.firstName}${signUpData.lastName}`
         const tutorId = `@${fullname}`
+        console.log(signUpData.tutorInfo?.services)
         try {
             const { data } = await AuthAPI.update(
                 signUpData._id ?? '',
                 { tutorInfo: { ...signUpData.tutorInfo, tutorId } })
             if (data.success) {
-                dispatch(authActions.setAuhtUser(data.user))
                 router.replace(`/dashboard`)
             }
         } catch (error) {
@@ -166,15 +166,16 @@ export default function TutorForm({ }: Props) {
 
     function selectTutorService(service: string) {
         if (!signUpData.tutorInfo?.services) return
-        const isExist = signUpData.tutorInfo?.services.find((item) => item.value === service)
+        const isExist = signUpData.tutorInfo?.services.find((item) => item.label === service)
         if (isExist) {
-            const services = signUpData.tutorInfo?.services.filter((item) => item.value !== isExist.value)
+            const services = signUpData.tutorInfo?.services.filter((item) => item.label !== isExist.label)
             dispatch(authActions.setUserProps({
                 name: 'tutorInfo',
                 value: { ...signUpData.tutorInfo, services }
             }))
         } else {
-            const selected = tutorServices.find((serviceItem) => serviceItem.value === service);
+            const selected = tutorServices.find((serviceItem) => serviceItem.label === service);
+            console.log(selected)
             if (selected?.label) {
                 dispatch(authActions.setTutorService(selected))
             }
@@ -186,7 +187,7 @@ export default function TutorForm({ }: Props) {
     function isAdded(service: string) {
         let bool = false
         if (signUpData?.tutorInfo?.services) {
-            const isExist = signUpData.tutorInfo?.services.find((item) => item.value === service)
+            const isExist = signUpData.tutorInfo?.services.find((item) => item.label === service)
             if (isExist) {
                 bool = true
             }
@@ -217,7 +218,7 @@ export default function TutorForm({ }: Props) {
                         <TextInput
                             name="collage"
                             sx={{ flex: 1 }}
-                            value={signUpData.tutorInfo?.collage}
+                            value={signUpData?.tutorInfo?.collage}
                             onChange={handleOnChange}
                             label="Collage/University"
                             placeholder="Collage/University" />
@@ -226,14 +227,14 @@ export default function TutorForm({ }: Props) {
                         <TextInput
                             sx={{ flex: 1 }}
                             name="qualifications"
-                            value={signUpData.tutorInfo?.qualifications}
+                            value={signUpData?.tutorInfo?.qualifications}
                             onChange={handleOnChange}
                             label="Qualifications"
                             placeholder="e.g PHD in " />
                     </FormControl>
                     <FormControl>
                         <SelectWithCheckMarks error={false}
-                            value={signUpData.tutorInfo?.subjects ?? []}
+                            value={signUpData?.tutorInfo?.subjects ?? []}
                             data={["Chemestry", "Physics", "Math"]}
                             label="Subjects"
                             name="subjects"
@@ -243,14 +244,14 @@ export default function TutorForm({ }: Props) {
                     <FormControl>
                         <TextInput
                             name="startYear"
-                            value={signUpData.tutorInfo?.startYear}
+                            value={signUpData?.tutorInfo?.startYear}
                             onChange={handleOnChange}
                             sx={{ flexBasis: '48%' }}
                             label="Start Year"
                             placeholder="YYYY" />
                         <TextInput
                             name="endYear"
-                            value={signUpData.tutorInfo?.endYear}
+                            value={signUpData?.tutorInfo?.endYear}
                             onChange={handleOnChange}
                             sx={{ flexBasis: '48%' }}
                             label="End Year"
@@ -260,7 +261,7 @@ export default function TutorForm({ }: Props) {
                     <FormControl>
                         <TextInput
                             name="yearsOfExperience"
-                            value={signUpData.tutorInfo?.yearsOfExperience}
+                            value={signUpData?.tutorInfo?.yearsOfExperience}
                             onChange={handleOnChange}
                             sx={{ flex: 1 }} label="Years of experience"
                             placeholder="Years" />
@@ -277,7 +278,7 @@ export default function TutorForm({ }: Props) {
                                         {service.label}
                                     </Typography>
                                     <ButtonIcon
-                                        onClick={() => selectTutorService(service.value ?? '')}
+                                        onClick={() => selectTutorService(service.label)}
                                         sx={{
                                             height: 30, width: 30,
                                             border: `1px solid ${colors.grey[400]}`,
@@ -289,7 +290,7 @@ export default function TutorForm({ }: Props) {
                                             }
                                         }}>
 
-                                        {isAdded(service.value ?? '') ? <BiTrash /> : <Add fontSize='small' />}
+                                        {isAdded(service.label) ? <BiTrash /> : <Add fontSize='small' />}
                                     </ButtonIcon>
                                 </ServiceItem>
 
@@ -298,7 +299,7 @@ export default function TutorForm({ }: Props) {
                             <FormControl>
                                 <Textarea
                                     minRows={6}
-                                    value={signUpData.tutorInfo?.description}
+                                    value={signUpData?.tutorInfo?.description}
                                     name="description"
                                     maxLength={300}
                                     onChange={handleOnChange}
@@ -310,7 +311,7 @@ export default function TutorForm({ }: Props) {
                         <AddService />}
                 </>
                 )}
-                {!selectedTutorService.value && (
+                {!selectedTutorService.label && (
                     <FormControl sx={{ justifyContent: isNext ? 'space-between' : 'flex-end' }}>
                         <StyledButton onClick={() => setNext(!isNext)} sx={{ flexBasis: '30%' }}>
                             {isNext ? 'Back' : 'Next'}

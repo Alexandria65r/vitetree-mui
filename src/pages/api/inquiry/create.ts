@@ -35,6 +35,7 @@ async function updateUserInquiredList(inquiryData: StudentInquiry) {
             tutorId: inquiryData.tutorId,
             status: 'active'
         }
+        //NOTE: inquiryList to be seperated into collection
         const inquiredList = [...user?.inquiredList ?? [], inquired]
         user.inquiredList = inquiredList;
         const updated = await user?.save()

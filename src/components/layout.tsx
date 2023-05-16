@@ -13,6 +13,19 @@ import CartModal from './modals/cart-modal'
 import WishListModal from './modals/wishlist-modal'
 import SideBar from './side-bar'
 import { mainActions } from '../../reducers'
+import { colors, styled } from '@mui/material'
+import { StyledButton } from '../reusable/styles'
+import { BiHome, BiHomeAlt } from 'react-icons/bi'
+import AsideNavbar from './aside-navbar'
+
+const FlexContainer = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    height: 'calc(100vh - 66px)',
+    [theme.breakpoints.down('sm')]: {
+        display: 'block'
+    }
+}))
+
 
 type Props = {
     children: any
@@ -42,14 +55,22 @@ export default function Layout({ children }: Props) {
 
 
 
-
-
-
-
     return (
         <Box>
             <NavBar />
-            <Box>{children}</Box>
+            <FlexContainer sx={{
+                display: !isSidebarOpen ? 'flex' : 'block'
+            }}>
+                {!isSidebarOpen && (
+                    <AsideNavbar />
+                )}
+
+                <Box
+                    sx={{ flex: 1, transition: '0.3s all' }}
+                    className="sideBarAnimated">
+                    {children}
+                </Box>
+            </FlexContainer>
             <ReusablePopper />
             <DuplicateTestModal />
             <DeleteTestModal />

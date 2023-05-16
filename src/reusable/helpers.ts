@@ -75,32 +75,23 @@ export function normalizedDate(createdAt: string) {
 
 export const tutorServices: TutorService[] = [
     {
-       
-        perHour: true,
         price: '$24.60',
-        label: 'Private class',
-        value: 'class',
+        label: 'private class',
         description: `Charge students for teaching them on live video 
         e.g google meet or any face to face platform for the meantime you
          can use any meeting app of your choice as we are in development of
           schooyard meet.🎉`
     },
     {
-       
-        perHour: false,
         price: '$12.60',
-        label: 'Assignment Solving',
-        value: 'assignment',
+        label: 'assignment Solving',
         description: `This service allows you to charge students who want 
         their school assignment get solved by you. Add it in your list of 
         services if you wish to offer this service.`
     },
     {
-       
-        perHour: true,
         price: '$9.60',
-        label: 'Prepare a course video',
-        value: 'course',
+        label: 'prepare video tutorial',
         description: `If you sell your video courses on course marketplace 
         here on schooyard you're probably familiar with his service the only
         difference is that students will request a video tutorial specifically
@@ -110,8 +101,11 @@ export const tutorServices: TutorService[] = [
 
 
 export function nomalizedText(subjects: string[], index: number) {
-    const subsLen = subjects.length - 1
-    return subsLen === 1 && index !== subsLen ? ' and ' :
-        index !== subsLen && index + 1 !== subsLen ? ',' :
-            index + 1 === subsLen ? ' and ' : ''
+   
+        const subsLen = subjects.length - 1
+
+        return subsLen === 1 && index !== subsLen ? ' and ' :
+            index !== subsLen && index + 1 !== subsLen ? ',' :
+                index + 1 === subsLen ? ' and ' : ''
+    
 }

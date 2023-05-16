@@ -21,7 +21,7 @@ import InquiryFeedback from '../../components/inquiry-feedback/inquiry-feedback'
 
 
 const Container = styled(Box)(({ theme }) => ({
-    width: '80%',
+    width: '90%',
     margin: '20px auto 0 auto',
     display: 'flex',
     height: 'calc(100vh - 100px)',
@@ -190,14 +190,17 @@ export default function Notifications({ }: Props) {
                         >
                             <WestIcon />
                         </ButtonIcon>
-                        <Typography sx={{ flex: 1,lineHeight:1.3, ml: .5, fontSize: 18, fontWeight: 500 }}>
+                        <Typography sx={{ flex: 1, lineHeight: 1.3, ml: .5, fontSize: 18, fontWeight: 500 }}>
                             {notification.title || <Skeleton sx={{ width: 260 }} />}
                         </Typography>
                     </MainHeader>
 
                     <ItemContainer>
-                        {/* {notification.description} */}
-                        <InquiryFeedback />
+                        {notification.description}
+                        {notification.type === 'inquiry-purchase-feedback' ||
+                            notification.type === 'inquiry-terms-feedback' ?
+                            <InquiryFeedback /> : <></>}
+
                     </ItemContainer>
                 </MainCol>
             </Container>
