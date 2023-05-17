@@ -4,7 +4,7 @@ import { CSS_PROPERTIES } from '../../reusable'
 import { ButtonIcon, FormHeader, FormLogo, StyledButton, Textarea } from '../../reusable/styles'
 import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
-import { authActions } from '../../../reducers/auth-reducer'
+import { authActions } from '../../../reducers/auth-reducer/auth-reducer'
 import { getAuth } from "firebase/auth";
 import { useAppSelector } from '../../../store/hooks'
 import { fireBaseApp } from '../_app'
@@ -165,7 +165,7 @@ export default function TutorForm({ }: Props) {
     }
 
     function selectTutorService(service: string) {
-      
+
         if (!signUpData.tutorInfo?.services) return
         const isExist = signUpData.tutorInfo?.services.find((item) => item.label === service)
         if (isExist) {

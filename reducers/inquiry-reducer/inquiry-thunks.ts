@@ -4,7 +4,7 @@ import InquiryAPI from "../../src/api-services/inquiry";
 import { inquiryActions } from ".";
 import axios from 'axios'
 import { InquiryFeedback } from "../../src/models/inquiry-feedback";
-import { authActions } from "../auth-reducer";
+import { authActions } from "../auth-reducer/auth-reducer";
 
 
 export const createInquiryThunk = createAsyncThunk<void, undefined, { state: AppState }>

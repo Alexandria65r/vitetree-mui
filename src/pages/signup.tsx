@@ -6,7 +6,7 @@ import AuthAPI from '../api-services/auth'
 import { Role } from '../reusable/interfaces'
 import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
-import { authActions } from '../../reducers/auth-reducer'
+import { authActions } from '../../reducers/auth-reducer/auth-reducer'
 import cookies from 'js-cookie'
 import { getAuth } from "firebase/auth";
 import SignInWithGoogleButton from '../components/auth/google-button'

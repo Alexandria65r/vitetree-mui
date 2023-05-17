@@ -7,7 +7,7 @@ import { User } from '../../reusable/interfaces'
 import { StudentInfo, StudentInquiry, TutorInfo, UserSchema } from '../../reusable/schemas'
 import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
-import { authActions } from '../../../reducers/auth-reducer'
+import { authActions } from '../../../reducers/auth-reducer/auth-reducer'
 import cookies from 'js-cookie'
 import { getAuth } from "firebase/auth";
 import SignInWithGoogleButton from '../../components/auth/google-button'

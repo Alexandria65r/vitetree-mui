@@ -8,7 +8,7 @@ const UserSchema = new mongoose.Schema({
   birthday: { type: String, required: false },
   password: { type: String, required: true },
   country: { type: String, required: false },
-  imageAsset: { imageURL: String, public_id: String },
+  imageAsset: { publicId: String, secureURL: String },
   courses: { type: Array, required: false },
   tutorInfo: { type: Object, required: false },
   inquiredList: { type: Array, required: false },

@@ -5,7 +5,7 @@ import { CSS_PROPERTIES } from '../../reusable';
 import GoogleIcon from '@mui/icons-material/Google';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { SignInThunk } from '../../../reducers/thunks';
-import { authActions } from '../../../reducers/auth-reducer';
+import { authActions } from '../../../reducers/auth-reducer/auth-reducer';
 import { fireBaseApp } from '../../pages/_app';
 
 
@@ -54,7 +54,7 @@ export default function SignInWithGoogleButton({ disabled }: Props) {
 
 
     async function signInWithGoogle() {
-        if (gettingStartedRole){
+        if (gettingStartedRole) {
             localStorage.setItem('getting-started-role', gettingStartedRole)
         }
         localStorage.setItem('redirectFlag', JSON.stringify({ isRedirecting: true }))

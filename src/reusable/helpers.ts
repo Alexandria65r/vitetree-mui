@@ -1,5 +1,6 @@
 import moment from "moment";
-import { Choice, TutorService } from "./interfaces";
+import { Choice, Role, TutorService } from "./interfaces";
+import { Task } from "../models/task";
 
 export const cartegories = ["sports", "programming", "health", "business"];
 export const questionChoices: any = {
@@ -101,11 +102,17 @@ export const tutorServices: TutorService[] = [
 
 
 export function nomalizedText(subjects: string[], index: number) {
-   
-        const subsLen = subjects.length - 1
 
-        return subsLen === 1 && index !== subsLen ? ' and ' :
-            index !== subsLen && index + 1 !== subsLen ? ',' :
-                index + 1 === subsLen ? ' and ' : ''
-    
+    const subsLen = subjects.length - 1
+
+    return subsLen === 1 && index !== subsLen ? ' and ' :
+        index !== subsLen && index + 1 !== subsLen ? ',' :
+            index + 1 === subsLen ? ' and ' : ''
+
+}
+
+/// to be used in tasks
+export function getSwapedTaskUserInfo(role: Role, task: Task) {
+    if (role === 'student') return task.tutorInfo;
+    return task.studentInfo
 }

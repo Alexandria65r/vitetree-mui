@@ -12,7 +12,7 @@ import { colorScheme } from '../theme'
 import { SlGraduation } from 'react-icons/sl'
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { mainActions } from '../../reducers';
-import authReducer, { authActions } from '../../reducers/auth-reducer';
+import authReducer, { authActions } from '../../reducers/auth-reducer/auth-reducer';
 
 const Container = styled(Box)(({ theme }) => ({
   height: 'calc(100vh - 66px)',

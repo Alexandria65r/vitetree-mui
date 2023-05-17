@@ -1,7 +1,7 @@
 import { Box, Typography, styled } from '@mui/material'
 import React from 'react'
 import task from '../../api-services/task'
-import ChatPersonInfo from '../chat-person-info'
+import ChatPersonInfo from '../user/chat-person-info'
 import ChangeTaskStatus from '../menus/task-status-button'
 import { useAppSelector } from '../../../store/hooks'
 import TitledItem from '../titled-item'
@@ -9,6 +9,7 @@ import { CSS_PROPERTIES } from '../../reusable'
 import { StyledBox } from '../../reusable/styles'
 import { colorScheme } from '../../theme'
 import { Task } from '../../models/task'
+import { getSwapedTaskUserInfo } from '../../reusable/helpers'
 
 
 const Container = styled(StyledBox)(({ theme }) => ({
@@ -26,10 +27,12 @@ type Props = {
 
 export default function TaskDetails({ task }: Props) {
     const user = useAppSelector((state) => state.AuthReducer.user)
+    const swapedInfo = getSwapedTaskUserInfo(user.role, task)
     return (
         <Container sx={{}}>
             <ChatPersonInfo
-                fullname={user.role === 'student' ? task.tutorInfo.name : task.studentInfo.name}
+                userId={swapedInfo.id}
+                fullname={swapedInfo.name}
                 fullnameStyles={{ fontSize: 30, textTransform: 'capitalize', lineHeight: 1.2, fontWeight: 600 }}
                 subText='Zambia - Lusaka 15:09'
                 avatarSize={100}

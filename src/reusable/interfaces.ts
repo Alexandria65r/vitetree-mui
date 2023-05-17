@@ -39,7 +39,7 @@ export type StudentInfo = {
     studentId: string
     accountBalance: string
     school: string
-   // subjects: string[]
+    // subjects: string[]
     startYear: string
     endYear: string
     description: string
@@ -47,10 +47,15 @@ export type StudentInfo = {
 export type Role = 'tutor' | 'student' | ''
 
 export type Hired = {
-    tutorId:string
-    createdAt?:string
+    tutorId: string
+    createdAt?: string
 }
 
+export type UserAvatarAsset = {
+    publicId: string;
+    secureURL: string;
+    initials: string
+}
 
 export type User = {
     _id?: string,

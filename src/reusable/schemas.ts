@@ -8,10 +8,6 @@ export const UserSchema: Types.User = {
     lastName: '',
     email: '',
     password: '',
-    imageAsset: {
-        publicId: '',
-        secureURL: ''
-    },
 }
 
 export const StudentInfo: Types.StudentInfo = {

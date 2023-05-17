@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Signin, User } from "../reusable/interfaces";
+import { Signin, User, UserAvatarAsset } from "../reusable/interfaces";
 
 
 export default class AuthAPI {
@@ -28,6 +28,12 @@ export default class AuthAPI {
         const { data } = await axios.get(`/api/auth/fetch-user/${id}`)
         if (data.success) {
             return data.user as User
+        }
+    }
+    static async fetchUserAvatar(id: string) {
+        const { data } = await axios.get(`/api/auth/fetch-user-avatar/${id}`)
+        if (data.success) {
+            return data.userAvatar as UserAvatarAsset
         }
     }
     static async fetchInquired(authorId: string) {

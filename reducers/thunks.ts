@@ -8,7 +8,7 @@ import randomstring from 'randomstring'
 import TestAPI from "../src/api-services/test";
 import Cookies from "js-cookie";
 import AuthAPI from "../src/api-services/auth";
-import { authActions } from "./auth-reducer";
+import { authActions } from "./auth-reducer/auth-reducer";
 import { SCHOOYARD_AUTH_TOKEN } from "../src/reusable";
 import Router from "next/router";
 import { mainActions } from ".";
@@ -143,19 +143,19 @@ export const setWithPreparedSections = createAsyncThunk<void, Test, { state: App
         for (let sectionPos = 0; sectionPos < clonedSections.length; sectionPos++) {
             const clonedSection: Section = { ...clonedSections[sectionPos] }
 
-                if (clonedSection.numberOfQuestions > clonedSection.questions.length) {
-                    console.log('time to update')
-                    const diff = clonedSection.numberOfQuestions - clonedSection.questions.length
-                    fillQuestion(clonedSections, diff, clonedSection, sectionPos)
-                } else if (clonedSection.numberOfQuestions < clonedSection.questions.length) {
-                    console.log(`attention required!! in Section ${clonedSection.name} alert user`)
-                    console.log(`expected ${clonedSection.numberOfQuestions} questions`)
-                    console.log(`existing question ${clonedSection.questions.length}`)
-                    // const diff = clonedSection.numberOfQuestions - clonedSection.questions.length
-                    // fillQuestion(clonedSections, diff, clonedSection, sectionPos)
-                } else {
-                    fillQuestion(clonedSections, clonedSection.numberOfQuestions, clonedSection, sectionPos)
-                }
+            if (clonedSection.numberOfQuestions > clonedSection.questions.length) {
+                console.log('time to update')
+                const diff = clonedSection.numberOfQuestions - clonedSection.questions.length
+                fillQuestion(clonedSections, diff, clonedSection, sectionPos)
+            } else if (clonedSection.numberOfQuestions < clonedSection.questions.length) {
+                console.log(`attention required!! in Section ${clonedSection.name} alert user`)
+                console.log(`expected ${clonedSection.numberOfQuestions} questions`)
+                console.log(`existing question ${clonedSection.questions.length}`)
+                // const diff = clonedSection.numberOfQuestions - clonedSection.questions.length
+                // fillQuestion(clonedSections, diff, clonedSection, sectionPos)
+            } else {
+                fillQuestion(clonedSections, clonedSection.numberOfQuestions, clonedSection, sectionPos)
+            }
         }
         dispatch(testActions.setTestData({ ...testData, sections: clonedSections }))
     })

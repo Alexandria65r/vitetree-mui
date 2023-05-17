@@ -9,9 +9,11 @@ import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import { ActiveIndicator, Avatar, StyledBox, StyledButton, TabButton } from '../../reusable/styles'
 import { Add } from '@mui/icons-material'
 import ChangeTaskStatus from '../../components/menus/task-status-button'
-import ChatPersonInfo from '../../components/chat-person-info'
+import ChatPersonInfo from '../../components/user/chat-person-info'
 import TaskDetails from '../../components/tasks/task-details'
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+import SubmitTaskForm from '../../components/tasks/submit-task-form'
+import SubmitedTaskFiles from '../../components/tasks/submited-task-files'
 
 const Container = styled(Box)(({ theme }) => ({
     width: '80%',
@@ -54,7 +56,7 @@ const MainCol = styled(Box)(({ theme }) => ({
 }))
 
 const MainColHeader = styled(Box)(({ theme }) => ({
-    display:'flex',
+    display: 'flex',
     height: 40,
     padding: '0 0px',
     marginBottom: 15,
@@ -74,22 +76,7 @@ const UpdateItem = styled(StyledBox)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'light' ? '#fff' : colorScheme(theme).secondaryColor
 }))
 
-const Dropzone = styled(Box)(({ theme }) => ({
-    height: 140,
-    padding: '0 10px',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    border: `1px dashed #000`,
-    borderRadius: CSS_PROPERTIES.radius10,
-}))
 
-
-const SubmitFooter = styled(Box)(({ theme }) => ({
-    marginTop: 15,
-    display: 'flex',
-    justifyContent: 'flex-end'
-}))
 
 
 
@@ -173,41 +160,29 @@ export default function Task({ }: Props) {
                         </Header>
                         <TaskDetails task={task} />
                         <Typography sx={{ fontSize: 25, mb: 1, fontWeight: 600 }}>
-                            Submit
+                            {user.role === 'student' ? 'Submited' : ' Submit'} Files
                         </Typography>
-                        <StyledBox sx={{
-                            minHeight: 100,
-                            marginBottom: 1.5,
-                            [_theme.breakpoints.down('sm')]: {
-                                display: showUpdates ? 'none' : 'block'
-                            }
-                        }}>
-                            <Dropzone>
-                                <StyledButton sx={{
-                                    borderRadius: 29,
-                                    bgcolor: _theme.palette.mode === 'light' ? colors.lime[400] : colorScheme(_theme).primaryColor
-                                }}>
-                                    Browse Files
-                                </StyledButton>
-                            </Dropzone>
-                            <SubmitFooter>
-                                <StyledButton sx={{
-                                    flex: 1,
-                                    borderRadius: 29
-                                    , bgcolor: _theme.palette.mode === 'light' ? colors.lime[400] : colorScheme(_theme).primaryColor
-                                }}>
-                                    Submit Task
-                                </StyledButton>
-                            </SubmitFooter>
+                        <StyledBox
+                            sx={{
+                                minHeight: 100,
+                                marginBottom: 1.5,
+                                [_theme.breakpoints.down('sm')]: {
+                                    display: showUpdates ? 'none' : 'block'
+                                }
+                            }}
+                        >
+                            {user.role === 'student' && <SubmitedTaskFiles />}
+                            {user.role === 'tutor' && <SubmitTaskForm />}
+
                         </StyledBox>
                     </AsideLeft>
                     <MainCol
                         className="sideBarAnimated"
-                    sx={{
-                        [_theme.breakpoints.down('sm')]: {
-                            display: showUpdates ? 'block' : 'none'
-                        }
-                    }}>
+                        sx={{
+                            [_theme.breakpoints.down('sm')]: {
+                                display: showUpdates ? 'block' : 'none'
+                            }
+                        }}>
                         <MainColHeader>
                             <TabButton onClick={() => setShowUpdates(false)}
                                 sx={{
@@ -228,6 +203,7 @@ export default function Task({ }: Props) {
                         <UpdateItem>
                             <UpdateHeader>
                                 <ChatPersonInfo
+                                    userId=''
                                     fullname="(You) Robert Chingabu "
                                     fullnameStyles={{ fontSize: 14, lineHeight: 1.2, }}
                                     subText='15 Min'
@@ -238,6 +214,7 @@ export default function Task({ }: Props) {
                         <UpdateItem>
                             <UpdateHeader>
                                 <ChatPersonInfo
+                                    userId=''
                                     fullname='John Doe'
                                     fullnameStyles={{ fontSize: 14, lineHeight: 1.2, }}
                                     subText='5 Min'

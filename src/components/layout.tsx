@@ -13,7 +13,7 @@ import CartModal from './modals/cart-modal'
 import WishListModal from './modals/wishlist-modal'
 import SideBar from './side-bar'
 import { mainActions } from '../../reducers'
-import { colors, styled } from '@mui/material'
+import { LinearProgress, colors, styled } from '@mui/material'
 import { StyledButton } from '../reusable/styles'
 import { BiHome, BiHomeAlt } from 'react-icons/bi'
 import AsideNavbar from './aside-navbar'
@@ -35,7 +35,7 @@ export default function Layout({ children }: Props) {
     const dispatch = useAppDispatch()
     const router = useRouter()
     const isSidebarOpen = useAppSelector((state) => state.MainReducer.isSidebarOpen)
-
+    const [isRouteChange, setRouteChange] = React.useState<boolean>(false)
     const checkAuth = React.useCallback(async () => {
         const { payload } = await dispatch(checkAuthThunk({}))
         console.log(payload)
@@ -54,9 +54,33 @@ export default function Layout({ children }: Props) {
     }, [router.pathname])
 
 
+    React.useEffect(() => {
+        router.events.on('routeChangeStart', routeChangeStart)
+        router.events.on('routeChangeComplete', routeChangeComplete)
+
+        return () => {
+            router.events.off('routeChangeStart', routeChangeStart)
+            router.events.off('routeChangeComplete', routeChangeComplete)
+        }
+    }, [])
+
+
+    function routeChangeStart() {
+        setRouteChange(true)
+    }
+    function routeChangeComplete() {
+        setRouteChange(false)
+    }
+
+
+
+
 
     return (
         <Box>
+            <Box>
+                {isRouteChange && <LinearProgress />}
+            </Box>
             <NavBar />
             <FlexContainer sx={{
                 display: !isSidebarOpen ? 'flex' : 'block'

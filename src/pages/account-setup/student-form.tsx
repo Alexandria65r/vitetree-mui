@@ -5,7 +5,7 @@ import { ButtonIcon, FormHeader, FormLogo, StyledButton, Textarea } from '../../
 import AuthAPI from '../../api-services/auth'
 import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
-import { authActions } from '../../../reducers/auth-reducer'
+import { authActions } from '../../../reducers/auth-reducer/auth-reducer'
 import cookies from 'js-cookie'
 import { useAppSelector } from '../../../store/hooks'
 import { colorScheme } from '../../theme'

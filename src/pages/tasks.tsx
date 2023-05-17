@@ -6,8 +6,11 @@ import { colorScheme } from '../theme'
 import { useRouter } from 'next/router'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { fetchHiredTasks } from '../../reducers/task-reducer/task-thunks'
-import ChatPersonInfo from '../components/chat-person-info'
+import ChatPersonInfo from '../components/user/chat-person-info'
 import { StyledBox } from '../reusable/styles'
+import { Role } from '../reusable/interfaces'
+import { Task } from '../models/task'
+import { getSwapedTaskUserInfo } from '../reusable/helpers'
 
 
 
@@ -91,7 +94,8 @@ export default function Tasks({ }: Props) {
                         sx={{ cursor: 'pointer' }}
                     >
                         <ChatPersonInfo
-                            fullname={user.role === 'student' ? task.tutorInfo.name : task.studentInfo.name}
+                            userId={getSwapedTaskUserInfo(user.role, task).id}
+                            fullname={getSwapedTaskUserInfo(user.role, task).name}
                             fullnameStyles={{ fontSize: 14, textTransform: 'capitalize', lineHeight: 1.2, }}
                             subText={task.service.label}
                             avatarSize={55}
@@ -102,3 +106,4 @@ export default function Tasks({ }: Props) {
         </Layout>
     )
 }
+

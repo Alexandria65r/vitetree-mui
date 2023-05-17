@@ -3,7 +3,7 @@ import { Box, Button, MenuItem, Select, Typography, colors, styled } from '@mui/
 import React from 'react'
 import { StyledButton } from '../../reusable/styles'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
-import { authActions } from '../../../reducers/auth-reducer'
+import { authActions } from '../../../reducers/auth-reducer/auth-reducer'
 import { TutorServiceSchema } from '../../reusable/schemas'
 
 
