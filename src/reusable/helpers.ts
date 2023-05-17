@@ -84,7 +84,7 @@ export const tutorServices: TutorService[] = [
     },
     {
         price: '$12.60',
-        label: 'assignment Solving',
+        label: 'assignment solving',
         description: `This service allows you to charge students who want 
         their school assignment get solved by you. Add it in your list of 
         services if you wish to offer this service.`

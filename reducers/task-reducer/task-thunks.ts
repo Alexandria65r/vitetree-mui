@@ -32,7 +32,9 @@ export const createHiredTask = createAsyncThunk<void, undefined, { state: AppSta
                 label: inquiryFeedback.service.label,
                 price: inquiryFeedback.serviceTerms.price
             },
-            status: 'working-on-it',
+            subjects:inquiry.subjects,
+            topic:inquiry.topic??'',
+            status: 'just hired',
             dueDate: inquiryFeedback.serviceTerms.dueDate,
         }
         try {

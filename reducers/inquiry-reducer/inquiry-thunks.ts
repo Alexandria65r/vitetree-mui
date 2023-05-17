@@ -12,7 +12,6 @@ export const createInquiryThunk = createAsyncThunk<void, undefined, { state: App
         const dispatch = thunkAPI.dispatch
         const state = thunkAPI.getState()
         const inquiry = state.InquiryReducer.inquiry
-        console.log(inquiry)
         try {
             dispatch(inquiryActions.setError(false))
             dispatch(inquiryActions.setInquiryNetworkStatus('creatingInquiry'))
@@ -21,7 +20,6 @@ export const createInquiryThunk = createAsyncThunk<void, undefined, { state: App
                 dispatch(inquiryActions.setInquiryNetworkStatus('creatingInquirySuccess'))
                 dispatch(authActions.setAuhtUser(data?.updatedUser))
             }
-
         } catch (error) {
             dispatch(inquiryActions.setInquiryNetworkStatus('creatingInquiryError'))
         }

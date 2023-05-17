@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Layout from '../../components/layout'
-import { Box, SxProps, Theme, Typography, styled, useTheme } from '@mui/material'
+import { Box, SxProps, Theme, Typography, colors, styled, useTheme } from '@mui/material'
 import { CSS_PROPERTIES } from '../../reusable'
 import { colorScheme, useColorScheme } from '../../theme'
 import { useRouter } from 'next/router'
@@ -8,7 +8,10 @@ import { fetchHiredTask } from '../../../reducers/task-reducer/task-thunks'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import { ActiveIndicator, Avatar, StyledBox, StyledButton, TabButton } from '../../reusable/styles'
 import { Add } from '@mui/icons-material'
-
+import ChangeTaskStatus from '../../components/menus/task-status-button'
+import ChatPersonInfo from '../../components/chat-person-info'
+import TaskDetails from '../../components/tasks/task-details'
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 
 const Container = styled(Box)(({ theme }) => ({
     width: '80%',
@@ -51,6 +54,7 @@ const MainCol = styled(Box)(({ theme }) => ({
 }))
 
 const MainColHeader = styled(Box)(({ theme }) => ({
+    display:'flex',
     height: 40,
     padding: '0 0px',
     marginBottom: 15,
@@ -60,22 +64,33 @@ const UpdateHeader = styled(Box)(({ theme }) => ({
     padding: '0 10px',
 }))
 
-const TaskDetails = styled(StyledBox)(({ theme }) => ({
-    minHeight: 100,
-    padding: 10,
-    marginBottom: 15,
-    borderRadius: CSS_PROPERTIES.radius10,
-    boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
-    backgroundColor: theme.palette.mode === 'light' ? '#fff' : colorScheme(theme).secondaryColor
-}))
+
 const UpdateItem = styled(StyledBox)(({ theme }) => ({
     minHeight: 100,
     padding: 10,
     marginBottom: 15,
     borderRadius: CSS_PROPERTIES.radius10,
-    boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
+    boxShadow: `0 1px solid 3px 0 ${colorScheme(theme).chatBoarderColor}`,
     backgroundColor: theme.palette.mode === 'light' ? '#fff' : colorScheme(theme).secondaryColor
 }))
+
+const Dropzone = styled(Box)(({ theme }) => ({
+    height: 140,
+    padding: '0 10px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    border: `1px dashed #000`,
+    borderRadius: CSS_PROPERTIES.radius10,
+}))
+
+
+const SubmitFooter = styled(Box)(({ theme }) => ({
+    marginTop: 15,
+    display: 'flex',
+    justifyContent: 'flex-end'
+}))
+
 
 
 
@@ -89,6 +104,7 @@ export default function Task({ }: Props) {
     const user = useAppSelector((state) => state.AuthReducer.user)
     const task = useAppSelector((state) => state.TaskReducer.task)
     const id: any = router.query.id
+    const [showUpdates, setShowUpdates] = useState<boolean>(false)
 
     const _theme = useTheme()
 
@@ -109,49 +125,101 @@ export default function Task({ }: Props) {
     return (
         <Layout>
             <Container sx={{
+
                 width: !isSidebarOpen ? '90%' : '80%',
                 [_theme.breakpoints.down("sm")]: {
                     width: '97%',
                 }
             }}>
                 <Header>
-                    <Typography sx={{ fontSize: 25, fontWeight: 600 }}>
+                    <Typography sx={{ flex: 1, fontSize: 25, fontWeight: 600 }}>
                         Task
                     </Typography>
+                    {!showUpdates && (
+                        <TabButton
+                            onClick={() => setShowUpdates(!showUpdates)}
+                            sx={{
+                                display: 'none',
+                                [_theme.breakpoints.down('sm')]: {
+                                    display: 'flex'
+                                }
+                            }}>
+                            <Add sx={{ mr: .5 }} />
+                            Wirte an update
+                        </TabButton>
+                    )}
+
                 </Header>
 
-                <InnerFlexContainer>
-                    <AsideLeft>
+                <InnerFlexContainer sx={{ display: showUpdates ? 'block' : 'flex', }}>
 
-                        <TaskDetails sx={{}}>
-                            <ChatPersonInfo
-                                fullname="John Doe"
-                                fullnameStyles={{ fontSize: 30, lineHeight: 1.2, fontWeight: 600 }}
-                                subText='Zambia - Lusaka 15:09'
-                                avatarSize={100}
-                                indicatorStyles={{ position: 'absolute', left: 80, bottom: 10 }} />
-                            <Box sx={{ width: '100%', mt: 1, display: 'flex', flexWrap: 'wrap', rowGap: 1, justifyContent: 'space-around' }}>
-                                <Typography sx={{ flexBasis: '100%', mb: 1, fontSize: 16, fontWeight: 600 }}>
-                                    Assignment Solving
-                                </Typography>
-                                <TaskInfoItem title='Subjects' value="Math" />
-                                <TaskInfoItem title='Topic' value="Trignometry" />
-                                <TaskInfoItem title='Price' value="$24.60" />
-                                <TaskInfoItem title='Due Date' value="5/16/2023" />
+                    <AsideLeft sx={{
+                        [_theme.breakpoints.down('sm')]: {
+                            display: showUpdates ? 'none' : 'block'
+                        }
+                    }}>
+                        <Header>
+                            <Typography sx={{ flex: 1, fontSize: 25, fontWeight: 600 }}>
+                                CountDown
+                            </Typography>
+                            <StyledButton sx={{
+                                flex: 1,
+                                ml: 1,
+                                borderRadius: 29
+                                , bgcolor: _theme.palette.mode === 'light' ? colors.lime[400] : colorScheme(_theme).primaryColor
+                            }}>
+                                17 Days Left
+                            </StyledButton>
+                        </Header>
+                        <TaskDetails task={task} />
+                        <Typography sx={{ fontSize: 25, mb: 1, fontWeight: 600 }}>
+                            Submit
+                        </Typography>
+                        <StyledBox sx={{
+                            minHeight: 100,
+                            marginBottom: 1.5,
+                            [_theme.breakpoints.down('sm')]: {
+                                display: showUpdates ? 'none' : 'block'
+                            }
+                        }}>
+                            <Dropzone>
+                                <StyledButton sx={{
+                                    borderRadius: 29,
+                                    bgcolor: _theme.palette.mode === 'light' ? colors.lime[400] : colorScheme(_theme).primaryColor
+                                }}>
+                                    Browse Files
+                                </StyledButton>
+                            </Dropzone>
+                            <SubmitFooter>
                                 <StyledButton sx={{
                                     flex: 1,
-                                    ml: 1,
                                     borderRadius: 29
-                                    , bgcolor: _theme.palette.mode === 'light' ? '#000' : colorScheme(_theme).primaryColor
+                                    , bgcolor: _theme.palette.mode === 'light' ? colors.lime[400] : colorScheme(_theme).primaryColor
                                 }}>
-                                    {task.status}
+                                    Submit Task
                                 </StyledButton>
-                            </Box>
-                        </TaskDetails>
-
+                            </SubmitFooter>
+                        </StyledBox>
                     </AsideLeft>
-                    <MainCol>
+                    <MainCol
+                        className="sideBarAnimated"
+                    sx={{
+                        [_theme.breakpoints.down('sm')]: {
+                            display: showUpdates ? 'block' : 'none'
+                        }
+                    }}>
                         <MainColHeader>
+                            <TabButton onClick={() => setShowUpdates(false)}
+                                sx={{
+                                    display: 'none',
+                                    [_theme.breakpoints.down('sm')]: {
+                                        display: 'flex'
+                                    }
+                                }}
+                            >
+                                <KeyboardBackspaceIcon sx={{ mr: .5 }} />
+                                Back
+                            </TabButton>
                             <TabButton>
                                 <Add sx={{ mr: .5 }} />
                                 Wirte an update
@@ -187,62 +255,8 @@ export default function Task({ }: Props) {
 }
 
 
-type TaskInfoItemProps = {
-    title: string
-    value: string
-}
 
-function TaskInfoItem({ title, value }: TaskInfoItemProps) {
-    const theme = useTheme()
-    const _colorScheme = useColorScheme()
-    return (
-        <Box sx={{
-            p: .6,
-            flexBasis: '30%',
-            border: `1px solid`,
-            borderColor: theme.palette.mode === 'light' ? '#ddd' : _colorScheme.primaryColor,
-            borderRadius: 29
 
-        }}>
-            <Typography sx={{ fontSize: 13, lineHeight: 1.2, textAlign: 'center' }}>{title}</Typography>
-            <Typography sx={{ fontSize: 13, lineHeight: 1.2, textAlign: 'center' }}>{value}</Typography>
-        </Box>
-    )
-}
 
-type ChatPersonInfoProps = {
-    fullname: string
-    fullnameStyles?: SxProps<Theme> | undefined
-    avatarSize: number
-    indicatorStyles: SxProps<Theme> | undefined
-    subText: string
-
-}
-function ChatPersonInfo({ fullname, fullnameStyles, subText, avatarSize, indicatorStyles }: ChatPersonInfoProps) {
-    const _theme = useTheme()
-    return (
-        <Box sx={{ display: 'flex', position: 'relative', alignItems: 'center' }}>
-            <Avatar sx={{
-                height: avatarSize, width: avatarSize,
-                [_theme.breakpoints.down('sm')]: {
-                    height: avatarSize, width: avatarSize,
-                }
-            }}>
-            </Avatar>
-            <ActiveIndicator sx={indicatorStyles} >
-
-            </ActiveIndicator>
-            <Box sx={{ ml: 1.5 }}>
-                <Typography sx={{ flex: 1, fontWeight: 600, ...fullnameStyles, }}>
-                    {fullname}
-                </Typography>
-                <Typography sx={{ flex: 1, fontSize: 14, color: 'GrayText', fontWeight: 500 }}>
-                    {subText}
-                </Typography>
-
-            </Box>
-        </Box>
-    )
-}
 
 

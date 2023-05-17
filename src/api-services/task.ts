@@ -14,8 +14,8 @@ export default class TaskAPI {
         }
     }
 
-    static update(id: string) {
-        return axios.put(`/api/task/update/${id}`)
+    static update(id: string, update: Task | any) {
+        return axios.put(`/api/task/update/${id}`, update)
     }
 
     static delete(id: string) {

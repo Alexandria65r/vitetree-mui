@@ -255,7 +255,7 @@ export const CartAndWishListModalContainer = styled(Box)(({ theme }) => ({
 }))
 
 export const StyledBox = styled(Box)(({ theme }) => ({
-    minHeight: 100,
+    //minHeight: 100,
     padding: 10,
     borderRadius: CSS_PROPERTIES.radius10,
     boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,

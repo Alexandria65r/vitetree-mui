@@ -6,6 +6,8 @@ import { colorScheme } from '../theme'
 import { useRouter } from 'next/router'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { fetchHiredTasks } from '../../reducers/task-reducer/task-thunks'
+import ChatPersonInfo from '../components/chat-person-info'
+import { StyledBox } from '../reusable/styles'
 
 
 
@@ -67,14 +69,14 @@ export default function Tasks({ }: Props) {
     const dispatch = useAppDispatch()
     const router = useRouter()
     const user = useAppSelector((state) => state.AuthReducer.user)
-    const tasks = useAppSelector((state)=>state.TaskReducer.tasks)
+    const tasks = useAppSelector((state) => state.TaskReducer.tasks)
 
     const loadTasks = useCallback(() => dispatch(fetchHiredTasks('all')), [dispatch, user])
 
 
     useEffect(() => {
         loadTasks()
-    },[dispatch, user])
+    }, [dispatch, user])
 
     return (
         <Layout>
@@ -85,9 +87,16 @@ export default function Tasks({ }: Props) {
                     </Typography>
                 </Header>
                 {tasks.map((task, index) => (
-                    <TaskItem key={index} onClick={() => router.push(`/task/${task._id}`)}>
-                        {task.service.label}
-                    </TaskItem>
+                    <StyledBox key={index} onClick={() => router.push(`/task/${task._id}`)}
+                        sx={{ cursor: 'pointer' }}
+                    >
+                        <ChatPersonInfo
+                            fullname={user.role === 'student' ? task.tutorInfo.name : task.studentInfo.name}
+                            fullnameStyles={{ fontSize: 14, textTransform: 'capitalize', lineHeight: 1.2, }}
+                            subText={task.service.label}
+                            avatarSize={55}
+                            indicatorStyles={{ position: 'absolute', left: 30, bottom: 0 }} />
+                    </StyledBox>
                 ))}
             </Container>
         </Layout>

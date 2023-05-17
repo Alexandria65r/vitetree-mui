@@ -165,6 +165,7 @@ export default function TutorForm({ }: Props) {
     }
 
     function selectTutorService(service: string) {
+      
         if (!signUpData.tutorInfo?.services) return
         const isExist = signUpData.tutorInfo?.services.find((item) => item.label === service)
         if (isExist) {

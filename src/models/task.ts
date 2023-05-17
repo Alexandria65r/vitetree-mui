@@ -13,20 +13,22 @@ export const UserInfoModel = {
     publicId: '',
     name: ''
 }
-export type TaskStatus = 
+export type TaskStatus =
     'completed' |
-    'working-on-it' |
+    'working on it' |
     'all' |
     'just hired' |
     'preparation' |
-    'task closed'
+    'task closed' | ''
 
-    
+
 export interface Task {
     _id: string
     studentInfo: UserInfo,
     tutorInfo: UserInfo,
     service: TutorService
+    subjects:string[]
+    topic:string,
     dueDate: string
     vidAsset?: Asset,
     imageAsset?: Asset,
@@ -39,13 +41,15 @@ export const TaskModel: Task = {
     studentInfo: UserInfoModel,
     tutorInfo: UserInfoModel,
     service: { price: '', label: '' },
+    subjects:[],
+    topic:'',
     dueDate: '',
     vidAsset: { publicId: '', secureURL: '' },
     imageAsset: { publicId: '', secureURL: '' },
-    status: 'just hired'
+    status: ''
 }
 
-export const taskStatuses = [
+export const taskStatuses: TaskStatus[] = [
     "just hired",
     "preparation",
     "working on it",

@@ -68,6 +68,7 @@ export default function InquiredItem({ inquiryId, Footer }: Props) {
     useEffect(() => {
         loadTutors()
         return () => {
+            console.log('cleanup called')
             dispatch(inquiryActions.setInquiry(StudentInquiry))
         }
     }, [inquiryId])

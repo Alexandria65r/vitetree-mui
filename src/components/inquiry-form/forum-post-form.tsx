@@ -10,6 +10,7 @@ import { TutorService, User } from '../../reusable/interfaces'
 import { inquiryActions } from '../../../reducers/inquiry-reducer'
 import { AppSpinner } from '../activity-indicators'
 import { createInquiryThunk } from '../../../reducers/inquiry-reducer/inquiry-thunks'
+import { tutorServices } from '../../reusable/helpers'
 
 const ChoicesContainer = styled(Box)(({ theme }) => ({
     [theme.breakpoints.down('sm')]: {
@@ -74,7 +75,9 @@ export default function InquiryForm({ tutor, submitHandler }: Props) {
 
     function handleOnChange({ target: { name, value } }: any) {
         if (name === 'service') {
+            console.log(value)
             const selected = tutorServices.find((service) => service.label === value)
+            console.log(selected)
             dispatch(inquiryActions.setInquiryProps({
                 name,
                 value: {
@@ -251,32 +254,7 @@ const RadioStyles = {
     }
 }
 
-const tutorServices = [
-    {
-        name: '',
-        perHour: true,
-        price: '$24.60',
-        label: 'private class',
-        value: 'class',
-        description: ''
-    },
-    {
-        name: '',
-        perHour: false,
-        price: '$15.60',
-        label: 'assignment solving',
-        value: 'assignment',
-        description: ''
-    },
-    {
-        name: '',
-        perHour: true,
-        price: '$9.60',
-        label: 'video tutorial',
-        value: 'course',
-        description: ''
-    }
-]
+
 
 
 const classMessage = (dueDate: string, subjects: string) => {

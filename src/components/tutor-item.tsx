@@ -13,6 +13,7 @@ import Randomstring from 'randomstring'
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { nomalizedText } from '../reusable/helpers'
 import { useRouter } from 'next/router'
+import { StudentInquiry } from '../reusable/schemas'
 
 
 
@@ -100,12 +101,12 @@ export default function TutorItem({ tutor, mode }: Props) {
     })()
 
     function viewTutor() {
+       
         if (inquired?.tutorId === tutor._id) {
-
             router.push(`/tutors/${sort}/inquiry/${inquired?.inquiryId}`)
         } else {
             if (_inquiry === 'inquiry') {
-                router.back()
+                router.replace('/tutors/all')
             }
             dispatch(inquiryActions.setInquiry({
                 ...inquiry,
@@ -115,8 +116,9 @@ export default function TutorItem({ tutor, mode }: Props) {
                 studentName: `${user.firstName} ${user.lastName}`,
                 tutorName: `${tutor.firstName} ${tutor.lastName}`
             }))
+            
         }
-        
+
         dispatch(inquiryActions.setInquiryNetworkStatus(''))
         dispatch(tutorsActions.setTutor(tutor))
 

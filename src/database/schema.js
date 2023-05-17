@@ -167,6 +167,8 @@ export const TaskSchema = mongoose.model(
     tutorInfo: UserInfo,
     service: { price: String, label: String },
     dueDate: String,
+    subjects: Array,
+    topic: String,
     vidAsset: { type: Object, required: false },
     imageAsset: { type: Object, required: false },
     status: String,

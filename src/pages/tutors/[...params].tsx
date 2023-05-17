@@ -12,7 +12,7 @@ import InquiryForm from '../../components/inquiry-form/forum-post-form'
 import SearchIcon from '@mui/icons-material/Search';
 import { fetchTutorsThunk } from '../../../reducers/tutors-reducer/tutors-thunks'
 import { tutorsActions } from '../../../reducers/tutors-reducer'
-import { UserSchema } from '../../reusable/schemas'
+import { StudentInquiry, UserSchema } from '../../reusable/schemas'
 import InquireSuccess from './inquire-success'
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import ManageSearchOutlinedIcon from '@mui/icons-material/ManageSearchOutlined';
@@ -21,9 +21,10 @@ import InquiredItem from './inquiredItem'
 import SelectTutor from './select-tutor'
 import PersonSearchOutlinedIcon from '@mui/icons-material/PersonSearchOutlined';
 import InquiredFooter from '../../components/service-inquiry/inquired-footer'
+import { inquiryActions } from '../../../reducers/inquiry-reducer'
 
 const Container = styled(Box)(({ theme }) => ({
-    maxWidth: '90%',
+    maxWidth: '95%',
     margin: '20px auto',
     display: 'flex',
     flexWrap: 'wrap',
@@ -34,6 +35,8 @@ const Container = styled(Box)(({ theme }) => ({
         margin: '10px auto',
     }
 }))
+
+
 const CheckoutHeader = styled(Box)(({ theme }) => ({
     flexBasis: '100%',
     //height: 60,
@@ -57,8 +60,9 @@ const TutorsColumn = styled(Box)(({ theme }) => ({
     flexWrap: 'wrap',
     gridTemplateColumns: 'repeat(2,1fr)',
     justifyContent: 'space-between',
+    marginRight:15,
     gap: 10,
-    flexBasis: '50%',
+    flex:1,
     // padding: 10,
     minHeight: 60,
     //  borderRadius: CSS_PROPERTIES.radius5,
@@ -74,7 +78,7 @@ const TutorsColumn = styled(Box)(({ theme }) => ({
 const TutorDetail = styled(Box)(({ theme }) => ({
     position: 'sticky',
     top: 20,
-    flexBasis: '48%',
+    flexBasis:'40%',
     minHeight: 260,
     borderRadius: CSS_PROPERTIES.radius10,
     backgroundColor: colorScheme(theme).secondaryColor,
@@ -131,6 +135,7 @@ export default function Tutors({ }: Props) {
     const dispatch = useAppDispatch()
     const router = useRouter()
     const [isOpen, setOpen] = useState<boolean>(false)
+    const isSidebarOpen = useAppSelector((state) => state.MainReducer.isSidebarOpen)
     const tutors = useAppSelector((state) => state.TutorsReducer.tutors)
     const tutor = useAppSelector((state) => state.TutorsReducer.tutor)
     const inquiryNetworkStatus = useAppSelector((state) => state.InquiryReducer.inquiryNetworkStatus)
@@ -153,13 +158,14 @@ export default function Tutors({ }: Props) {
 
     const inquired = (function () {
         const inquired = inquiredList?.find(
-        (item) => item.tutorId === tutor._id && item.status === 'active')
+            (item) => item.tutorId === tutor._id && item.status === 'active')
         return inquired
     })()
 
     return (
         <Layout>
             <Container sx={(theme) => ({
+               // maxWidth: !isSidebarOpen ? '97%' : '90%',
                 [theme.breakpoints.down('sm')]: {
                     display: 'block',
                     maxWidth: tutor?._id ? '97%' : '93%',
@@ -176,7 +182,10 @@ export default function Tutors({ }: Props) {
                                 ml: -1.5
                             }
                         })}
-                        onClick={() => dispatch(tutorsActions.setTutor(UserSchema))}>
+                        onClick={() => {
+                            dispatch(inquiryActions.setInquiry(StudentInquiry))
+                            dispatch(tutorsActions.setTutor(UserSchema))
+                        }}>
                         <KeyboardBackspaceOutlinedIcon />
                     </ButtonIcon>
                     <Typography
@@ -256,7 +265,7 @@ export default function Tutors({ }: Props) {
                     </Box>
                     {tutors.map((tutor, index) => (
                         <TutorItem key={index}
-                         tutor={tutor} mode='Send inquiry' />
+                            tutor={tutor} mode='Send inquiry' />
                     ))}
                 </TutorsColumn>
                 <TutorDetail sx={(theme) => ({
@@ -281,7 +290,7 @@ export default function Tutors({ }: Props) {
                         <>
                             {inquiry === 'inquiry' ? (
                                 <InquiredItem Footer={InquiredFooter} inquiryId={inquiryId} />
-                                ) : tutor._id !== inquired?.tutorId ? (
+                            ) : tutor._id !== inquired?.tutorId ? (
                                 <FormContainer>
                                     <InquiryForm
                                         tutor={tutor}
@@ -296,7 +305,7 @@ export default function Tutors({ }: Props) {
 
                 </TutorDetail>
             </Container>
-        </Layout>
+        </Layout >
     )
 }
 
