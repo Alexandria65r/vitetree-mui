@@ -26,11 +26,11 @@ export default function Profile({ }: Props) {
   const user = useAppSelector((state) => state.AuthReducer.user)
   return (
     <>
-      {params[0] === user?._id ? <AccountLinks /> : <></>}
+      {params[0] === user._id ? <AccountLinks /> : <></>}
       {params[0] === 'profile-photo' ? <ProfilePhoto /> : <></>}
       {params[0] === 'primary-info' ? <PrimaryInfo /> : <></>}
       {params[0] === 'role-info' ? <RoleInfo /> : <></>}
-      {params[0] === 'payment-methods' ? <PaymentMethods /> : <></>}
+      {params[0] === 'billing' ? <PaymentMethods /> : <></>}
     </>
   )
 }   

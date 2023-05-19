@@ -3,7 +3,6 @@ import React from 'react'
 import NavBar from './navbar'
 import _app from '../pages/_app'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import { checkAuthThunk } from '../../reducers/thunks'
 import { useRouter } from 'next/router'
 import ReusablePopper from './reusable-popper'
 import DuplicateTestModal from './modals/duplicate-test-modal'
@@ -13,10 +12,11 @@ import CartModal from './modals/cart-modal'
 import WishListModal from './modals/wishlist-modal'
 import SideBar from './side-bar'
 import { mainActions } from '../../reducers'
-import { LinearProgress, colors, styled } from '@mui/material'
+import { LinearProgress, colors, styled, useTheme } from '@mui/material'
 import { StyledButton } from '../reusable/styles'
 import { BiHome, BiHomeAlt } from 'react-icons/bi'
 import AsideNavbar from './aside-navbar'
+import { checkAuthThunk } from '../../reducers/auth-reducer/auth-thunks'
 
 const FlexContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -36,13 +36,11 @@ export default function Layout({ children }: Props) {
     const router = useRouter()
     const isSidebarOpen = useAppSelector((state) => state.MainReducer.isSidebarOpen)
     const [isRouteChange, setRouteChange] = React.useState<boolean>(false)
-    const checkAuth = React.useCallback(async () => {
-        const { payload } = await dispatch(checkAuthThunk({}))
-        console.log(payload)
-        if (payload === 'not-authorized' && router.pathname !== '/') {
-            router.push('/signin')
-        }
-    }, [router.pathname])
+    const theme = useTheme()
+
+    const checkAuth = React.useCallback(async () =>
+        dispatch(checkAuthThunk()),
+        [router.pathname])
 
 
     React.useEffect(() => {
@@ -73,21 +71,28 @@ export default function Layout({ children }: Props) {
     }
 
 
-
-
-
     return (
         <Box>
-            <Box>
+            <Box sx={{width:'100%', position:'absolute',top:0,zIndex:9999}}>
                 {isRouteChange && <LinearProgress />}
             </Box>
             <NavBar />
             <FlexContainer sx={{
-                display: !isSidebarOpen ? 'flex' : 'block'
+                display: !isSidebarOpen ? 'flex' : 'block',
+
             }}>
-                {!isSidebarOpen && (
-                    <AsideNavbar />
-                )}
+                <Box
+                    sx={{
+                        display: router.pathname === '/' ? 'none' : 'block',
+                        flexBasis: '20%',
+                        [theme.breakpoints.down('sm')]: {
+                            display: 'none'
+                        }
+                    }}>
+                    {!isSidebarOpen && (
+                        <AsideNavbar />
+                    )}
+                </Box>
 
                 <Box
                     sx={{ flex: 1, transition: '0.3s all' }}
@@ -101,7 +106,10 @@ export default function Layout({ children }: Props) {
             <DeletePartcipantModal />
             <CartModal />
             <WishListModal />
+
+
             <SideBar />
+
         </Box>
     )
 }

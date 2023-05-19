@@ -1,7 +1,6 @@
 import { Notification, NotificationType } from "../models/notifications";
 import axios from 'axios'
 import cookies from "js-cookie";
-import { SCHOOYARD_AUTH_TOKEN } from "../reusable";
 import { setAxiosDefaults } from "./helpers";
 export default class NotificationAPI {
 

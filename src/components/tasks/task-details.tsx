@@ -1,4 +1,4 @@
-import { Box, Typography, styled } from '@mui/material'
+import { Box, Typography, styled, useTheme } from '@mui/material'
 import React from 'react'
 import task from '../../api-services/task'
 import ChatPersonInfo from '../user/chat-person-info'
@@ -28,12 +28,18 @@ type Props = {
 export default function TaskDetails({ task }: Props) {
     const user = useAppSelector((state) => state.AuthReducer.user)
     const swapedInfo = getSwapedTaskUserInfo(user.role, task)
+    const theme = useTheme()
     return (
         <Container sx={{}}>
             <ChatPersonInfo
                 userId={swapedInfo.id}
                 fullname={swapedInfo.name}
-                fullnameStyles={{ fontSize: 30, textTransform: 'capitalize', lineHeight: 1.2, fontWeight: 600 }}
+                fullnameStyles={{
+                    fontSize: 28, textTransform: 'capitalize', lineHeight: 1.2,
+                    fontWeight: 500, [theme.breakpoints.down("sm")]: {
+                        fontSize: 25
+                    }
+                }}
                 subText='Zambia - Lusaka 15:09'
                 avatarSize={100}
                 indicatorStyles={{ position: 'absolute', left: 80, bottom: 10 }} />
@@ -46,7 +52,6 @@ export default function TaskDetails({ task }: Props) {
                 <TitledItem title='Price' value={task.service.price} />
                 <TitledItem title='Due Date' value={task.dueDate} />
                 <ChangeTaskStatus task={task} />
-
             </Box>
         </Container>
     )

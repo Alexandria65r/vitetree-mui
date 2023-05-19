@@ -1,17 +1,17 @@
 import React, { useEffect } from 'react'
-import { Box, ButtonBase, CircularProgress, Link, TextField, Typography, colors, styled } from '@mui/material'
-import { CSS_PROPERTIES, SCHOOYARD_AUTH_TOKEN } from '../reusable'
+import { Box, ButtonBase, CircularProgress, Link, MenuItem, Select, TextField, Typography, colors, styled } from '@mui/material'
+import { CSS_PROPERTIES } from '../reusable'
 import { ContinueWith, ContinueWithOverlayText, FormContainer, FormHeader, FormLogo, RedirectingCard } from '../reusable/styles'
-import AuthAPI from '../api-services/auth'
 import { Role } from '../reusable/interfaces'
 import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
 import { authActions } from '../../reducers/auth-reducer/auth-reducer'
-import cookies from 'js-cookie'
 import { getAuth } from "firebase/auth";
 import SignInWithGoogleButton from '../components/auth/google-button'
 import { useAppSelector } from '../../store/hooks'
 import { fireBaseApp } from './_app'
+import { signupThunk } from '../../reducers/auth-reducer/auth-thunks'
+import { AppSpinner } from '../components/activity-indicators'
 
 
 const Container = styled(Box)(() => ({
@@ -54,7 +54,8 @@ export default function Signup({ }: Props) {
   const router = useRouter()
   const signUpData = useAppSelector((state) => state.AuthReducer.user)
   const isRedirecting = useAppSelector((state) => state.AuthReducer.isRedirecting)
-  const gettingStartedRole = useAppSelector((state) => state.AuthReducer.gettingStartedRole)
+  const isError = useAppSelector((state) => state.AuthReducer.isError)
+  const authNetworkStatus = useAppSelector((state) => state.AuthReducer.authNetworkStatus)
 
   React.useEffect(() => {
     console.log(router.query)
@@ -69,10 +70,16 @@ export default function Signup({ }: Props) {
       const res: any = JSON.parse(sd)
       dispatch(authActions.setRedirecting(res.isRedirecting))
     }
+
+    return () => {
+      dispatch(authActions.setError(false))
+    }
   }, [])
 
 
   function handleOnChange({ target: { value, name } }: any) {
+    if (name === 'gender' && value === 'Select Gender') return
+    if (name === 'role' && value === 'Select Role') return
     dispatch(authActions.setAuhtUser({
       ...signUpData,
       [name]: value
@@ -100,27 +107,14 @@ export default function Signup({ }: Props) {
           lastName: splitedName[1] ?? '',
           email: currentUser?.email ?? '',
           role: getUserRole() ?? '',
-          password: ''
+          password: '',
+          gender: ''
         }))
       }
     }
   }
 
-  async function handleSignUp() {
-    try {
-      const { data } = await AuthAPI.signUp(signUpData)
-      if (data.success) {
-        cookies.set(SCHOOYARD_AUTH_TOKEN, data.token)
-        dispatch(authActions.setAuhtUser(data.user))
-        router.replace(`/account-setup/${data.user.role}`)
-        if (getUserRole()) {
-          localStorage.removeItem('getting-started-role')
-        }
-      }
-    } catch (error) {
-      console.log('err signup')
-    }
-  }
+
 
   return (
 
@@ -144,42 +138,60 @@ export default function Signup({ }: Props) {
           <FormHeader>Sign Up</FormHeader>
           <FormControl>
             <TextInput name="firstName"
+              error={isError && !signUpData.firstName}
               value={signUpData.firstName}
               onChange={handleOnChange}
               sx={{ flexBasis: '48%' }}
-              label="first name"
-              placeholder="first name" />
+              label="First Name"
+              placeholder="First Name" />
             <TextInput name="lastName"
+              error={isError && !signUpData.lastName}
               value={signUpData.lastName}
               onChange={handleOnChange}
               sx={{ flexBasis: '48%' }}
-              label="last name"
-              placeholder="last name" />
+              label="Last Name"
+              placeholder="Last Name" />
           </FormControl>
           <FormControl>
-            <TextInput name="email" value={signUpData.email}
+            <TextInput name="email"
+              error={isError && !signUpData.email} value={signUpData.email}
               onChange={handleOnChange}
               sx={{ flex: 1 }} label="Email" placeholder="Email" />
           </FormControl>
 
           <FormControl>
-            <TextInput name="role" value={signUpData.role}
-              onChange={handleOnChange}
-              sx={{ flex: 1 }} label="Role"
-              placeholder="Role" />
+            <Select onChange={handleOnChange}
+              sx={{ flexBasis: '48%' }}
+              error={isError && !signUpData.role}
+              value={signUpData.role || undefined}
+              name='role' defaultValue='Select Role' >
+              <MenuItem value="Select Role">Select Role</MenuItem>
+              <MenuItem value="student">Student</MenuItem>
+              <MenuItem value="tutor">Tutor</MenuItem>
+            </Select>
+            <Select onChange={handleOnChange}
+              sx={{ flexBasis: '48%' }}
+              error={isError && !signUpData.gender}
+              value={signUpData.gender || undefined}
+              name='gender' defaultValue='Select Gender' >
+              <MenuItem value="Select Gender">Select Gender</MenuItem>
+              <MenuItem value="female">Female</MenuItem>
+              <MenuItem value="male">Male</MenuItem>
+            </Select>
           </FormControl>
           <FormControl>
             <TextInput name="password"
+              error={isError && !signUpData.password}
               value={signUpData.password}
               onChange={handleOnChange}
               sx={{ flex: 1 }} label="Password" placeholder="Password" />
           </FormControl>
           <FormControl>
-            <Button onClick={handleSignUp} sx={{ flexBasis: '100%' }}>
-              Sign Up
+            <Button onClick={() => dispatch(signupThunk())} sx={{ flexBasis: '100%' }}>
+              Sign Up <AppSpinner size={25} visible={authNetworkStatus === 'signup'} />
             </Button>
             <Typography sx={{ mt: .5, fontSize: 14 }}>
-              Alredy have an account
+              Alredy have an account?
               <Link href="/signin">
                 <span style={{ marginLeft: 5, color: colors.lightBlue[500] }}>
                   signin

@@ -15,6 +15,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import AsideNavbar from './aside-navbar'
 
 
 const SideBarContainer = styled(Box)(({ theme }) => ({
@@ -26,7 +27,8 @@ const SideBarContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
     alignItems: 'start',
     flexWrap: 'wrap',
-    justifyContent: 'center'
+    
+    //justifyContent: 'center'
 }))
 
 
@@ -89,7 +91,7 @@ export default function SideBar({ }: Props) {
         }
     }
 
-    if (!isMobile) return<></>
+    if (!isMobile) return <></>
 
 
     return (
@@ -109,13 +111,13 @@ export default function SideBar({ }: Props) {
                     zIndex: 60,
                     [theme.breakpoints.down('sm')]: {
                         top: 0,
-                        width: isSidebarOpen ? '100%' : '0%',
+                        width: isSidebarOpen ? '80%' : '0%',
                     }
                 })}>
 
 
                 <SideBarHeader>
-                    {router.pathname !== '/' && (
+                    {/* {router.pathname !== '/' && (
                         <IconButton
                             onClick={() => dispatch(mainActions.setIsSideBarOpen(false))}
                             size="large"
@@ -126,10 +128,11 @@ export default function SideBar({ }: Props) {
                         >
                             <CloseIcon />
                         </IconButton>
-                    )}
+                    )} */}
 
-                    <Typography variant="h6" component="div"
+                    <Typography
                         sx={{
+                            fontSize:22,
                             textAlign: 'center',
                             fontWeight: 600,
                             flexGrow: 1, color: colors.teal[400]
@@ -139,7 +142,9 @@ export default function SideBar({ }: Props) {
                         </Link>
                     </Typography>
                 </SideBarHeader>
-                <SideBarContent>
+                <AsideNavbar />
+
+                {/* <SideBarContent>
                     {user?._id ? (<>
                         <SideBarItem onClick={() => router.push(`/account/${user._id}`)}>
                             <AccountCircleOutlinedIcon sx={{ mr: 1 }} />
@@ -163,7 +168,7 @@ export default function SideBar({ }: Props) {
                         <LogoutOutlinedIcon sx={{ mr: 1 }} />
                         Log Out
                     </ReusableButton>
-                )}
+                )} */}
             </SideBarContainer >
 
         </Modal>

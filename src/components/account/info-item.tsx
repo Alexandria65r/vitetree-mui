@@ -38,14 +38,14 @@ const InfoRightColumn = styled(Box)(({ theme }) => ({
 type Props = {
     title: string
     description: string,
-    routeParam: string
+    route: string
     StartIcon: any
 }
 
-export default function InfoItem({ title, description, StartIcon, routeParam }: Props) {
+export default function InfoItem({ title, description, StartIcon, route }: Props) {
     const router = useRouter()
     return (
-        <Link href={`/account/${routeParam}`}>
+        <Link href={route}>
             <Container>
                 <LeftIconColumn>
                     <StartIcon size={20} />

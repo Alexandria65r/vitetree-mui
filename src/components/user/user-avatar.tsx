@@ -8,13 +8,14 @@ import { fetchUserAvatarThunk } from '../../../reducers/auth-reducer/auth-thunks
 
 
 type Props = {
-    userId: string
+    userId?: string
+    imageURL?: string
     changeImagePreview?: any
     avatarStyles: SxProps<Theme>
     changeProfileImage?: () => void
 }
 
-export default function UserAvatar({ userId, changeImagePreview, avatarStyles, changeProfileImage }: Props) {
+export default function UserAvatar({ userId, imageURL, changeImagePreview, avatarStyles, changeProfileImage }: Props) {
     const dispatch = useAppDispatch()
     const [userAvatar, setUserAvatar] = useState<UserAvatarAsset>({
         publicId: '',
@@ -23,9 +24,11 @@ export default function UserAvatar({ userId, changeImagePreview, avatarStyles, c
     })
 
     const loadAvatarData = useCallback(async () => {
-        const { payload } = await dispatch(fetchUserAvatarThunk(userId))
-        if (payload) {
-            setUserAvatar(payload)
+        if (!imageURL) {
+            const { payload } = await dispatch(fetchUserAvatarThunk(userId??''))
+            if (payload) {
+                setUserAvatar(payload)
+            }
         }
     }, [userId])
 
@@ -41,9 +44,9 @@ export default function UserAvatar({ userId, changeImagePreview, avatarStyles, c
 
     return (
         <Box onClick={changeProfileImage}>
-            {userAvatar.secureURL || changeImagePreview ? (<>
+            {changeImagePreview ||userAvatar.secureURL ||  imageURL ? (<>
                 <Avatar sx={avatarStyles}>
-                    <img src={changeImagePreview || userAvatar.secureURL} alt="" height='100%' width='100%'
+                    <img src={changeImagePreview || userAvatar.secureURL || imageURL} alt="" height='100%' width='100%'
                         style={{ borderRadius: '50%', objectFit: 'cover' }} />
                 </Avatar>
             </>) : (

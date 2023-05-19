@@ -12,7 +12,7 @@ import { inquiryActions } from '../../reducers/inquiry-reducer'
 import { useRouter } from 'next/router'
 import InquiredItem from './tutors/inquiredItem'
 import NotificationItemSkeleton from '../components/notification-item-sekeleton'
-import { Close, KeyboardBackspace } from '@mui/icons-material'
+import {KeyboardBackspace } from '@mui/icons-material'
 import ResponseFooter from '../components/service-inquiry/response-footer'
 
 

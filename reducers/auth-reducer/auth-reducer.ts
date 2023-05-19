@@ -3,12 +3,10 @@ import { TutorService, User } from '../../src/reusable/interfaces';
 import { TutorServiceSchema, UserSchema } from '../../src/reusable/schemas';
 type Role = 'tutor' | 'student' | ''
 export type AuthNetworkStatus =
-    'updating' |
-    'updating-success' |
-    'updating-error' |
-    'image-upload' |
-    'image-upload-success' |
-    'image-upload-error' | ''
+    'signup' | 'signup-success' | 'signup-error' |
+    'signin' | 'signin-success' | 'signin-error' |
+    'updating' | 'updating-success' | 'updating-error' |
+    'image-upload' | 'image-upload-success' | 'image-upload-error' | ''
 
 
 type AuthState = {
@@ -17,6 +15,7 @@ type AuthState = {
     isRedirecting: boolean
     gettingStartedRole: Role
     authNetworkStatus: AuthNetworkStatus
+    isError: boolean
 }
 
 const initialState: AuthState = {
@@ -24,7 +23,8 @@ const initialState: AuthState = {
     tutorService: TutorServiceSchema,
     isRedirecting: false,
     gettingStartedRole: '',
-    authNetworkStatus: ''
+    authNetworkStatus: '',
+    isError: false
 }
 
 
@@ -51,6 +51,9 @@ const authSlice = createSlice({
         },
         setTutorService: (state, { payload }: PayloadAction<TutorService>) => {
             state.tutorService = payload
+        },
+        setError: (state, { payload }: PayloadAction<boolean>) => {
+            state.isError = payload
         },
     }
 });

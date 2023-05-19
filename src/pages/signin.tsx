@@ -6,9 +6,10 @@ import { Signin } from '../reusable/interfaces'
 import { useRouter } from 'next/router'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import SignInWithGoogleButton from '../components/auth/google-button'
-import { SignInThunk } from '../../reducers/thunks'
 import { authActions } from '../../reducers/auth-reducer/auth-reducer'
 import Link from 'next/link'
+import { AppSpinner } from '../components/activity-indicators'
+import { SignInThunk } from '../../reducers/auth-reducer/auth-thunks'
 
 
 
@@ -52,12 +53,19 @@ export default function SigninPage({ }: Props) {
     const dispatch = useAppDispatch()
     const router = useRouter()
     const isRedirecting = useAppSelector((state) => state.AuthReducer.isRedirecting)
+    const isError = useAppSelector((state) => state.AuthReducer.isError)
+    const authNetworkStatus = useAppSelector((state) => state.AuthReducer.authNetworkStatus)
+
 
     useEffect(() => {
         const sd = localStorage.getItem('redirectFlag')
         if (sd !== null) {
             const res: any = JSON.parse(sd)
             dispatch(authActions.setRedirecting(res.isRedirecting))
+        }
+
+        return () => {
+            dispatch(authActions.setError(false))
         }
     }, [])
 
@@ -73,7 +81,7 @@ export default function SigninPage({ }: Props) {
             [name]: value
         })
     }
-
+  
     return (
         <Container>
             {isRedirecting ? (
@@ -93,14 +101,26 @@ export default function SigninPage({ }: Props) {
                 <FormLogo></FormLogo>
                 <FormHeader>Sign In</FormHeader>
                 <FormControl>
-                    <TextInput sx={{ flex: 1 }} name="email" onChange={handleOnChange} label="Email" placeholder="Email" />
+                    <TextInput sx={{ flex: 1 }}
+                        error={isError && !schooyardProvider.email}
+                        name="email"
+                        onChange={handleOnChange}
+                        label="Email"
+                        placeholder="Email"
+                    />
                 </FormControl>
                 <FormControl>
-                    <TextInput sx={{ flex: 1 }} name="password" onChange={handleOnChange} label="Password" placeholder="Password" />
+                    <TextInput sx={{ flex: 1 }}
+                        error={isError && !schooyardProvider.password}
+                        name="password"
+                        onChange={handleOnChange}
+                        label="Password"
+                        placeholder="Password"
+                    />
                 </FormControl>
                 <FormControl>
                     <Button onClick={() => dispatch(SignInThunk(schooyardProvider))}>
-                        Sign in
+                            Sign in <AppSpinner size={25} visible={authNetworkStatus==='signin'}/>
                     </Button>
                     <Typography sx={{ flexBasis: '100%', mt: .5, fontSize: 14 }}>
                         Don't have an account yet?

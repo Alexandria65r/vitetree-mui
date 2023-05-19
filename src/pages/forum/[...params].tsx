@@ -9,7 +9,7 @@ import ForumPostFormModal from '../../components/modals/forum-post-form'
 import { StyledButton } from '../../reusable/styles'
 import { Add, Sort } from '@mui/icons-material'
 import { forumActions } from '../../../reducers/forum-reducer'
-import SendBidModal from '../../components/modals/send-bid-modal'
+import SendBidModal from '../../components/modals/post-detail'
 import ForumItem from '../../components/forum/post-item'
 import { FaQuestionCircle } from 'react-icons/fa'
 import { SiWheniwork } from 'react-icons/si'
@@ -21,7 +21,7 @@ import { teal } from '@mui/material/colors'
 
 const Container = styled(Box)(({ theme }) => ({
     display: 'flex',
-    width: '85%',
+    width: '90%',
     padding: 20,
     margin: '0 auto',
     [theme.breakpoints.down("sm")]: {

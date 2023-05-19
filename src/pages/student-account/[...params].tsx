@@ -4,9 +4,6 @@ import { Box, Typography, colors, styled } from '@mui/material'
 import { CSS_PROPERTIES } from '../../reusable'
 import { colorScheme } from '../../theme'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
-import CartItemCard from '../../components/cart-item'
-import { deleteCartItemThunk } from '../../../reducers/cart-reducer/cart-thunks'
-import { StyledButton } from '../../reusable/styles'
 import { FormatMoney } from 'format-money-js'
 import CreditCardForm from '../../components/payments/credit-card-form'
 
@@ -107,7 +104,6 @@ export default function Checkout({ }: Props) {
     const cartItems = useAppSelector((state) => state.CartReducer.cartItems)
 
     function getSubtotal() {
-
         return cartItems.reduce((s, item) => {
             const price = parseFloat(item.price)
             return s + price

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from 'react'
 import Layout from '../components/layout'
-import { Box, Typography, styled } from '@mui/material'
+import { Box, Skeleton, Typography, styled } from '@mui/material'
 import { CSS_PROPERTIES } from '../reusable'
 import { colorScheme } from '../theme'
 import { useRouter } from 'next/router'
@@ -8,8 +8,6 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { fetchHiredTasks } from '../../reducers/task-reducer/task-thunks'
 import ChatPersonInfo from '../components/user/chat-person-info'
 import { StyledBox } from '../reusable/styles'
-import { Role } from '../reusable/interfaces'
-import { Task } from '../models/task'
 import { getSwapedTaskUserInfo } from '../reusable/helpers'
 
 
@@ -73,6 +71,7 @@ export default function Tasks({ }: Props) {
     const router = useRouter()
     const user = useAppSelector((state) => state.AuthReducer.user)
     const tasks = useAppSelector((state) => state.TaskReducer.tasks)
+    const taskNetworkStatus = useAppSelector((state) => state.TaskReducer.taskNetworkStatus)
 
     const loadTasks = useCallback(() => dispatch(fetchHiredTasks('all')), [dispatch, user])
 
@@ -89,19 +88,31 @@ export default function Tasks({ }: Props) {
                         Tasks
                     </Typography>
                 </Header>
-                {tasks.map((task, index) => (
-                    <StyledBox key={index} onClick={() => router.push(`/task/${task._id}`)}
-                        sx={{ cursor: 'pointer' }}
-                    >
-                        <ChatPersonInfo
-                            userId={getSwapedTaskUserInfo(user.role, task).id}
-                            fullname={getSwapedTaskUserInfo(user.role, task).name}
-                            fullnameStyles={{ fontSize: 14, textTransform: 'capitalize', lineHeight: 1.2, }}
-                            subText={task.service.label}
-                            avatarSize={55}
-                            indicatorStyles={{ position: 'absolute', left: 30, bottom: 0 }} />
-                    </StyledBox>
-                ))}
+                {taskNetworkStatus !== 'fetch-tasks' && tasks.length ? (<>
+                    {tasks.map((task, index) => (
+                        <StyledBox key={index} onClick={() => router.push(`/task/${task._id}`)}
+                            sx={{ cursor: 'pointer' }}
+                        >
+                            <ChatPersonInfo
+                                userId={getSwapedTaskUserInfo(user.role, task).id}
+                                fullname={getSwapedTaskUserInfo(user.role, task).name}
+                                fullnameStyles={{ fontSize: 14, textTransform: 'capitalize', lineHeight: 1.2, }}
+                                subText={task.service.label}
+                                avatarSize={55}
+                                indicatorStyles={{ position: 'absolute', left: 30, bottom: 0 }} />
+                        </StyledBox>
+                    ))}
+
+                </>) : taskNetworkStatus === 'fetch-tasks' && !tasks.length ?
+                    (<>
+                        {[1, 2, 3, 4].map((item) => (
+                            <StyledBox key={item} sx={{ my:1, display: 'flex', alignItems: 'center' }}>
+                                <Skeleton width={55} height={90} sx={{ borderRadius: '50%', my: -3 }} />
+                                <Skeleton width={255} height={25} sx={{ ml: 1, my: -3 }} />
+                            </StyledBox>
+                        ))}
+                    </>) : (<>
+                    </>)}
             </Container>
         </Layout>
     )

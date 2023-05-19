@@ -2,9 +2,6 @@ import React from 'react'
 import { colorScheme } from '../theme'
 import { Box, Typography, styled } from '@mui/material'
 import moment from 'moment'
-import NotificationItemSkeleton from './notification-item-sekeleton'
-
-
 
 const Card = styled(Box)(({ theme }) => ({
     flexBasis: '30%',
@@ -12,10 +9,7 @@ const Card = styled(Box)(({ theme }) => ({
     minHeight: 50,
     marginTop: '10px',
     padding: '0px 10px',
-    //backgroundColor: colorScheme(theme).secondaryColor,
     borderBottom: `1px solid ${colorScheme(theme).borderColor}`,
-    //borderRadius: CSS_PROPERTIES.radius5,
-    //boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
     [theme.breakpoints.down("sm")]: {
         flexBasis: '100%',
         marginTop: '10px',

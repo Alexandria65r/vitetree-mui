@@ -1,14 +1,15 @@
 import React from "react";
 type Props = {
     visible: boolean
+    size?:number
 }
-export function AppSpinner({ visible }: Props) {
+export function AppSpinner({ visible, size }: Props) {
     if (!visible) return <></>
     return (
         <svg xmlns="http://www.w3.org/2000/svg"
-            width="1em"
-            height="1em"
-            style={{ margin: '0 5px' }}
+            width={size?? '1em'}
+            height={size?? '1em'}
+            style={{ margin: '0 10px' }}
             viewBox="0 0 24 24"
         >
             <path fill="currentColor"

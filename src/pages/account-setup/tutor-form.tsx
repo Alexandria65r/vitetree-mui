@@ -126,28 +126,7 @@ export default function TutorForm({ }: Props) {
         }
     }
 
-
-    function completeGoogleSignup() {
-        if (router.query.authProvider === 'google') {
-            if (fireBaseApp) {
-                const { currentUser } = getAuth(fireBaseApp)
-                const splitedName: any = currentUser?.displayName?.split(' ');
-                console.log(currentUser)
-                dispatch(authActions.setAuhtUser({
-                    firstName: splitedName[0] ?? '',
-                    lastName: splitedName[1] ?? '',
-                    email: currentUser?.email ?? '',
-                    role: getUserRole() ?? '',
-                    password: ''
-                }))
-            }
-        }
-    }
-
-    function validateForm() {
-
-    }
-
+    
     async function handleSignUp() {
         const fullname = `${signUpData.firstName}${signUpData.lastName}`
         const tutorId = `@${fullname}`

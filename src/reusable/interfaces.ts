@@ -66,6 +66,7 @@ export type User = {
     imageAsset?: Asset,
     courses?: string[],
     role: Role,
+    gender: 'female' | 'male' | '',
     tutorInfo?: TutorInfo
     studentInfo?: StudentInfo
     inquiredList?: Inquired[]

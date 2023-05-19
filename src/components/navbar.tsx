@@ -78,8 +78,9 @@ export default function NavBar() {
                         </IconButton>
                     )}
 
-                    <Typography variant="h6" component="div"
+                    <Typography
                         sx={{
+                            fontSize:22,
                             textAlign: isMobile ? 'center' : 'left',
                             fontWeight: 600,
                             flexGrow: 1, color: colors.teal[400]

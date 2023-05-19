@@ -23,6 +23,7 @@
     "cloudinary-react": "^1.8.1",
     "firebase": "^9.19.1",
     "format-money-js": "^1.6.3",
+    "is-url": "^1.2.4",
     "js-cookie": "^3.0.1",
     "jsonwebtoken": "^9.0.0",
     "material-ui-popup-state": "^5.0.8",
@@ -36,7 +37,11 @@
     "react-dom": "^18.2.0",
     "react-icons": "^4.8.0",
     "react-loading-skeleton": "^3.3.1",
-    "react-redux": "^7.2.9"
+    "react-redux": "^7.2.9",
+    "sass": "^1.62.1",
+    "slate": "^0.90.0",
+    "slate-history": "^0.86.0",
+    "slate-react": "^0.90.0"
   },
   "devDependencies": {
     "@types/js-cookie": "^3.0.3",

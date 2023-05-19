@@ -9,7 +9,7 @@ import Layout from '../../components/layout'
 import { Box, styled } from '@mui/material'
 
 const Container = styled(Box)(({ theme }) => ({
-    width: '60%',
+    width: '70%',
     margin: 'auto',
     [theme.breakpoints.down("sm")]: {
         width: '97%'
@@ -20,9 +20,17 @@ type Props = {}
 
 export default function AccountLinks({ }: Props) {
     const user = useAppSelector((state) => state.AuthReducer.user)
+    const isSidebarOpen = useAppSelector((state) => state.MainReducer.isSidebarOpen)
     return (
         <Layout>
-            <Container>
+            <Container
+                sx={(theme) => ({
+                    width: !isSidebarOpen ? '70%' : '60%',
+                    [theme.breakpoints.down("sm")]: {
+                        width: '97%'
+                    }
+                })}
+            >
 
                 <Header />
                 {/* <InfoItem
@@ -35,19 +43,19 @@ export default function AccountLinks({ }: Props) {
                     StartIcon={RiContactsLine}
                     title='Primary Information'
                     description='Manage your contact Information and password'
-                    routeParam='primary-info'
+                    route='/account/primary-info'
                 />
                 <InfoItem
                     StartIcon={FaGraduationCap}
                     title={`${user.role} Information`}
                     description='Manage your tutor information and availability status'
-                    routeParam='role-info'
+                    route='/account/role-info'
                 />
                 <InfoItem
                     StartIcon={MdPayment}
-                    title='Payment Methods'
+                    title='Billing Information'
                     description='Manage your billing Information'
-                    routeParam='payment-methods'
+                    route='/account/billing'
                 />
             </Container>
         </Layout>

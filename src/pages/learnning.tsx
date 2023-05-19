@@ -3,14 +3,12 @@ import { Box, Button, Typography, styled, InputBase, colors } from '@mui/materia
 import React, { useCallback, useEffect, useState } from 'react'
 import Layout from '../components/layout'
 import { VideoCall, Add } from '@mui/icons-material';
-import { NextRouter, useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import { ButtonIcon, Container, Hero } from '../reusable/styles';
-import { cartegories } from '../reusable/helpers';
 import { colorScheme, isDarkMode } from '../theme';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import CourseAPI from '../api-services/course';
 import { courseActions } from '../../reducers/course-reducer';
-import CourseCard from '../components/course/course-card';
 import RenderCourses from '../components/render-courses';
 
 
@@ -63,7 +61,7 @@ const CommunityCartegoryHeader = styled(Box)(({ theme }) => ({
 
     },
 }))
-const MappedCommunity = styled(Box)(({ theme }) => ({
+const MappedCommunity = styled(Box)(() => ({
     marginTop: 45
 }))
 const CartegoryText = styled(Typography)(({ theme }) => ({
@@ -78,21 +76,7 @@ const CartegoryText = styled(Typography)(({ theme }) => ({
     color: isDarkMode(theme) ? colors.grey[200] : colors.grey[800],
     backgroundColor: colorScheme(theme).primaryColor,
 }))
-const CommunityCard = styled(Box)(({ theme }) => ({
-    height: 180,
-    margin: '20px 0 ',
-    borderRadius: 12,
-    padding: 10,
-    backgroundColor: colorScheme(theme).secondaryColor,
-    [theme.breakpoints.down('sm')]: {
-        margin: 5,
-        borderRadius: 15,
-    },
-}))
 
-const CardText = styled(Typography)(({ theme }) => ({
-    color: colorScheme(theme).TextColor,
-}))
 
 
 const SearchContainer = styled(Box)(({ theme }) => ({
@@ -197,17 +181,3 @@ export default function communites({ }: Props) {
 
 
 
-const communities = [
-    { cartegory: 'business', title: 'Business model guides' },
-    { cartegory: 'business', title: 'Real estate' },
-    { cartegory: 'business', title: 'Investing' },
-    { cartegory: 'health', title: 'Healthy diet' },
-    { cartegory: 'health', title: 'Top foods' },
-    { cartegory: 'health', title: 'Dr Aski' },
-    { cartegory: 'programming', title: 'React Native' },
-    { cartegory: 'programming', title: 'Kotlin for android' },
-    { cartegory: 'programming', title: 'Javascritp Mastery' },
-    { cartegory: 'sports', title: 'Manchester United fans' },
-    { cartegory: 'sports', title: 'Arsenal fans' },
-    { cartegory: 'sports', title: 'Laliga Stats' },
-];

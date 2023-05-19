@@ -7,12 +7,22 @@ import { colorScheme } from '../theme'
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import Link from 'next/link'
 import { useAppSelector } from '../../store/hooks'
+import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
+import { getAuth, signOut } from 'firebase/auth'
+import Cookies from 'js-cookie'
+import * as types from '../reusable'
+import LoginIcon from '@mui/icons-material/Login';
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+
+
 
 const AsideNav = styled(Box)(({ theme }) => ({
-  flexBasis: '15%',
   padding: 10,
   [theme.breakpoints.down('sm')]: {
-    display: 'none'
+    //display: 'none'
+    flexBasis: '80%',
+    height: 'calc(100% - 120px)',
+    overflowY: 'auto'
   }
 }))
 const NavButton = styled(StyledButton)(({ theme }) => ({
@@ -31,25 +41,82 @@ const NavButton = styled(StyledButton)(({ theme }) => ({
 }))
 
 
+const LogoutButton = styled(StyledButton)(({ theme }) => ({
+  flexBasis: '90%',
+  alignSelf: 'flex-end',
+  marginBottom: 5,
+  fontWeight: 600,
+  fontSize: 16,
+  height: 45,
+  borderRadius: 29,
+  backgroundColor: theme.palette.mode === 'light' ? '#000' : colorScheme(theme).secondaryColor,
+  [theme.breakpoints.down("sm")]: {
+    flexBasis: '90%',
+    marginBottom: 10,
+
+  }
+}))
+
+
 type Props = {}
 
 export default function AsideNavbar({ }: Props) {
   const router = useRouter()
   const user = useAppSelector((state) => state.AuthReducer.user)
+
+
+  async function logout() {
+    const auth = getAuth()
+    try {
+      await signOut(auth)
+      Cookies.remove(types.SCHOOYARD_AUTH_TOKEN)
+      window.location.href = '/'
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+
+  
+
   return (
     <AsideNav sx={{}}
       className="sideBarAnimated">
-      <NavItem route='/'
-        name='Home'
-        startIcon={<BiHomeAlt size={20} style={{ marginRight: 5 }} />}
-        isActive={router.asPath === '/'}
-      />
-      <NavItem
-        name="profile"
-        route={`/account/${user._id}`}
-        startIcon={<AccountCircleOutlinedIcon sx={{ mr: .5 }} />}
-        isActive={router.asPath.includes(`/account`)}
-      />
+      {user._id ? (<>
+        <NavItem
+         route='/notifications/all'
+          name='Notifications'
+          startIcon={<NotificationsNoneIcon sx={{ mr: 1 }} />}
+          isActive={router.asPath.includes('/notifications')}
+        />
+        <NavItem route='/dashboard'
+          name='Home'
+          startIcon={<BiHomeAlt size={20} style={{ marginRight: 5 }} />}
+          isActive={router.asPath === '/dashboard'}
+        />
+        <NavItem
+          name="profile"
+          route={`/account/${user._id}`}
+          startIcon={<AccountCircleOutlinedIcon sx={{ mr: .5 }} />}
+          isActive={router.asPath.includes(`/account`)}
+        />
+
+        <LogoutButton
+
+          onClick={logout}
+          sx={{ width: '100%', mt: 1 }}>
+          <LogoutOutlinedIcon sx={{ mr: 1 }} />
+          Log Out
+        </LogoutButton>
+
+      </>) : <>
+        <NavItem
+          name="Sign In"
+          route={`/signin`}
+          startIcon={<LoginIcon sx={{ mr: .5 }} />}
+          isActive={router.asPath.includes(`/signin`)}
+        />
+      </>}
 
     </AsideNav>
   )

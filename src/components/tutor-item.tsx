@@ -1,8 +1,8 @@
-import { Box, Typography, colors, styled } from '@mui/material'
+import { Box, SxProps, Theme, Typography, colors, styled, useTheme } from '@mui/material'
 import React from 'react'
 import { CSS_PROPERTIES } from '../reusable'
 import { colorScheme } from '../theme'
-import { ButtonIcon, StyledButton } from '../reusable/styles'
+import { ButtonIcon, StyledButton, StyledButtonOutlined } from '../reusable/styles'
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import AddCommentOutlinedIcon from '@mui/icons-material/AddCommentOutlined';
 import { User } from '../reusable/interfaces'
@@ -14,6 +14,8 @@ import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { nomalizedText } from '../reusable/helpers'
 import { useRouter } from 'next/router'
 import { StudentInquiry } from '../reusable/schemas'
+import Link from 'next/link'
+import UserAvatar from './user/user-avatar'
 
 
 
@@ -88,11 +90,12 @@ export default function TutorItem({ tutor, mode }: Props) {
     const user = useAppSelector((state) => state.AuthReducer.user)
     const inquiry = useAppSelector((state) => state.InquiryReducer.inquiry)
     const selectedTutor = useAppSelector((state) => state.TutorsReducer.tutor)
-
+    const theme = useTheme()
     const inquiryId = Randomstring.generate(17)
     const inquiredList = user.inquiredList
 
     const [sort, _inquiry]: any = router.query.params || []
+
 
     const inquired = (function () {
         const inquired = inquiredList?.find((item) => item.tutorId === tutor._id && item.status === 'active')
@@ -101,7 +104,7 @@ export default function TutorItem({ tutor, mode }: Props) {
     })()
 
     function viewTutor() {
-       
+
         if (inquired?.tutorId === tutor._id) {
             router.push(`/tutors/${sort}/inquiry/${inquired?.inquiryId}`)
         } else {
@@ -116,7 +119,7 @@ export default function TutorItem({ tutor, mode }: Props) {
                 studentName: `${user.firstName} ${user.lastName}`,
                 tutorName: `${tutor.firstName} ${tutor.lastName}`
             }))
-            
+
         }
 
         dispatch(inquiryActions.setInquiryNetworkStatus(''))
@@ -124,7 +127,13 @@ export default function TutorItem({ tutor, mode }: Props) {
 
     }
 
-
+    const avatarStyles: SxProps<Theme> | undefined = {
+        mt:2,
+        height: 90, width: 90,
+        [theme.breakpoints.down('sm')]: {
+            height: 90, width: 90,
+        }
+    }
     return (
         <TutorContainer
             sx={{
@@ -132,7 +141,7 @@ export default function TutorItem({ tutor, mode }: Props) {
                 transition: '0.3s all',
                 borderColor: selectedTutor._id === tutor._id && router.pathname.includes('/tutors') ? colors.teal[400] : 'transparent'
             }}>
-            <TutorImage></TutorImage>
+            <UserAvatar imageURL={user.imageAsset?.secureURL} avatarStyles={avatarStyles} />
             <TutorItemBody>
                 <Box sx={(theme) => ({
                     p: 1,
@@ -184,29 +193,29 @@ export default function TutorItem({ tutor, mode }: Props) {
                     }}>
                         <FavoriteBorderOutlinedIcon fontSize='small' />
                     </ButtonIcon>
-                    <StyledButton
-                        onClick={viewTutor}
-                        sx={{
-                            px: 1,
-                            flexBasis: '60%',
-                            fontSize: 15,
-                            color: colors.teal[400],
-                            border: 1,
-                            borderColor: colors.teal[400],
-                            backgroundColor: 'transparent',
-                            transition: '0.3s all',
-                            '&:hover': {
-                                color: '#fff',
-                                backgroundColor: colors.teal[400]
-                            }
-                        }}>
-                        {inquired?.tutorId === tutor._id ? (
-                            <VisibilityOutlinedIcon fontSize='small' sx={{ mr: 1 }} />
-                        ) : (
-                            <AddCommentOutlinedIcon fontSize='small' sx={{ mr: 1 }} />
-                        )}
-                        {inquired?.tutorId === tutor._id ? 'View inquiry' : 'Send inquiry'}
-                    </StyledButton>
+                    {mode === 'read-only' ? (
+                        <Link href={`/tutor/${user.tutorInfo?.tutorId}`}
+                            style={{ flexBasis: '60%' }}>
+                            <StyledButtonOutlined
+                                sx={{ width: '100%' }}>
+                                <VisibilityOutlinedIcon fontSize='small' sx={{ mr: 1 }} />
+                                View Profile
+                            </StyledButtonOutlined>
+                        </Link>
+                    ) : <></>}
+
+                    {mode !== 'read-only' ? (
+                        <StyledButtonOutlined
+                            onClick={viewTutor}
+                            sx={{ flexBasis: '60%' }}>
+                            {inquired?.tutorId === tutor._id ? (
+                                <VisibilityOutlinedIcon fontSize='small' sx={{ mr: 1 }} />
+                            ) : (
+                                <AddCommentOutlinedIcon fontSize='small' sx={{ mr: 1 }} />
+                            )}
+                            {inquired?.tutorId === tutor._id ? 'View inquiry' : 'Send inquiry'}
+                        </StyledButtonOutlined>
+                    ) : <></>}
                 </ItemFooter>
             </TutorItemBody>
         </TutorContainer>

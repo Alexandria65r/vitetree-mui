@@ -3,16 +3,14 @@ import { styled, Box, colors, InputBase, ButtonBase, Typography, useTheme } from
 import { useState } from 'react'
 import type { NextPage } from 'next'
 import Layout from '../components/layout'
-import SpeedIcon from '@mui/icons-material/Speed';
 import AddIcon from '@mui/icons-material/Add';
 import { NextRouter, useRouter } from 'next/router'
-import { CustomFormControl } from '../reusable/styles'
 import { CSS_PROPERTIES } from '../reusable'
 import { colorScheme } from '../theme'
 import { SlGraduation } from 'react-icons/sl'
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { mainActions } from '../../reducers';
-import authReducer, { authActions } from '../../reducers/auth-reducer/auth-reducer';
+import { authActions } from '../../reducers/auth-reducer/auth-reducer';
+import { StyledButton } from '../reusable/styles';
 
 const Container = styled(Box)(({ theme }) => ({
   height: 'calc(100vh - 66px)',
@@ -84,9 +82,8 @@ const FrontBox = styled(Box)(({ theme }) => ({
     marginBottom: 10
   }
 }))
-const CommunityButton = styled(ButtonBase)(({ theme }) => ({
+const CommunityButton = styled(StyledButton)(({ theme }) => ({
   textTransform: 'capitalize',
-  //flex:1,
   fontSize: 17,
   height: 50,
   borderRadius: 5,
@@ -94,7 +91,7 @@ const CommunityButton = styled(ButtonBase)(({ theme }) => ({
   backgroundColor: colors.teal[400],
   [theme.breakpoints.down('sm')]: {
     flexBasis: '100%',
-    borderRadius: 5,
+    borderRadius: 10,
     margin: '6px 0'
   }
 }))
@@ -220,7 +217,7 @@ export default IndexPage
 /*
 
 
-The easiest  way to prepare school tests and test your students.
+The easiest  way to prepare school assessments and test your students.
 
 The professional way of conducting school tests and get instant
               results without sacrificing your time in <b>marking</b> every paper.

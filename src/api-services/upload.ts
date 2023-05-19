@@ -14,7 +14,9 @@ export default class UploadAPI {
             body: formData,
         })
             .then((res) => res.json())
-            .then((data) => data);
+            .then((data) => data).catch((error) => {
+                console.log(error)
+            });
     }
 
     //delete assets
