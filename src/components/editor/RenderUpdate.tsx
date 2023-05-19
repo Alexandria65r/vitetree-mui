@@ -44,8 +44,8 @@ export default function ReaderUpdate({ update }: Props): ReactElement {
   // editor state
 
   // slate leaves
-  const renderElement = useCallback((props) => <Element {...props} />, []);
-  const renderLeaf = useCallback((props) => <Leaf {...props} />, []);
+  const renderElement = useCallback((props:any) => <Element {...props} />, []);
+  const renderLeaf = useCallback((props:any) => <Leaf {...props} />, []);
 
   const editor = useMemo(
     () =>

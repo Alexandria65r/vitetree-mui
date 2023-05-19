@@ -204,7 +204,7 @@ export default function Task({ }: Props) {
                             </TabButton>
                         </MainColHeader>
 
-                        <SlateEditor onValueUpdate={handleEditor} addBorder={true} />
+                        <SlateEditor onValueUpdate={handleEditor} />
 
                         <UpdateItem>
                             <UpdateHeader>

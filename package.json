@@ -44,6 +44,7 @@
     "slate-react": "^0.90.0"
   },
   "devDependencies": {
+    "@types/is-url": "^1.2.30",
     "@types/js-cookie": "^3.0.3",
     "@types/jsonwebtoken": "^9.0.1",
     "@types/node": "^16.9.1",
