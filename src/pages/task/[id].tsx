@@ -1,20 +1,18 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import Layout from '../../components/layout'
 import { Box, Typography, colors, styled, useTheme } from '@mui/material'
-import { CSS_PROPERTIES } from '../../reusable'
 import { colorScheme } from '../../theme'
 import { useRouter } from 'next/router'
 import { fetchHiredTask } from '../../../reducers/task-reducer/task-thunks'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import { StyledBox, StyledButton, TabButton } from '../../reusable/styles'
 import { Add } from '@mui/icons-material'
-import ChatPersonInfo from '../../components/user/chat-person-info'
 import TaskDetails from '../../components/tasks/task-details'
-import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+
 import SubmitTaskForm from '../../components/tasks/submit-task-form'
 import SubmitedTaskFiles from '../../components/tasks/submited-task-files'
-import SlateEditor from '../../components/editor/SlateEditor'
 import { Descendant } from 'slate'
+import TaskUpdates from '../../components/tasks/task-updates'
 
 const Container = styled(Box)(({ theme }) => ({
     width: '80%',
@@ -56,26 +54,6 @@ const MainCol = styled(Box)(({ theme }) => ({
     }
 }))
 
-const MainColHeader = styled(Box)(({ theme }) => ({
-    display: 'flex',
-    height: 40,
-    padding: '0 0px',
-    marginBottom: 15,
-}))
-const UpdateHeader = styled(Box)(({ theme }) => ({
-    height: 40,
-    padding: '0 10px',
-}))
-
-
-const UpdateItem = styled(StyledBox)(({ theme }) => ({
-    minHeight: 100,
-    padding: 10,
-    marginBottom: 15,
-    borderRadius: CSS_PROPERTIES.radius10,
-    boxShadow: `0 1px solid 3px 0 ${colorScheme(theme).chatBoarderColor}`,
-    backgroundColor: theme.palette.mode === 'light' ? '#fff' : colorScheme(theme).secondaryColor
-}))
 
 
 type Props = {}
@@ -87,6 +65,7 @@ export default function Task({ }: Props) {
     const isSidebarOpen = useAppSelector((state) => state.MainReducer.isSidebarOpen)
     const user = useAppSelector((state) => state.AuthReducer.user)
     const task = useAppSelector((state) => state.TaskReducer.task)
+
     const id: any = router.query.id
     const [showUpdates, setShowUpdates] = useState<boolean>(false)
 
@@ -107,9 +86,6 @@ export default function Task({ }: Props) {
 
 
 
-    function handleEditor () {
-
-    }
 
 
 
@@ -186,49 +162,7 @@ export default function Task({ }: Props) {
                                 display: showUpdates ? 'block' : 'none'
                             }
                         }}>
-                        <MainColHeader>
-                            <TabButton onClick={() => setShowUpdates(false)}
-                                sx={{
-                                    display: 'none',
-                                    [_theme.breakpoints.down('sm')]: {
-                                        display: 'flex'
-                                    }
-                                }}
-                            >
-                                <KeyboardBackspaceIcon sx={{ mr: .5 }} />
-                                Back
-                            </TabButton>
-                            <TabButton>
-                                <Add sx={{ mr: .5 }} />
-                                Wirte an update
-                            </TabButton>
-                        </MainColHeader>
-
-                        <SlateEditor onValueUpdate={handleEditor} />
-
-                        <UpdateItem>
-                            <UpdateHeader>
-                                <ChatPersonInfo
-                                    userId=''
-                                    fullname="(You) Robert Chingabu "
-                                    fullnameStyles={{ fontSize: 14, lineHeight: 1.2, }}
-                                    subText='15 Min'
-                                    avatarSize={45}
-                                    indicatorStyles={{ position: 'absolute', left: 30, bottom: 0 }} />
-                            </UpdateHeader>
-                        </UpdateItem>
-                        <UpdateItem>
-                            <UpdateHeader>
-                                <ChatPersonInfo
-                                    userId=''
-                                    fullname='John Doe'
-                                    fullnameStyles={{ fontSize: 14, lineHeight: 1.2, }}
-                                    subText='5 Min'
-                                    avatarSize={45}
-                                    indicatorStyles={{ position: 'absolute', left: 30, bottom: 0 }} />
-                            </UpdateHeader>
-                        </UpdateItem>
-
+                        <TaskUpdates setShowUpdates={setShowUpdates} /> 
                     </MainCol>
                 </InnerFlexContainer>
 

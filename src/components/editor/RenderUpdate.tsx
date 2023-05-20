@@ -40,7 +40,7 @@ interface Props {
   update: Descendant[];
 }
 
-export default function ReaderUpdate({ update }: Props): ReactElement {
+export default function RenderUpdate({ update }: Props): ReactElement {
   // editor state
 
   // slate leaves

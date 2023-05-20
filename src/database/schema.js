@@ -108,8 +108,8 @@ export const Inquiry = mongoose.model(
     _id: String,
     authorId: String,
     tutorId: String,
-    tutorName:String,
-    studentName:String,
+    tutorName: String,
+    studentName: String,
     service: {
       label: String,
       price: String,
@@ -172,5 +172,22 @@ export const TaskSchema = mongoose.model(
     vidAsset: { type: Object, required: false },
     imageAsset: { type: Object, required: false },
     status: String,
+  })
+);
+export const TaskUpdateSchema = mongoose.model(
+  "task-update",
+  new mongoose.Schema({
+    _id: String,
+    taskId: String,
+    notifyId: String,
+    service: String,
+    author: {
+      id: String,
+      userName: String,
+    },
+    data: Array,
+    taskStatus: String,
+    createdAt: String,
+    updatedAt: { type: Date, default: Date.now },
   })
 );

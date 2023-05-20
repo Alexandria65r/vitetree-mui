@@ -4,6 +4,7 @@ import { Task, TaskStatus } from "../../src/models/task";
 import { taskActions } from ".";
 import TaskAPI, { TasksQueryPath } from "../../src/api-services/task";
 import Randomstring from 'randomstring'
+import { fetchTaskUpdatesThunk } from "../task-updtes-reducer/task-updates-thunks";
 
 export const createHiredTask = createAsyncThunk<void, undefined, { state: AppState }>
     ('taskSlice/createHiredTask', async (_, thunkAPI) => {
@@ -55,6 +56,7 @@ export const fetchHiredTask = createAsyncThunk<void, string, { state: AppState }
         try {
             dispatch(taskActions.setTaskNetworkStatus('fetch-task'))
             const task = await TaskAPI.fetchTask(taskId)
+            dispatch(fetchTaskUpdatesThunk(taskId))
             if (task) {
                 dispatch(taskActions.setTaskNetworkStatus('fetch-task-success'))
                 dispatch(taskActions.setTask(task))

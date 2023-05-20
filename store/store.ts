@@ -13,6 +13,7 @@ import InquiryReducer from '../reducers/inquiry-reducer'
 import TutorsReducer from '../reducers/tutors-reducer'
 import NotificationsReducer from '../reducers/notification-reducer'
 import TaskReducer from '../reducers/task-reducer'
+import TaskUpdatesReducer from '../reducers/task-updtes-reducer'
 
 const rootReducer = combineReducers({
   AuthReducer,
@@ -27,7 +28,8 @@ const rootReducer = combineReducers({
   InquiryReducer,
   TutorsReducer,
   NotificationsReducer,
-  TaskReducer
+  TaskReducer,
+  TaskUpdatesReducer
 })
 
 
