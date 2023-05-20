@@ -4,6 +4,7 @@ import { TutorService } from "./interfaces";
 
 export const UserSchema: Types.User = {
     role: '',
+    gender:'',
     firstName: '',
     lastName: '',
     email: '',
