@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import Layout from '../../components/layout'
-import { Box, Typography, colors, styled, useTheme } from '@mui/material'
+import { Box, Typography, colors, styled, useMediaQuery, useTheme } from '@mui/material'
 import { colorScheme } from '../../theme'
 import { useRouter } from 'next/router'
 import { fetchHiredTask } from '../../../reducers/task-reducer/task-thunks'
@@ -65,7 +65,7 @@ export default function Task({ }: Props) {
     const isSidebarOpen = useAppSelector((state) => state.MainReducer.isSidebarOpen)
     const user = useAppSelector((state) => state.AuthReducer.user)
     const task = useAppSelector((state) => state.TaskReducer.task)
-
+    const isMobile = useMediaQuery('(max-width:600px)')
     const id: any = router.query.id
     const [showUpdates, setShowUpdates] = useState<boolean>(false)
 
@@ -118,7 +118,7 @@ export default function Task({ }: Props) {
 
                 </Header>
 
-                <InnerFlexContainer sx={{ display: showUpdates ? 'block' : 'flex', }}>
+                <InnerFlexContainer sx={{ display: showUpdates && isMobile ? 'block' : 'flex', }}>
 
                     <AsideLeft sx={{
                         [_theme.breakpoints.down('sm')]: {

@@ -12,9 +12,7 @@ import CartModal from './modals/cart-modal'
 import WishListModal from './modals/wishlist-modal'
 import SideBar from './side-bar'
 import { mainActions } from '../../reducers'
-import { LinearProgress, colors, styled, useTheme } from '@mui/material'
-import { StyledButton } from '../reusable/styles'
-import { BiHome, BiHomeAlt } from 'react-icons/bi'
+import { LinearProgress, styled, useMediaQuery, useTheme } from '@mui/material'
 import AsideNavbar from './aside-navbar'
 import { checkAuthThunk } from '../../reducers/auth-reducer/auth-thunks'
 
@@ -37,7 +35,7 @@ export default function Layout({ children }: Props) {
     const isSidebarOpen = useAppSelector((state) => state.MainReducer.isSidebarOpen)
     const [isRouteChange, setRouteChange] = React.useState<boolean>(false)
     const theme = useTheme()
-
+    const isMobile = useMediaQuery('(max-width:600px)')
     const checkAuth = React.useCallback(async () =>
         dispatch(checkAuthThunk()),
         [router.pathname])
@@ -46,7 +44,7 @@ export default function Layout({ children }: Props) {
     React.useEffect(() => {
         localStorage.removeItem('redirectFlag')
         checkAuth()
-        if (isSidebarOpen) {
+        if (isMobile) {
             dispatch(mainActions.setIsSideBarOpen(false))
         }
     }, [router.pathname])
@@ -73,25 +71,26 @@ export default function Layout({ children }: Props) {
 
     return (
         <Box>
-            <Box sx={{width:'100%', position:'absolute',top:0,zIndex:9999}}>
+            <Box sx={{ width: '100%', position: 'absolute', top: 0, zIndex: 9999 }}>
                 {isRouteChange && <LinearProgress />}
             </Box>
             <NavBar />
             <FlexContainer sx={{
-                display: !isSidebarOpen ? 'flex' : 'block',
+                // display: !isSidebarOpen ? 'flex' : 'block',
 
             }}>
                 <Box
                     sx={{
+                        transition:'0.3s all',
                         display: router.pathname === '/' ? 'none' : 'block',
-                        flexBasis: '20%',
+                        flexBasis: isSidebarOpen ? '5%' : '20%',
                         [theme.breakpoints.down('sm')]: {
                             display: 'none'
                         }
                     }}>
-                    {!isSidebarOpen && (
+                 
                         <AsideNavbar />
-                    )}
+                    
                 </Box>
 
                 <Box

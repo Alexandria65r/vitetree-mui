@@ -12,7 +12,7 @@ import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { Descendant } from 'slate'
 import { createNewTaskUpdateThunk } from '../../../reducers/task-updtes-reducer/task-updates-thunks'
-
+import CloseIcon from '@mui/icons-material/Close';
 
 
 const MainColHeader = styled(Box)(({ theme }) => ({
@@ -50,6 +50,7 @@ export default function TaskUpdates({ setShowUpdates }: Props) {
     const task = useAppSelector((state) => state.TaskReducer.task)
     const updates = useAppSelector((state) => state.TaskUpdatesReducer.updates)
     const _theme = useTheme()
+    const [openEditor, setEditorOpen] = React.useState<boolean>(false)
 
     function handleEditor(data: Descendant[]) {
         dispatch(createNewTaskUpdateThunk(data))
@@ -69,13 +70,14 @@ export default function TaskUpdates({ setShowUpdates }: Props) {
                     <KeyboardBackspaceIcon sx={{ mr: .5 }} />
                     Back
                 </TabButton>
-                <TabButton>
-                    <Add sx={{ mr: .5 }} />
-                    Wirte an update
+                <TabButton onClick={()=> setEditorOpen(!openEditor)}>
+                    
+                    {openEditor ? <CloseIcon sx={{ mr: .5 }} />:<Add sx={{ mr: .5 }} />} 
+                    {openEditor?'Close editor':'Write an update'} 
                 </TabButton>
             </MainColHeader>
-
-            <SlateEditor onValueUpdate={handleEditor} />
+            {openEditor && <SlateEditor onValueUpdate={handleEditor} />}
+            
             {updates.map((update, index) => (
                 <UpdateItem key={index}>
                     <UpdateHeader>

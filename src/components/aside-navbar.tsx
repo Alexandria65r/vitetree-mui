@@ -1,9 +1,9 @@
-import { Box, colors, styled } from '@mui/material'
+import { Box, colors, styled, useMediaQuery } from '@mui/material'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { BiHomeAlt } from 'react-icons/bi'
 import { StyledButton } from '../reusable/styles'
-import { colorScheme } from '../theme'
+import { colorScheme, useColorScheme } from '../theme'
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import Link from 'next/link'
 import { useAppSelector } from '../../store/hooks'
@@ -18,9 +18,9 @@ import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 
 const AsideNav = styled(Box)(({ theme }) => ({
   padding: 10,
+  //border: "1px solid",
   [theme.breakpoints.down('sm')]: {
-    //display: 'none'
-    flexBasis: '80%',
+    flexBasis: '85%',
     height: 'calc(100% - 120px)',
     overflowY: 'auto'
   }
@@ -63,7 +63,8 @@ type Props = {}
 export default function AsideNavbar({ }: Props) {
   const router = useRouter()
   const user = useAppSelector((state) => state.AuthReducer.user)
-
+  const isSidebarOpen = useAppSelector((state) => state.MainReducer.isSidebarOpen)
+  const isMobile = useMediaQuery('(max-width:600px)')
 
   async function logout() {
     const auth = getAuth()
@@ -77,27 +78,29 @@ export default function AsideNavbar({ }: Props) {
   }
 
 
-  
+
+
+
 
   return (
     <AsideNav sx={{}}
       className="sideBarAnimated">
       {user._id ? (<>
         <NavItem
-         route='/notifications/all'
-          name='Notifications'
-          startIcon={<NotificationsNoneIcon sx={{ mr: 1 }} />}
+          route='/notifications/all'
+          name={isSidebarOpen && !isMobile ? '' : 'Notifications'}
+          startIcon={<NotificationsNoneIcon sx={{ mr: isSidebarOpen && !isMobile ? 0 : 1, fontSize: 28 }} />}
           isActive={router.asPath.includes('/notifications')}
         />
         <NavItem route='/dashboard'
-          name='Home'
-          startIcon={<BiHomeAlt size={20} style={{ marginRight: 5 }} />}
+          name={isSidebarOpen && !isMobile ? '' : 'Home'}
+          startIcon={<BiHomeAlt size={25} style={{ marginRight: isSidebarOpen && !isMobile ? 0 : 10 }} />}
           isActive={router.asPath === '/dashboard'}
         />
         <NavItem
-          name="profile"
+          name={isSidebarOpen && !isMobile ? '' : "profile"}
           route={`/account/${user._id}`}
-          startIcon={<AccountCircleOutlinedIcon sx={{ mr: .5 }} />}
+          startIcon={<AccountCircleOutlinedIcon sx={{ mr: isSidebarOpen && !isMobile ? 0 : 1,fontSize:28}} />}
           isActive={router.asPath.includes(`/account`)}
         />
 
@@ -105,15 +108,15 @@ export default function AsideNavbar({ }: Props) {
 
           onClick={logout}
           sx={{ width: '100%', mt: 1 }}>
-          <LogoutOutlinedIcon sx={{ mr: 1 }} />
-          Log Out
+          <LogoutOutlinedIcon sx={{ mr: isSidebarOpen && !isMobile ? 0 : 1 }} />
+          {isSidebarOpen && !isMobile ? '' : 'Log Out'}
         </LogoutButton>
 
       </>) : <>
         <NavItem
-          name="Sign In"
+          name={isSidebarOpen && !isMobile ? "" : "Sign In"}
           route={`/signin`}
-          startIcon={<LoginIcon sx={{ mr: .5 }} />}
+          startIcon={<LoginIcon sx={{ mr: isSidebarOpen && !isMobile ? 0 : 1 }} />}
           isActive={router.asPath.includes(`/signin`)}
         />
       </>}
@@ -132,16 +135,22 @@ type NavItemProps = {
 }
 
 function NavItem({ name, route, isActive, startIcon }: NavItemProps) {
+  const isSidebarOpen = useAppSelector((state) => state.MainReducer.isSidebarOpen)
+  const isMobile = useMediaQuery('(max-width:600px)')
+  const colorScheme = useColorScheme()
   return (
     <Link href={route}>
       <NavButton
-        sx={{
-          backgroundColor: isActive ? colors.teal[400] : 'transparent',
+        sx={(theme)=>({
+          justifyContent: isSidebarOpen && !isMobile ? 'center' : 'flex-start',
+          backgroundColor: isActive ? colors.teal[400] : isSidebarOpen
+           && !isMobile ? theme.palette.mode === 'light' ? colors.grey[200] :
+            colorScheme.secondaryColor:'transparent',
           color: isActive ? '#fff' : '',
           '&:hover': {
-            backgroundColor: isActive ? colors.teal[400] : ''
+            backgroundColor: isActive ? colors.teal[400] :''
           }
-        }}
+        })}
       >
 
         {startIcon}
