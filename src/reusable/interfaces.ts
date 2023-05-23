@@ -254,14 +254,13 @@ export type Post = {
     _id: string
     authorId: string
     type: PostType
-    budget?: string
     title: string
-    delivery: ' Course Video' | 'real time video' | 'Answer' | ''
-    request: 'Assignment' | 'teach me' | 'stuck' | ''
+    service?: TutorService
     subjects?: string[],
     imageAssets?: Asset[]
     videoAssets?: Asset
     description: string
+    dueDate?: string
     createdAt?: string
 }
 

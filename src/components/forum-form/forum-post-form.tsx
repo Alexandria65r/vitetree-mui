@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import { testActions } from '../../../reducers/test-reducer'
 import { Textarea } from '../../reusable/styles'
 import { forumActions } from '../../../reducers/forum-reducer'
+import { tutorServices } from '../../reusable/helpers'
 
 
 const ChoicesContainer = styled(Box)(({ theme }) => ({
@@ -43,9 +44,19 @@ export default function ForumPostForm({ mode, submitHandler }: Props) {
     const dispatch = useAppDispatch()
     const post = useAppSelector((state) => state.ForumReducer.post)
     const isErr = useAppSelector((state) => state.ForumReducer.isErr)
- 
 
 
+
+
+    function handleService({ target: { name, value } }: any) {
+        dispatch(forumActions.setPostProps({
+            name: 'service',
+            value: {
+                ...post.service,
+                [name]: value
+            }
+        }))
+    }
 
     function handleOnChange({ target: { name, value } }: any) {
         dispatch(forumActions.setPostProps({
@@ -89,48 +100,48 @@ export default function ForumPostForm({ mode, submitHandler }: Props) {
                     name="subjects"
                     handleSelectedSection={handleOnChange}
                     value={post.subjects ?? []} />
+                {post.type === 'hire tutor' && (
+                    <TextInput
+                        error={isErr && !post.service?.price}
+                        sx={{ flex: 1, marginLeft: 1 }}
+                        onChange={handleOnChange}
+                        name="dueDate"
+                        value={post.dueDate ?? ''}
+                        type='date'
+                        label="Due Date"
+                        placeholder="Due Date"
+                    />
+                )}
 
-                <Select sx={{ flex: 1, ml: 1 }}
-                    onChange={handleOnChange}
-                    error={isErr && !post.request}
-                    value={post.request || undefined}
-                    name='request'
-                    defaultValue='Select cartegory'>
-                    <MenuItem value="Select cartegory">Select cartegory</MenuItem>
-                    <MenuItem value="Assignment">Assignment</MenuItem>
-                    <MenuItem value="Teach me">Teach me</MenuItem>
-                    <MenuItem value="Stuck">Stuck</MenuItem>
-                </Select>
             </FormControl>
 
             <ChoicesContainer>
+                {post.type === 'hire tutor' && (
+                    <FormControl>
+                        <Select sx={{ flex: 1 }}
+                            defaultValue='Service'
+                            error={isErr && !post.service}
+                            onChange={handleService}
+                            value={post.service?.label || undefined}
+                            name='label'>
+                            <MenuItem value='Service'>Service</MenuItem>
+                            {tutorServices.map((service, index) => (
+                                <MenuItem key={index} value={service.label}>{service.label}</MenuItem>
+                            ))}
+                        </Select>
 
-                <FormControl>
-                    <Select sx={{ flex: 1 }}
-                        defaultValue='Way of conducting'
-                        error={isErr && !post.delivery}
-                        onChange={handleOnChange}
-                        value={post.delivery || undefined}
-                        name='delivery'>
-                        <MenuItem value="Way of conducting">Way of conducting</MenuItem>
-                        <MenuItem value="Course video">Course video</MenuItem>
-                        <MenuItem value="Real time video">Real time video</MenuItem>
-
-                    </Select>
-                    {post.type === 'hire tutor' && (
                         <TextInput
-                            error={isErr && !post.budget}
+                            error={isErr && !post.service?.price}
                             sx={{ flex: 1, marginLeft: 1 }}
-                            onChange={handleOnChange}
-                            name="budget"
-                            value={post.budget }
+                            onChange={handleService}
+                            name="price"
+                            value={post.service?.price}
                             type='number'
                             label="Budget"
                             placeholder="Budget"
                         />
-                    )}
-                </FormControl>
-
+                    </FormControl>
+                )}
                 <FormControl>
                     <Textarea minRows={6} value={post.description}
                         name="description"

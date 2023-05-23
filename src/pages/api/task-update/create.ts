@@ -11,8 +11,10 @@ const CreateTest: NextApiHandler = async (req: NextApiRequest, res: NextApiRespo
     try {
         const newTaskUpdate = await TaskUpdateSchema.create(taskUpdate)
         if (newTaskUpdate) {
-            notifyAPI(taskUpdate.notifyId,
+            notifyAPI(
+                taskUpdate.notifyId,
                 taskUpdate.taskId,
+                `/task/${taskUpdate.taskId}`,
                 'default-notification',
                 `New task update in Task ${taskUpdate.service}`,
                 `${taskUpdate.author.userName} wrote an update in Task ${taskUpdate.service}`)
@@ -20,7 +22,7 @@ const CreateTest: NextApiHandler = async (req: NextApiRequest, res: NextApiRespo
                 success: true,
                 newTaskUpdate
             })
-
+taskUpdate.taskId
 
         }
 

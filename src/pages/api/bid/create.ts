@@ -3,6 +3,8 @@ import connection from '../../../database/connection'
 import { BidSchema } from "../../../database/schema";
 import { notifyAPI } from "../notification/helpers";
 import { Bid } from "../../../models/bid";
+import { hostname } from "os";
+import { host } from "../../../reusable";
 
 
 
@@ -16,6 +18,7 @@ const CreateBid: NextApiHandler = async (req: NextApiRequest, res: NextApiRespon
             await notifyAPI(
                 bid.postAuthorId,
                 bid.postId,
+                `/forum/all/details/applied/${bid.postId}/${newBid._id}`,
                 'default-hired',
                 'New bid',
                 `You have a new bid in post..`

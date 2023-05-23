@@ -20,6 +20,9 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { cartActions } from '../../reducers/cart-reducer';
 import ChatOutlinedIcon from '@mui/icons-material/ChatOutlined';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+import MenuOpenIcon from '@mui/icons-material/MenuOpen';
+
+
 
 const Button = styled(ButtonBase)(({ theme }) => ({
     padding: '8px 15px',
@@ -74,7 +77,7 @@ export default function NavBar() {
                             aria-label="menu"
                             sx={{ mr: 2 }}
                         >
-                            <MenuIcon />
+                            {!isSidebarOpen ? <MenuOpenIcon /> : <MenuIcon />}
                         </IconButton>
                     )}
 

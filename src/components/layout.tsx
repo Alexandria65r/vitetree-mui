@@ -54,10 +54,12 @@ export default function Layout({ children }: Props) {
     React.useEffect(() => {
         router.events.on('routeChangeStart', routeChangeStart)
         router.events.on('routeChangeComplete', routeChangeComplete)
+        router.events.on('routeChangeError', routeChangeError )
 
         return () => {
             router.events.off('routeChangeStart', routeChangeStart)
             router.events.off('routeChangeComplete', routeChangeComplete)
+            router.events.off('routeChangeError', routeChangeError)
         }
     }, [])
 
@@ -67,6 +69,9 @@ export default function Layout({ children }: Props) {
     }
     function routeChangeComplete() {
         setRouteChange(false)
+    }
+    function routeChangeError() {
+        router.reload()
     }
 
 

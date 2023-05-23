@@ -8,6 +8,7 @@ import { Notification, NotificationType } from "../../../models/notifications"
 export async function notifyAPI(
     toId: string,
     refId: string,
+    link: string,
     type: NotificationType,
     title: string,
     description: string) {
@@ -15,6 +16,7 @@ export async function notifyAPI(
     const notification: Notification = {
         owner: toId,
         refId,
+        link,
         title,
         type,
         description

@@ -1,21 +1,24 @@
 import { Box, Typography, styled } from '@mui/material'
 import React from 'react'
 import { StyledBox, Textarea } from '../../reusable/styles'
-import { useAppSelector } from '../../../store/hooks'
+import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import ForumItem from './post-item'
 import SlateEditor from '../editor/SlateEditor'
+import { Descendant } from 'slate'
+import { createAcademicAnswerThunk } from '../../../reducers/academic-answers-reducer/academic-answers-thunks'
+import PostAcademicAnswerItem from './post-academic-answer-item'
 
 const Container = styled(Box)(({ theme }) => ({
     width: '90%',
     margin: '20px auto',
-    display: 'flex',
+    //display: 'flex',
     [theme.breakpoints.down("sm")]: {
         width: '97%',
         display: 'block'
     }
 }))
 const TutorColumn = styled(Box)(({ theme }) => ({
-    flexBasis: '50%',
+    //flexBasis: '50%',
 
 }))
 const BidColumn = styled(Box)(({ theme }) => ({
@@ -30,16 +33,24 @@ const BidColumn = styled(Box)(({ theme }) => ({
 type Props = {}
 
 export default function AnswerQuesttion({ }: Props) {
+    const dispatch = useAppDispatch()
     const post = useAppSelector((state) => state.ForumReducer.post)
+
+
+    function createAnswer(data: Descendant[]) {
+        dispatch(createAcademicAnswerThunk(data))
+    }
     return (
         <Container>
             <TutorColumn>
                 <ForumItem post={post} />
-                <Typography sx={{ my: .5, fontWeight: 600 }}>Type your answer</Typography>
-                <SlateEditor  onValueUpdate={()=>{}} onCancel={()=>{}} /> 
-            
+                <Typography sx={{ my: .8, fontWeight: 600 }}>Answers</Typography>
+                 {/* <SlateEditor onValueUpdate={createAnswer} onCancel={()=>{}} />   */}
+                <PostAcademicAnswerItem />
             </TutorColumn>
-            <BidColumn>
+
+
+            {/* <BidColumn>
                 <Typography sx={{ fontWeight: 600 }}>Asnwers</Typography>
 
                 <StyledBox sx={{ mt: 1, width: '100%', minHeight: 120 }}>
@@ -49,7 +60,7 @@ export default function AnswerQuesttion({ }: Props) {
 
                 </StyledBox>
 
-            </BidColumn>
+            </BidColumn> */}
         </Container>
     )
 }

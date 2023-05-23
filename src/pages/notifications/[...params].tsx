@@ -161,6 +161,7 @@ export default function Notifications({ }: Props) {
                             {notifications.map((notification, index) => (
                                 <NotificationItem
                                     key={index}
+                                    link={notification.link}
                                     title={notification.title}
                                     createdAt={notification?.createdAt ?? ''}
                                     description={notification.description}

@@ -13,6 +13,9 @@ import { Close, KeyboardBackspace } from '@mui/icons-material';
 import SendeBid from '../forum/send-bid';
 import PostDetail from '../forum/post-detail';
 import AnswerQuesttion from '../forum/answer-question';
+import ViewBid from '../forum/view-bid';
+import { forumActions } from '../../../reducers/forum-reducer';
+import { PostSchema } from '../../reusable/schemas';
 
 
 
@@ -71,10 +74,10 @@ export default function SendBidModal() {
     const dispatch = useAppDispatch()
     const owner = useAppSelector((state) => state.AuthReducer.user._id)
     const post = useAppSelector((state) => state.ForumReducer.post)
-    const [all, details, _applyOrAns]: any = router.query.params || []
+    const [sort, details, _applyOrAns]: any = router.query.params || []
     const params = router.query.params || []
 
-    const applyOrAns: 'apply' | 'answer' = _applyOrAns
+    const applyOrAns: 'apply' | 'answer' | 'applied' = _applyOrAns
 
     console.log(router.query)
 
@@ -86,11 +89,14 @@ export default function SendBidModal() {
 
     React.useEffect(() => {
         fetchCartItems()
+        return () => {
+            //dispatch(forumActions.setPost(PostSchema))
+        }
     }, [params[2]])
 
 
     function handleClose() {
-        router.back()
+        router.push(`/forum/${sort}`)
     }
 
 
@@ -115,15 +121,17 @@ export default function SendBidModal() {
                             fontWeight: 600,
                             color: colorScheme(theme).TextColor
                         })}>
-                            Post Detail
+                            {params[2] === 'applied' ? 'Bid Details' : 'Post Detail'}
                         </Typography>
                     </Header>
                     <Body>
                         {applyOrAns === 'apply' ? (
                             <SendeBid />
-                        ) : applyOrAns === 'answer' ?
-                            <AnswerQuesttion />
-                            : <PostDetail post={post} />}
+                        ) : applyOrAns === 'applied' ?
+                            <ViewBid />
+                            : applyOrAns === 'answer' ?
+                                <AnswerQuesttion />
+                                : <PostDetail post={post} />}
                     </Body>
                 </ModalContainer>
             </Modal>

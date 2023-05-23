@@ -15,6 +15,10 @@ import NotificationsReducer from '../reducers/notification-reducer'
 import TaskReducer from '../reducers/tasks-reducer'
 import TaskUpdatesReducer from '../reducers/task-updtes-reducer'
 import bidsReducer from '../reducers/bids-reducer'
+import AcademicReducer from '../reducers/academic-answers-reducer'
+
+
+
 
 const rootReducer = combineReducers({
   AuthReducer,
@@ -31,7 +35,8 @@ const rootReducer = combineReducers({
   NotificationsReducer,
   TaskReducer,
   TaskUpdatesReducer,
-  bidsReducer
+  bidsReducer,
+  AcademicReducer
 })
 
 

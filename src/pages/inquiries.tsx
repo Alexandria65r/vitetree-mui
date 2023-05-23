@@ -14,6 +14,7 @@ import InquiredItem from './tutors/inquiredItem'
 import NotificationItemSkeleton from '../components/notification-item-sekeleton'
 import {KeyboardBackspace } from '@mui/icons-material'
 import ResponseFooter from '../components/service-inquiry/response-footer'
+import NotificationInquiryItem from '../components/notification-inquiry-item-copy'
 
 
 const Container = styled(Box)(({ theme }) => ({
@@ -153,8 +154,9 @@ export default function Notifications({ }: Props) {
                     })}>
                         {inquiries.length && inquiryNetworkStatus !== 'fetch-inquiries' ? (<>
                             {inquiries.map((inquiry, index) => (
-                                <NotificationItem
+                                <NotificationInquiryItem
                                     key={index}
+                                    
                                     title={inquiry.service.label}
                                     createdAt={inquiry?.createdAt ?? ''}
                                     description={inquiry.description}

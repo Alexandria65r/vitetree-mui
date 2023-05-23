@@ -4,7 +4,7 @@ import { TutorService } from "./interfaces";
 
 export const UserSchema: Types.User = {
     role: '',
-    gender:'',
+    gender: '',
     firstName: '',
     lastName: '',
     email: '',
@@ -17,7 +17,7 @@ export const StudentInfo: Types.StudentInfo = {
     endYear: '',
     school: '',
     studentId: '',
-   // subjects: [],
+    // subjects: [],
     description: ''
 }
 
@@ -117,6 +117,8 @@ export const PostSchema: Types.Post = {
     title: '',
     type: 'academic question',
     description: '',
-    delivery: '',
-    request: ''
+    service: {
+        label: '',
+        price: ''
+    },
 }

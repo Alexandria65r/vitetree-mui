@@ -8,7 +8,7 @@ import { FormatMoney } from 'format-money-js'
 import CreditCardForm from '../../components/payments/credit-card-form'
 
 const Container = styled(Box)(({ theme }) => ({
-    maxWidth: '60%',
+    maxWidth: '70%',
     margin: '20px auto',
     display: 'flex',
     flexWrap: 'wrap',

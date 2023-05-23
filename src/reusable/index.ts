@@ -1,6 +1,7 @@
 
 export const devENV = process.env.NODE_ENV !== 'production'
 export const protocal = devENV ? 'http://' : 'https://'
+export const host = devENV ? 'http://localhost:3000' : 'https://schooyard.vercel.app'
 
 export const REUSABLE_POPPER = {
     FilesOptions: {

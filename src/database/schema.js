@@ -90,14 +90,13 @@ export const Post = mongoose.model(
     _id: String,
     authorId: String,
     type: String,
-    budget: String,
     title: String,
-    delivery: String,
-    request: String,
+    service:{type: Object, required: false},
     subjects: { type: Array, required: false },
     imageAssets: { type: Array, required: false },
     videoAssets: { type: Array, required: false },
     description: String,
+    dueDate: { type: String, required: false },
     createdAt: { type: Date, default: Date.now },
   })
 );
@@ -145,6 +144,7 @@ export const NotificationSchema = mongoose.model(
   new mongoose.Schema({
     owner: String,
     refId: String,
+    link: String,
     type: String,
     title: String,
     description: String,
@@ -191,6 +191,25 @@ export const TaskUpdateSchema = mongoose.model(
     updatedAt: { type: Date, default: Date.now },
   })
 );
+
+export const AcademicAnswerSchema = mongoose.model(
+  "academic-answer",
+  new mongoose.Schema({
+    _id: String,
+    postId: String,
+    postAuthorId: String,
+    author: {
+        id: String,
+        userName: String
+    },
+    upVote: Array,
+    downVote: Array,
+    data: Array,
+    createdAt: { type: Date, default: Date.now },
+    updatedAt: { type: Date, default: Date.now },
+  })
+);
+
 
 export const BidSchema = mongoose.model(
   "bid",

@@ -10,6 +10,9 @@ import { Post } from '../../reusable/interfaces'
 import { teal } from '@mui/material/colors'
 import moment from 'moment'
 import { normalizedDate } from '../../reusable/helpers'
+import { useAppDispatch } from '../../../store/hooks'
+import { PostSchema } from '../../reusable/schemas'
+import { forumActions } from '../../../reducers/forum-reducer'
 
 const PostItem = styled(Box)(({ theme }) => ({
     flexBasis: '55%',
@@ -61,6 +64,8 @@ type Props = {
 export default function ForumItem({ post }: Props) {
     const router = useRouter()
     const id = randomstring.generate(17)
+    const dispatch = useAppDispatch()
+
     return (
         <PostItem
             onClick={() => router.push(`${router.asPath}/details/${post._id}`)}>
@@ -110,7 +115,7 @@ export default function ForumItem({ post }: Props) {
                             color: colorScheme(theme).TextColor,
                             fontWeight: 600
                         })}>
-                            {post.request}
+                            {post.type === 'academic question' ? 'Stuck' : 'Hire Tutor'}
                         </Typography>
                     </Box>
 
@@ -124,7 +129,7 @@ export default function ForumItem({ post }: Props) {
                             color: theme.palette.mode === 'light' ? colors.grey[700] : colorScheme(theme).TextColor,
                             fontWeight: 500
                         })}>
-                            Budget: ${post.budget}
+                            Budget: ${post.service?.price}
                         </Typography>
                     )}
 

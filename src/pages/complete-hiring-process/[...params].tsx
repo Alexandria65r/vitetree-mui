@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from 'react'
 import Layout from '../../components/layout'
-import { Box, Typography, colors, styled } from '@mui/material'
+import { Box, Skeleton, Typography, colors, styled } from '@mui/material'
 import { CSS_PROPERTIES } from '../../reusable'
 import { colorScheme } from '../../theme'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
@@ -11,9 +11,10 @@ import { fetchTutorThunk } from '../../../reducers/tutors-reducer/tutors-thunks'
 import TutorItem from '../../components/tutor-item'
 import { fetchInquiryFeedbackThunk } from '../../../reducers/inquiry-reducer/inquiry-thunks'
 import { createHiredTask } from '../../../reducers/tasks-reducer/task-thunks'
+import { fetchPostThunk } from '../../../reducers/forum-reducer/forum-thunks'
 
 const Container = styled(Box)(({ theme }) => ({
-    maxWidth: '60%',
+    maxWidth: '70%',
     margin: '20px auto',
     display: 'flex',
     flexWrap: 'wrap',
@@ -108,17 +109,25 @@ export default function Checkout({ }: Props) {
     const user = useAppSelector((state) => state.AuthReducer.user)
     const tutor = useAppSelector((state) => state.TutorsReducer.tutor)
     const inquiryFeedback = useAppSelector((state) => state.InquiryReducer.inquiryFeedback)
+    const post = useAppSelector((state) => state.ForumReducer.post)
     const router = useRouter()
-    const params = router.query.params || []
+    const [tutorId, _type, refId]: any = router.query.params || []
+
+
+    const type: 'feedbackid' | 'postid' = _type
 
     const loadData = useCallback(() => {
-        dispatch(fetchTutorThunk(params[0]))
-        dispatch(fetchInquiryFeedbackThunk(params[2]))
-    }, [params])
+        dispatch(fetchTutorThunk(tutorId))
+        if (type === 'feedbackid') {
+            dispatch(fetchInquiryFeedbackThunk(refId))
+        } else if (type === 'postid') {
+            dispatch(fetchPostThunk(refId))
+        }
+    }, [tutorId])
 
     useEffect(() => {
         loadData()
-    }, [params])
+    }, [tutorId])
 
 
     function hireTutor() {
@@ -130,6 +139,12 @@ export default function Checkout({ }: Props) {
         decimals: 2
     })
     const subtotal: any = fm.from(parseFloat(inquiryFeedback.serviceTerms.price))
+
+    const serviceSummery = {
+        name: type === 'feedbackid' ? inquiryFeedback.service.label : post.service?.label,
+        subtotal: type === 'feedbackid' ? inquiryFeedback.serviceTerms.price : post.service?.price,
+        dueDate: type === 'feedbackid' ? inquiryFeedback.serviceTerms.dueDate : post.dueDate ?? '',
+    }
 
 
 
@@ -159,20 +174,22 @@ export default function Checkout({ }: Props) {
                     </SummaryHeader>
 
                     <ItemCount>
-                        <Typography sx={{ flex: 1, fontSize: 15, fontWeight: 600 }}>
-                            {inquiryFeedback.service.label}
+                        <Typography sx={{ flex: 1, textTransform: 'capitalize', fontSize: 15, fontWeight: 600 }}>
+                            {serviceSummery.name|| <Skeleton width={120}/> }
                         </Typography>
                         <Typography sx={{ fontSize: 15, fontWeight: 500 }}>
-                            Due Date: {inquiryFeedback.serviceTerms.dueDate}
+                            {serviceSummery.dueDate ? `Due Date:${serviceSummery.dueDate}`: <Skeleton width={120} />}
                         </Typography>
                     </ItemCount>
                     <SubTotal>
                         <Typography sx={{ flex: 1, fontSize: 20, fontWeight: 600 }}>
                             Subtotal(<span style={{ fontSize: 17 }}>USD</span>)
                         </Typography>
+                        {serviceSummery.subtotal? (
                         <Typography sx={{ color: colors.teal[400], fontSize: 22, fontWeight: 600 }}>
-                            {inquiryFeedback.serviceTerms.price}
+                            ${serviceSummery.subtotal }
                         </Typography>
+                        ) : <Skeleton width={50} height={28} />}
                     </SubTotal>
                     <PayButtonContainer>
                         {!user?.studentInfo?.accountBalance ? (<>

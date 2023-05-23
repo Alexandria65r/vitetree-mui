@@ -29,18 +29,16 @@ type Props = {
     
     title: string
     type: 'Bid' | 'Answer' | 'Inquiry' | string
-    link: string
     description: string
     createdAt: string
     open: () => void
 
 }
 
-export default function NotificationItem({ open, type, link, title, description, createdAt }: Props) {
+export default function NotificationInquiryItem({ open, type, title, description, createdAt }: Props) {
 
     return (
-        <Link href={link}>
-            <Card>
+            <Card onClick={open}>
                 <Typography sx={{ flex: 1, fontSize: 15, fontWeight: 600 }}>
                     {title}
                 </Typography>
@@ -58,6 +56,5 @@ export default function NotificationItem({ open, type, link, title, description,
                     </Typography>
                 </CardFooter>
             </Card>
-        </Link>
     )
 }

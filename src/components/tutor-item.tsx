@@ -1,4 +1,4 @@
-import { Box, SxProps, Theme, Typography, colors, styled, useTheme } from '@mui/material'
+import { Box, Skeleton, SxProps, Theme, Typography, colors, styled, useTheme } from '@mui/material'
 import React from 'react'
 import { CSS_PROPERTIES } from '../reusable'
 import { colorScheme } from '../theme'
@@ -128,7 +128,7 @@ export default function TutorItem({ tutor, mode }: Props) {
     }
 
     const avatarStyles: SxProps<Theme> | undefined = {
-        mt:2,
+        mt: 2,
         height: 90, width: 90,
         [theme.breakpoints.down('sm')]: {
             height: 90, width: 90,
@@ -143,44 +143,74 @@ export default function TutorItem({ tutor, mode }: Props) {
             }}>
             <UserAvatar imageURL={user.imageAsset?.secureURL} avatarStyles={avatarStyles} />
             <TutorItemBody>
-                <Box sx={(theme) => ({
-                    p: 1,
-                    textAlign: 'center',
-                    [theme.breakpoints.down('sm')]: {
-                        width: '80%',
-                        margin: 'auto',
-                    }
-                })}>
-                    <Typography sx={{ my: .5, fontSize: 16, fontWeight: 600 }}>
-                        {tutor.firstName} {tutor.lastName}
-                    </Typography>
-                    <Typography sx={{ fontSize: 14, fontWeight: 600 }}>
-                        Primary qualifictions
-                    </Typography>
-                    <Typography sx={{ fontSize: 13, color: 'GrayText', fontWeight: 500 }}>
-                        {tutor.tutorInfo?.qualifications} - {tutor.tutorInfo?.collage}
-                    </Typography>
-                    <Typography sx={{ fontSize: 14, fontWeight: 600 }}>
-                        Subjects
-                    </Typography>
-                    <Typography sx={{ fontSize: 13, color: 'GrayText', fontWeight: 500 }}>
-                        {tutor.tutorInfo?.subjects.map((subject, index) => (
-                            <>
-                                {subject}
-                                {nomalizedText(tutor.tutorInfo?.subjects ?? [], index)}
-                            </>
-                        ))}
-                    </Typography>
-                    <Typography sx={{ mt: .5, fontSize: 14, fontWeight: 600 }}>
-                        Profile
-                    </Typography>
-                    <Typography sx={{ fontSize: 13, color: 'GrayText', fontWeight: 500 }}>
-                        {tutor.tutorInfo?.description}
-                    </Typography>
-                </Box>
+                {tutor._id ? (
+                    <Box sx={(theme) => ({
+                        p: 1,
+                        textAlign: 'center',
+                        [theme.breakpoints.down('sm')]: {
+                            width: '80%',
+                            margin: 'auto',
+                        }
+                    })}>
+
+                        <Typography sx={{ my: .5, fontSize: 16, fontWeight: 600 }}>
+                            {tutor.firstName} {tutor.lastName}
+                        </Typography>
+                        <Typography sx={{ fontSize: 14, fontWeight: 600 }}>
+                            Primary qualifictions
+                        </Typography>
+                        <Typography sx={{ fontSize: 13, color: 'GrayText', fontWeight: 500 }}>
+                            {tutor.tutorInfo?.qualifications} - {tutor.tutorInfo?.collage}
+                        </Typography>
+                        <Typography sx={{ fontSize: 14, fontWeight: 600 }}>
+                            Subjects
+                        </Typography>
+                        <Typography sx={{ fontSize: 13, color: 'GrayText', fontWeight: 500 }}>
+                            {tutor.tutorInfo?.subjects.map((subject, index) => (
+                                <>
+                                    {subject}
+                                    {nomalizedText(tutor.tutorInfo?.subjects ?? [], index)}
+                                </>
+                            ))}
+                        </Typography>
+                        <Typography sx={{ mt: .5, fontSize: 14, fontWeight: 600 }}>
+                            Profile
+                        </Typography>
+
+                        <Typography sx={{ fontSize: 13, color: 'GrayText', fontWeight: 500 }}>
+                            {tutor.tutorInfo?.description}
+                        </Typography>
+
+                    </Box>) : (<Box sx={(theme) => ({
+                        p: 1,
+                        textAlign: 'center',
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        justifyContent: 'center',
+                        [theme.breakpoints.down('sm')]: {
+                            width: '80%',
+                            margin: 'auto',
+                        }
+                    })}>
+                        <Box sx={{display:'grid'}}>
+                            <Skeleton width={180} />
+                            <Skeleton width={140} sx={{ mt: 1, justifySelf:'center'}} />
+                            <Skeleton width={180} sx={{justifySelf:'center'}}/>
+                            <Skeleton width={140} sx={{justifySelf:'center'}}/>
+                            <Box sx={{ mt: 1.5, flexBasis: '80%' }}>
+                                <Skeleton />
+                                <Skeleton />
+                                <Skeleton />
+                                <Skeleton />
+                            </Box>
+                        </Box>
+
+
+                    </Box>)}
+
 
                 <ItemFooter>
-                    <ButtonIcon sx={{
+                    {tutor._id ? (<ButtonIcon sx={{
                         color: colors.teal[400],
                         border: 1,
                         borderColor: colors.teal[400],
@@ -192,17 +222,24 @@ export default function TutorItem({ tutor, mode }: Props) {
                         }
                     }}>
                         <FavoriteBorderOutlinedIcon fontSize='small' />
-                    </ButtonIcon>
-                    {mode === 'read-only' ? (
-                        <Link href={`/tutor/${user.tutorInfo?.tutorId}`}
-                            style={{ flexBasis: '60%' }}>
-                            <StyledButtonOutlined
-                                sx={{ width: '100%' }}>
-                                <VisibilityOutlinedIcon fontSize='small' sx={{ mr: 1 }} />
-                                View Profile
-                            </StyledButtonOutlined>
-                        </Link>
-                    ) : <></>}
+                    </ButtonIcon>) : (
+                        <Skeleton width={48} height={80} sx={{ borderRadius: '50%' }} />
+                    )}
+                    {tutor._id ? (<>
+                        {mode === 'read-only' ? (
+                            <Link href={`/tutor/${user.tutorInfo?.tutorId}`}
+                                style={{ flexBasis: '60%' }}>
+                                <StyledButtonOutlined
+                                    sx={{ width: '100%' }}>
+                                    <VisibilityOutlinedIcon fontSize='small' sx={{ mr: 1 }} />
+                                    View Profile
+                                </StyledButtonOutlined>
+                            </Link>
+                        ) : <></>}
+
+                    </>) : (
+                        <Skeleton width={148} height={60} sx={{ mr: .5 }} />
+                    )}
 
                     {mode !== 'read-only' ? (
                         <StyledButtonOutlined
