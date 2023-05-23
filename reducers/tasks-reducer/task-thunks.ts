@@ -1,10 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AppState } from "../../store/store";
 import { Task, TaskStatus } from "../../src/models/task";
-import { taskActions } from ".";
+
 import TaskAPI, { TasksQueryPath } from "../../src/api-services/task";
 import Randomstring from 'randomstring'
 import { fetchTaskUpdatesThunk } from "../task-updtes-reducer/task-updates-thunks";
+import { taskActions } from ".";
 
 export const createHiredTask = createAsyncThunk<void, undefined, { state: AppState }>
     ('taskSlice/createHiredTask', async (_, thunkAPI) => {

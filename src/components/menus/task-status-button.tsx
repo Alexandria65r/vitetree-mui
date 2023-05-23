@@ -20,9 +20,10 @@ import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import { Task, TaskStatus, taskStatuses } from '../../models/task';
 import TaskAPI from '../../api-services/task';
-import { taskActions } from '../../../reducers/bids-reducer';
+
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
+import { taskActions } from '../../../reducers/tasks-reducer';
 
 
 const Container = styled(Box)(({ theme }) => ({
