@@ -5,10 +5,10 @@ import { CSS_PROPERTIES } from '../reusable'
 import { colorScheme } from '../theme'
 import { useRouter } from 'next/router'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import { fetchHiredTasks } from '../../reducers/task-reducer/task-thunks'
 import ChatPersonInfo from '../components/user/chat-person-info'
 import { StyledBox } from '../reusable/styles'
 import { getSwapedTaskUserInfo } from '../reusable/helpers'
+import { fetchHiredTasks } from '../../reducers/tasks-reducer/task-thunks'
 
 
 
@@ -106,7 +106,7 @@ export default function Tasks({ }: Props) {
                 </>) : taskNetworkStatus === 'fetch-tasks' && !tasks.length ?
                     (<>
                         {[1, 2, 3, 4].map((item) => (
-                            <StyledBox key={item} sx={{ my:1, display: 'flex', alignItems: 'center' }}>
+                            <StyledBox key={item} sx={{ my: 1, display: 'flex', alignItems: 'center' }}>
                                 <Skeleton width={55} height={90} sx={{ borderRadius: '50%', my: -3 }} />
                                 <Skeleton width={255} height={25} sx={{ ml: 1, my: -3 }} />
                             </StyledBox>

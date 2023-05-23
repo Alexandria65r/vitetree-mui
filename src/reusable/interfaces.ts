@@ -3,6 +3,11 @@ import { PopperPlacementType } from "@mui/material"
 
 //auth
 
+export type Toast = {
+    id: string
+    message: string
+
+}
 export type TutorService = {
     price: string
     label: string
@@ -260,17 +265,7 @@ export type Post = {
     createdAt?: string
 }
 
-export type Bid = {
-    _id: string
-    tutorId: string
-    tutorName: string
-    coverLater: string
-    jobId: string
-    imageAsset: Asset
-    viewed: boolean
-    awarded: boolean
-    createdAt: string
-}
+
 
 export type StudentInquiry = {
     _id: string,

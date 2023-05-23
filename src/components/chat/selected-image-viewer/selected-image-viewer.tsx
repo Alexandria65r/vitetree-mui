@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../../../store/hooks'
 import { CSS_PROPERTIES } from '../../../reusable'
 import { ButtonIcon } from '../../../reusable/styles'
 import CloseIcon from '@mui/icons-material/Close';
-import { mainActions } from '../../../../reducers'
+import { mainActions } from '../../../../reducers/main-reducer'
 import AddIcon from '@mui/icons-material/Add';
 import CropSharpIcon from '@mui/icons-material/CropSharp';
 import ChatFooter from '../chat-footer'
@@ -41,7 +41,7 @@ const ImageContainer = styled(Box)(({ theme }) => ({
     borderRadius: CSS_PROPERTIES.radius10,
     backgroundColor: colorScheme(theme).threadChildColor,
     [theme.breakpoints.down('sm')]: {
-       height:200
+        height: 200
     }
 
 }))
@@ -53,7 +53,7 @@ const OptionsContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
     borderRadius: CSS_PROPERTIES.radius10,
     [theme.breakpoints.down('sm')]: {
-        
+
     }
 
 }))
@@ -65,7 +65,7 @@ const FooterContainer = styled(Box)(({ theme }) => ({
     bottom: 0,
 
     alignItems: 'center',
-    backgroundColor:colorScheme(theme).primaryColor,
+    backgroundColor: colorScheme(theme).primaryColor,
     [theme.breakpoints.down('sm')]: {
         padding: '0'
     },

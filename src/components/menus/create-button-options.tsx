@@ -2,7 +2,7 @@ import { Box, ButtonBase, MenuItem, Popover, colors, styled } from '@mui/materia
 import React from 'react'
 import { CSS_PROPERTIES } from '../../reusable';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { mainActions } from '../../../reducers';
+import { mainActions } from '../../../reducers/main-reducer';
 import * as types from '../../reusable'
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import AppRegistrationOutlinedIcon from '@mui/icons-material/AppRegistrationOutlined';
@@ -109,9 +109,9 @@ export default function CreateButtonOptions({ }: Props) {
                         })} />
                         Create
                         <Box sx={(theme) => ({
-                            ml:.5, [theme.breakpoints.down('sm')]: {
+                            ml: .5, [theme.breakpoints.down('sm')]: {
                                 ml: .5,
-                                mt:.3
+                                mt: .3
                             }
                         })}>
                             {popupState.isOpen ? <ExpandLessIcon /> : (

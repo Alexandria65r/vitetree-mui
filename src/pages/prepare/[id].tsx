@@ -8,7 +8,7 @@ import MultipleChoiceForm from '../../components/question/multiple-choice-form'
 import WithDiagram from '../../components/question/with-diagram'
 import WithOneWordAnswer from '../../components/question/with-one-word-answer'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
-import { mainActions } from '../../../reducers'
+import { mainActions } from '../../../reducers/main-reducer'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import TestFooter from '../../components/test-footer'
@@ -239,7 +239,7 @@ export default function NewTest({ }: Props) {
     }
 
     function NextSection() {
-        
+
         if (sectionIndex === newTest.sections.length - 1) return;
         console.log(sectionIndex)
         dispatch(testActions.setQuestionIdex(0))

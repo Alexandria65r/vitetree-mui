@@ -15,7 +15,7 @@ import FetchInquiryFeedback from '../api/inquiry-feedback/fetch-inquiry-feedback
 import { fetchInquiryFeedbackThunk } from '../../../reducers/inquiry-reducer/inquiry-thunks'
 import { Task } from '../../models/task'
 import Randomstring from 'randomstring'
-import { createHiredTask } from '../../../reducers/task-reducer/task-thunks'
+import { createHiredTask } from '../../../reducers/bids-reducer/bid-thunks'
 
 const Container = styled(Box)(({ theme }) => ({
     maxWidth: '60%',

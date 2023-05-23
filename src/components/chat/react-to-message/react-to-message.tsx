@@ -5,7 +5,7 @@ import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import OndemandVideoOutlinedIcon from '@mui/icons-material/OndemandVideoOutlined';
 import { CSS_PROPERTIES } from '../../../reusable';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
-import { mainActions } from '../../../../reducers';
+import { mainActions } from '../../../../reducers/main-reducer';
 import SentimentSatisfiedSharpIcon from '@mui/icons-material/SentimentSatisfiedSharp';
 import SentimentDissatisfiedSharpIcon from '@mui/icons-material/SentimentDissatisfiedSharp';
 import Add from '@mui/icons-material/Add';
@@ -13,7 +13,7 @@ import { colorScheme } from '../../../theme';
 
 const Container = styled(Box)(({ theme }) => ({
     padding: 10,
-    margin:5,
+    margin: 5,
     borderRadius: CSS_PROPERTIES.radius10,
     boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
     backgroundColor: colorScheme(theme).chatPrimaryColor,
@@ -32,19 +32,19 @@ const Contain = styled(Box)(({ theme }) => ({
 
 
 type Props = {
-    
+
 }
 
 export default function ReactToMessage({ }: Props) {
     const dispatch = useAppDispatch()
     const showSelectedImage = useAppSelector((state) => state.MainReducer.showSelectedImage)
-    const selectedMessage = useAppSelector((state)=> state.ChatReducer.selectedMessage)
+    const selectedMessage = useAppSelector((state) => state.ChatReducer.selectedMessage)
     function openSelectedImageViewer() {
         dispatch(mainActions.setShowSelectedImage(true))
         dispatch(mainActions.setPopperState({
             component: '',
             popperId: '',
-            placement:''
+            placement: ''
         }))
     }
     return (

@@ -71,21 +71,22 @@ export default function SendBidModal() {
     const dispatch = useAppDispatch()
     const owner = useAppSelector((state) => state.AuthReducer.user._id)
     const post = useAppSelector((state) => state.ForumReducer.post)
-    const [all, details, _applyOrAns, postId]: any = router.query.params || []
+    const [all, details, _applyOrAns]: any = router.query.params || []
+    const params = router.query.params || []
 
     const applyOrAns: 'apply' | 'answer' = _applyOrAns
 
     console.log(router.query)
 
     const fetchCartItems = React.useCallback(() => {
-        if (postId) {
-            dispatch(fetchPostThunk(postId));
+        if (params[2]) {
+            dispatch(fetchPostThunk(params[2]));
         }
-    }, [postId])
+    }, [params[2]])
 
     React.useEffect(() => {
         fetchCartItems()
-    }, [postId])
+    }, [params[2]])
 
 
     function handleClose() {
@@ -121,7 +122,7 @@ export default function SendBidModal() {
                         {applyOrAns === 'apply' ? (
                             <SendeBid />
                         ) : applyOrAns === 'answer' ?
-                                <AnswerQuesttion />
+                            <AnswerQuesttion />
                             : <PostDetail post={post} />}
                     </Body>
                 </ModalContainer>

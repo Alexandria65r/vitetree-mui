@@ -2,7 +2,7 @@ import { Box, ButtonBase, MenuItem, Popover, colors, styled, useTheme } from '@m
 import React from 'react'
 import { CSS_PROPERTIES } from '../../reusable';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { mainActions } from '../../../reducers';
+import { mainActions } from '../../../reducers/main-reducer';
 import * as types from '../../reusable'
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import AppRegistrationOutlinedIcon from '@mui/icons-material/AppRegistrationOutlined';
@@ -20,7 +20,7 @@ import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import { Task, TaskStatus, taskStatuses } from '../../models/task';
 import TaskAPI from '../../api-services/task';
-import { taskActions } from '../../../reducers/task-reducer';
+import { taskActions } from '../../../reducers/bids-reducer';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 
@@ -110,7 +110,7 @@ export default function ChangeTaskStatus({ task }: Props) {
         console.log(data.updated)
     }
 
-    const filtered = taskStatuses.filter((status)=> status!=='just hired'&&status!=='task closed')
+    const filtered = taskStatuses.filter((status) => status !== 'just hired' && status !== 'task closed')
 
     return (
         <PopupState variant='popper' popupId='test-card-options'>
@@ -128,8 +128,8 @@ export default function ChangeTaskStatus({ task }: Props) {
                         {task.status}
                         <Box sx={(theme) => ({
                             ml: .5,
-                            mt:.6,
-                             [theme.breakpoints.down('sm')]: {
+                            mt: .6,
+                            [theme.breakpoints.down('sm')]: {
                                 ml: .5,
                                 mt: .3
                             }

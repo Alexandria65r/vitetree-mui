@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Modal from '@mui/material/Modal';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { mainActions } from '../../../reducers';
+import { mainActions } from '../../../reducers/main-reducer';
 
 import ReusableAlert from '../reusable-alert';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';

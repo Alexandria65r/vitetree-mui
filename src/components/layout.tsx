@@ -11,10 +11,11 @@ import DeletePartcipantModal from './modals/delete-partcipant-modal'
 import CartModal from './modals/cart-modal'
 import WishListModal from './modals/wishlist-modal'
 import SideBar from './side-bar'
-import { mainActions } from '../../reducers'
+import { mainActions } from '../../reducers/main-reducer'
 import { LinearProgress, styled, useMediaQuery, useTheme } from '@mui/material'
 import AsideNavbar from './aside-navbar'
 import { checkAuthThunk } from '../../reducers/auth-reducer/auth-thunks'
+import Toast from './toasts/toast'
 
 const FlexContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -75,22 +76,23 @@ export default function Layout({ children }: Props) {
                 {isRouteChange && <LinearProgress />}
             </Box>
             <NavBar />
+            <Toast />
             <FlexContainer sx={{
                 // display: !isSidebarOpen ? 'flex' : 'block',
 
             }}>
                 <Box
                     sx={{
-                        transition:'0.3s all',
+                        transition: '0.3s all',
                         display: router.pathname === '/' ? 'none' : 'block',
                         flexBasis: isSidebarOpen ? '5%' : '20%',
                         [theme.breakpoints.down('sm')]: {
                             display: 'none'
                         }
                     }}>
-                 
-                        <AsideNavbar />
-                    
+
+                    <AsideNavbar />
+
                 </Box>
 
                 <Box

@@ -8,7 +8,7 @@ import Cookies from 'js-cookie'
 import * as types from '../reusable'
 import { useRouter } from 'next/router'
 import { getAuth, signOut } from "firebase/auth";
-import { mainActions } from '../../reducers'
+import { mainActions } from '../../reducers/main-reducer'
 import Link from 'next/link'
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import CloseIcon from '@mui/icons-material/Close';
@@ -118,7 +118,7 @@ export default function SideBar({ }: Props) {
                 <SideBarHeader>
                     <Typography
                         sx={{
-                            fontSize:22,
+                            fontSize: 22,
                             textAlign: 'center',
                             fontWeight: 600,
                             flexGrow: 1, color: colors.teal[400]

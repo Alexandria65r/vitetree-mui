@@ -5,7 +5,7 @@ import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import OndemandVideoOutlinedIcon from '@mui/icons-material/OndemandVideoOutlined';
 import { CSS_PROPERTIES } from '../../reusable';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { mainActions } from '../../../reducers';
+import { mainActions } from '../../../reducers/main-reducer';
 import { colorScheme } from '../../theme';
 
 const Container = styled(Box)(({ theme }) => ({
@@ -30,7 +30,7 @@ export default function FilesOptions({ }: Props) {
         dispatch(mainActions.setPopperState({
             component: '',
             popperId: '',
-            placement:''
+            placement: ''
         }))
     }
     return (

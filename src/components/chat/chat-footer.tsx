@@ -16,7 +16,7 @@ import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
 import emotionStyled from '@emotion/styled'
 import { useAppDispatch } from '../../../store/hooks';
 import * as types from '../../reusable'
-import { mainActions } from '../../../reducers';
+import { mainActions } from '../../../reducers/main-reducer';
 import { colorScheme, isDarkMode } from '../../theme';
 
 
@@ -67,14 +67,14 @@ const EmojiPickerButton = styled(ButtonBase)(({ theme }) => ({
     height: 30,
     margin: '5px',
     borderRadius: '50%',
-    color:colorScheme(theme).TextColor,
+    color: colorScheme(theme).TextColor,
     backgroundColor: colorScheme(theme).chatPrimaryColor
     // boxShadow: '0 1px 3px 0 #ccc',
 }))
 const IconButton = styled(ButtonIcon)(({ theme }) => ({
     transition: '0.3s all',
     backgroundColor: colorScheme(theme).chatPrimaryColor,
-    color:colorScheme(theme).TextColor,
+    color: colorScheme(theme).TextColor,
     boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`
 }))
 type Props = {

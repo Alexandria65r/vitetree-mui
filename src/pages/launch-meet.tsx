@@ -3,7 +3,7 @@ import { styled, Button, makeStyles } from '@mui/material'
 import { Box } from '@mui/system'
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import { mainActions } from '../../reducers'
+import { mainActions } from '../../reducers/main-reducer'
 import { useAppSelector } from '../../store/hooks'
 import { wrapper } from '../../store/store'
 import Layout from '../components/layout'
@@ -52,7 +52,7 @@ const CommunityButton = styled(Button)(({ theme }) => ({
 
 
 const LaunchMeet: NextPage = () => {
-   
+
     const router: NextRouter = useRouter()
     return (
         <Layout>

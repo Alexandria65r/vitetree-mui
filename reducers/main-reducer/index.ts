@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { HYDRATE } from 'next-redux-wrapper'
-import { DeletePartcipantModal, DeleteTestModal, DuplicateTestModal, ModalComponent, PopperState } from '../src/reusable/interfaces'
-import { testDataSchema } from '../src/reusable/schemas'
+import { DeletePartcipantModal, DeleteTestModal, DuplicateTestModal, ModalComponent, PopperState, Toast } from '../../src/reusable/interfaces'
+import { testDataSchema } from '../../src/reusable/schemas'
 
 interface State {
     popperState: PopperState
@@ -13,7 +13,8 @@ interface State {
     duplicateTestModal: DuplicateTestModal
     deleteTestModal: DeleteTestModal
     deletePartcipantModal: DeletePartcipantModal
- 
+    toasts: Toast[]
+
 }
 const initialState: State = {
     popperState: {
@@ -40,15 +41,20 @@ const initialState: State = {
         partcipantId: '',
         fullname: '',
     },
-   
+
+    toasts: []
+
 }
 
 const mainSlice = createSlice({
     name: 'mainSlice',
     initialState,
     reducers: {
-        setAppName: (state, { payload }: PayloadAction<string>) => {
-
+        setToasts: (state, { payload }: PayloadAction<Toast>) => {
+            state.toasts = [...state.toasts, payload]
+        },
+        closeToast: (state, { payload }: PayloadAction<string>) => {
+            state.toasts = state.toasts.filter((toast) => toast.id !== payload)
         },
         setPopperState: (state, { payload }: PayloadAction<PopperState>) => {
             state.popperState = payload
@@ -77,7 +83,7 @@ const mainSlice = createSlice({
         setDeletePartcipantModal: (state, { payload }: PayloadAction<DeletePartcipantModal>) => {
             state.deletePartcipantModal = payload
         },
-     
+
     },
 
     extraReducers: {

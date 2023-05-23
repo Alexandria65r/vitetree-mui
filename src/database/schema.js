@@ -191,3 +191,22 @@ export const TaskUpdateSchema = mongoose.model(
     updatedAt: { type: Date, default: Date.now },
   })
 );
+
+export const BidSchema = mongoose.model(
+  "bid",
+  new mongoose.Schema({
+    _id: String,
+    author: {
+      id: String,
+      name: String,
+    },
+    coverLater: String,
+    postId: String,
+    postAuthorId: String,
+    imageAsset: { type: Object, required: false },
+    viewed: Boolean,
+    awarded: Boolean,
+    createdAt: { type: Date, default: Date.now },
+    updatedAt: { type: Date, default: Date.now },
+  })
+);

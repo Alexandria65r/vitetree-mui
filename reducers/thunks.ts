@@ -6,7 +6,7 @@ import { questionChoices } from "../src/reusable/helpers";
 import PartcipantAPI from "../src/api-services/partcipant";
 import randomstring from 'randomstring'
 import TestAPI from "../src/api-services/test";
-import { mainActions } from ".";
+import { mainActions } from "./main-reducer";
 import { testDataSchema } from "../src/reusable/schemas";
 import { partcipantActions } from "./partcipant-reducer";
 

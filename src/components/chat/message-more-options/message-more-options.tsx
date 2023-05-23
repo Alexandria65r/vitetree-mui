@@ -2,7 +2,7 @@ import { Box, Button, MenuItem, buttonBaseClasses, styled } from '@mui/material'
 import React from 'react'
 import { CSS_PROPERTIES } from '../../../reusable';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
-import { mainActions } from '../../../../reducers';
+import { mainActions } from '../../../../reducers/main-reducer';
 import { HiReply } from 'react-icons/hi'
 import AddReactionOutlinedIcon from '@mui/icons-material/AddReactionOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
@@ -21,24 +21,24 @@ const Container = styled(Box)(({ theme }) => ({
     boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
     backgroundColor: colorScheme(theme).chatPrimaryColor,
     transition: '0.3s all',
-    [theme.breakpoints.down("sm")]:{
+    [theme.breakpoints.down("sm")]: {
         padding: 5,
     }
 }))
 
 
 const MenuItemButton = styled(MenuItem)(({ theme }) => ({
-    alignItems:'center',
+    alignItems: 'center',
     fontSize: 13,
     padding: '5px 8px',
     color: colorScheme(theme).TextColor,
     borderRadius: CSS_PROPERTIES.radius5,
-    '&:hover':{
+    '&:hover': {
         backgroundColor: colorScheme(theme).menuItemHoverColor
     }
 }))
-const MenuItemIconWrap= styled(Box)(({ theme }) => ({
-   marginRight:5
+const MenuItemIconWrap = styled(Box)(({ theme }) => ({
+    marginRight: 5
 }))
 
 

@@ -3,7 +3,6 @@ import Layout from '../../components/layout'
 import { Box, Typography, colors, styled, useMediaQuery, useTheme } from '@mui/material'
 import { colorScheme } from '../../theme'
 import { useRouter } from 'next/router'
-import { fetchHiredTask } from '../../../reducers/task-reducer/task-thunks'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import { StyledBox, StyledButton, TabButton } from '../../reusable/styles'
 import { Add } from '@mui/icons-material'
@@ -13,6 +12,7 @@ import SubmitTaskForm from '../../components/tasks/submit-task-form'
 import SubmitedTaskFiles from '../../components/tasks/submited-task-files'
 import { Descendant } from 'slate'
 import TaskUpdates from '../../components/tasks/task-updates'
+import { fetchHiredTask } from '../../../reducers/tasks-reducer/task-thunks'
 
 const Container = styled(Box)(({ theme }) => ({
     width: '80%',
@@ -162,7 +162,7 @@ export default function Task({ }: Props) {
                                 display: showUpdates ? 'block' : 'none'
                             }
                         }}>
-                        <TaskUpdates setShowUpdates={setShowUpdates} /> 
+                        <TaskUpdates setShowUpdates={setShowUpdates} />
                     </MainCol>
                 </InnerFlexContainer>
 

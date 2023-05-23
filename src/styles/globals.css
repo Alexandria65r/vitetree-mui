@@ -122,3 +122,16 @@ a {
     transform: translateX(0px);
   }
 }
+.toast {
+  animation: toast 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transform-origin: right;
+}
+
+@keyframes toast {
+  0% {
+    transform: translateX(100px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}

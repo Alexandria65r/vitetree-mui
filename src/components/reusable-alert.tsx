@@ -5,7 +5,7 @@ import { CSS_PROPERTIES } from '../reusable'
 import { useAppDispatch } from '../../store/hooks'
 import { StyledButton } from '../reusable/styles'
 
-import { mainActions } from '../../reducers'
+import { mainActions } from '../../reducers/main-reducer'
 
 
 

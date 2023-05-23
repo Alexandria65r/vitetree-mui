@@ -3,7 +3,7 @@ import { ClickAwayListener, IconButton, Popper, Typography } from '@mui/material
 import { Box } from '@mui/system'
 import { BsInfoCircle } from 'react-icons/bs'
 import { MdClose } from 'react-icons/md'
-import { mainActions } from '../../reducers'
+import { mainActions } from '../../reducers/main-reducer'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 
 import * as types from '../reusable'

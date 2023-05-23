@@ -7,7 +7,7 @@ import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined';
 import { MessageThread } from '../../reusable/interfaces';
 import * as types from '../../reusable'
 import { useAppDispatch } from '../../../store/hooks';
-import { mainActions } from '../../../reducers';
+import { mainActions } from '../../../reducers/main-reducer';
 import { colorScheme } from '../../theme';
 import chatClasses from '../../styles/chat.module.css'
 
@@ -55,13 +55,13 @@ type Props = {
 export function ThreadHeader({ message }: Props) {
 
     return <ThreadHead className={classes.ThreadHead}
-     sx={(theme)=>({
-        left: !message.owner ? 0 : 'unset',
-        right: message.owner ? 0 : 'unset',
-        [theme.breakpoints.down("sm")]:{
-            left: message.owner ? 0 : 'unset',
-        }
-    })}>
+        sx={(theme) => ({
+            left: !message.owner ? 0 : 'unset',
+            right: message.owner ? 0 : 'unset',
+            [theme.breakpoints.down("sm")]: {
+                left: message.owner ? 0 : 'unset',
+            }
+        })}>
         <ThreadText sx={{ fontSize: 12 }}>
             {!message.owner ? ` ${message.name}, 15:47` : 'sent at 14:47'}
         </ThreadText>

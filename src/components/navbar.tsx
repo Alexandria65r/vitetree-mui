@@ -14,7 +14,7 @@ import { ColorModeContext, colorScheme, isDarkMode } from '../theme';
 import { CSS_PROPERTIES } from '../reusable';
 import { useRouter } from 'next/router';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { mainActions } from '../../reducers';
+import { mainActions } from '../../reducers/main-reducer';
 import Timer from './timer';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { cartActions } from '../../reducers/cart-reducer';
@@ -35,7 +35,7 @@ const Button = styled(ButtonBase)(({ theme }) => ({
 const AppBar = styled(AppNavigationBar)(({ theme }) => ({
     //  boxShadow: `0 1px 3px 0 ${isDarkMode(theme) ? colors.grey[800] :'transparent'}`,
     //borderBottom: `1px solid ${colorScheme(theme).secondaryColor}`,
-   // backgroundColor: colorScheme(theme).primaryToGrey100Color,
+    // backgroundColor: colorScheme(theme).primaryToGrey100Color,
     backgroundColor: 'transparent',
 }))
 
@@ -80,7 +80,7 @@ export default function NavBar() {
 
                     <Typography
                         sx={{
-                            fontSize:22,
+                            fontSize: 22,
                             textAlign: isMobile ? 'center' : 'left',
                             fontWeight: 600,
                             flexGrow: 1, color: colors.teal[400]
