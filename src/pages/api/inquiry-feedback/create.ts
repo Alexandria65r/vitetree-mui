@@ -23,6 +23,7 @@ const CreateTest: NextApiHandler = async (req: NextApiRequest, res: NextApiRespo
                 await notifyAPI(
                     feedbackData.studentId,
                     feedbackData._id,
+                    '',
                     type,
                     'You have a new service inquiry feedback',
                     `Tutor ${from.firstName} ${from.lastName} has responded to 

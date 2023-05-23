@@ -17,6 +17,7 @@ const CreateTest: NextApiHandler = async (req: NextApiRequest, res: NextApiRespo
             await notifyAPI(
                 task.studentInfo.id,
                 '',
+                '',
                 'default-hired',
                 'Your hiring was successfull🎉',
                 `Hi ${task.studentInfo.name}!, You have successfully hired tutor ${task.tutorInfo.name}
@@ -26,6 +27,7 @@ const CreateTest: NextApiHandler = async (req: NextApiRequest, res: NextApiRespo
             )
             await notifyAPI(
                 task.tutorInfo.id,
+                '',
                 '',
                 'default-hired',
                 'Youre hired!💰',
