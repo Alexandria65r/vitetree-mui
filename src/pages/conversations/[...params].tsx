@@ -83,10 +83,12 @@ export default function Notifications({ }: Props) {
 
                     <NotificationItem
                         title=""
+                        link=''
                         description=''
                         createdAt='' type="Bid" open={()=>{}} />
                     <NotificationItem
                         title=""
+                        link=''
                         description=''
                         createdAt='' type="Answer" open={()=>{}} />
                 </AsideLeft>
