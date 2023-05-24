@@ -32,7 +32,7 @@ import { colorScheme } from "../../theme";
 
 const EditorWrapper = styled(Box)(({ theme }) => ({
   position: 'relative',
-  backgroundColor: theme.palette.mode === 'light' ? '#fff' : colorScheme(theme).primary,
+  backgroundColor: theme.palette.mode === 'light' ? '#fff' : colorScheme(theme).primaryColor,
   borderRadius: 7,
   border: `1px solid`,
   borderColor: theme.palette.mode === 'light' ? colors.teal[400] : colors.teal[400],
