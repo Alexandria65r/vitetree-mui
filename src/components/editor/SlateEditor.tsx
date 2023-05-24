@@ -22,7 +22,7 @@ import { Element, Leaf } from "./EditorElements";
 import { withImages } from "./WithImages";
 import { insertLink, isLinkActive, unwrapLink, withLinks } from "./WithLinks";
 
-import { styled } from "@mui/system";
+import { styled } from "@mui/material";
 import { Box, CircularProgress, colors } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import EditorFooter from "./editor-footer";
