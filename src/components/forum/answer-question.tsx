@@ -9,7 +9,7 @@ import { createAcademicAnswerThunk } from '../../../reducers/academic-answers-re
 import PostAcademicAnswerItem from './post-academic-answer-item'
 
 const Container = styled(Box)(({ theme }) => ({
-    width: '90%',
+    width: '60%',
     margin: '20px auto',
     //display: 'flex',
     [theme.breakpoints.down("sm")]: {

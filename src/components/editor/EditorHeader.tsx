@@ -7,6 +7,7 @@ import AddLink from "./AddLink";
 import { Editor } from "slate";
 import AlignTextDropdown from "./AlignTextDropdown";
 import { FormatPaint, FormatBold, FormatItalic, FormatUnderlined, FormatAlignLeft, FormatListBulleted, FormatListNumbered, CheckCircle, Link } from "@mui/icons-material";
+import { Box, colors } from "@mui/material";
 interface Props {
   handleMark: (format: string, editor: Editor) => void;
   isMarkActive: (editor: Editor, format: string) => boolean;
@@ -58,7 +59,9 @@ export default function EditorHeader({
   }
 
   return (
-    <div className={classes.editorHeader}>
+    <Box className={classes.editorHeader}
+      sx={{ borderBottom: `1px solid ${colors.teal[400]}`,
+        borderBottomLeftRadius: 0, borderBottomRightRadius: 0 }}>
       <div className={classes.format_btn_wrapper}>
         <button
           className={`${classes.toggle_format_many} ${classes.format_button}`}
@@ -164,6 +167,6 @@ export default function EditorHeader({
           setActiveAlign={setActiveAlign}
         />
       )}
-    </div>
+    </Box>
   );
 }

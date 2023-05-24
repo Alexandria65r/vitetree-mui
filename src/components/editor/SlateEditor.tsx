@@ -26,12 +26,13 @@ import { styled } from "@mui/system";
 import { Box, CircularProgress, colors } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import EditorFooter from "./editor-footer";
+import { colorScheme } from "../../theme";
 
 
 
 const EditorWrapper = styled(Box)(({ theme }) => ({
   position: 'relative',
-  backgroundColor: '',
+  backgroundColor: theme.palette.mode === 'light' ? '#fff' : colorScheme(theme).primary,
   borderRadius: 7,
   border: `1px solid`,
   borderColor: theme.palette.mode === 'light' ? colors.teal[400] : colors.teal[400],
