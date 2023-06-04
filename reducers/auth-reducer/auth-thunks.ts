@@ -6,6 +6,9 @@ import { Signin, UserAvatarAsset } from "../../src/reusable/interfaces";
 import { SCHOOYARD_AUTH_TOKEN } from "../../src/reusable";
 import Cookies from "js-cookie";
 import router from "next/router";
+import { Card } from "../../src/models/card";
+import BillingAPI from "../../src/api-services/billing";
+import randomstring from 'randomstring'
 
 export const signupThunk = createAsyncThunk<void, undefined, { state: AppState }>
     ('authSlice/fetchUserAvatarThunk', async (_, thunkAPI) => {
@@ -116,5 +119,51 @@ export const updateUserThunk = createAsyncThunk<void,
             }
         } catch (error) {
             dispatch(authActions.setAuthNetworkStatus(params.networkSatusList[3]))
+        }
+    })
+
+export const addCardThunk = createAsyncThunk<void, undefined, { state: AppState }>
+    ('authSlice/addCard', async (_, thunkAPI) => {
+        const state = thunkAPI.getState()
+        const dispatch = thunkAPI.dispatch
+        const user = state.AuthReducer.user
+        const card = state.AuthReducer.card
+
+        const _id = randomstring.generate(13)
+
+        try {
+            dispatch(authActions.setAuthNetworkStatus('add-card'))
+            const { data } = await BillingAPI.addCard({
+                ...card,
+                _id,
+                owner: user._id ?? ''
+            })
+            if (data.success) {
+                dispatch(authActions.setAuthNetworkStatus('add-card-success'))
+            }
+        } catch (error) {
+            dispatch(authActions.setAuthNetworkStatus('image-upload-error'))
+        }
+    })
+
+
+
+
+    
+export const fetchCardsThunk = createAsyncThunk<void, undefined, { state: AppState }>
+    ('authSlice/fetchCardsThunk', async (_, thunkAPI) => {
+        const dispatch = thunkAPI.dispatch
+        const state = thunkAPI.getState()
+        const user = state.AuthReducer.user
+        try {
+            dispatch(authActions.setAuthNetworkStatus('fetch-cards'))
+            const cards = await BillingAPI.fetchCards(user._id ?? '')
+            if (cards) {
+                dispatch(authActions.setAuthNetworkStatus('fetch-cards-success'))
+                dispatch(authActions.setCards(cards))
+            }
+
+        } catch (error) {
+            dispatch(authActions.setAuthNetworkStatus('fetch-cards-error'))
         }
     })

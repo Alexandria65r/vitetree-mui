@@ -41,9 +41,7 @@ const initialState: State = {
         partcipantId: '',
         fullname: '',
     },
-
     toasts: []
-
 }
 
 const mainSlice = createSlice({

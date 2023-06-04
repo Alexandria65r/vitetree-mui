@@ -1,12 +1,15 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { TutorService, User } from '../../src/reusable/interfaces';
 import { TutorServiceSchema, UserSchema } from '../../src/reusable/schemas';
+import { Card, CardModel } from '../../src/models/card';
 type Role = 'tutor' | 'student' | ''
 export type AuthNetworkStatus =
     'signup' | 'signup-success' | 'signup-error' |
     'signin' | 'signin-success' | 'signin-error' |
     'updating' | 'updating-success' | 'updating-error' |
-    'image-upload' | 'image-upload-success' | 'image-upload-error' | ''
+    'image-upload' | 'image-upload-success' | 'image-upload-error' |
+    'add-card' | 'add-card-success' | 'add-card-error' | 
+    'fetch-cards' | 'fetch-cards-success' | 'fetch-cards-error' | ''
 
 
 type AuthState = {
@@ -16,6 +19,9 @@ type AuthState = {
     gettingStartedRole: Role
     authNetworkStatus: AuthNetworkStatus
     isError: boolean
+    isAddNewCard: boolean
+    card: Card
+    cards: Card[]
 }
 
 const initialState: AuthState = {
@@ -24,7 +30,10 @@ const initialState: AuthState = {
     isRedirecting: false,
     gettingStartedRole: '',
     authNetworkStatus: '',
-    isError: false
+    isError: false,
+    isAddNewCard: false,
+    card: CardModel,
+    cards: []
 }
 
 
@@ -54,6 +63,15 @@ const authSlice = createSlice({
         },
         setError: (state, { payload }: PayloadAction<boolean>) => {
             state.isError = payload
+        },
+        toggleAddNewCard: (state, { payload }: PayloadAction<boolean>) => {
+            state.isAddNewCard = payload
+        },
+        setCard: (state, { payload }: PayloadAction<Card>) => {
+            state.card = payload
+        },
+        setCards: (state, { payload }: PayloadAction<Card[]>) => {
+            state.cards = payload
         },
     }
 });

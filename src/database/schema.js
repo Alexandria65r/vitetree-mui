@@ -91,7 +91,7 @@ export const Post = mongoose.model(
     authorId: String,
     type: String,
     title: String,
-    service:{type: Object, required: false},
+    service: { type: Object, required: false },
     subjects: { type: Array, required: false },
     imageAssets: { type: Array, required: false },
     videoAssets: { type: Array, required: false },
@@ -199,8 +199,8 @@ export const AcademicAnswerSchema = mongoose.model(
     postId: String,
     postAuthorId: String,
     author: {
-        id: String,
-        userName: String
+      id: String,
+      userName: String,
     },
     upVote: Array,
     downVote: Array,
@@ -209,7 +209,6 @@ export const AcademicAnswerSchema = mongoose.model(
     updatedAt: { type: Date, default: Date.now },
   })
 );
-
 
 export const BidSchema = mongoose.model(
   "bid",
@@ -227,5 +226,19 @@ export const BidSchema = mongoose.model(
     awarded: Boolean,
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
+  })
+);
+
+export const CardSchema = mongoose.model(
+  "card",
+  new mongoose.Schema({
+    _id: String,
+    owner: String,
+   // name: String,
+    cardNumber: String,
+    expires: String,
+    cvc: String,
+    preffered: Boolean,
+    createdAt: { type: Date, default: Date.now },
   })
 );

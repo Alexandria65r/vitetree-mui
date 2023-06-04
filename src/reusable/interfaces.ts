@@ -224,14 +224,7 @@ export type Cart = {
 
 
 
-export type PaymentMethod = {
-    _id: string
-    cardNumber: string
-    expires: string
-    cvc: string
-    preffered: boolean
-    createdAt?: string
-}
+
 
 
 export type Order = {

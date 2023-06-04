@@ -20,8 +20,8 @@ const Container = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down('sm')]: {
     flexWrap: 'wrap'
   }
-
 }))
+
 const IllustratorCol = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',

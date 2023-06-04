@@ -1,13 +1,7 @@
 import * as React from 'react';
 import Modal from '@mui/material/Modal';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { mainActions } from '../../../reducers/main-reducer';
-import ReusableAlert from '../reusable-alert';
-import AddToPhotosOutlinedIcon from '@mui/icons-material/AddToPhotosOutlined';
-import { duplicateTestThunk } from '../../../reducers/thunks';
-import { testDataSchema } from '../../reusable/schemas';
 import { Box, Typography, colors, styled } from '@mui/material';
-import { CSS_PROPERTIES } from '../../reusable';
 import { colorScheme } from '../../theme';
 import { cartActions } from '../../../reducers/cart-reducer';
 import { Badge, ButtonIcon, CartAndWishListModalContainer, StyledButton } from '../../reusable/styles';
@@ -18,7 +12,6 @@ import CartItem from '../../components/cart-item'
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import { wishListActions } from '../../../reducers/wishlist-reducer';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
-import { deleteWishListThunk } from '../../../reducers/wishlist-reducer/wishlist-thunks';
 import EmptyCartAndWishlist from '../empty-cart-wishlist';
 
 

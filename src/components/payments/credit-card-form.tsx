@@ -2,7 +2,10 @@ import { Box, TextField, styled } from '@mui/material'
 import React from 'react'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import { StyledButton } from '../../reusable/styles'
-import { courseActions } from '../../../reducers/course-reducer'
+import { authActions } from '../../../reducers/auth-reducer/auth-reducer'
+import { AppSpinner } from '../activity-indicators'
+import { addCardThunk } from '../../../reducers/auth-reducer/auth-thunks'
+
 
 const ChoicesContainer = styled(Box)(({ theme }) => ({
     //marginLeft: 20,
@@ -39,40 +42,35 @@ const Label = styled('label')(() => ({
 
 
 type Props = {
-   
+
 }
 
 export default function CreditCardForm({ }: Props) {
     const dispatch = useAppDispatch()
-    const newTest = useAppSelector((state) => state.TestReducer.newTest)
-    const isErr = useAppSelector((state) => state.TestReducer.isErr)
-    const course = useAppSelector((state) => state.CourseReducer.video)
-    
+    const isErr = useAppSelector((state) => state.AuthReducer.isError)
+    const card = useAppSelector((state) => state.AuthReducer.card)
+    const authNetworkStatus = useAppSelector((state) => state.AuthReducer.authNetworkStatus)
+
 
     function handleOnChange({ target: { name, value } }: any) {
-        dispatch(courseActions.setVideoProperties({
-            name,
-            value
+        dispatch(authActions.setCard({
+            ...card,
+            [name]: value,
         }))
     }
 
 
     function handleSubmit() {
-        if (!(course.title && course.description && course.imageAsset.secureURL && course.vidAsset.secureURL)) {
+        if (!(card.cardNumber && card.expires && card.cvc)) {
             console.log('rrr')
-            dispatch(courseActions.setError(true))
+            dispatch(authActions.setError(true))
             return true
         } else {
-            dispatch(courseActions.setError(false))
-            
+            dispatch(authActions.setError(false))
+            console.log(card)
             return false
         }
     }
-
-
-
-
-
 
     return (
         <FormContainer>
@@ -81,11 +79,11 @@ export default function CreditCardForm({ }: Props) {
                 <FormControl>
                     <Label sx={{ flexBasis: '100%', }}>Card number</Label>
                     <TextInput sx={{ flexBasis: '100%' }}
-                        error={isErr && !course.title
+                        error={isErr && !card.cardNumber
                         }
-                        value={course.title}
+                        value={card.cardNumber}
                         onChange={handleOnChange}
-                        name="title"
+                        name="cardNumber"
                         label='Card number'
                         placeholder='1234 1234 1234 1234' />
                 </FormControl>
@@ -93,23 +91,23 @@ export default function CreditCardForm({ }: Props) {
                     <Box sx={{ flexBasis: '48%' }}>
                         <Label sx={{ flexBasis: '48%', }}>Expires</Label>
                         <TextInput fullWidth
-                            error={isErr && !course.title
+                            error={isErr && !card.expires
                             }
-                            value={course.title}
+                            value={card.expires}
                             onChange={handleOnChange}
-                            name="title"
+                            name="expires"
                             label='Expiring Date'
                             placeholder='MM/YY' />
                     </Box>
                     <Box sx={{ flexBasis: '48%' }}>
                         <Label sx={{ flexBasis: '48%', }}>cvc</Label>
                         <TextInput fullWidth
-                           
-                            error={isErr && !course.title
+
+                            error={isErr && !card.cvc
                             }
-                            value={course.title}
+                            value={card.cvc}
                             onChange={handleOnChange}
-                            name="title"
+                            name="cvc"
                             label='CVC'
                             placeholder='CVC' />
                     </Box>
@@ -118,8 +116,10 @@ export default function CreditCardForm({ }: Props) {
 
 
                 <FormControl onClick={handleSubmit} sx={{ justifyContent: 'flex-end' }}>
-                    <StyledButton sx={{ px: 2 }}>
-                        Continue
+                    <StyledButton
+                        onClick={() => dispatch(addCardThunk())}
+                        sx={{ px: 2 }}>
+                        Continue <AppSpinner size={20} visible={authNetworkStatus === 'add-card'} />
                     </StyledButton>
                 </FormControl>
             </ChoicesContainer>
