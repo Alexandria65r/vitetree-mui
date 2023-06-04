@@ -15,6 +15,9 @@ export default class BillingAPI {
     static addCard(card: Card) {
         return axios.post(`/api/billing/add-card`, card)
     }
+    static makeDefaultCard(id: string, owner:string) {
+        return axios.post(`/api/billing/make-default-card/${id}/${owner}`)
+    }
     static removeCard(id: string) {
         return axios.delete(`/api/billing/remove-card/${id}`)
     }

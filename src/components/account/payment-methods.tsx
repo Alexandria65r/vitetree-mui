@@ -10,7 +10,9 @@ import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import AddNewCardModal from '../modals/add-new-card'
 import { authActions } from '../../../reducers/auth-reducer/auth-reducer'
 import { fetchCardsThunk } from '../../../reducers/auth-reducer/auth-thunks'
-
+import ChevronRightOutlinedIcon from '@mui/icons-material/ChevronRightOutlined';
+import CardItem from './card-item'
+import RemoveCartAlert from '../modals/remove-card-modal'
 
 const Container = styled(Box)(({ theme }) => ({
   width: '60%',
@@ -27,13 +29,14 @@ export default function PaymentMethods({ }: Props) {
   const dispatch = useAppDispatch()
   const isAddNewCard = useAppSelector((state) => state.AuthReducer.isAddNewCard)
   const cards = useAppSelector((state) => state.AuthReducer.cards)
+  const user = useAppSelector((state) => state.AuthReducer.user)
   const loadCards = useCallback(() => {
     dispatch(fetchCardsThunk())
-  }, [])
+  }, [dispatch, user])
 
   useEffect(() => {
     loadCards()
-  }, [])
+  }, [dispatch, user])
 
   return (
     <Layout>
@@ -42,12 +45,10 @@ export default function PaymentMethods({ }: Props) {
         <br />
 
         {cards.map((card, index) => (
-          <InfoItem
+          <CardItem
             key={index}
+            card={card}
             StartIcon={RiBankCard2Line}
-            title='Primary Card'
-            description='Active'
-            route={`/account/billing/card/${card._id}`}
           />
         ))}
 
@@ -60,6 +61,7 @@ export default function PaymentMethods({ }: Props) {
         </StyledButton>
       </Container>
       <AddNewCardModal />
+      <RemoveCartAlert />
     </Layout>
   )
 }

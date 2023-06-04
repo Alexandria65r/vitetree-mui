@@ -140,6 +140,8 @@ export const addCardThunk = createAsyncThunk<void, undefined, { state: AppState 
             })
             if (data.success) {
                 dispatch(authActions.setAuthNetworkStatus('add-card-success'))
+                dispatch(fetchCardsThunk())
+                dispatch(authActions.toggleAddNewCard(false))
             }
         } catch (error) {
             dispatch(authActions.setAuthNetworkStatus('image-upload-error'))
@@ -149,7 +151,7 @@ export const addCardThunk = createAsyncThunk<void, undefined, { state: AppState 
 
 
 
-    
+
 export const fetchCardsThunk = createAsyncThunk<void, undefined, { state: AppState }>
     ('authSlice/fetchCardsThunk', async (_, thunkAPI) => {
         const dispatch = thunkAPI.dispatch
@@ -165,5 +167,48 @@ export const fetchCardsThunk = createAsyncThunk<void, undefined, { state: AppSta
 
         } catch (error) {
             dispatch(authActions.setAuthNetworkStatus('fetch-cards-error'))
+        }
+    })
+
+
+export const makeDefaultCardThunk = createAsyncThunk<void, string, { state: AppState }>
+    ('authSlice/makeDefaultCard', async (cardId, thunkAPI) => {
+        const dispatch = thunkAPI.dispatch
+        const state = thunkAPI.getState()
+        const user = state.AuthReducer.user
+        const cards = [...state.AuthReducer.cards]
+        //reset existing
+        cards.forEach((item, index) => {
+            if (item.preffered) {
+                const clonedItem = { ...item }
+                clonedItem.preffered = false
+                cards[index] = clonedItem
+            }
+        })
+
+        const targetCard = cards.find((item) => item._id === cardId)
+        if (targetCard) {
+            cards.splice(cards.indexOf(targetCard), 1, { ...targetCard, preffered: true })
+            dispatch(authActions.setCards(cards))
+        }
+
+        try {
+            await BillingAPI.makeDefaultCard(cardId, user._id ?? '')
+        } catch (error) {
+
+        }
+    })
+export const removeCardThunk = createAsyncThunk<void, string, { state: AppState }>
+    ('authSlice/removeCard', async (cardId, thunkAPI) => {
+        const dispatch = thunkAPI.dispatch
+        const state = thunkAPI.getState()
+        const cards = state.AuthReducer.cards
+        const filtered = cards.filter((item) => item._id !== cardId)
+        dispatch(authActions.setCards(filtered))
+        dispatch(authActions.setCardIdToRemove(''))
+        try {
+            const cards = await BillingAPI.removeCard(cardId)
+        } catch (error) {
+
         }
     })

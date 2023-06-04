@@ -33,7 +33,7 @@ const Container = styled(Box)(({ theme }) => ({
 type Props = {
     title: string,
     message: string,
-    type: 'delete' | 'duplicate',
+    type: 'delete' | 'duplicate' | 'remove',
     proccedIcon: any,
     cancelHandler: () => void
     procceedAction: () => void

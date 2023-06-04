@@ -8,7 +8,7 @@ export type AuthNetworkStatus =
     'signin' | 'signin-success' | 'signin-error' |
     'updating' | 'updating-success' | 'updating-error' |
     'image-upload' | 'image-upload-success' | 'image-upload-error' |
-    'add-card' | 'add-card-success' | 'add-card-error' | 
+    'add-card' | 'add-card-success' | 'add-card-error' |
     'fetch-cards' | 'fetch-cards-success' | 'fetch-cards-error' | ''
 
 
@@ -22,6 +22,7 @@ type AuthState = {
     isAddNewCard: boolean
     card: Card
     cards: Card[]
+    removeCardId: string
 }
 
 const initialState: AuthState = {
@@ -33,7 +34,8 @@ const initialState: AuthState = {
     isError: false,
     isAddNewCard: false,
     card: CardModel,
-    cards: []
+    cards: [],
+    removeCardId: ''
 }
 
 
@@ -72,6 +74,9 @@ const authSlice = createSlice({
         },
         setCards: (state, { payload }: PayloadAction<Card[]>) => {
             state.cards = payload
+        },
+        setCardIdToRemove: (state, { payload }: PayloadAction<string>) => {
+            state.removeCardId = payload
         },
     }
 });
