@@ -42,7 +42,6 @@ export type TutorInfo = {
 
 export type StudentInfo = {
     studentId: string
-    accountBalance: string
     school: string
     // subjects: string[]
     startYear: string
@@ -72,6 +71,7 @@ export type User = {
     courses?: string[],
     role: Role,
     gender: 'female' | 'male' | '',
+    accountBalance: string,
     tutorInfo?: TutorInfo
     studentInfo?: StudentInfo
     inquiredList?: Inquired[]

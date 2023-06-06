@@ -91,7 +91,7 @@ export default function Tasks({ }: Props) {
                 {taskNetworkStatus !== 'fetch-tasks' && tasks.length ? (<>
                     {tasks.map((task, index) => (
                         <StyledBox key={index} onClick={() => router.push(`/task/${task._id}`)}
-                            sx={{ cursor: 'pointer' }}
+                            sx={{mb:1, cursor: 'pointer' }}
                         >
                             <ChatPersonInfo
                                 userId={getSwapedTaskUserInfo(user.role, task).id}

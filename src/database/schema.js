@@ -13,6 +13,7 @@ const UserSchema = new mongoose.Schema({
   tutorInfo: { type: Object, required: false },
   inquiredList: { type: Array, required: false },
   studentInfo: { type: Object, required: false },
+  accountBalance: { type: String, required: false },
   createdAt: { type: Date, default: Date.now },
 });
 
@@ -234,7 +235,7 @@ export const CardSchema = mongoose.model(
   new mongoose.Schema({
     _id: String,
     owner: String,
-   // name: String,
+    // name: String,
     cardNumber: String,
     expires: String,
     cvc: String,

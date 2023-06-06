@@ -7,37 +7,41 @@ import Randomstring from 'randomstring'
 import { fetchTaskUpdatesThunk } from "../task-updtes-reducer/task-updates-thunks";
 import { taskActions } from ".";
 
-export const createHiredTask = createAsyncThunk<void, undefined, { state: AppState }>
-    ('taskSlice/createHiredTask', async (_, thunkAPI) => {
+export const createHiredTask = createAsyncThunk<void, 'feedbackid' | 'postid', { state: AppState }>
+    ('taskSlice/createHiredTask', async (type, thunkAPI) => {
+        if (type !== 'feedbackid' && type !== 'postid') return
+
         const dispatch = thunkAPI.dispatch
         const state = thunkAPI.getState()
         const user = state.AuthReducer.user
+        const tutor = state.TutorsReducer.tutor
         const inquiryFeedback = state.InquiryReducer.inquiryFeedback
         const inquiry = state.InquiryReducer.inquiry
+        const post = state.ForumReducer.post
 
         const taskId = Randomstring.generate(17)
         const task: Task = {
             _id: taskId,
             studentInfo: {
-                id: inquiryFeedback.studentId,
+                id: type === 'feedbackid' ? inquiryFeedback.studentId : post.authorId,
                 publicId: user.imageAsset?.publicId ?? '',
                 secureURL: user.imageAsset?.secureURL ?? '',
                 name: `${user.firstName} ${user.lastName}`,
             },
             tutorInfo: {
-                id: inquiryFeedback.tutorId,
+                id: type === 'feedbackid' ? inquiryFeedback.tutorId : tutor._id ?? '',
                 publicId: user.imageAsset?.publicId ?? '',
                 secureURL: user.imageAsset?.secureURL ?? '',
-                name: inquiry.tutorName,
+                name: type === 'feedbackid' ? inquiry.tutorName : `${tutor.firstName} ${tutor.lastName}` ?? '',
             },
             service: {
-                label: inquiryFeedback.service.label,
-                price: inquiryFeedback.serviceTerms.price
+                label: type === 'feedbackid' ? inquiryFeedback.service.label : post.service?.label ?? '',
+                price: type === 'feedbackid' ? inquiryFeedback.serviceTerms.price : post.service?.price ?? ''
             },
-            subjects:inquiry.subjects,
-            topic:inquiry.topic??'',
+            subjects: type === 'feedbackid' ? inquiry.subjects : post.subjects ?? [],
+            topic: type === 'feedbackid' ? inquiry.topic ?? '' : '',
             status: 'just hired',
-            dueDate: inquiryFeedback.serviceTerms.dueDate,
+            dueDate: type === 'feedbackid' ? inquiryFeedback.serviceTerms.dueDate : post.dueDate ?? '',
         }
         try {
             dispatch(taskActions.setTaskNetworkStatus('create-task'))
@@ -49,6 +53,9 @@ export const createHiredTask = createAsyncThunk<void, undefined, { state: AppSta
             dispatch(taskActions.setTaskNetworkStatus('create-task-error'))
         }
     })
+
+
+
 
 
 export const fetchHiredTask = createAsyncThunk<void, string, { state: AppState }>

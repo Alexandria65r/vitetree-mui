@@ -49,6 +49,7 @@ export default function PaymentMethods({ }: Props) {
             key={index}
             card={card}
             StartIcon={RiBankCard2Line}
+            showEndIcon={true}
           />
         ))}
 

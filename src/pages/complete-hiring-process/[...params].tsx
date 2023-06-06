@@ -12,6 +12,7 @@ import TutorItem from '../../components/tutor-item'
 import { fetchInquiryFeedbackThunk } from '../../../reducers/inquiry-reducer/inquiry-thunks'
 import { createHiredTask } from '../../../reducers/tasks-reducer/task-thunks'
 import { fetchPostThunk } from '../../../reducers/forum-reducer/forum-thunks'
+import { AppSpinner } from '../../components/activity-indicators'
 
 const Container = styled(Box)(({ theme }) => ({
     maxWidth: '70%',
@@ -110,6 +111,7 @@ export default function Checkout({ }: Props) {
     const tutor = useAppSelector((state) => state.TutorsReducer.tutor)
     const inquiryFeedback = useAppSelector((state) => state.InquiryReducer.inquiryFeedback)
     const post = useAppSelector((state) => state.ForumReducer.post)
+    const taskNetworkStatus = useAppSelector((state) => state.TaskReducer.taskNetworkStatus)
     const router = useRouter()
     const [tutorId, _type, refId]: any = router.query.params || []
 
@@ -131,7 +133,7 @@ export default function Checkout({ }: Props) {
 
 
     function hireTutor() {
-        dispatch(createHiredTask())
+        dispatch(createHiredTask(type))
     }
 
 
@@ -175,28 +177,28 @@ export default function Checkout({ }: Props) {
 
                     <ItemCount>
                         <Typography sx={{ flex: 1, textTransform: 'capitalize', fontSize: 15, fontWeight: 600 }}>
-                            {serviceSummery.name|| <Skeleton width={120}/> }
+                            {serviceSummery.name || <Skeleton width={120} />}
                         </Typography>
                         <Typography sx={{ fontSize: 15, fontWeight: 500 }}>
-                            {serviceSummery.dueDate ? `Due Date:${serviceSummery.dueDate}`: <Skeleton width={120} />}
+                            {serviceSummery.dueDate ? `Due Date:${serviceSummery.dueDate}` : <Skeleton width={120} />}
                         </Typography>
                     </ItemCount>
                     <SubTotal>
                         <Typography sx={{ flex: 1, fontSize: 20, fontWeight: 600 }}>
                             Subtotal(<span style={{ fontSize: 17 }}>USD</span>)
                         </Typography>
-                        {serviceSummery.subtotal? (
-                        <Typography sx={{ color: colors.teal[400], fontSize: 22, fontWeight: 600 }}>
-                            ${serviceSummery.subtotal }
-                        </Typography>
+                        {serviceSummery.subtotal ? (
+                            <Typography sx={{ color: colors.teal[400], fontSize: 22, fontWeight: 600 }}>
+                                ${serviceSummery.subtotal}
+                            </Typography>
                         ) : <Skeleton width={50} height={28} />}
                     </SubTotal>
                     <PayButtonContainer>
-                        {!user?.studentInfo?.accountBalance ? (<>
+                        {!user?.accountBalance ? (<>
                             <StyledButton sx={{ flex: 1, px: 2 }}
                                 onClick={() => router.push('/student-account/recharge')}
                             >
-                                Recharge your account
+                                Topup your account
                             </StyledButton>
                             <Typography sx={{ flexBasis: '100%', mt: 1, lineHeight: 1.2, fontSize: 13, fontWeight: 500 }}>
                                 This is your student account. Money in your student
@@ -206,7 +208,7 @@ export default function Checkout({ }: Props) {
                             <StyledButton sx={{ flex: 1, px: 2 }}
                                 onClick={hireTutor}
                             >
-                                Hire Tutor
+                                Hire Tutor <AppSpinner size={20} visible={taskNetworkStatus === 'create-task'} />
                             </StyledButton>
                         )}
                     </PayButtonContainer>

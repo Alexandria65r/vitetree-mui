@@ -39,9 +39,10 @@ const InfoRightColumn = styled(Box)(({ theme }) => ({
 type Props = {
     card: Card
     StartIcon: any
+    showEndIcon: boolean
 }
 
-export default function CardItem({ card, StartIcon }: Props) {
+export default function CardItem({ card, StartIcon, showEndIcon }: Props) {
     const router = useRouter()
     return (
 
@@ -55,7 +56,7 @@ export default function CardItem({ card, StartIcon }: Props) {
                 </Typography>
                 {card.preffered && (
                     <Box sx={{ display: 'flex', alignItems: 'center', color: colors.teal[400] }}>
-                        <CheckCircleIcon sx={{mr:.3}}  />
+                        <CheckCircleIcon sx={{ mr: .3 }} />
                         <Typography sx={{
                             fontSize: 14,
                             fontWeight: 500,
@@ -66,9 +67,11 @@ export default function CardItem({ card, StartIcon }: Props) {
                     </Box>
                 )}
             </InfoMainColumn>
-            <InfoRightColumn>
-                <CardOptions cardId={card._id} preffered={card.preffered} />
-            </InfoRightColumn>
+            {showEndIcon && (
+                <InfoRightColumn>
+                    <CardOptions cardId={card._id} preffered={card.preffered} />
+                </InfoRightColumn>
+            )}
         </Container>
     )
 }

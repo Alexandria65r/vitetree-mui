@@ -169,6 +169,28 @@ export const fetchCardsThunk = createAsyncThunk<void, undefined, { state: AppSta
             dispatch(authActions.setAuthNetworkStatus('fetch-cards-error'))
         }
     })
+export const fetchActiveCardThunk = createAsyncThunk<void, undefined, { state: AppState }>
+    ('authSlice/fetchCardsThunk', async (_, thunkAPI) => {
+        const dispatch = thunkAPI.dispatch
+        const state = thunkAPI.getState()
+        const user = state.AuthReducer.user
+        try {
+            dispatch(authActions.setAuthNetworkStatus('fetch-active-card'))
+            const cards = await BillingAPI.fetchCards(user._id ?? '')
+            if (cards) {
+                dispatch(authActions.setAuthNetworkStatus('fetch-active-card-success'))
+                const activeCard = cards.find((item) => item.preffered === true)
+                if (activeCard) {
+                    dispatch(authActions.setCard(activeCard))
+                } else {
+                    dispatch(authActions.setAuthNetworkStatus('active-card-not-found'))
+                }
+            }
+
+        } catch (error) {
+            dispatch(authActions.setAuthNetworkStatus('fetch-cards-error'))
+        }
+    })
 
 
 export const makeDefaultCardThunk = createAsyncThunk<void, string, { state: AppState }>
@@ -198,6 +220,8 @@ export const makeDefaultCardThunk = createAsyncThunk<void, string, { state: AppS
 
         }
     })
+
+
 export const removeCardThunk = createAsyncThunk<void, string, { state: AppState }>
     ('authSlice/removeCard', async (cardId, thunkAPI) => {
         const dispatch = thunkAPI.dispatch
@@ -210,5 +234,26 @@ export const removeCardThunk = createAsyncThunk<void, string, { state: AppState 
             const cards = await BillingAPI.removeCard(cardId)
         } catch (error) {
 
+        }
+    })
+export const topupAccountThunk = createAsyncThunk<void, string, { state: AppState }>
+    ('authSlice/removeCard', async (amount, thunkAPI) => {
+        const dispatch = thunkAPI.dispatch
+        const state = thunkAPI.getState()
+        const user = state.AuthReducer.user
+        if (amount === "0") {
+            dispatch(authActions.setError(true))
+        } else {
+            try {
+                dispatch(authActions.setAuthNetworkStatus('topup-account'))
+                const { data } = await AuthAPI.update(user._id ?? '', { accountBalance: amount })
+                if (data.success) {
+                    dispatch(authActions.setAuthNetworkStatus('topup-account-success'))
+                    const newBalance = parseInt(user.accountBalance ?? 0) + parseInt(amount)
+                    dispatch(authActions.setAuhtUser({ ...user, accountBalance: `${newBalance}` }))
+                }
+            } catch (error) {
+                dispatch(authActions.setAuthNetworkStatus('topup-account-error'))
+            }
         }
     })

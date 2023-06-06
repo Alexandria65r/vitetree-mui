@@ -9,7 +9,10 @@ export type AuthNetworkStatus =
     'updating' | 'updating-success' | 'updating-error' |
     'image-upload' | 'image-upload-success' | 'image-upload-error' |
     'add-card' | 'add-card-success' | 'add-card-error' |
-    'fetch-cards' | 'fetch-cards-success' | 'fetch-cards-error' | ''
+    'fetch-cards' | 'fetch-cards-success' | 'fetch-cards-error' |
+    'fetch-active-card' | 'fetch-active-card-success' | 'active-card-not-found' |
+    'fetch-active-card-error' |
+    'topup-account' | 'topup-account-success' | 'topup-account-error' | ''
 
 
 type AuthState = {
