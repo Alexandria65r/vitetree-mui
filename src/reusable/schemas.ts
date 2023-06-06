@@ -12,7 +12,6 @@ export const UserSchema: Types.User = {
 }
 
 export const StudentInfo: Types.StudentInfo = {
-    accountBalance: '00.00',
     startYear: '',
     endYear: '',
     school: '',
