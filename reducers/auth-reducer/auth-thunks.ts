@@ -249,7 +249,7 @@ export const topupAccountThunk = createAsyncThunk<void, string, { state: AppStat
                 const { data } = await AuthAPI.update(user._id ?? '', { accountBalance: amount })
                 if (data.success) {
                     dispatch(authActions.setAuthNetworkStatus('topup-account-success'))
-                    const newBalance = parseInt(user.accountBalance ?? 0) + parseInt(amount)
+                    const newBalance = parseInt(user?.accountBalance ?? '') + parseInt(amount)
                     dispatch(authActions.setAuhtUser({ ...user, accountBalance: `${newBalance}` }))
                 }
             } catch (error) {

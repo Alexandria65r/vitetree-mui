@@ -71,7 +71,7 @@ export type User = {
     courses?: string[],
     role: Role,
     gender: 'female' | 'male' | '',
-    accountBalance: string,
+    accountBalance?: string,
     tutorInfo?: TutorInfo
     studentInfo?: StudentInfo
     inquiredList?: Inquired[]
