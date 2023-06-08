@@ -6,12 +6,12 @@ import { colorScheme, useColorScheme } from '../theme'
 import { useRouter } from 'next/router'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import ChatPersonInfo from '../components/user/chat-person-info'
-import { StyledBox } from '../reusable/styles'
+import { ButtonIcon, StyledBox, StyledButton } from '../reusable/styles'
 import { getSwapedTaskUserInfo } from '../reusable/helpers'
 import { fetchHiredTasks } from '../../reducers/tasks-reducer/task-thunks'
 import ChangeTaskStatus from '../components/menus/task-status-button'
-
-
+import { RxOpenInNewWindow } from 'react-icons/rx'
+import { FormatMoney } from 'format-money-js'
 
 const Container = styled(Box)(({ theme }) => ({
     width: '60%',
@@ -82,6 +82,17 @@ export default function Tasks({ }: Props) {
         loadTasks()
     }, [dispatch, user])
 
+    const fm = new FormatMoney({ decimals: 2 })
+
+    function EstimatedEarning() {
+        return tasks.reduce((s, i) => {
+
+            return s + parseFloat(i.service.price)
+        }, 0)
+
+    }
+    
+    const total = EstimatedEarning()
     return (
         <Layout>
             <Container>
@@ -123,6 +134,26 @@ export default function Tasks({ }: Props) {
 
                         </StyledBox>
                     ))}
+                    <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
+                        <StyledBox sx={(theme) => ({
+                            display: 'flex',
+                            alignItems: 'center',
+                            width: '70%',
+                            [theme.breakpoints.down('sm')]: {
+                                width: '87%',
+                            }
+                        })}>
+                            <Typography sx={{ flex: 1, fontWeight: 600, mr: .4 }}>
+                                Estimated Earning: <span style={{ marginLeft: 4 }}>
+                                    ${fm.from(total)}
+                                </span>
+                            </Typography>
+                            <StyledButton>
+                                More  <RxOpenInNewWindow size={20} />
+                            </StyledButton>
+                        </StyledBox>
+                    </Box>
+
 
                 </>) : taskNetworkStatus === 'fetch-tasks' && !tasks.length ?
                     (<>
