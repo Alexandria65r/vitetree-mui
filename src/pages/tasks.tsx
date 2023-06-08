@@ -2,13 +2,14 @@ import React, { useCallback, useEffect } from 'react'
 import Layout from '../components/layout'
 import { Box, Skeleton, Typography, styled } from '@mui/material'
 import { CSS_PROPERTIES } from '../reusable'
-import { colorScheme } from '../theme'
+import { colorScheme, useColorScheme } from '../theme'
 import { useRouter } from 'next/router'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import ChatPersonInfo from '../components/user/chat-person-info'
 import { StyledBox } from '../reusable/styles'
 import { getSwapedTaskUserInfo } from '../reusable/helpers'
 import { fetchHiredTasks } from '../../reducers/tasks-reducer/task-thunks'
+import ChangeTaskStatus from '../components/menus/task-status-button'
 
 
 
@@ -74,6 +75,7 @@ export default function Tasks({ }: Props) {
     const taskNetworkStatus = useAppSelector((state) => state.TaskReducer.taskNetworkStatus)
 
     const loadTasks = useCallback(() => dispatch(fetchHiredTasks('all')), [dispatch, user])
+    const colorScheme = useColorScheme()
 
 
     useEffect(() => {
@@ -91,15 +93,34 @@ export default function Tasks({ }: Props) {
                 {taskNetworkStatus !== 'fetch-tasks' && tasks.length ? (<>
                     {tasks.map((task, index) => (
                         <StyledBox key={index} onClick={() => router.push(`/task/${task._id}`)}
-                            sx={{mb:1, cursor: 'pointer' }}
+                            sx={{ display: 'flex', alignItems: 'center', mb: 1, cursor: 'pointer' }}
                         >
-                            <ChatPersonInfo
-                                userId={getSwapedTaskUserInfo(user.role, task).id}
-                                fullname={getSwapedTaskUserInfo(user.role, task).name}
-                                fullnameStyles={{ fontSize: 14, textTransform: 'capitalize', lineHeight: 1.2, }}
-                                subText={task.service.label}
-                                avatarSize={55}
-                                indicatorStyles={{ position: 'absolute', left: 30, bottom: 0 }} />
+                            <Box sx={{ flex: 1 }}>
+                                <ChatPersonInfo
+                                    userId={getSwapedTaskUserInfo(user.role, task).id}
+                                    fullname={getSwapedTaskUserInfo(user.role, task).name}
+                                    fullnameStyles={{ fontSize: 14, textTransform: 'capitalize', lineHeight: 1.2, }}
+                                    subText={task.service.label}
+                                    avatarSize={55}
+                                    indicatorStyles={{ position: 'absolute', left: 30, bottom: 0 }} />
+                            </Box>
+                            <Box sx={(theme) => ({
+                                flex: 1,
+                                display: 'flex',
+                                alignItems: 'center',
+                                [theme.breakpoints.down('sm')]: {
+                                    width: 'calc(100vw - 50%)',
+                                    overflowX: 'auto'
+                                }
+                            })}>
+                                <Typography sx={{ flex: 1, fontSize: 18, textAlign: 'center', fontWeight: 500, color: colorScheme.TextColor }}>
+                                    ${task.service.price}
+                                </Typography>
+                                <Box sx={{ flexBasis: '60%', mr: .5, }}>
+                                    <ChangeTaskStatus task={task} />
+                                </Box>
+                            </Box>
+
                         </StyledBox>
                     ))}
 

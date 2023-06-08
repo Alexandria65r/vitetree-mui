@@ -1,9 +1,9 @@
 import { Add } from '@mui/icons-material'
-import { Box, styled, useTheme } from '@mui/material'
+import { Box, colors, styled, useTheme } from '@mui/material'
 import React, { useCallback, useEffect } from 'react'
 import { CSS_PROPERTIES } from '../../reusable'
 import { normalizedDate } from '../../reusable/helpers'
-import { StyledBox, TabButton } from '../../reusable/styles'
+import { ButtonIcon, StyledBox, TabButton } from '../../reusable/styles'
 import { colorScheme } from '../../theme'
 import RenderUpdate from '../editor/RenderUpdate'
 import SlateEditor from '../editor/SlateEditor'
@@ -15,6 +15,7 @@ import { createNewTaskUpdateThunk } from '../../../reducers/task-updtes-reducer/
 import CloseIcon from '@mui/icons-material/Close';
 import { useRouter } from 'next/router'
 import { createAcademicAnswerThunk, fetchAcademicAnswersThunk } from '../../../reducers/academic-answers-reducer/academic-answers-thunks'
+import { BiDownvote, BiUpvote } from 'react-icons/bi'
 
 
 const MainColHeader = styled(Box)(({ theme }) => ({
@@ -25,7 +26,7 @@ const MainColHeader = styled(Box)(({ theme }) => ({
 }))
 const UpdateHeader = styled(Box)(({ theme }) => ({
     height: 40,
-    padding: '0 10px',
+    padding: '10px',
     marginBottom: 15,
 }))
 
@@ -39,8 +40,15 @@ const UpdateItem = styled(StyledBox)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'light' ? '#fff' : colorScheme(theme).secondaryColor
 }))
 
-
-
+const ItemFooter = styled(Box)(({ theme }) => ({
+    padding: 6,
+    marginTop: 6,
+    borderTop: `1px solid ${colors.grey[300]}`,
+}))
+const VoteButton = styled(ButtonIcon)(({ theme }) => ({
+    height: 40,
+    width: 40
+}))
 
 type Props = {
 
@@ -57,7 +65,7 @@ export default function PostAcademicAnswerItem({ }: Props) {
     const params = router.query.params || []
 
     const loadAnswers = useCallback(() => {
-            dispatch(fetchAcademicAnswersThunk(params[3]))
+        dispatch(fetchAcademicAnswersThunk(params[3]))
     }, [params[3]])
 
     useEffect(() => {
@@ -83,12 +91,21 @@ export default function PostAcademicAnswerItem({ }: Props) {
                             avatarSize={45}
                             indicatorStyles={{ position: 'absolute', left: 30, bottom: 0 }} />
                     </UpdateHeader>
-                    <RenderUpdate update={answer.data} />
+                    <Box sx={{px:1,pb:1,pt:1.3}}>
+                        <RenderUpdate update={answer.data} />
+                    </Box>
+                    <ItemFooter>
+                        <VoteButton>
+                            <BiUpvote size={20} />
+                        </VoteButton>
+                        <VoteButton>
+                            <BiDownvote size={20} />
+                        </VoteButton>
+                    </ItemFooter>
                 </UpdateItem>
             ))}
             <MainColHeader>
                 <TabButton onClick={() => setEditorOpen(!openEditor)}>
-
                     {openEditor ? <CloseIcon sx={{ mr: .5 }} /> : <Add sx={{ mr: .5 }} />}
                     {openEditor ? 'Close editor' : 'Write an answer'}
                 </TabButton>

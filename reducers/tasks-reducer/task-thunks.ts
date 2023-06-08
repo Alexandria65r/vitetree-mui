@@ -6,11 +6,14 @@ import TaskAPI, { TasksQueryPath } from "../../src/api-services/task";
 import Randomstring from 'randomstring'
 import { fetchTaskUpdatesThunk } from "../task-updtes-reducer/task-updates-thunks";
 import { taskActions } from ".";
+import { FormatMoney } from "format-money-js";
 
 export const createHiredTask = createAsyncThunk<void, 'feedbackid' | 'postid', { state: AppState }>
     ('taskSlice/createHiredTask', async (type, thunkAPI) => {
         if (type !== 'feedbackid' && type !== 'postid') return
-
+        const fm = new FormatMoney({
+            decimals: 2
+        })
         const dispatch = thunkAPI.dispatch
         const state = thunkAPI.getState()
         const user = state.AuthReducer.user
@@ -19,6 +22,8 @@ export const createHiredTask = createAsyncThunk<void, 'feedbackid' | 'postid', {
         const inquiry = state.InquiryReducer.inquiry
         const post = state.ForumReducer.post
 
+        const _price = type === 'feedbackid' ? inquiryFeedback.serviceTerms.price : post.service?.price ?? ''
+        const price:any = fm.from(parseFloat(_price))
         const taskId = Randomstring.generate(17)
         const task: Task = {
             _id: taskId,
@@ -36,7 +41,7 @@ export const createHiredTask = createAsyncThunk<void, 'feedbackid' | 'postid', {
             },
             service: {
                 label: type === 'feedbackid' ? inquiryFeedback.service.label : post.service?.label ?? '',
-                price: type === 'feedbackid' ? inquiryFeedback.serviceTerms.price : post.service?.price ?? ''
+                price: price ?? ''
             },
             subjects: type === 'feedbackid' ? inquiry.subjects : post.subjects ?? [],
             topic: type === 'feedbackid' ? inquiry.topic ?? '' : '',

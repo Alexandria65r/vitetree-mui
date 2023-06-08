@@ -119,6 +119,7 @@ export default function ChangeTaskStatus({ task }: Props) {
                 <Container>
                     <StyledButton {...bindTrigger(popupState)}
                         sx={{
+                            whiteSpace: 'nowrap',
                             width: '100%',
                             ml: 1,
                             borderRadius: 29
@@ -165,7 +166,7 @@ export default function ChangeTaskStatus({ task }: Props) {
                                     updateTaskStatus(status)
                                     popupState.close()
                                 }}
-                                    sx={{ textTransform: 'capitalize' }}
+                                    sx={{ textTransform: 'capitalize', whiteSpace:'nowrap' }}
                                 >
                                     <MenuItemIconWrap>
                                         <RadioButtonCheckedIcon />
