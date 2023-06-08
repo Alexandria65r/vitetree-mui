@@ -92,7 +92,7 @@ export default function Tasks({ }: Props) {
 
     }
     
-    const total = EstimatedEarning()
+    const total:any = fm.from(EstimatedEarning()) 
     return (
         <Layout>
             <Container>
@@ -144,9 +144,7 @@ export default function Tasks({ }: Props) {
                             }
                         })}>
                             <Typography sx={{ flex: 1, fontWeight: 600, mr: .4 }}>
-                                Estimated Earning: <span style={{ marginLeft: 4 }}>
-                                    ${fm.from(total)}
-                                </span>
+                                Estimated Earning:  ${total}
                             </Typography>
                             <StyledButton>
                                 More  <RxOpenInNewWindow size={20} />
