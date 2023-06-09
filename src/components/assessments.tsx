@@ -151,7 +151,7 @@ export default function Assessments({ }: Props) {
                             {testsList.map((testData, index) => (
                                 <Card key={index}>
                                     <Box sx={(theme) => ({
-                                        width: 180,
+                                       // width: 180,
                                         [theme.breakpoints.down('sm')]: {
                                             width: 160,
                                         },

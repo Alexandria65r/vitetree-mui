@@ -152,7 +152,7 @@ export default function Checkout({ }: Props) {
     const fm = new FormatMoney({
         decimals: 2
     })
-    const subtotal: any = fm.from(getSubtotal())
+
 
     return (
         <Layout>

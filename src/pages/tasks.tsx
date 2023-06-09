@@ -86,7 +86,6 @@ export default function Tasks({ }: Props) {
 
     function EstimatedEarning() {
         return tasks.reduce((s, i) => {
-
             return s + parseFloat(i.service.price)
         }, 0)
 
@@ -138,7 +137,7 @@ export default function Tasks({ }: Props) {
                         <StyledBox sx={(theme) => ({
                             display: 'flex',
                             alignItems: 'center',
-                            width: '70%',
+                            width: '67%',
                             [theme.breakpoints.down('sm')]: {
                                 width: '87%',
                             }

@@ -12,7 +12,8 @@ export type AuthNetworkStatus =
     'fetch-cards' | 'fetch-cards-success' | 'fetch-cards-error' |
     'fetch-active-card' | 'fetch-active-card-success' | 'active-card-not-found' |
     'fetch-active-card-error' |
-    'topup-account' | 'topup-account-success' | 'topup-account-error' | ''
+    'topup-account' | 'topup-account-success' | 'topup-account-error' |
+    'deduct-account' | 'deduct-account-success' | 'deduct-account-error' | ''
 
 
 type AuthState = {

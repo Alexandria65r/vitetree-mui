@@ -5,10 +5,15 @@ import { AuthNetworkStatus, authActions } from "./auth-reducer";
 import { Signin, UserAvatarAsset } from "../../src/reusable/interfaces";
 import { SCHOOYARD_AUTH_TOKEN } from "../../src/reusable";
 import Cookies from "js-cookie";
-import router from "next/router";
+import router, { Router } from "next/router";
 import { Card } from "../../src/models/card";
 import BillingAPI from "../../src/api-services/billing";
 import randomstring from 'randomstring'
+import { FormatMoney } from "format-money-js";
+
+const fm = new FormatMoney({
+    decimals: 2
+})
 
 export const signupThunk = createAsyncThunk<void, undefined, { state: AppState }>
     ('authSlice/fetchUserAvatarThunk', async (_, thunkAPI) => {
@@ -249,11 +254,36 @@ export const topupAccountThunk = createAsyncThunk<void, string, { state: AppStat
                 const { data } = await AuthAPI.update(user._id ?? '', { accountBalance: amount })
                 if (data.success) {
                     dispatch(authActions.setAuthNetworkStatus('topup-account-success'))
-                    const newBalance = parseInt(user?.accountBalance ?? '') + parseInt(amount)
+                    const newBalance = fm.from(parseInt(user?.accountBalance ?? '') + parseInt(amount)) 
                     dispatch(authActions.setAuhtUser({ ...user, accountBalance: `${newBalance}` }))
                 }
             } catch (error) {
                 dispatch(authActions.setAuthNetworkStatus('topup-account-error'))
             }
         }
+    })
+export const chargeThunk = createAsyncThunk<void, { balance: number, subTotal: number }, { state: AppState }>
+    ('authSlice/chargeThunk', async (chargeParam, thunkAPI) => {
+        const dispatch = thunkAPI.dispatch
+        const state = thunkAPI.getState()
+        const user = state.AuthReducer.user
+
+        if (chargeParam.balance < chargeParam.subTotal) {
+            router.push('/student-account/recharge')
+        } else {
+            const newBalance = fm.from(chargeParam.balance - chargeParam.subTotal)
+
+            try {
+                dispatch(authActions.setAuthNetworkStatus('deduct-account'))
+                const { data } = await AuthAPI.update(user._id ?? '', { accountBalance: newBalance })
+                if (data.success) {
+                    dispatch(authActions.setAuthNetworkStatus('deduct-account-success'))
+                    dispatch(authActions.setAuhtUser({ ...user, accountBalance: `${newBalance}` }))
+                }
+            } catch (error) {
+                dispatch(authActions.setAuthNetworkStatus('deduct-account-error'))
+            }
+        }
+
+
     })
