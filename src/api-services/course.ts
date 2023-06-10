@@ -37,6 +37,12 @@ export default class CourseAPI {
             return data.courses as VideoCourse[]
         }
     }
+    static async fetchPurchasedCourses(owner: string) {
+        const { data } = await axios.get(`/api/course/fetch-purchased-courses/${owner}`)
+        if (data.success) {
+            return data.courses as VideoCourse[]
+        }
+    }
 
 
 }

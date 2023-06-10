@@ -18,7 +18,7 @@ export default class CartAPI {
         return axios.delete(`/api/cart/delete/${id}`)
     }
     static clearCart(owner: string) {
-        return axios.delete(`/api/cart/delete/${owner}`)
+        return axios.delete(`/api/cart/clear-cart/${owner}`)
     }
 
     static async fetchCartItem(id: string) {

@@ -11,7 +11,7 @@ import { FormatMoney } from 'format-money-js'
 import CreditCardForm from '../../components/payments/credit-card-form'
 import { RiBankCard2Line } from 'react-icons/ri'
 import CardItem from '../../components/account/card-item'
-import { chargeThunk, fetchActiveCardThunk } from '../../../reducers/auth-reducer/auth-thunks'
+import { chargeThunk, fetchActiveCardThunk, purchaseCourseThunk } from '../../../reducers/auth-reducer/auth-thunks'
 import { useRouter } from 'next/router'
 import { AppSpinner } from '../../components/activity-indicators'
 
@@ -142,7 +142,7 @@ export default function Checkout({ }: Props) {
 
 
     function handlePay() {
-        dispatch(chargeThunk({
+        dispatch(purchaseCourseThunk({
             balance: parseInt(user.accountBalance ?? ''),
             subTotal: getSubtotal()
         }))

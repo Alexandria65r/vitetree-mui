@@ -10,10 +10,14 @@ import { Card } from "../../src/models/card";
 import BillingAPI from "../../src/api-services/billing";
 import randomstring from 'randomstring'
 import { FormatMoney } from "format-money-js";
+import { clearCartThunk } from "../cart-reducer/cart-thunks";
+import { createToastThunk } from "../main-reducer/main-thunks";
 
 const fm = new FormatMoney({
     decimals: 2
 })
+
+type ReturnType = 'success' | 'error' | undefined
 
 export const signupThunk = createAsyncThunk<void, undefined, { state: AppState }>
     ('authSlice/fetchUserAvatarThunk', async (_, thunkAPI) => {
@@ -110,7 +114,7 @@ export const fetchUserAvatarThunk = createAsyncThunk
 
 
 
-export const updateUserThunk = createAsyncThunk<void,
+export const updateUserThunk = createAsyncThunk<ReturnType,
     { update: any, networkSatusList: AuthNetworkStatus[] }, { state: AppState }>
     ('authSlice/updateUserThunk', async (params, thunkAPI) => {
         const state = thunkAPI.getState()
@@ -121,9 +125,11 @@ export const updateUserThunk = createAsyncThunk<void,
             const { data } = await AuthAPI.update(id, params.update)
             if (data.success) {
                 dispatch(authActions.setAuthNetworkStatus(params.networkSatusList[1]))
+                return 'success'
             }
         } catch (error) {
             dispatch(authActions.setAuthNetworkStatus(params.networkSatusList[3]))
+            return 'error'
         }
     })
 
@@ -254,7 +260,7 @@ export const topupAccountThunk = createAsyncThunk<void, string, { state: AppStat
                 const { data } = await AuthAPI.update(user._id ?? '', { accountBalance: amount })
                 if (data.success) {
                     dispatch(authActions.setAuthNetworkStatus('topup-account-success'))
-                    const newBalance = fm.from(parseInt(user?.accountBalance ?? '') + parseInt(amount)) 
+                    const newBalance = fm.from(parseInt(user?.accountBalance ?? '') + parseInt(amount))
                     dispatch(authActions.setAuhtUser({ ...user, accountBalance: `${newBalance}` }))
                 }
             } catch (error) {
@@ -262,7 +268,8 @@ export const topupAccountThunk = createAsyncThunk<void, string, { state: AppStat
             }
         }
     })
-export const chargeThunk = createAsyncThunk<void, { balance: number, subTotal: number }, { state: AppState }>
+
+export const chargeThunk = createAsyncThunk<ReturnType, { balance: number, subTotal: number }, { state: AppState }>
     ('authSlice/chargeThunk', async (chargeParam, thunkAPI) => {
         const dispatch = thunkAPI.dispatch
         const state = thunkAPI.getState()
@@ -279,11 +286,47 @@ export const chargeThunk = createAsyncThunk<void, { balance: number, subTotal: n
                 if (data.success) {
                     dispatch(authActions.setAuthNetworkStatus('deduct-account-success'))
                     dispatch(authActions.setAuhtUser({ ...user, accountBalance: `${newBalance}` }))
+
+                    return 'success'
                 }
             } catch (error) {
                 dispatch(authActions.setAuthNetworkStatus('deduct-account-error'))
+                return 'error'
             }
         }
+    })
 
 
+
+export const purchaseCourseThunk = createAsyncThunk<void, { balance: number, subTotal: number }, { state: AppState }>
+    ('authSlice/purchaseCourseThunk', async (chargeParam, thunkAPI) => {
+        const dispatch = thunkAPI.dispatch
+        const state = thunkAPI.getState()
+        const user = state.AuthReducer.user
+        const cart = state.CartReducer.cartItems
+        const cartCoursesId: string[] = []
+        dispatch(authActions.setAuthNetworkStatus('order'))
+        const chargeRes = await dispatch(chargeThunk(chargeParam))
+        if (chargeRes.payload === 'success') {
+            const myCourses = user.courses ?? []
+            cart.forEach((item) => {
+                if (!myCourses.includes(item.productInfo.id)) {
+                    cartCoursesId.push(item.productInfo.id)
+                }
+            })
+            const updateRes = await dispatch(updateUserThunk({
+                update: { courses: [...myCourses, ...cartCoursesId] },
+                networkSatusList: [
+                    'updating',
+                    'updating-success',
+                    'updating-error']
+            }))
+
+            if (updateRes.payload === 'success') {
+                dispatch(clearCartThunk())
+                dispatch(createToastThunk('Your order was successfull'))
+                router.push('/yard/courses/purchased')
+                dispatch(authActions.setAuthNetworkStatus('order-success'))
+            }
+        }
     })

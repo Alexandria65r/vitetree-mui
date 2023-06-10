@@ -77,3 +77,21 @@ export const deleteCartItemThunk = createAsyncThunk<void, string, { state: AppSt
             dispatch(cartActions.setNetworkStatus('deleting-error'))
         }
     })
+
+
+export const clearCartThunk = createAsyncThunk<void, undefined, { state: AppState }>
+    ('cartSlice/clearCartThunk', async (_,thunkAPI) => {
+        const dispatch = thunkAPI.dispatch
+        const { AuthReducer: { user: { _id: owner } } } = thunkAPI.getState()
+        try {
+            dispatch(cartActions.setNetworkStatus('clear-cart'))
+            const { data } = await CartAPI.clearCart(owner ?? '')
+            if (data.success) {
+                dispatch(cartActions.setNetworkStatus('clear-cart-success'))
+                dispatch(cartActions.setCartItems([]))
+            }
+        } catch (error) {
+            dispatch(fetchCartItemsThunk(owner ?? ''))
+            dispatch(cartActions.setNetworkStatus('clear-cart-error'))
+        }
+    })

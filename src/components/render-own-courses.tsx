@@ -13,6 +13,7 @@ import CreateButtonOptions from './menus/create-button-options'
 import CourseAPI from '../api-services/course'
 import { courseActions } from '../../reducers/course-reducer'
 import RenderCourses from './render-courses'
+import { fetchPurchasedCourses } from '../../reducers/course-reducer/course-thunks'
 
 
 
@@ -97,15 +98,19 @@ export default function RenderOwnCourses({ }: Props) {
     const [isFetching, setFetching] = useState<boolean>()
     const user = useAppSelector((state) => state.AuthReducer.user)
     const courses = useAppSelector((state) => state.CourseReducer.courses)
-
+    const [yard, _courses, purchased]: any = router.query.params
 
     const fetchDashboardData = useCallback(async () => {
         setFetching(true)
         if (user._id) {
-            const courses = await CourseAPI.fetchOwnCourses(user._id ?? '', 'introduction')
-            if (courses) {
-                setFetching(false)
-                dispatch(courseActions.setCourses(courses))
+            if (purchased === "purchased") {
+                dispatch(fetchPurchasedCourses())
+            } else {
+                const courses = await CourseAPI.fetchOwnCourses(user._id ?? '', 'introduction')
+                if (courses) {
+                    setFetching(false)
+                    dispatch(courseActions.setCourses(courses))
+                }
             }
         }
     }, [router.pathname, user, dispatch])

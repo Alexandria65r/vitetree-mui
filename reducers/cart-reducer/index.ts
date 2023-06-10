@@ -8,7 +8,9 @@ export type CartNetworkStatus =
     'deleting' |
     'deleting-error' |
     'deleting-success'
-    | ''
+    | 'clear-cart' |
+    'clear-cart-success' |
+    'clear-cart-error' | ''
 
 
 
