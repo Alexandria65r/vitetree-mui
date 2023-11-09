@@ -11,6 +11,7 @@ export const colorScheme = (theme: Theme) => ({
     // BASIC COLORSCHEME
     primaryColor: isDarkMode(theme) ? '#181b34' : '#f4fcff',
     secondaryColor: isDarkMode(theme) ? '#292d48' : '#fff',
+    greyToSecondaryColor: isDarkMode(theme) ? '#292d48' : '#e3e6ea',
     // NAVBAR
     primaryToGrey100Color: isDarkMode(theme) ? '#181b34' : colors.grey[100],
     // CHAT COLORSCHEME
@@ -27,6 +28,8 @@ export const colorScheme = (theme: Theme) => ({
 
     //BORDERS
     borderColor: isDarkMode(theme) ? '#292d48' : colors.grey[300],
+    borderColor400: isDarkMode(theme) ? '#737373' : colors.grey[400],
+    dropzoneBorder: isDarkMode(theme) ? colors.grey[300] : colors.grey[500],
 
     //MENU ITEM
     menuItemHoverColor: isDarkMode(theme) ? '#33385d' : colors.grey[200],

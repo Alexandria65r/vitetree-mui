@@ -71,14 +71,12 @@ a {
 }
 
 @media (max-width: 600px) {
-.light ::-webkit-scrollbar {
-  display: none;
-}
-.dark ::-webkit-scrollbar {
-  display: none;
-}
-
-
+  .light ::-webkit-scrollbar {
+    display: none;
+  }
+  .dark ::-webkit-scrollbar {
+    display: none;
+  }
 
   .modalMb {
     animation: modal 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
@@ -128,6 +126,19 @@ a {
 }
 
 @keyframes toast {
+  0% {
+    transform: translateX(100px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+
+.FileItem {
+  animation: FileItem 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+@keyframes FileItem {
   0% {
     transform: translateX(100px);
   }

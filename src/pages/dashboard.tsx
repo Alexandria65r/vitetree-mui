@@ -19,28 +19,35 @@ import AddTaskOutlinedIcon from '@mui/icons-material/AddTaskOutlined';
 import { MdDesignServices, MdMedicalServices, MdMonetizationOn, MdOutlineAddTask, MdOutlineDesignServices } from 'react-icons/md'
 
 const FlexContainer = styled(Box)(({ theme }) => ({
-    display: 'flex'
+    display: 'flex',
+    justifyContent:'center',
+    margin: 'auto',
+    [theme.breakpoints.up("lg")]: {
+        width: '80%',
+    },
+    [theme.breakpoints.up("xl")]: {
+        width: '60%',
+    }
 }))
 const Container = styled(Box)(({ theme }) => ({
-    flex: 1
+    flex: 1,
 }))
 
 const SearchContainer = styled(Box)(({ theme }) => ({
-    width: '80%',
-    margin: 'auto',
+   // width: '80%',
     height: 100,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
     [theme.breakpoints.down("sm")]: {
-        width: '96%',
         height: 85,
-    }
+        padding:5,
+    },
 }))
 
 
 const MappedCards = styled(Box)(({ theme }) => ({
-    width: '80%',
+   // width: '80%',
     margin: 'auto',
     display: 'grid',
     gap: 1,

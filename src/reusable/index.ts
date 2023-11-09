@@ -28,11 +28,11 @@ export const REUSABLE_POPPER = {
 
 }
 
-
 export const CSS_PROPERTIES = {
     shadow: '0 1px 3px 0 #ccc',
     radius10: 10,
     radius5: 10,
 }
+
 
 export const SCHOOYARD_AUTH_TOKEN = 'SCHOOYARD_AUTH_TOKEN'

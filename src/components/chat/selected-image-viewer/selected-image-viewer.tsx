@@ -1,7 +1,6 @@
 import { Box, styled } from '@mui/material'
 import React from 'react'
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks'
-import { CSS_PROPERTIES } from '../../../reusable'
 import { ButtonIcon } from '../../../reusable/styles'
 import CloseIcon from '@mui/icons-material/Close';
 import { mainActions } from '../../../../reducers/main-reducer'
@@ -38,7 +37,7 @@ const Container = styled(Box)(({ theme }) => ({
 const ImageContainer = styled(Box)(({ theme }) => ({
     position: 'relative',
     height: 400,
-    borderRadius: CSS_PROPERTIES.radius10,
+    borderRadius:10,
     backgroundColor: colorScheme(theme).threadChildColor,
     [theme.breakpoints.down('sm')]: {
         height: 200
@@ -51,7 +50,7 @@ const OptionsContainer = styled(Box)(({ theme }) => ({
     height: 50,
     marginTop: 20,
     display: 'flex',
-    borderRadius: CSS_PROPERTIES.radius10,
+    borderRadius:10,
     [theme.breakpoints.down('sm')]: {
 
     }

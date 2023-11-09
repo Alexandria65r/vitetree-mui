@@ -19,7 +19,11 @@ const Container = styled(Box)(({ theme }) => ({
   justifyContent: 'center',
   [theme.breakpoints.down('sm')]: {
     flexWrap: 'wrap'
-  }
+  },
+  // [theme.breakpoints.up('xl')]: {
+  //   width: '80%',
+  //   margin: 'auto'
+  // }
 }))
 
 const IllustratorCol = styled(Box)(({ theme }) => ({

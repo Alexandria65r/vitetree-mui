@@ -93,7 +93,10 @@ export default function Task({ }: Props) {
         <Layout>
             <Container sx={{
 
-                width: !isSidebarOpen ? '90%' : '80%',
+                [_theme.breakpoints.up("xl")]: {
+                  
+                    width: !isSidebarOpen ? '65%' : '70%',
+                },
                 [_theme.breakpoints.down("sm")]: {
                     width: '97%',
                 }

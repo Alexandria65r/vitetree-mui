@@ -13,6 +13,7 @@ import { useRouter } from 'next/router';
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+import { Provider } from 'react-redux';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -39,20 +40,20 @@ if (fireBaseApp) {
 
 
 
-function App({ Component, pageProps }: AppProps) {
-
+function App({ Component, pageProps, ...rest }: AppProps) {
+  const { props, store } = wrapper.useWrappedStore(rest)
   const themeMode: any = cookie.get('themeMode');
   const [mode, setMode] = React.useState<'dark' | 'light'>('light')
 
   const router = useRouter()
 
   const theme = React.useMemo(() => createTheme({
-    typography:{
-      fontFamily:"'Lato', sans-serif"
+    typography: {
+      fontFamily: "'Lato', sans-serif"
     },
     palette: {
       mode: mode ?? themeMode,
-      
+
     }
   }), [mode])
 
@@ -65,7 +66,7 @@ function App({ Component, pageProps }: AppProps) {
     console.log(current)
 
     if (!current) {
-      body?.classList.add(mode)
+      body?.classList.toggle(mode)
     } else if (current?.includes('light') && current?.includes('dark')) {
       //const removed = current.replace()
     } else {
@@ -91,19 +92,22 @@ function App({ Component, pageProps }: AppProps) {
 
 
   return (
-    <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <Head>
-          <meta name="viewport" content="initial-scale=1, width=device-width" />
-          {/* <link
+    <Provider store={store}>
+
+      <ColorModeContext.Provider value={colorMode}>
+        <ThemeProvider theme={theme}>
+          <Head>
+            <meta name="viewport" content="initial-scale=1, width=device-width" />
+            {/* <link
             rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Public+Sans&display=swap"
           /> */}
-        </Head>
-        <Component {...pageProps} />
-      </ThemeProvider>
-    </ColorModeContext.Provider>
+          </Head>
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </ColorModeContext.Provider>
+    </Provider>
   )
 }
 
-export default wrapper.withRedux(App)
+export default App
