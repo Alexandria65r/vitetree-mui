@@ -127,7 +127,7 @@ export default function Tasks({ }: Props) {
                                     ${task.service.price}
                                 </Typography>
                                 <Box sx={{ flexBasis: '60%', mr: .5, }}>
-                                    <ChangeTaskStatus task={task} />
+                                    <ChangeTaskStatus role={user.role} task={task} />
                                 </Box>
                             </Box>
 
