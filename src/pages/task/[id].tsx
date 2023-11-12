@@ -7,12 +7,11 @@ import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import { StyledBox, StyledButton, TabButton } from '../../reusable/styles'
 import { Add } from '@mui/icons-material'
 import TaskDetails from '../../components/tasks/task-details'
-
-import SubmitTaskForm from '../../components/tasks/submit-task-form'
 import SubmitedTaskFiles from '../../components/tasks/submited-task-files'
 import { Descendant } from 'slate'
 import TaskUpdates from '../../components/tasks/task-updates'
 import { fetchHiredTask } from '../../../reducers/tasks-reducer/task-thunks'
+import TutorTaskActions from '../../components/tasks/tutor-task-actions'
 
 const Container = styled(Box)(({ theme }) => ({
     width: '80%',
@@ -154,7 +153,7 @@ export default function Task({ }: Props) {
                             }}
                         >
                             {user.role === 'student' && <SubmitedTaskFiles />}
-                            {user.role === 'tutor' && <SubmitTaskForm />}
+                            {user.role === 'tutor' && <TutorTaskActions status={task.status} />}
 
                         </StyledBox>
                     </AsideLeft>

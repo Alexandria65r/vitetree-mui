@@ -11,14 +11,14 @@ import { colorScheme } from '../../theme';
 import PopupState, { bindPopover, bindTrigger } from 'material-ui-popup-state'
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import classes from '../../styles/reusable.module.css'
-import { Participant, Test } from '../../reusable/interfaces';
+import { Participant, Role, Test, User } from '../../reusable/interfaces';
 import { useRouter } from 'next/router';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { StyledButton } from '../../reusable/styles';
 import AddIcon from '@mui/icons-material/Add';
 import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import { Task, TaskStatus, taskStatuses } from '../../models/task';
+import { Task, TaskStatus, studentTaskStatuses, tutorTaskStatuses } from '../../models/task';
 import TaskAPI from '../../api-services/task';
 
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -85,21 +85,20 @@ const CardButton = styled(ButtonBase)(({ theme }) => ({
 }))
 
 const Button = styled(StyledButton)(({ theme }) => ({
+    whiteSpace: 'nowrap',
     width: '100%',
-    height: 47,
-    [theme.breakpoints.down("sm")]: {
-        padding: '0 10px',
-        height: 49,
-    }
+    marginLeft: 4,
+    borderRadius: 29
 }))
 
 
 
 type Props = {
     task: Task
+    role: Role
 }
 
-export default function ChangeTaskStatus({ task }: Props) {
+export default function ChangeTaskStatus({ task, role }: Props) {
     const dispatch = useAppDispatch()
     const router = useRouter()
     const theme = useTheme()
@@ -111,42 +110,41 @@ export default function ChangeTaskStatus({ task }: Props) {
         console.log(data.updated)
     }
 
-    const filtered = taskStatuses.filter((status) => status !== 'just hired' && status !== 'task closed')
+    const filtered = role === 'tutor' ? tutorTaskStatuses : studentTaskStatuses
 
     return (
         <PopupState variant='popper' popupId='test-card-options'>
             {((popupState) => (
                 <Container>
-                    <StyledButton {...bindTrigger(popupState)}
-                        sx={{
-                            whiteSpace: 'nowrap',
-                            width: '100%',
-                            ml: 1,
-                            borderRadius: 29
-                            , bgcolor: theme.palette.mode === 'light' ? '#000' : colorScheme(theme).primaryColor
+                    {task.status === 'task closed' && role === 'tutor' ? (
+                        <Button sx={{
+                            bgcolor: theme.palette.mode === 'light' ? '#000' : colorScheme(theme).primaryColor
                         }}
-                    >
+                        >{task.status}</Button>
 
-                        {task.status}
-                        <Box sx={(theme) => ({
-                            ml: .5,
-                            mt: .6,
-                            [theme.breakpoints.down('sm')]: {
+                    ) : (
+                        <Button {...bindTrigger(popupState)}
+                            sx={{
+                                bgcolor: theme.palette.mode === 'light' ? '#000' : colorScheme(theme).primaryColor
+                            }}
+                        >
+
+                            {task.status}
+                            <Box sx={(theme) => ({
                                 ml: .5,
-                                mt: .3
-                            }
-                        })}>
-                            {popupState.isOpen ? <ExpandLessIcon /> : (
-                                <KeyboardArrowDownIcon />
-                            )}
-                        </Box>
+                                mt: .6,
+                                [theme.breakpoints.down('sm')]: {
+                                    ml: .5,
+                                    mt: .3
+                                }
+                            })}>
+                                {popupState.isOpen ? <ExpandLessIcon /> : (
+                                    <KeyboardArrowDownIcon />
+                                )}
+                            </Box>
 
-                    </StyledButton>
-
-
-
-
-
+                        </Button>
+                    )}
 
                     <Popover {...bindPopover(popupState)}
                         classes={{
@@ -166,7 +164,7 @@ export default function ChangeTaskStatus({ task }: Props) {
                                     updateTaskStatus(status)
                                     popupState.close()
                                 }}
-                                    sx={{ textTransform: 'capitalize', whiteSpace:'nowrap' }}
+                                    sx={{ textTransform: 'capitalize', whiteSpace: 'nowrap' }}
                                 >
                                     <MenuItemIconWrap>
                                         <RadioButtonCheckedIcon />

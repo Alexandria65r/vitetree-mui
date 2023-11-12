@@ -7,7 +7,7 @@ import { NotificationSchema } from "../../../../database/schema";
 const FetchAll: NextApiHandler = async (req: NextApiRequest, res: NextApiResponse) => {
     await connection()
     const owner = req.query.owner || []
-    const notifications = await NotificationSchema.find().where({ owner }).exec()
+    const notifications = await NotificationSchema.find().sort({createdAt:-1}).where({ owner }).exec()
     if (notifications) {
         return res.json({
             success: true,

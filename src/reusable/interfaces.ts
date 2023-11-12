@@ -184,12 +184,10 @@ export type DeletePartcipantModal = {
 }
 
 
-
 export type Asset = {
     publicId: string,
     secureURL: string
 }
-
 
 export type VideoCourse = {
     type: 'introduction' | 'course' | ''
@@ -218,14 +216,10 @@ export type CartItem = {
     }
     createdAt?: string
 }
+
 export type Cart = {
     cartItems: CartItem[],
 }
-
-
-
-
-
 
 export type Order = {
     _id: string
@@ -256,8 +250,6 @@ export type Post = {
     dueDate?: string
     createdAt?: string
 }
-
-
 
 export type StudentInquiry = {
     _id: string,

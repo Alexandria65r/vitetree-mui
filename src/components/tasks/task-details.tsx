@@ -51,7 +51,7 @@ export default function TaskDetails({ task }: Props) {
                 <TitledItem title='Topic' value="Trignometry" />
                 <TitledItem title='Price' value={task.service.price} />
                 <TitledItem title='Due Date' value={task.dueDate} />
-                <ChangeTaskStatus task={task} />
+                <ChangeTaskStatus task={task} role={user.role} />
             </Box>
         </Container>
     )

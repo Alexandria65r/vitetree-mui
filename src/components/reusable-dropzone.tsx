@@ -5,10 +5,12 @@ import { ButtonIcon, StyledButton } from '../reusable/styles'
 import { colorScheme } from '../theme'
 import { useDropzone } from 'react-dropzone'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import { DropzoneItem, dropzoneActions } from '../../reducers/dropzone-reducer'
-import { uploadFileThunk } from '../../reducers/dropzone-reducer/dropzone-thunks'
+import { dropzoneActions } from '../../reducers/dropzone-reducer'
+import { removeUploadedFileThunk, uploadFileThunk } from '../../reducers/dropzone-reducer/dropzone-thunks'
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import Randomstring from 'randomstring'
+import { FileAsset } from '../models/task'
+import FileItem from './tasks/file-item'
 
 const Container = styled(Box)(({ theme }) => ({
     minHeight: 140,
@@ -38,7 +40,7 @@ const MappedUploadedFiles = styled(Box)(({ theme }) => ({
     borderTop: `1px dashed`,
 }))
 
-const FileItem = styled(Box)(({ theme }) => ({
+const FileIte = styled(Box)(({ theme }) => ({
     position: 'relative',
     display: 'flex',
     // alignItems: 'flex-end',
@@ -75,7 +77,7 @@ export default function ReusableDropzone({ }: Props) {
             reader.onerror = () => console.log('file reading has failed')
             reader.onload = () => {
                 // Do whatever you want with the file contents
-                const base64:any = reader.result
+                const base64: any = reader.result
                 uploadFile(file.name, file.type.split('/')[1], base64)
             }
             reader.readAsDataURL(file)
@@ -84,15 +86,15 @@ export default function ReusableDropzone({ }: Props) {
     }, [])
 
 
-    function uploadFile(name: string, fileType: string, base64: string ) {
-        const item: DropzoneItem = {
+    function uploadFile(name: string, format: string, base64: string) {
+        const item: FileAsset = {
             publicId: Randomstring.generate(16),
             name,
-            fitleType: fileType,
+            format: format,
             status: 'uploading'
         }
         dispatch(dropzoneActions.setNewUpload(item))
-        dispatch(uploadFileThunk({ base64, publicId: item.publicId}))
+        dispatch(uploadFileThunk({ base64, publicId: item.publicId }))
     }
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
@@ -114,38 +116,18 @@ export default function ReusableDropzone({ }: Props) {
                     </StyledButton>
                 </DropzoneContainer>
 
-                {dropzoneList.length ? (
+                {dropzoneList?.length ? (
                     <MappedUploadedFiles
                         sx={{ borderColor: isDragActive ? colorScheme(_theme).dropzoneBorder : colorScheme(_theme).borderColor400 }}
                     >
                         {dropzoneList.map((item, index) => (
-                            <FileItem key={index} className='FileItem'>
-                                <Image>
-
-                                </Image>
-                                <Box sx={{ flex: 1 }}>
-                                    <Text sx={{
-                                        width: '200px',
-                                        lineHeight: 1.2, fontSize: '14px',
-                                        whiteSpace: 'nowrap',
-                                        overflowX: 'hidden',
-                                        textOverflow: 'ellipsis',
-                                        [_theme.breakpoints.down('sm')]: {
-                                            width: '235px',
-                                        }
-                                    }}>{item.name}</Text>
-                                    <Text sx={{ fontSize: '13px' }}>{item.fitleType}</Text>
-                                    <Box sx={{ display: 'flex', position: 'relative', width: '100%' }}>
-                                        <LinearProgress color='info' variant='indeterminate'
-                                            sx={{ flex: 1, mt: 1, visibility: item.status === 'uploading' ? 'visible' : 'hidden' }}
-                                        />
-                                    </Box>
-                                </Box>
-                                <ButtonIcon onClick={() => dispatch(dropzoneActions.delete(item.publicId))}>
-                                    <CloseOutlinedIcon />
-                                </ButtonIcon>
-                            </FileItem>
-
+                            <FileItem
+                                key={index}
+                                item={item}
+                                isLoading={item.status === 'uploading' || item.status === 'deleting'}
+                                buttonIcon={<CloseOutlinedIcon />}
+                                onClick={() => dispatch(removeUploadedFileThunk(item))}
+                            />
                         ))}
                     </MappedUploadedFiles>
                 ) : <></>}

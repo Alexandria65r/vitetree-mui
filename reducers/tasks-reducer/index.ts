@@ -4,12 +4,16 @@ export type TaskNetworkStatus =
     'create-task' |
     'create-task-success' |
     'create-task-error' |
+    'update-task' |
+    'update-task-success' |
+    'update-task-error' |
     'fetch-tasks' |
     'fetch-tasks-success' |
     'fetch-tasks-error' |
     'fetch-task' |
     'fetch-task-success' |
-    'fetch-task-error' | ''
+    'fetch-task-error' | 
+    ''
 
 
 type TaskState = {

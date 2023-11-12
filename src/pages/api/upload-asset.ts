@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { v2 as cloudinary } from 'cloudinary';
-import { DropzoneItem } from '../../../reducers/dropzone-reducer';
 
 cloudinary.config({
     cloud_name: 'alexandriah65',
@@ -9,17 +8,25 @@ cloudinary.config({
 });
 
 export default async function UploadAsset(req: NextApiRequest, res: NextApiResponse) {
-    const file: { base64: string, publicId:string} = req.body
-    cloudinary.uploader.upload(file?.base64 ,
-        { public_id: file.publicId},
-        function (error, result) {
-            if (error) return res.json({ error: true, message:error })
-            console.log(result);
-            if (result) {
-                return res.json({
-                    success: true,
-                    result
-                })
-            }
-        });
+    const file: { base64: string, publicId: string } = req.body
+
+    try {
+        cloudinary.uploader.upload(file?.base64,
+            { public_id: file.publicId, upload_preset: 'image_preset' },
+            function (error, result) {
+                if (error) return res.json({ error: true, errorInfo: error })
+                console.log(result);
+                if (result) {
+                    return res.json({
+                        success: true,
+                        result
+                    })
+                }
+            });
+
+    } catch (error) {
+        return res.json({ error: true, errorInfo: error })
+    }
+
+
 }

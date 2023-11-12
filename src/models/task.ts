@@ -14,26 +14,45 @@ export const UserInfoModel = {
     name: ''
 }
 export type TaskStatus =
+    'submitted' |
+    'in review' |
     'completed' |
     'working on it' |
     'all' |
     'just hired' |
     'preparation' |
-    'task closed' | ''
+    'task closed' |
+    'task open' | ''
 
+
+
+export type FileAsset = {
+    name: string;
+    publicId: string;
+    downloadURL?: string;
+    format: string;
+    status?: 'uploading' | 'uploaded' | 'deleting' | 'deleted' | 'downloading' | 'downloaded' | ''
+}
 
 export interface Task {
     _id: string
     studentInfo: UserInfo,
     tutorInfo: UserInfo,
     service: TutorService
-    subjects:string[]
-    topic:string,
+    subjects: string[]
+    topic: string,
     dueDate: string
     vidAsset?: Asset,
     imageAsset?: Asset,
     status: TaskStatus
-    createdAt?: string
+    createdAt?: string;
+    delivered?: {
+        files: FileAsset[],
+        createdAt: string
+    },
+
+    save?: () => {}
+
 }
 
 export const TaskModel: Task = {
@@ -41,18 +60,25 @@ export const TaskModel: Task = {
     studentInfo: UserInfoModel,
     tutorInfo: UserInfoModel,
     service: { price: '', label: '' },
-    subjects:[],
-    topic:'',
+    subjects: [],
+    topic: '',
     dueDate: '',
     vidAsset: { publicId: '', secureURL: '' },
     imageAsset: { publicId: '', secureURL: '' },
-    status: ''
+    status: '',
+    delivered: {
+        files: [],
+        createdAt: ''
+    }
 }
 
-export const taskStatuses: TaskStatus[] = [
-    "just hired",
+export const studentTaskStatuses: TaskStatus[] = [
+    "working on it",
+    "in review",
+    "task closed",
+]
+export const tutorTaskStatuses: TaskStatus[] = [
     "preparation",
     "working on it",
     "completed",
-    "task closed"
 ]

@@ -173,6 +173,12 @@ export const TaskSchema = mongoose.model(
     vidAsset: { type: Object, required: false },
     imageAsset: { type: Object, required: false },
     status: String,
+    delivered: {
+      files: Array,
+      createdAt: String,
+    },
+    createdAt: { type: Date, default: Date.now },
+    updatedAt: { type: Date, default: Date.now },
   })
 );
 export const TaskUpdateSchema = mongoose.model(
@@ -188,7 +194,7 @@ export const TaskUpdateSchema = mongoose.model(
     },
     data: Array,
     taskStatus: String,
-    createdAt: String,
+    createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
   })
 );

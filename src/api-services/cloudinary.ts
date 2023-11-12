@@ -1,6 +1,6 @@
 
 import axios from "axios";
-import { DropzoneItem } from "../../reducers/dropzone-reducer";
+
 
 
 export default class CloudinaryService {

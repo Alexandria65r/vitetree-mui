@@ -25,6 +25,7 @@
     "format-money-js": "^1.6.3",
     "is-url": "^1.2.4",
     "js-cookie": "^3.0.1",
+    "js-file-download": "^0.4.12",
     "jsonwebtoken": "^9.0.0",
     "material-ui-popup-state": "^5.0.8",
     "moment": "^2.29.4",
