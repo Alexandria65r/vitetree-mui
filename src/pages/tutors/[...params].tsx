@@ -31,8 +31,10 @@ const Container = styled(Box)(({ theme }) => ({
     alignItems: 'start',
     justifyContent: 'space-between',
     [theme.breakpoints.down("sm")]: {
-
         margin: '10px auto',
+    },
+    [theme.breakpoints.up("xl")]: {
+        maxWidth: '65%',
     }
 }))
 

@@ -58,7 +58,12 @@ export default function FileItem({ item, isLoading, buttonIcon, onClick, hideBut
       <Image>
 
       </Image>
-      <Box sx={{ flexBasis: '65%', }}>
+      <Box sx={(theme)=>({
+        flexBasis: '65%',
+        [theme.breakpoints.down('sm')]:{
+          flexBasis: '50%',
+        }
+      })}>
         <Text sx={{
           width: '200px',
           lineHeight: 1.2, fontSize: '14px',

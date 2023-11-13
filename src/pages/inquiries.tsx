@@ -111,6 +111,9 @@ export default function Notifications({ }: Props) {
                 [theme.breakpoints.down('sm')]: {
                     display: 'block',
                     width:'97%'
+                },
+                [theme.breakpoints.up('xl')]: {
+                    width: !isSidebarOpen ? '80%' : '60%',
                 }
             })}>
                 <AsideLeft sx={(theme) => ({

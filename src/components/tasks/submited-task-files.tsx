@@ -39,6 +39,24 @@ const Text = styled(Typography)(({ theme }) => ({
 
 }))
 
+const RateTutor = styled(Box)(({ theme }) => ({
+
+}))
+
+const RatingItem = styled(Box)(({ theme }) => ({
+  padding: 4,
+  cursor: 'pointer',
+  borderRadius: '29px',
+  transition: '0.3s all',
+  whiteSpace: 'nowrap',
+  border: `1px solid ${colorScheme(theme).borderColor}`,
+  '&:hover': {
+    color: colors.orange[500],
+    borderColor: colors.orange[500],
+    transform: 'scale(1.1)',
+    fontWeight: 500,
+  }
+}))
 
 type Props = {}
 
@@ -46,12 +64,14 @@ export default function SubmitedTaskFiles({ }: Props) {
   const _theme = useTheme()
   const dispatch = useAppDispatch()
   const task = useAppSelector((state) => state.TaskReducer.task)
+  const ratings = ['🙂Happy', '😍 Very happy', '☹️ Unhappy']
   return (
     <Container>
 
       <MappedUploadedFiles>
         {task.delivered?.files.map((item, index) => (
           <FileItem
+            key={index}
             item={item}
             isLoading={item.status === 'downloading'}
             buttonIcon={<DownloadOutlinedIcon />}
@@ -59,6 +79,20 @@ export default function SubmitedTaskFiles({ }: Props) {
           />
         ))}
       </MappedUploadedFiles>
+
+      <RateTutor>
+        <Box sx={(theme) => ({ p: 1, borderBottom: `1px solid ${colorScheme(theme).borderColor}` })}>
+          <Text sx={{ fontWeight: 500, fontSize: '16px', lineHeight: '1.2' }}>Describe your satisfaction by the service offered.</Text>
+        </Box>
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, py: 2 }}>
+          {ratings.map((item) => (
+            <RatingItem key={item}
+              sx={(theme) => ({})}>
+              <Text> {item}</Text>
+            </RatingItem>
+          ))}
+        </Box>
+      </RateTutor>
     </Container>
   )
 }

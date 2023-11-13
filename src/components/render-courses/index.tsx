@@ -16,6 +16,9 @@ const Container = styled(Box)(({ theme }) => ({
         gap: 10,
         gridTemplateColumns: '1fr',
     },
+    [theme.breakpoints.up('xl')]: {
+        gridTemplateColumns: 'repeat(5,1fr)',
+    },
 }))
 
 
