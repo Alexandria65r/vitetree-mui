@@ -41,6 +41,10 @@ export const ModalContainer = styled(Box)(({ theme }) => ({
         top: 'unset',
         bottom: 0,
         borderTopLeftRadius: 0,
+    },
+    [theme.breakpoints.up("xl")]: {
+        width: '60%',
+
     }
 }))
 

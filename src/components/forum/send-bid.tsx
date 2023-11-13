@@ -17,7 +17,11 @@ const Container = styled(Box)(({ theme }) => ({
         width: '97%',
         margin: '30px auto',
         display: 'block'
-    }
+    },
+    // [theme.breakpoints.up("xl")]: {
+    //     width: '67%',
+       
+    // }
 }))
 const TutorColumn = styled(Box)(({ theme }) => ({
     flexBasis: '45%',

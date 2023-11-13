@@ -102,7 +102,7 @@ export default function SubmitedTaskFiles({ }: Props) {
         <Box sx={(theme) => ({ p: 1, borderBottom: `1px solid ${colorScheme(theme).borderColor}` })}>
           <Text sx={{ fontWeight: 500, fontSize: '16px', lineHeight: '1.2' }}>Describe your satisfaction by the service delivered to you.</Text>
         </Box>
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, py: 2 }}>
+        <Box sx={{ display: 'flex',justifyContent:'center', flexWrap: 'wrap', gap: 1, py: 2 }}>
           {ratings.map((item) => (
             <RatingItem key={item}
               onClick={() => setRating({...rating, name:item})}
@@ -111,8 +111,8 @@ export default function SubmitedTaskFiles({ }: Props) {
             </RatingItem>
           ))}
         </Box>
-        {rating && (
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
+        {rating.name ? (
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent:'center', alignItems: 'center' }}>
             <Text sx={{ flexBasis: '100%', fontSize: 13, fontWeight: 600 }}>Description</Text>
             <Box sx={{ flex: 1 }}>
               <Textarea
@@ -131,7 +131,7 @@ export default function SubmitedTaskFiles({ }: Props) {
               <SendOutlinedIcon />
             </ButtonIcon>
           </Box>
-        )}
+        ):<></>}
 
       </RateTutor>
     </Container>

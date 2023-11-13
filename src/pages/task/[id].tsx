@@ -94,7 +94,7 @@ export default function Task({ }: Props) {
 
                 [_theme.breakpoints.up("xl")]: {
                   
-                    width: !isSidebarOpen ? '65%' : '70%',
+                    width: !isSidebarOpen ? '65%' : '60%',
                 },
                 [_theme.breakpoints.down("sm")]: {
                     width: '97%',
