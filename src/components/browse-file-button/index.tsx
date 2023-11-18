@@ -18,7 +18,7 @@ type Props = {
     children: any
     mode?: 'create' | 'update'
     disabled: boolean
-    loading: boolean
+    loading: 'removing...'|'uploading...'|''
     removeFile: () => void
     getBlob: (blob: string | ArrayBuffer | null) => void
 }
@@ -50,8 +50,8 @@ export default function BrowseFileButton({ children, mode, getBlob, disabled, lo
             <BrowseButton
                 onClick={removeFile}
                 sx={{
-                    backgroundColor: colors.red[500],
-                    borderBottom:`4px solid ${colors.red[400]}`,
+                    backgroundColor: colors.teal[500],
+                    borderBottom:`4px solid ${colors.teal[400]}`,
                     position: 'absolute',
                     right: 10,
                     bottom: 10
@@ -61,7 +61,7 @@ export default function BrowseFileButton({ children, mode, getBlob, disabled, lo
                     size={16}
                     sx={{ color: '#fff', mr: 1 }}
                 />) : <DeleteOutlineIcon fontSize='small' />}
-                {loading ? ' Removing...' : mode === 'update' ? 'Change' : ' Remove'}
+                {loading ? loading : mode === 'update' ? 'Change' : ' Remove'}
             </BrowseButton>
             <input type='file' onChange={fileOnChange} ref={fileRef} hidden />
         </>) : (<>

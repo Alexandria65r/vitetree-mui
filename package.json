@@ -40,6 +40,7 @@
     "react-icons": "^4.8.0",
     "react-loading-skeleton": "^3.3.1",
     "react-redux": "^7.2.9",
+    "react-web-share": "^2.0.2",
     "sass": "^1.62.1",
     "slate": "^0.90.0",
     "slate-history": "^0.86.0",

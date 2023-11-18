@@ -87,7 +87,7 @@ export default function UploadCourseForm({ mode, submitHandler }: Props) {
     const isErr = useAppSelector((state) => state.TestReducer.isErr)
 
     const course = useAppSelector((state) => state.CourseReducer.video)
-    const [videoIsLoading, setVideoLoading] = useState<boolean>(false)
+    const [videoIsLoading, setVideoLoading] = useState<'removing...' | 'uploading...' | ''>('')
 
 
     let newSections: Section[] = [...newTest.sections]
@@ -116,11 +116,11 @@ export default function UploadCourseForm({ mode, submitHandler }: Props) {
 
 
     async function getVideoBlob(base64: string | ArrayBuffer | null) {
-        setVideoLoading(true)
+        setVideoLoading('uploading...')
         const response = await UploadAPI.uploadFile({ base64, resource_type: 'video', preset: 'video_preset' })
         console.log(response)
         if (response.secure_url) {
-            setVideoLoading(false)
+            setVideoLoading('')
             dispatch(courseActions.setVideoAssets({
                 publicId: response.public_id,
                 secureURL: response.secure_url
@@ -129,11 +129,11 @@ export default function UploadCourseForm({ mode, submitHandler }: Props) {
     }
 
     async function removeFile() {
-        setVideoLoading(true)
+        setVideoLoading('removing...')
         const { data } = await UploadAPI.DeleteAsset('video', course.imageAsset.publicId)
         console.log(data)
         if (data.success) {
-            setVideoLoading(false)
+            setVideoLoading('')
             dispatch(courseActions.setVideoAssets({
                 publicId: '',
                 secureURL: ''

@@ -3,19 +3,22 @@ import Layout from '../../components/layout'
 import { Box, Typography, colors, styled } from '@mui/material'
 import { Avatar, ButtonIcon, StyledButton } from '../../reusable/styles'
 import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined';
-import { colorScheme } from '../../theme';
+import { ThemedText, colorScheme } from '../../theme';
 import { Router, useRouter } from 'next/router';
 import CourseAPI from '../../api-services/course';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { courseActions } from '../../../reducers/course-reducer';
 import { CSS_PROPERTIES } from '../../reusable';
 import BuyCourseButton from '../../components/menus/buy-course-button';
+import RenderLectures from './render-lectures';
 
 const Container = styled(Box)(({ theme }) => ({
     maxWidth: '95%',
     margin: '20px auto',
     display: 'flex',
+    gap: 20,
     [theme.breakpoints.down('sm')]: {
+        gap: 10,
         maxWidth: '100%',
         margin: '0px auto',
         flexWrap: 'wrap'
@@ -145,9 +148,8 @@ export default function CoursePreview({ }: Props) {
                     </CourseInfo>
                 </MainColumn>
                 <RelatedColumn>
-                    <Typography sx={{ m: 0, lineHeight: 1.2, fontSize: 18, fontWeight: 500 }}>
-                        More similar courses
-                    </Typography>
+                    
+                    <RenderLectures />
                 </RelatedColumn>
             </Container>
         </Layout>

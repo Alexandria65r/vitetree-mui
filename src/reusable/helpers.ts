@@ -26,7 +26,23 @@ export const questionChoices: any = {
     }
 }
 
+export function ChannelInitials(name: string) {
+    let initials: string = "";
+    if (name) {
+        const splitedNames = name.split(" ");
+        const len = splitedNames.length;
+        const first_name = splitedNames[0];
+        const last_name = splitedNames[len - 1];
 
+        if (splitedNames.length) {
+            initials = `${first_name.slice(0, 1)}${last_name.slice(0, 1)}`;
+        } else {
+            initials = `${first_name.slice(0, 1)}`;
+        }
+
+        return initials;
+    }
+}
 
 export function normalizedDate(createdAt: string) {
     if (moment(createdAt).fromNow().includes("month ago")) {

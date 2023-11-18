@@ -93,6 +93,9 @@ export default function Layout({ children }: Props) {
                         flexBasis: isSidebarOpen ? '5%' : '20%',
                         [theme.breakpoints.down('sm')]: {
                             display: 'none'
+                        },
+                        [theme.breakpoints.up('xl')]: {
+                            flexBasis: isSidebarOpen ? '5%' : '15%',
                         }
                     }}>
 
@@ -101,7 +104,7 @@ export default function Layout({ children }: Props) {
                 </Box>
 
                 <Box
-                    sx={{ flex: 1, transition: '0.3s all' }}
+                    sx={{ flexBasis: isSidebarOpen ? '95%' : '90%', transition: '0.3s all' }}
                     className="sideBarAnimated">
                     {children}
                 </Box>

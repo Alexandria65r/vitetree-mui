@@ -52,6 +52,7 @@ const TestFormContainer = styled(Box)(({ theme }) => ({
     boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
     [theme.breakpoints.down("sm")]: {
         marginLeft: 0,
+        flexBasis: '100%',
     }
 }))
 

@@ -25,6 +25,9 @@ const Container = styled(Box)(({ theme }) => ({
         alignItems: 'center',
         width: '95%',
         padding: 0,
+    },
+    [theme.breakpoints.up("xl")]: {
+        width: '60%',
     }
 }))
 const FlexContainer = styled(Box)(({ theme }) => ({
@@ -106,7 +109,7 @@ export default function NewTest({ }: Props) {
     const user = useAppSelector((state) => state.AuthReducer.user)
     const course = useAppSelector((state) => state.CourseReducer.video)
     const [thumbLocal, setThumbLocal] = useState<string | ArrayBuffer | null>('')
-    const [imageIsLoading, setImageIsLoading] = useState<boolean>(false)
+    const [imageIsLoading, setImageIsLoading] = useState<'removing...' | 'uploading...' | ''>('')
 
 
     useEffect(() => {
@@ -116,12 +119,12 @@ export default function NewTest({ }: Props) {
     }, [])
 
     async function getThumbnailBlob(base64: string | ArrayBuffer | null) {
-        setImageIsLoading(true)
+        setImageIsLoading('uploading...')
         setThumbLocal(base64)
         const response = await UploadAPI.uploadFile({ base64, resource_type: 'image', preset: 'image_preset' })
         console.log(response)
         if (response.secure_url) {
-            setImageIsLoading(false)
+            setImageIsLoading('')
             dispatch(courseActions.setImageAssets({
                 publicId: response.public_id,
                 secureURL: response.secure_url
@@ -130,11 +133,11 @@ export default function NewTest({ }: Props) {
     }
 
     async function removeFile() {
-        setImageIsLoading(true)
+        setImageIsLoading('removing...')
         const { data } = await UploadAPI.DeleteAsset('image', course.imageAsset.publicId)
         console.log(data)
         if (data.success) {
-            setImageIsLoading(false)
+            setImageIsLoading('')
             setThumbLocal('')
             dispatch(courseActions.setImageAssets({
                 publicId: '',
@@ -149,7 +152,11 @@ export default function NewTest({ }: Props) {
         const newCourse = await CourseAPI.create({
             ...course,
             type: 'introduction',
-            authorId: user._id ?? '',
+            author: {
+                authorId: user._id ?? '',
+                public_id: user.imageAsset?.publicId ?? '',
+                name: user.tutorInfo?.name ?? ''
+            },
             _id: courseId,
         })
 
