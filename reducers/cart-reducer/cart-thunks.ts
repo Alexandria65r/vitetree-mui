@@ -21,7 +21,7 @@ export const addToCartThunk = createAsyncThunk<void, VideoCourse, { state: AppSt
             link: `/course/${product._id}`,
             productInfo: {
                 id: product._id,
-                authorId: product.authorId,
+                authorId: product.author.authorId,
                 name: 'FreeMan'
             },
             imageAsset: product.imageAsset
