@@ -102,7 +102,7 @@ export default function ReusableDropzone({ }: Props) {
     return (
         <Fragment>
             <Container
-                sx={{ borderColor: isDragActive ? colorScheme(_theme).dropzoneBorder : colorScheme(_theme).borderColor400 }}>
+                sx={{ borderColor: isDragActive ? colorScheme(_theme).quaternay : colorScheme(_theme).grayToSecondaryColor }}>
 
                 <DropzoneContainer {...getRootProps()}>
                     <input {...getInputProps()} />
@@ -118,7 +118,7 @@ export default function ReusableDropzone({ }: Props) {
 
                 {dropzoneList?.length ? (
                     <MappedUploadedFiles
-                        sx={{ borderColor: isDragActive ? colorScheme(_theme).dropzoneBorder : colorScheme(_theme).borderColor400 }}
+                        sx={{ borderColor: isDragActive ? colorScheme(_theme).quaternay : colorScheme(_theme).grayToSecondaryColor }}
                     >
                         {dropzoneList.map((item, index) => (
                             <FileItem
