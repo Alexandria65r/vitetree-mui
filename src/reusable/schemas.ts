@@ -90,7 +90,11 @@ export const VideoCourseSchema: Types.VideoCourse = {
     price: '',
     title: '',
     type: '',
-    authorId: '',
+    author: {
+        authorId: '',
+        public_id: "",
+        name: ""
+    },
     vidAsset: {
         publicId: '',
         secureURL: ''
@@ -98,8 +102,8 @@ export const VideoCourseSchema: Types.VideoCourse = {
     imageAsset: {
         publicId: '',
         secureURL: ''
-    }
-
+    },
+    createdAt: ""
 }
 
 
