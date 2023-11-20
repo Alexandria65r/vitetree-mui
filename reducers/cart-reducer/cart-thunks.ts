@@ -17,7 +17,7 @@ export const addToCartThunk = createAsyncThunk<void, VideoCourse, { state: AppSt
             _id: cartId,
             title: product.title,
             owner,
-            price: product.price,
+            price: product.price ?? '',
             link: `/course/${product._id}`,
             productInfo: {
                 id: product._id,
@@ -80,7 +80,7 @@ export const deleteCartItemThunk = createAsyncThunk<void, string, { state: AppSt
 
 
 export const clearCartThunk = createAsyncThunk<void, undefined, { state: AppState }>
-    ('cartSlice/clearCartThunk', async (_,thunkAPI) => {
+    ('cartSlice/clearCartThunk', async (_, thunkAPI) => {
         const dispatch = thunkAPI.dispatch
         const { AuthReducer: { user: { _id: owner } } } = thunkAPI.getState()
         try {
