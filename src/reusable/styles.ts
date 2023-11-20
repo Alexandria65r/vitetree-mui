@@ -36,7 +36,7 @@ export const ButtonIcon = styled(ButtonBase)(({ theme }) => ({
     borderRadius: '50%',
     color: colorScheme(theme).TextColor,
     transition: '0.3s all',
-    //backgroundColor: colorScheme(theme).buttonIconBGColor,
+    //backgroundColor: colorScheme(theme).grayToSecondaryColor,
     backgroundColor: 'transparent',
     '&:hover': {
         backgroundColor: colorScheme(theme).grayToSecondaryColor

@@ -330,7 +330,7 @@ export default function NewTest({ }: Props) {
                             height: 40,
                             width: 40,
                             '&:hover': {
-                                backgroundColor: colorScheme(theme).buttonIconBGColor
+                                backgroundColor: colorScheme(theme).grayToSecondaryColor
                             }
                         })}>
                         <ModeEditOutlineOutlinedIcon fontSize='small' />
