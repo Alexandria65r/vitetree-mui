@@ -20,11 +20,11 @@ export const addToWishListThunk = createAsyncThunk<void, VideoCourse, { state: A
             _id: cartId,
             title: product.title,
             owner,
-            price: product.price,
+            price: product.price??'',
             link: `/course/${product._id}`,
             productInfo: {
                 id: product._id,
-                authorId: product.authorId,
+                authorId: product.author.authorId,
                 name: 'FreeMan'
             },
             imageAsset: product.imageAsset
