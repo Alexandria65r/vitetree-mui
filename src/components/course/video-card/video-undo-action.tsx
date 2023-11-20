@@ -1,10 +1,9 @@
+import { Box, styled } from '@mui/material'
 import React from 'react'
-import { useAppDispatch } from '../../store/hooks'
-import { undoActionThunk } from '../../reducers/video-reducer/video-thunks'
-import { videoUpload } from '../../reusable/interfaces'
-import { Box, colors, styled } from '@mui/material'
-import ReusableButton from '../ui/reusable-button'
-import { ThemedText, colorScheme } from '../../theme'
+import { ThemedText, colorScheme } from '../../../theme'
+import { VideoCourse } from '../../../reusable/interfaces'
+import { useAppDispatch } from '../../../../store/hooks'
+
 
 const Container = styled(Box)(({ theme }) => ({
     width: '100%',
@@ -25,11 +24,15 @@ const Container = styled(Box)(({ theme }) => ({
 type Props = {
     accent_color: string
     videoIndex: number
-    video: videoUpload
+    video: VideoCourse
 }
 
 export default function VideoUndoAction({ accent_color, videoIndex, video }: Props) {
     const dispatch = useAppDispatch()
+    function undoActionThunk(videoIndex: number): any {
+        throw new Error('Function not implemented.')
+    }
+
     return (
         <Container
             style={{
@@ -50,15 +53,16 @@ export default function VideoUndoAction({ accent_color, videoIndex, video }: Pro
                         }
                     })}
                 >
-                    {video?.user_actions_type === "delete_video"
+                    {/* {video?.user_actions_type === "delete_video"
                         ? " Video was deleted"
-                        : "You won't see this video again"}
+                        : "You won't see this video again"} */}
+                        lol
                 </ThemedText>
-                <ReusableButton
+                {/* <ReusableButton
                     onClick={() => dispatch(undoActionThunk(videoIndex))}
                     value={video?.user_actions_type === "delete_video" ? "Undo delete" : "Undo hide"}
                     sx={{ backgroundColor: colors.pink[500], color: '#fff' }}
-                />
+                /> */}
             </Box>
         </Container>
     )
