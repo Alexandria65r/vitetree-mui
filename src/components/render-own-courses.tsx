@@ -118,6 +118,9 @@ export default function RenderOwnCourses({ }: Props) {
 
     useEffect(() => {
         fetchDashboardData()
+        return () => {
+            dispatch(courseActions.setCourses([]))
+        }
     }, [router.pathname, user, dispatch])
 
     return (

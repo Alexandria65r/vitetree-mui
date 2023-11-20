@@ -18,7 +18,7 @@ export const Hero = styled(Box)(({ theme }) => ({
     borderRadius: CSS_PROPERTIES.radius5,
     borderBottomLeftRadius: 25,
     borderBottomRightRadius: 25,
-    backgroundColor: colorScheme(theme).secondaryColor,
+    backgroundColor: colorScheme(theme).grayToSecondaryColor,
     [theme.breakpoints.down('sm')]: {
         marginTop: 0,
         height: 180,
@@ -39,7 +39,7 @@ export const ButtonIcon = styled(ButtonBase)(({ theme }) => ({
     //backgroundColor: colorScheme(theme).buttonIconBGColor,
     backgroundColor: 'transparent',
     '&:hover': {
-        backgroundColor: colorScheme(theme).buttonIconBGColor
+        backgroundColor: colorScheme(theme).grayToSecondaryColor
     }
 }))
 
@@ -91,6 +91,9 @@ export const FormContainer = styled(Box)(({ theme }) => ({
     boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
     [theme.breakpoints.down("sm")]: {
         flexBasis: '96%'
+    },
+    [theme.breakpoints.up("xl")]: {
+        flexBasis: '25%',
     }
 }))
 

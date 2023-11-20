@@ -53,11 +53,12 @@ export default function BrowseFileButton({ children, mode, getBlob, disabled, lo
                     backgroundColor: colors.teal[500],
                     borderBottom:`4px solid ${colors.teal[400]}`,
                     position: 'absolute',
-                    right: 10,
-                    bottom: 10
+                    right: '10px',
+                    bottom: '10px',
+                    zIndex:230
                 }}
             >
-                {loading ? (<CircularProgress
+                {loading==='removing...'? (<CircularProgress
                     size={16}
                     sx={{ color: '#fff', mr: 1 }}
                 />) : <DeleteOutlineIcon fontSize='small' />}
@@ -66,7 +67,7 @@ export default function BrowseFileButton({ children, mode, getBlob, disabled, lo
             <input type='file' onChange={fileOnChange} ref={fileRef} hidden />
         </>) : (<>
             <BrowseButton onClick={browseFiles}>
-                {loading ? (<CircularProgress size={20} sx={{ color: '#fff' }} />) : children}
+                {loading==='uploading...' ? (<CircularProgress size={20} sx={{ color: '#fff' }} />) : children}
             </BrowseButton>
             <input type='file' onChange={fileOnChange} ref={fileRef} hidden />
         </>)}

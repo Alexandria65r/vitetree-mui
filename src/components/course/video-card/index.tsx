@@ -12,8 +12,8 @@ import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import { normalizedDate } from '../../../reusable/helpers';
 import { colorScheme, ThemedText, useColorScheme } from '../../../theme';
 import { VideoCourse } from '../../../reusable/interfaces';
-
-
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import LockIcon from '@mui/icons-material/Lock';
 
 const VideoCardContainer = styled(Box)(({ theme }) => ({
     margin: 0,
@@ -59,17 +59,18 @@ const VideoThumbnail = styled(Box)(({ theme }) => ({
 
 
 type Props = {
+    isPurchased?: boolean
     isGrid?: boolean
     video: VideoCourse
     videoIndex: number
-   // parentComponent: RenderVideoParentComponent
+    // parentComponent: RenderVideoParentComponent
 }
 
-function VideoCard({ isGrid, video, videoIndex }: Props) {
+function VideoCard({ isGrid, video, videoIndex, isPurchased }: Props) {
     const dispatch = useAppDispatch()
     const isMobile = useMediaQuery('(max-width:600px)')
     const _theme = useTheme()
- 
+
     return (
         <VideoCardContainer
             id="video-card"
@@ -79,19 +80,25 @@ function VideoCard({ isGrid, video, videoIndex }: Props) {
                 display: isGrid ? 'grid' : '',
                 gridTemplateColumns: '1fr 1fr'
             }}>
-{/* 
+            {/* 
             {video?.user_actions_type === "delete_video" ||
                 video?.user_actions_type === "hide_video" ? (
                 <VideoUndoAction videoIndex={videoIndex} video={video} />
             ) : (
                 ""
             )} */}
+            {!isPurchased && video.type !== 'introduction' ? (
+                <Box sx={{ position: 'absolute', zIndex: 10, left: '5px', bottom: '15px' }}>
+                    <LockIcon sx={{ fontSize: 25, color: '#fff' }} />
+                </Box>
+            ) : <></>}
 
-            <Link href={`/course/${video._id}`}>
+
+            <Link href={`/course-detail/${isPurchased ? video._id : video.courseId}`}>
                 <Image
                     cloudName="alexandriah65"
                     publicId={video?.imageAsset.publicId}
-                    style={{ width: '100%', borderRadius: isMobile ? 10 : '10px',border:`1px solid ${colorScheme(_theme).greyToTertiary}`, }}
+                    style={{ width: '100%', borderRadius: isMobile ? 10 : '10px', border: `1px solid ${colorScheme(_theme).greyToTertiary}`, }}
                 >
                     <Transformation width="686" height="386" crop="thumb" />
                     <Transformation fetchFormat="webp" />
@@ -104,21 +111,21 @@ function VideoCard({ isGrid, video, videoIndex }: Props) {
                         publicId={video.imageAsset.publicId}
                         name={video.author?.name}
                         classes={{}}
-                                           />
+                    />
                 ) : !isGrid && isMobile ? (
                     <ChannelAvatar
                         href={''}
-                         publicId={video.imageAsset.publicId}
+                        publicId={video.imageAsset.publicId}
                         name={video.author.name}
                         classes={{}}
-                        />
+                    />
                 ) : !isGrid && !isMobile ? (
                     <ChannelAvatar
                         href={''}
-                         publicId={video.imageAsset.publicId}
+                        publicId={video.imageAsset.publicId}
                         name={video.author?.name}
                         classes={{}}
-                        />
+                    />
                 )
                     : <></>
                 }
@@ -156,7 +163,7 @@ function VideoCard({ isGrid, video, videoIndex }: Props) {
                             </ThemedText>
                         </TitleCol>
                         <ChannelNameCol>
-                            <ThemedText ml={1} fontSize={14} sx={{ color:  'GrayText' }}>
+                            <ThemedText ml={1} fontSize={14} sx={{ color: 'GrayText' }}>
                                 FreeMan
                             </ThemedText>
                             <BsCheckCircleFill size={14} style={{ marginLeft: 5, color: colors.green[400] }} />
@@ -166,7 +173,7 @@ function VideoCard({ isGrid, video, videoIndex }: Props) {
                                 ml: .9,
                                 mt: -.4,
                                 fontSize: 7,
-                                color:  'GrayText',
+                                color: 'GrayText',
                                 display: 'none',
                                 [_theme.breakpoints.down('sm')]: {
                                     display: 'flex',
@@ -179,11 +186,11 @@ function VideoCard({ isGrid, video, videoIndex }: Props) {
                                 flex: isMobile && !isGrid ? 1 : 'unset'
                             }
                         }}>
-                            <ThemedText ml={1} fontSize={14} sx={{ color:  'GrayText' }}>
-                               10 Views
+                            <ThemedText ml={1} fontSize={14} sx={{ color: 'GrayText' }}>
+                                10 Views
                             </ThemedText>
                             <FiberManualRecordIcon sx={{ ml: .9, mt: -.4, fontSize: 7, color: 'GrayText' }} />
-                            <ThemedText ml={1} sx={{ color:  'GrayText' }} fontSize={14}>
+                            <ThemedText ml={1} sx={{ color: 'GrayText' }} fontSize={14}>
                                 {normalizedDate(video?.createdAt)}{" "}
                                 {normalizedDate(video?.createdAt).includes("min") ? (
                                     ""
@@ -194,7 +201,7 @@ function VideoCard({ isGrid, video, videoIndex }: Props) {
                         </Box>
                     </Box>
                 </Link>
-                <VideoPopperMenu videoId={video._id} video={video} />
+               <VideoPopperMenu videoId={video._id} video={video} />
             </VideoCardBody>
         </VideoCardContainer>
 

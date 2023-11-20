@@ -81,7 +81,7 @@ const RelatedColumn = styled(Box)(({ theme }) => ({
     [theme.breakpoints.down('sm')]: {
         marginTop: 15,
         flexBasis: '100%',
-        borderTop: `1px solid ${colorScheme(theme).borderColor}`
+        // borderTop: `1px solid ${colorScheme(theme).borderColor}`
     }
 }))
 
@@ -92,8 +92,9 @@ export default function CoursePreview({ }: Props) {
     const id: any = router.query.id || []
     const dispatch = useAppDispatch()
     const course = useAppSelector((state) => state.CourseReducer.video)
+    const user = useAppSelector((state) => state.AuthReducer.user)
     const fetchCourse = useCallback(async () => {
-        const courseResponse = await CourseAPI.fetchCourse(id, 'introduction')
+        const courseResponse = await CourseAPI.fetchCourse(id)
         if (courseResponse) {
             dispatch(courseActions.setVideo(courseResponse))
         }
@@ -105,7 +106,7 @@ export default function CoursePreview({ }: Props) {
     }, [id, dispatch, fetchCourse])
 
 
-
+    const isPurchased = user.courses?.includes(course.courseId ?? '')
 
 
     return (
@@ -148,8 +149,7 @@ export default function CoursePreview({ }: Props) {
                     </CourseInfo>
                 </MainColumn>
                 <RelatedColumn>
-                    
-                    <RenderLectures />
+                    <RenderLectures mainCourseId={course?.courseId ?? ''} activeId={id} isPurchased={isPurchased ?? false} />
                 </RelatedColumn>
             </Container>
         </Layout>

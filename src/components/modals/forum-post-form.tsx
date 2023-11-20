@@ -129,9 +129,9 @@ export default function ForumPostFormModal() {
                                     px: 2,
                                     fontWeight: 500,
                                     borderBottom: 4,
-                                    backgroundColor: colorScheme(theme).buttonIconBGColor,
+                                    backgroundColor: colorScheme(theme).grayToSecondaryColor,
                                     color: colorScheme(theme).TextColor,
-                                    borderColor: colorScheme(theme).buttonIconBGColor
+                                    borderColor: colorScheme(theme).grayToSecondaryColor
                                 })}>
                                     <AttachFileIcon sx={{ transform: 'rotate(18deg)' }} />
                                     Attachment

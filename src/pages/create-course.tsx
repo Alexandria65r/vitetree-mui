@@ -104,17 +104,15 @@ type Props = {}
 export default function NewTest({ }: Props) {
     const router = useRouter()
     const dispatch = useAppDispatch()
-    const testData = useAppSelector((state) => state.TestReducer.newTest)
-    const isErr = useAppSelector((state) => state.TestReducer.isErr)
     const user = useAppSelector((state) => state.AuthReducer.user)
-    const course = useAppSelector((state) => state.CourseReducer.video)
+    const course = useAppSelector((state) => state.CourseReducer.newVideo)
     const [thumbLocal, setThumbLocal] = useState<string | ArrayBuffer | null>('')
     const [imageIsLoading, setImageIsLoading] = useState<'removing...' | 'uploading...' | ''>('')
 
 
     useEffect(() => {
         return () => {
-            dispatch(courseActions.setVideo(VideoCourseSchema))
+            dispatch(courseActions.setNewVideo(VideoCourseSchema))
         }
     }, [])
 
@@ -151,18 +149,19 @@ export default function NewTest({ }: Props) {
         const courseId = randomstring.generate(19)
         const newCourse = await CourseAPI.create({
             ...course,
+            _id: courseId,
+            courseId: courseId,
             type: 'introduction',
             author: {
                 authorId: user._id ?? '',
                 public_id: user.imageAsset?.publicId ?? '',
                 name: user.tutorInfo?.name ?? ''
             },
-            _id: courseId,
         })
 
         if (newCourse) {
             console.log(newCourse)
-            router.push(`/update-course/${newCourse._id}`)
+            router.push(`/course/${newCourse._id}/add-lectures`)
         }
     }
 
@@ -202,7 +201,6 @@ export default function NewTest({ }: Props) {
 
                     </TestInfoCol>
                     <TestFormContainer>
-
                         <UploadCourseForm mode="create" submitHandler={create} />
                     </TestFormContainer>
                 </FlexContainer>

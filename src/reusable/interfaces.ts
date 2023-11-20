@@ -200,7 +200,7 @@ export type VideoCourse = {
         public_id: string
         name: string
     }
-    price: '',
+    price?: string,
     vidAsset: Asset,
     imageAsset: Asset,
     createdAt: string

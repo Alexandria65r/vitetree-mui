@@ -18,10 +18,16 @@ export default class CourseAPI {
         return axios.delete(`/api/course/delete/${id}`)
     }
 
-    static async fetchCourse(id: string, type: 'introduction' | 'course') {
-        const { data } = await axios.get(`/api/course/fetch-course/${id}/${type}`)
+    static async fetchCourse(id: string) {
+        const { data } = await axios.get(`/api/course/fetch-course/${id}`)
         if (data.success) {
             return data.course as VideoCourse
+        }
+    }
+    static async fetchCourseLectures(id: string) {
+        const { data } = await axios.get(`/api/course/fetch-course-lectures/${id}`)
+        if (data.success) {
+            return data.lectures as VideoCourse[]
         }
     }
 

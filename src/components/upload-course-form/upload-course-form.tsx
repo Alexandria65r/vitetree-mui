@@ -1,19 +1,17 @@
-import { Box, ButtonBase, MenuItem, Select, TextField, Typography, colors, styled } from '@mui/material'
+import { Box, CircularProgress, MenuItem, Select, TextField, Typography, colors, styled } from '@mui/material'
 import React, { useState } from 'react'
 import { CSS_PROPERTIES } from '../../reusable'
-import SelectWithCheckMarks from '../form-inputs/select-with-checkmarks'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
-import { testActions } from '../../../reducers/test-reducer'
-import { Section } from '../../reusable/interfaces'
+import { Section, VideoCourse } from '../../reusable/interfaces'
 import { StyledButton, Textarea } from '../../reusable/styles'
 import AddIcon from '@mui/icons-material/Add';
 import { colorScheme } from '../../theme'
 import BrowseFileButton from '../browse-file-button'
 import UploadAPI from '../../api-services/upload'
 import { courseActions } from '../../../reducers/course-reducer'
+import { useRouter } from 'next/router'
 
 const ChoicesContainer = styled(Box)(({ theme }) => ({
-    //marginLeft: 20,
     [theme.breakpoints.down('sm')]: {
         marginLeft: 0
     }
@@ -35,33 +33,26 @@ const FormControl = styled(Box)(() => ({
 }))
 
 
-
-
-// const StyledButton = styled(ButtonBase)(({ theme }) => ({
-//     textTransform: 'capitalize',
-//     //flexBasis: '20%',
-//     justifySelf: 'flex-end',
-//     fontWeight: 600,
-//     height: 50,
-//     color: '#fff',
-//     fontSize: 16,
-//     padding: '0 10px',
-//     borderRadius: CSS_PROPERTIES.radius5,
-//     backgroundColor: colors.teal[400],
-//     [theme.breakpoints.down("sm")]: {
-//         flexBasis: '25%',
-//     }
-// }))
-
+const BrowseFilesContainer = styled(Box)(({ theme }) => ({
+    display: 'flex', gap: 5,
+    [theme.breakpoints.down('sm')]: {
+        gap: 3
+    }
+}))
 const VideoContainer = styled(Box)(({ theme }) => ({
+    flex: 1,
     position: 'relative',
-    height: 220,
+    minHeight: 220,
     display: 'flex',
     flexWrap: 'wrap',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: CSS_PROPERTIES.radius5,
-    backgroundColor: colorScheme(theme).primaryColor
+    backgroundColor: colorScheme(theme).primaryColor,
+    [theme.breakpoints.down('sm')]: {
+        minHeight: 160,
+    }
+
 }))
 
 const Video = styled('video')(() => ({
@@ -74,25 +65,34 @@ const Video = styled('video')(() => ({
 }))
 
 
+const ThumbnailContainer = styled(Box)(({ theme }) => ({
+    flex: 1,
+    position: 'relative',
+    //height: 200,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: CSS_PROPERTIES.radius5,
+    backgroundColor: colorScheme(theme).primaryColor,
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
+    backgroundSize: 'cover'
+}))
 
 
 type Props = {
-    mode: 'create' | "update",
-    submitHandler: () => void
+    mode: 'create' | "update" | 'add-lectures' | '',
+    submitHandler: () => VideoCourse | any
 }
 
 export default function UploadCourseForm({ mode, submitHandler }: Props) {
+    const router = useRouter()
     const dispatch = useAppDispatch()
-    const newTest = useAppSelector((state) => state.TestReducer.newTest)
     const isErr = useAppSelector((state) => state.TestReducer.isErr)
-
-    const course = useAppSelector((state) => state.CourseReducer.video)
+    const course = useAppSelector((state) => state.CourseReducer.newVideo)
     const [videoIsLoading, setVideoLoading] = useState<'removing...' | 'uploading...' | ''>('')
-
-
-    let newSections: Section[] = [...newTest.sections]
-
-
+    const [thumbLocal, setThumbLocal] = useState<string | ArrayBuffer | null>('')
+    const [imageIsLoading, setImageIsLoading] = useState<'removing...' | 'uploading...' | ''>('')
 
     function handleOnChange({ target: { name, value } }: any) {
         dispatch(courseActions.setVideoProperties({
@@ -101,15 +101,17 @@ export default function UploadCourseForm({ mode, submitHandler }: Props) {
         }))
     }
 
-
-    function handleSubmit() {
+    async function handleSubmit() {
         if (!(course.title && course.description && course.imageAsset.secureURL && course.vidAsset.secureURL)) {
             console.log('rrr')
             dispatch(courseActions.setError(true))
             return true
         } else {
             dispatch(courseActions.setError(false))
-            submitHandler()
+            const course = await submitHandler()
+            if (course) {
+                setThumbLocal('')
+            }
             return false
         }
     }
@@ -128,63 +130,103 @@ export default function UploadCourseForm({ mode, submitHandler }: Props) {
         }
     }
 
-    async function removeFile() {
-        setVideoLoading('removing...')
-        const { data } = await UploadAPI.DeleteAsset('video', course.imageAsset.publicId)
-        console.log(data)
-        if (data.success) {
-            setVideoLoading('')
-            dispatch(courseActions.setVideoAssets({
-                publicId: '',
-                secureURL: ''
+
+    async function getThumbnailBlob(base64: string | ArrayBuffer | null) {
+        setImageIsLoading('uploading...')
+        setThumbLocal(base64)
+        const response = await UploadAPI.uploadFile({ base64, resource_type: 'image', preset: 'image_preset' })
+        console.log(response)
+        if (response.secure_url) {
+            setImageIsLoading('')
+            dispatch(courseActions.setImageAssets({
+                publicId: response.public_id,
+                secureURL: response.secure_url
             }))
         }
     }
 
 
 
+    async function removeFile(resource_type: 'video' | 'image') {
+
+        if (resource_type === 'image') {
+            setImageIsLoading('removing...')
+        } else {
+            setVideoLoading('removing...')
+        }
+
+        const id = resource_type === 'image' ? course.imageAsset.publicId : course.vidAsset.publicId
+        const { data } = await UploadAPI.DeleteAsset(resource_type, id)
+        console.log(data)
+        if (data.success) {
+            if (resource_type === 'image') {
+                setThumbLocal('')
+                setImageIsLoading('')
+                dispatch(courseActions.setImageAssets({
+                    publicId: '',
+                    secureURL: ''
+                }))
+            } else {
+                setVideoLoading('')
+                dispatch(courseActions.setVideoAssets({
+                    publicId: '',
+                    secureURL: ''
+                }))
+            }
+        }
+    }
+
     return (
         <FormContainer>
             <ChoicesContainer>
-                <VideoContainer>
-                    <Box sx={(theme) => ({
-                        position: 'relative',
-                        flexBasis: '60%',
-                        [theme.breakpoints.down("sm")]: {
-                            flexBasis: '90%',
-                        }
-                    })}>
-                        {!course.vidAsset.secureURL && (
-                            <Typography sx={{ flexBasis: '100%', textAlign: 'center', fontSize: 15, fontWeight: 500 }}>
-                                Upload video introduction to the course,where you explain
-                                what you will cover in this course and what the student will
-                                learn from it.
-                            </Typography>
+                <BrowseFilesContainer sx={{ display: course.vidAsset.secureURL ? 'flex' : 'flex' }}>
+                    <ThumbnailContainer
+                        sx={{ backgroundImage: `url(${thumbLocal || course?.imageAsset?.secureURL})` }} >
+                        <BrowseFileButton mode="update" removeFile={() => removeFile('image')}
+                            disabled={course.imageAsset.secureURL !== ''}
+                            loading={imageIsLoading}
+                            getBlob={getThumbnailBlob}>
+                            Browse cover
+                        </BrowseFileButton>
+                    </ThumbnailContainer>
 
-                        )}
+                    <VideoContainer>
+                        <Box sx={(theme) => ({
+                            flexBasis: '60%',
+                            [theme.breakpoints.down("sm")]: {
+                                flexBasis: '90%',
+                            }
+                        })}>
+                            {!course.vidAsset.secureURL && mode === 'create' ? (
+                                <Typography sx={{ flexBasis: '100%', textAlign: 'center', fontSize: 15, fontWeight: 500 }}>
+                                    Upload video introduction to the course,where you explain
+                                    what you will cover in this course and what the student will
+                                    learn from it.
+                                </Typography>
 
-                        {!course.vidAsset.secureURL ? (
+                            ) : (<Typography sx={{ flexBasis: '100%', textAlign: 'center', fontSize: 15, fontWeight: 500 }}>
+                                Upload video lecture for this course,where you are teaching.
+                            </Typography>)}
                             <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 1 }}>
-                                <BrowseFileButton removeFile={removeFile}
+                                <BrowseFileButton removeFile={() => removeFile('video')}
                                     disabled={course.vidAsset.secureURL !== ''}
                                     loading={videoIsLoading}
                                     getBlob={getVideoBlob}>
-                                    Browse introductory video
+                                    Browse video
                                 </BrowseFileButton>
                             </Box>
+                        </Box>
 
-                        ) : <></>}
-
-                    </Box>
-                    {course.vidAsset.secureURL && (
-                        <Video
-                            controls
-                            src={course.vidAsset.secureURL}
-                            preload={course.imageAsset.secureURL}
-                        />
-                    )}
-
-                </VideoContainer>
+                        {course.vidAsset.secureURL && (
+                            <Video
+                                style={{ borderRadius: 10 }}
+                                controls
+                                src={course.vidAsset.secureURL}
+                                poster={course.imageAsset.secureURL}
+                            />
+                        )}
+                    </VideoContainer>
+                </BrowseFilesContainer>
                 <FormControl>
                     <TextInput sx={{ flexBasis: '50%' }}
                         error={isErr && !course.title
@@ -195,18 +237,21 @@ export default function UploadCourseForm({ mode, submitHandler }: Props) {
                         label='Title of the course'
                         placeholder='Title of the course' />
                 </FormControl>
-                <FormControl>
-                    <Select fullWidth onChange={handleOnChange}
-                        error={isErr && !course.price}
-                        value={course.price || undefined}
-                        name='price' defaultValue='Select Pricing' >
-                        <MenuItem value="Select Pricing">Select Pricing</MenuItem>
-                        <MenuItem value="$9.60">$9.60</MenuItem>
-                        <MenuItem value="$12.60">$12.60</MenuItem>
-                        <MenuItem value="$24.60">$24.60</MenuItem>
-                        <MenuItem value="Free">Free</MenuItem>
-                    </Select>
-                </FormControl>
+                {mode !== 'add-lectures' && (
+                    <FormControl>
+                        <Select fullWidth onChange={handleOnChange}
+                            error={isErr && !course.price}
+                            value={course.price || undefined}
+                            name='price' defaultValue='Select Pricing' >
+                            <MenuItem value="Select Pricing">Select Pricing</MenuItem>
+                            <MenuItem value="$9.60">$9.60</MenuItem>
+                            <MenuItem value="$12.60">$12.60</MenuItem>
+                            <MenuItem value="$24.60">$24.60</MenuItem>
+                            <MenuItem value="Free">Free</MenuItem>
+                        </Select>
+                    </FormControl>
+                )}
+
                 <FormControl>
                     <Textarea minRows={2}
                         value={course.description}
@@ -216,10 +261,11 @@ export default function UploadCourseForm({ mode, submitHandler }: Props) {
                         placeholder={`Course Description`} />
                 </FormControl>
 
+
                 <FormControl onClick={handleSubmit} sx={{ justifyContent: 'flex-end' }}>
                     <StyledButton sx={{ px: 2 }}>
                         <AddIcon fontSize='small' />
-                        {mode}
+                        {mode === 'add-lectures' ? 'update course' : mode}
                     </StyledButton>
                 </FormControl>
             </ChoicesContainer>

@@ -94,7 +94,7 @@ const SearchInput = styled(InputBase)(({ theme }) => ({
     [theme.breakpoints.up('sm')]: {
         width: 300,
     },
-    backgroundColor: colorScheme(theme).secondaryColor,
+    backgroundColor: colorScheme(theme).grayToSecondaryColor,
 }))
 
 
@@ -122,6 +122,10 @@ export default function communites({ }: Props) {
 
     useEffect(() => {
         fetchDashboardData()
+
+        return () => {
+            dispatch(courseActions.setCourses([]))
+        }
     }, [router.pathname, user, dispatch])
 
     return (
