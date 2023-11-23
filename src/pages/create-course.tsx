@@ -18,7 +18,6 @@ import AddPhotoAlternateOutlinedIcon from '@mui/icons-material/AddPhotoAlternate
 
 
 const Container = styled(Box)(({ theme }) => ({
-    width: '75%',
     padding: 20,
     margin: '0 auto',
     [theme.breakpoints.down("sm")]: {
@@ -26,8 +25,11 @@ const Container = styled(Box)(({ theme }) => ({
         width: '95%',
         padding: 0,
     },
-    [theme.breakpoints.up("xl")]: {
+    [theme.breakpoints.up("md")]: {
         width: '60%',
+    },
+    [theme.breakpoints.up("xl")]: {
+        width: '40%',
     }
 }))
 const FlexContainer = styled(Box)(({ theme }) => ({
@@ -154,7 +156,6 @@ export default function NewTest({ }: Props) {
             type: 'introduction',
             author: {
                 authorId: user._id ?? '',
-                public_id: user.imageAsset?.publicId ?? '',
                 name: user.tutorInfo?.name ?? ''
             },
         })
@@ -181,25 +182,7 @@ export default function NewTest({ }: Props) {
                     </Typography>
                 </TestHeader>
                 <FlexContainer>
-                    <TestInfoCol>
-                        <ThumbnailContainer
-                            sx={{ backgroundImage: `url(${thumbLocal || course.imageAsset.secureURL})` }} >
-                            <Box>
-                                {!thumbLocal && !course.imageAsset.secureURL && (
-                                    <Box sx={{ display: 'flex', justifyContent: 'center', marginBottom: 1 }}>
-                                        <AddPhotoAlternateOutlinedIcon sx={{ fontSize: 40 }} />
-                                    </Box>
-                                )}
-                                <BrowseFileButton removeFile={removeFile}
-                                    disabled={thumbLocal !== '' || course.imageAsset.secureURL !== ''}
-                                    loading={imageIsLoading}
-                                    getBlob={getThumbnailBlob}>
-                                    Browse video cover
-                                </BrowseFileButton>
-                            </Box>
-                        </ThumbnailContainer>
-
-                    </TestInfoCol>
+        
                     <TestFormContainer>
                         <UploadCourseForm mode="create" submitHandler={create} />
                     </TestFormContainer>

@@ -10,6 +10,8 @@ import BrowseFileButton from '../browse-file-button'
 import UploadAPI from '../../api-services/upload'
 import { courseActions } from '../../../reducers/course-reducer'
 import { useRouter } from 'next/router'
+import { AppSpinner } from '../activity-indicators'
+import { createToastThunk } from '../../../reducers/main-reducer/main-thunks'
 
 const ChoicesContainer = styled(Box)(({ theme }) => ({
     [theme.breakpoints.down('sm')]: {
@@ -48,7 +50,8 @@ const VideoContainer = styled(Box)(({ theme }) => ({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: CSS_PROPERTIES.radius5,
-    backgroundColor: colorScheme(theme).primaryColor,
+    // backgroundColor: colorScheme(theme).primaryColor,
+    border: ` 1px dashed ${colorScheme(theme).darkGreyToTertiary}`,
     [theme.breakpoints.down('sm')]: {
         minHeight: 160,
     }
@@ -73,7 +76,8 @@ const ThumbnailContainer = styled(Box)(({ theme }) => ({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: CSS_PROPERTIES.radius5,
-    backgroundColor: colorScheme(theme).primaryColor,
+    // backgroundColor: colorScheme(theme).primaryColor,
+    border: ` 1px dashed ${colorScheme(theme).darkGreyToTertiary}`,
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
     backgroundSize: 'cover'
@@ -93,6 +97,7 @@ export default function UploadCourseForm({ mode, submitHandler }: Props) {
     const [videoIsLoading, setVideoLoading] = useState<'removing...' | 'uploading...' | ''>('')
     const [thumbLocal, setThumbLocal] = useState<string | ArrayBuffer | null>('')
     const [imageIsLoading, setImageIsLoading] = useState<'removing...' | 'uploading...' | ''>('')
+    const [isLoading, setIsLoading] = useState<boolean>(false)
 
     function handleOnChange({ target: { name, value } }: any) {
         dispatch(courseActions.setVideoProperties({
@@ -107,9 +112,18 @@ export default function UploadCourseForm({ mode, submitHandler }: Props) {
             dispatch(courseActions.setError(true))
             return true
         } else {
+            setIsLoading(true)
             dispatch(courseActions.setError(false))
             const course = await submitHandler()
             if (course) {
+                if (mode === 'add-lectures') {
+                    dispatch(createToastThunk('A new lecture has been added'))
+                } else if (mode === 'create') {
+                    dispatch(createToastThunk('Course has been created successfully'))
+                } else if (mode == 'update') {
+                    dispatch(createToastThunk('Course has been updated successfully'))
+                }
+                setIsLoading(false)
                 setThumbLocal('')
             }
             return false
@@ -119,14 +133,23 @@ export default function UploadCourseForm({ mode, submitHandler }: Props) {
 
     async function getVideoBlob(base64: string | ArrayBuffer | null) {
         setVideoLoading('uploading...')
-        const response = await UploadAPI.uploadFile({ base64, resource_type: 'video', preset: 'video_preset' })
-        console.log(response)
-        if (response.secure_url) {
+        try {
+            const response = await UploadAPI.uploadFile({ base64, resource_type: 'video', preset: 'video_preset' })
+            console.log(response)
+            if (response?.secure_url) {
+                setVideoLoading('')
+                dispatch(courseActions.setVideoAssets({
+                    publicId: response.public_id,
+                    secureURL: response.secure_url
+                }))
+            } else  {
+                dispatch(createToastThunk('An error orccured, please try again!'))
+                setVideoLoading('')
+            }
+
+        } catch (error) {
+            dispatch(createToastThunk('An error orccured, please try again!'))
             setVideoLoading('')
-            dispatch(courseActions.setVideoAssets({
-                publicId: response.public_id,
-                secureURL: response.secure_url
-            }))
         }
     }
 
@@ -199,13 +222,11 @@ export default function UploadCourseForm({ mode, submitHandler }: Props) {
                         })}>
                             {!course.vidAsset.secureURL && mode === 'create' ? (
                                 <Typography sx={{ flexBasis: '100%', textAlign: 'center', fontSize: 15, fontWeight: 500 }}>
-                                    Upload video introduction to the course,where you explain
-                                    what you will cover in this course and what the student will
-                                    learn from it.
+                                    Upload video introduction to the course
                                 </Typography>
 
                             ) : (<Typography sx={{ flexBasis: '100%', textAlign: 'center', fontSize: 15, fontWeight: 500 }}>
-                                Upload video lecture for this course,where you are teaching.
+                                Upload a lecture where you are teaching.Video should be less than <b>100Mb</b>.
                             </Typography>)}
                             <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 1 }}>
                                 <BrowseFileButton removeFile={() => removeFile('video')}
@@ -263,8 +284,9 @@ export default function UploadCourseForm({ mode, submitHandler }: Props) {
 
 
                 <FormControl onClick={handleSubmit} sx={{ justifyContent: 'flex-end' }}>
-                    <StyledButton sx={{ px: 2 }}>
-                        <AddIcon fontSize='small' />
+                    <StyledButton
+                        sx={{ px: 2, cursor: course.imageAsset.secureURL && course.vidAsset.secureURL ? 'pointer' : 'not-allowed' }}>
+                        {isLoading ? <AppSpinner visible={true} size={18} /> : <AddIcon fontSize='small' />}
                         {mode === 'add-lectures' ? 'update course' : mode}
                     </StyledButton>
                 </FormControl>

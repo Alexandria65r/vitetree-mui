@@ -190,14 +190,14 @@ export type Asset = {
 }
 
 export type VideoCourse = {
-    type: 'introduction' | 'course' | ''
+    type: 'introduction' | 'lecture' | ''
     _id: string
     title: string
     description: string
     courseId?: string
     author: {
         authorId: string
-        public_id: string
+        public_id?: string
         name: string
     }
     price?: string,

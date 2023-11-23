@@ -13,7 +13,7 @@ import { normalizedDate } from '../../../reusable/helpers';
 import { colorScheme, ThemedText, useColorScheme } from '../../../theme';
 import { VideoCourse } from '../../../reusable/interfaces';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import LockIcon from '@mui/icons-material/Lock';
+import Lock from '@mui/icons-material/Lock';
 
 const VideoCardContainer = styled(Box)(({ theme }) => ({
     margin: 0,
@@ -56,6 +56,18 @@ const VideoThumbnail = styled(Box)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'light' ? colors.grey[300] : colorScheme(theme).secondaryColor,
     borderRadius: 10,
 }))
+const LockIcon = styled(Lock)(({ theme }) => ({
+    fontSize: 25, color: '#fff',
+    position: 'absolute',
+    zIndex: 10,
+    left: '5px',
+    bottom: '10px',
+    [theme.breakpoints.down('sm')]: {
+        bottom: '8px',
+    },
+}))
+
+
 
 
 type Props = {
@@ -87,42 +99,43 @@ function VideoCard({ isGrid, video, videoIndex, isPurchased }: Props) {
             ) : (
                 ""
             )} */}
-            {!isPurchased && video.type !== 'introduction' ? (
-                <Box sx={{ position: 'absolute', zIndex: 10, left: '5px', bottom: '15px' }}>
-                    <LockIcon sx={{ fontSize: 25, color: '#fff' }} />
-                </Box>
-            ) : <></>}
 
+            <Box sx={{ position: 'relative' }}>
+                {!isPurchased && video.type !== 'introduction' ? (
+                    <LockIcon/>
+                ) : <></>}
 
-            <Link href={`/course-detail/${isPurchased ? video._id : video.courseId}`}>
-                <Image
-                    cloudName="alexandriah65"
-                    publicId={video?.imageAsset.publicId}
-                    style={{ width: '100%', borderRadius: isMobile ? 10 : '10px', border: `1px solid ${colorScheme(_theme).greyToTertiary}`, }}
-                >
-                    <Transformation width="686" height="386" crop="thumb" />
-                    <Transformation fetchFormat="webp" />
-                </Image>
-            </Link>
+                <Link href={`/course-detail/${isPurchased ? video._id : video.courseId}`}>
+                    <Image
+                        cloudName="alexandriah65"
+                        publicId={video?.imageAsset?.publicId}
+                        style={{ position: 'relative', width: '100%', borderRadius: isMobile ? 10 : '10px', border: `1px solid ${colorScheme(_theme).greyToTertiary}`, }}
+                    >
+                        <Transformation width="686" height="386" crop="thumb" />
+                        <Transformation fetchFormat="webp" />
+                    </Image>
+                </Link>
+
+            </Box>
             <VideoCardBody>
                 {!isGrid && isMobile ? (
                     <ChannelAvatar
                         href={''}
-                        publicId={video.imageAsset.publicId}
+                        publicId={video.author?.public_id ?? ''}
                         name={video.author?.name}
                         classes={{}}
                     />
                 ) : !isGrid && isMobile ? (
                     <ChannelAvatar
                         href={''}
-                        publicId={video.imageAsset.publicId}
+                        publicId={video.author?.public_id ?? ''}
                         name={video.author.name}
                         classes={{}}
                     />
                 ) : !isGrid && !isMobile ? (
                     <ChannelAvatar
                         href={''}
-                        publicId={video.imageAsset.publicId}
+                        publicId={video.author?.public_id ?? ''}
                         name={video.author?.name}
                         classes={{}}
                     />
@@ -201,7 +214,7 @@ function VideoCard({ isGrid, video, videoIndex, isPurchased }: Props) {
                         </Box>
                     </Box>
                 </Link>
-               <VideoPopperMenu videoId={video._id} video={video} />
+                <VideoPopperMenu videoId={video._id} video={video} />
             </VideoCardBody>
         </VideoCardContainer>
 

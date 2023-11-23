@@ -50,12 +50,15 @@ export const Partcipant = mongoose.model("partcipant", partcipantSchema);
 
 const courseSchema = new mongoose.Schema({
   _id: String,
-  authorId: String,
+  author:{
+    authorId: String,
+    name: String,
+  },
   description: String,
   price: String,
   title: String,
   type: String,
-  courseId: { type: String, required: false },
+  courseId: String,
   vidAsset: {
     publicId: String,
     secureURL: String,

@@ -141,11 +141,10 @@ export default function NewTest({ }: Props) {
         const newLecture: VideoCourse = {
             ...newVideo,
             _id: courseId,
-            type: 'course',
+            type: 'lecture',
             author: {
                 authorId: user._id ?? '',
-                public_id: '',
-                name: ''
+                name: user.tutorInfo?.name ?? ''
             },
             courseId: mainCourseId ?? '',
         }
@@ -155,7 +154,7 @@ export default function NewTest({ }: Props) {
             console.log(newCourse)
             dispatch(courseActions.setCourses([...courses, newLecture]))
             dispatch(courseActions.setNewVideo(VideoCourseSchema))
-            return newCourse 
+            return newCourse
         }
     }
 
@@ -165,19 +164,20 @@ export default function NewTest({ }: Props) {
                 <TestHeader>
                     <Typography
                         sx={(theme) => ({
+                            textTransform:'capitalize',
                             fontSize: 18,
                             fontWeight: 600,
                             [theme.breakpoints.down("sm")]: {
                                 fontSize: 15
                             }
                         })}>
-                        Course Video
+                        {course.title} - {params[1]?.replace('-',' ')}
                     </Typography>
                 </TestHeader>
                 <FlexContainer>
                     <TestInfoCol>
                         <VideoCard video={course} videoIndex={0} />
-                        <RenderLectures mainCourseId={course?.courseId ?? ''} activeId={course._id} isPurchased={true}  />
+                        <RenderLectures mainCourseId={course?.courseId ?? ''} activeId={course._id} isPurchased={true} />
                     </TestInfoCol>
                     <TestFormContainer>
                         <UploadCourseForm mode={params[1]} submitHandler={create} />

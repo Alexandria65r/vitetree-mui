@@ -17,7 +17,7 @@ const Header = styled(Box)(({ theme }) => ({
 type Props = {
     mainCourseId: string
     activeId: string
-    isPurchased:boolean
+    isPurchased: boolean
 }
 
 export default function RenderLectures({ mainCourseId, activeId, isPurchased }: Props) {
@@ -41,13 +41,13 @@ export default function RenderLectures({ mainCourseId, activeId, isPurchased }: 
 
 
 
-    const filtered = courses.filter((course) => course._id !== activeId) 
+    const filtered = courses.filter((course) => course._id !== activeId)
 
     return (
         <Container>
             <Header>
                 <ThemedText sx={{ m: 0, lineHeight: 1.2, fontSize: 18, fontWeight: 600 }}>
-                    Courses Lectures ({courses.length})
+                    Courses Lectures ({courses?.length ? courses?.length - 1 : 0})
                 </ThemedText>
             </Header>
             {filtered.map((lecture, index) => (
