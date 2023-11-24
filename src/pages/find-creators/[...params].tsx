@@ -7,7 +7,7 @@ import { CSS_PROPERTIES } from '../../reusable'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import TutorItem from '../../components/tutor-item'
 import KeyboardBackspaceOutlinedIcon from '@mui/icons-material/KeyboardBackspaceOutlined';
-import { Avatar, ButtonIcon, SearchInput, SearchInputWrap, StyledButton, TabButton } from '../../reusable/styles'
+import { Avatar, ButtonIcon, SearchInput, SearchInputWrap, TabButton } from '../../reusable/styles'
 import InquiryForm from '../../components/inquiry-form/forum-post-form'
 import SearchIcon from '@mui/icons-material/Search';
 import { fetchTutorsThunk } from '../../../reducers/tutors-reducer/tutors-thunks'
@@ -34,7 +34,7 @@ const Container = styled(Box)(({ theme }) => ({
         margin: '10px auto',
     },
     [theme.breakpoints.up("xl")]: {
-        maxWidth: '65%',
+        maxWidth: '35%',
     }
 }))
 
@@ -126,17 +126,11 @@ const TabHeader = styled(Box)(({ theme }) => ({
 }))
 
 
-
-
-
-
-
 type Props = {}
 
 export default function Tutors({ }: Props) {
     const dispatch = useAppDispatch()
     const router = useRouter()
-    const [isOpen, setOpen] = useState<boolean>(false)
     const isSidebarOpen = useAppSelector((state) => state.MainReducer.isSidebarOpen)
     const tutors = useAppSelector((state) => state.TutorsReducer.tutors)
     const tutor = useAppSelector((state) => state.TutorsReducer.tutor)
@@ -198,13 +192,9 @@ export default function Tutors({ }: Props) {
                                 fontSize: 22
                             }
                         })}>
-                        {tutor?._id ? 'Inquire Now' : 'Tutors'}
+                        {tutor?._id ? 'Support' : 'Find Creators'}
                     </Typography>
-
-
                 </CheckoutHeader>
-
-
 
                 <TutorsColumn
                     sx={(theme) => ({
@@ -221,11 +211,11 @@ export default function Tutors({ }: Props) {
                                     flexBasis: '16%',
                                 }
                             })} />
-                            <SearchInput placeholder='Search for tutor' />
+                            <SearchInput placeholder='Search for creator' />
                         </SearchInputWrap>
                         <TabHeader>
                             <TabButton
-                                onClick={() => router.push(`/tutors/all`)}
+                                onClick={() => router.push(`/find-creators/all`)}
                                 sx={{
                                     backgroundColor: sort === 'all' ? colors.teal[400] : '',
                                     color: sort === 'all' ? '#fff' : ''
@@ -235,7 +225,7 @@ export default function Tutors({ }: Props) {
                                 All
                             </TabButton>
                             <TabButton
-                                onClick={() => router.push(`/tutors/available`)}
+                                onClick={() => router.push(`/find-creators/available`)}
                                 sx={{
                                     backgroundColor: sort === 'available' ? colors.teal[400] : '',
                                     color: sort === 'available' ? '#fff' : ''
@@ -245,7 +235,7 @@ export default function Tutors({ }: Props) {
                                 Available
                             </TabButton>
                             <TabButton
-                                onClick={() => router.push(`/tutors/favourites`)}
+                                onClick={() => router.push(`/find-creators/favourites`)}
                                 sx={{
                                     backgroundColor: sort === 'favourites' ? colors.teal[400] : '',
                                     color: sort === 'favourites' ? '#fff' : ''
@@ -259,9 +249,9 @@ export default function Tutors({ }: Props) {
                                     backgroundColor: sort === 'inquired' ? colors.teal[400] : '',
                                     color: sort === 'inquired' ? '#fff' : ''
                                 }}
-                                onClick={() => router.push(`/tutors/inquired`)}>
+                                onClick={() => router.push(`/find-creators/inquired`)}>
                                 <ManageSearchOutlinedIcon fontSize='small' sx={{ mr: .5 }} />
-                                Inquired
+                                Supported
                             </TabButton>
                         </TabHeader>
                     </Box>
@@ -270,7 +260,7 @@ export default function Tutors({ }: Props) {
                             tutor={tutor} mode='Send inquiry' />
                     ))}
                 </TutorsColumn>
-                <TutorDetail sx={(theme) => ({
+                {/* <TutorDetail sx={(theme) => ({
                     [theme.breakpoints.down('sm')]: {
                         display: tutor?._id ? 'block' : 'none'
                     }
@@ -302,10 +292,8 @@ export default function Tutors({ }: Props) {
                             ) : <SelectTutor />}
 
                         </>
-
                     )}
-
-                </TutorDetail>
+                </TutorDetail> */}
             </Container>
         </Layout >
     )

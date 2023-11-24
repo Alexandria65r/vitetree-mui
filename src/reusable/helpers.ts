@@ -1,7 +1,12 @@
+import { FormatMoney } from "format-money-js";
 import moment from "moment";
 import { Choice, Role, TutorService } from "./interfaces";
 import { Task } from "../models/task";
 
+
+const fm = new FormatMoney({
+    decimals: 2
+})
 export const cartegories = ["sports", "programming", "health", "business"];
 export const questionChoices: any = {
     a: {
@@ -131,4 +136,11 @@ export function nomalizedText(subjects: string[], index: number) {
 export function getSwapedTaskUserInfo(role: Role, task: Task) {
     if (role === 'student') return task.tutorInfo;
     return task.studentInfo
+}
+
+
+
+
+export function formatMoney(amount:number) {
+    return fm.from(amount) as any
 }

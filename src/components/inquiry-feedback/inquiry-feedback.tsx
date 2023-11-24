@@ -5,7 +5,7 @@ import FetchInquiryFeedback from '../../pages/api/inquiry-feedback/fetch-inquiry
 import { useRouter } from 'next/router'
 import { fetchInquiryFeedbackThunk } from '../../../reducers/inquiry-reducer/inquiry-thunks'
 import { Box, Typography, styled } from '@mui/material'
-import InquiredItem from '../../pages/tutors/inquiredItem'
+import InquiredItem from '../../pages/find-creators/inquiredItem'
 import { StyledButton, StyledButtonOutlined } from '../../reusable/styles'
 import ResponseCard from './response-card'
 import { colorScheme } from '../../theme'
@@ -90,7 +90,7 @@ export default function InquiryFeedback({ }: Props) {
         ${isDueDateChanged ? `, Due date changed from ${inquiryDueDate} to ${newDueDate}` : ''}.
         If the terms are okay with you procceed and hire tutor.
      `
-   
+
     return (
         <Container>
             <ThreadContainer>

@@ -10,9 +10,9 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { fetchInquiriesThunk } from '../../reducers/inquiry-reducer/inquiry-thunks'
 import { inquiryActions } from '../../reducers/inquiry-reducer'
 import { useRouter } from 'next/router'
-import InquiredItem from './tutors/inquiredItem'
+import InquiredItem from './find-creators/inquiredItem'
 import NotificationItemSkeleton from '../components/notification-item-sekeleton'
-import {KeyboardBackspace } from '@mui/icons-material'
+import { KeyboardBackspace } from '@mui/icons-material'
 import ResponseFooter from '../components/service-inquiry/response-footer'
 import NotificationInquiryItem from '../components/notification-inquiry-item-copy'
 
@@ -110,7 +110,7 @@ export default function Notifications({ }: Props) {
                 width: !isSidebarOpen ? '90%' : '80%',
                 [theme.breakpoints.down('sm')]: {
                     display: 'block',
-                    width:'97%'
+                    width: '97%'
                 },
                 [theme.breakpoints.up('xl')]: {
                     width: !isSidebarOpen ? '80%' : '60%',
@@ -159,7 +159,7 @@ export default function Notifications({ }: Props) {
                             {inquiries.map((inquiry, index) => (
                                 <NotificationInquiryItem
                                     key={index}
-                                    
+
                                     title={inquiry.service.label}
                                     createdAt={inquiry?.createdAt ?? ''}
                                     description={inquiry.description}

@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AppState } from "../../store/store";
 import AuthAPI from "../../src/api-services/auth";
 import { AuthNetworkStatus, authActions } from "./auth-reducer";
-import { Signin, UserAvatarAsset } from "../../src/reusable/interfaces";
+import { Signin, User, UserAvatarAsset } from "../../src/reusable/interfaces";
 import { SCHOOYARD_AUTH_TOKEN } from "../../src/reusable";
 import Cookies from "js-cookie";
 import router, { Router } from "next/router";
@@ -55,14 +55,18 @@ export const SignInThunk = createAsyncThunk<void, Signin, { state: AppState }>
             try {
                 dispatch(authActions.setAuthNetworkStatus('signin'))
                 const { data } = await AuthAPI.signin(signInData)
+                const user: User = data.user
                 if (data.success) {
                     dispatch(authActions.setAuthNetworkStatus('signin-success'))
                     Cookies.set(SCHOOYARD_AUTH_TOKEN, data.token)
-                    dispatch(authActions.setAuhtUser(data.user))
+                    dispatch(authActions.setAuhtUser(user))
                     if (signInData.provider === 'google-provider') {
                         localStorage.removeItem('redirectFlag')
+                    } else if (user.role === 'student') {
+                        router.replace('/find-creators/q=nothing')
+                    } else {
+                        router.replace('/dashboard')
                     }
-                    router.replace('/dashboard')
                 } else {
                     console.log(data)
                     console.log(signInData.provider)

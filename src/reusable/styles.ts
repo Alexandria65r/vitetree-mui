@@ -167,10 +167,12 @@ export const SearchInput = styled(InputBase)(({ theme }) => ({
     backgroundColor: 'transparent',
     borderRadius: CSS_PROPERTIES.radius5,
 }))
-export const StyledInput = styled(InputBase)(({ theme }) => ({
+export const StyledInput = styled('input')(({ theme }) => ({
     flex: 1,
+    outline:'none',
     padding: '8px 10px 8px 0',
     backgroundColor: 'transparent',
+    border:0,
     borderRadius: CSS_PROPERTIES.radius5,
 }))
 
@@ -182,6 +184,7 @@ export const StyledButton = styled(ButtonBase)(({ theme }) => ({
     height: 40,
     color: '#fff',
     fontSize: 16,
+    alignItems:'center',
     borderRadius: CSS_PROPERTIES.radius5,
     backgroundColor: colors.teal[400],
 }))

@@ -88,8 +88,8 @@ export default function NavBar() {
                             fontWeight: 600,
                             flexGrow: 1, color: colors.teal[400]
                         }}>
-                        <Link href={user?._id ? '/dashboard' : '/'}>
-                            Schooyard
+                        <Link href={user?._id ? '/find-creators/q=nothing' : '/'}>
+                            Pushmepal
                         </Link>
                     </Typography>
                     {router.pathname !== '/' && (

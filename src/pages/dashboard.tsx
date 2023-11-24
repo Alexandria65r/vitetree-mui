@@ -231,7 +231,7 @@ const dashCardList = (userRole: Role, lightMode: boolean) => {
                 icon: <img src={lightMode ? '/quiz.png' : '/quiz-white.png'} height={30} alt='' />
             },
             {
-                title: 'Hire Tutor', route: '/tutors/all',
+                title: 'Find a creator', route: '/tutors/all',
                 accent: colors.indigo[400],
                 icon: <BiSearchAlt size={40} color={colors.indigo[400]} />
             },

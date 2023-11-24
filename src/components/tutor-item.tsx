@@ -16,58 +16,43 @@ import { useRouter } from 'next/router'
 import { StudentInquiry } from '../reusable/schemas'
 import Link from 'next/link'
 import UserAvatar from './user/user-avatar'
+import { East } from '@mui/icons-material'
 
 
 
 const TutorContainer = styled(Box)(({ theme }) => ({
-    display: 'flex',
+    padding: 10,
     flexBasis: '49%',
-    minHeight: 260,
+    gridTemplateColumns: 'repeat(2,1fr)',
     borderRadius: CSS_PROPERTIES.radius10,
     backgroundColor: colorScheme(theme).secondaryColor,
     boxShadow: `0 1px 3px 0px ${theme.palette.mode === 'light' ? '#ddd' : 'transparent'}`,
     flexWrap: 'wrap',
-    justifyContent: 'center',
+    alignContent: 'center',
     [theme.breakpoints.down("sm")]: {
 
     }
 }))
-const TutorImage = styled(Box)(({ theme }) => ({
-    margin: 1,
-    // flexBasis: '35%',
-    //borderRadius: CSS_PROPERTIES.radius10,
-    backgroundColor: theme.palette.mode === 'light' ? colors.grey[300] : colorScheme(theme).primaryColor,
-    flexBasis: 80,
-    height: 80,
-    marginTop: 10,
-    borderRadius: '50%',
-    justifySelf: 'center',
-    [theme.breakpoints.down("sm")]: {
-        flexBasis: 100,
-        height: 100,
-    }
-}))
+
 const TutorItemBody = styled(Box)(({ theme }) => ({
+    flex: 1,
+    display: 'flex',
+    alignItems: 'center',
     flexBasis: '100%',
-    //flex: 1,
     [theme.breakpoints.down("sm")]: {
-        flexBasis: '100%'
-    }
 
+    }
 }))
 const ItemFooter = styled(Box)(({ theme }) => ({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
     flex: 1,
-    minHeight: 60,
-    margin: 10,
+    margin: 0,
     borderRadius: CSS_PROPERTIES.radius10,
     backgroundColor: colorScheme(theme).secondaryColor,
-    // boxShadow: `0 1px 3px 0px ${theme.palette.mode === 'light' ? '#ddd' : 'transparent'}`,
     [theme.breakpoints.down('sm')]: {
-        width: '80%',
-        margin: 'auto',
+        width: '100%',
     }
 }))
 
@@ -85,6 +70,7 @@ type Props = {
 
 
 export default function TutorItem({ tutor, mode }: Props) {
+    const _theme = useTheme()
     const dispatch = useAppDispatch()
     const router = useRouter()
     const user = useAppSelector((state) => state.AuthReducer.user)
@@ -104,34 +90,15 @@ export default function TutorItem({ tutor, mode }: Props) {
     })()
 
     function viewTutor() {
-
-        if (inquired?.tutorId === tutor._id) {
-            router.push(`/tutors/${sort}/inquiry/${inquired?.inquiryId}`)
-        } else {
-            if (_inquiry === 'inquiry') {
-                router.replace('/tutors/all')
-            }
-            dispatch(inquiryActions.setInquiry({
-                ...inquiry,
-                _id: inquiryId,
-                authorId: user._id ?? '',
-                tutorId: tutor._id ?? '',
-                studentName: `${user.firstName} ${user.lastName}`,
-                tutorName: `${tutor.firstName} ${tutor.lastName}`
-            }))
-
-        }
-
+        router.push(`/@creator_id`)
         dispatch(inquiryActions.setInquiryNetworkStatus(''))
         dispatch(tutorsActions.setTutor(tutor))
-
     }
 
     const avatarStyles: SxProps<Theme> | undefined = {
-        mt: 2,
-        height: 90, width: 90,
+        height: 80, width: 80,
         [theme.breakpoints.down('sm')]: {
-            height: 90, width: 90,
+            height: 80, width: 80,
         }
     }
     return (
@@ -141,120 +108,96 @@ export default function TutorItem({ tutor, mode }: Props) {
                 transition: '0.3s all',
                 borderColor: selectedTutor._id === tutor._id && router.pathname.includes('/tutors') ? colors.teal[400] : 'transparent'
             }}>
-            <UserAvatar imageURL={user.imageAsset?.secureURL} avatarStyles={avatarStyles} />
-            <TutorItemBody>
-                {tutor._id ? (
-                    <Box sx={(theme) => ({
-                        p: 1,
-                        textAlign: 'center',
-                        [theme.breakpoints.down('sm')]: {
-                            width: '80%',
-                            margin: 'auto',
-                        }
-                    })}>
-
-                        <Typography sx={{ my: .5, fontSize: 16, fontWeight: 600 }}>
-                            {tutor.firstName} {tutor.lastName}
-                        </Typography>
-                        <Typography sx={{ fontSize: 14, fontWeight: 600 }}>
-                            Primary qualifictions
-                        </Typography>
-                        <Typography sx={{ fontSize: 13, color: 'GrayText', fontWeight: 500 }}>
-                            {tutor.tutorInfo?.qualifications} - {tutor.tutorInfo?.collage}
-                        </Typography>
-                        <Typography sx={{ fontSize: 14, fontWeight: 600 }}>
-                            Subjects
-                        </Typography>
-                        <Typography sx={{ fontSize: 13, color: 'GrayText', fontWeight: 500 }}>
-                            {tutor.tutorInfo?.subjects.map((subject, index) => (
-                                <>
-                                    {subject}
-                                    {nomalizedText(tutor.tutorInfo?.subjects ?? [], index)}
-                                </>
-                            ))}
-                        </Typography>
-                        <Typography sx={{ mt: .5, fontSize: 14, fontWeight: 600 }}>
-                            Profile
-                        </Typography>
-
-                        <Typography sx={{ fontSize: 13, color: 'GrayText', fontWeight: 500 }}>
-                            {tutor.tutorInfo?.description}
-                        </Typography>
-
-                    </Box>) : (<Box sx={(theme) => ({
-                        p: 1,
-                        textAlign: 'center',
-                        display: 'flex',
-                        flexWrap: 'wrap',
-                        justifyContent: 'center',
-                        [theme.breakpoints.down('sm')]: {
-                            width: '80%',
-                            margin: 'auto',
-                        }
-                    })}>
-                        <Box sx={{display:'grid'}}>
-                            <Skeleton width={180} />
-                            <Skeleton width={140} sx={{ mt: 1, justifySelf:'center'}} />
-                            <Skeleton width={180} sx={{justifySelf:'center'}}/>
-                            <Skeleton width={140} sx={{justifySelf:'center'}}/>
-                            <Box sx={{ mt: 1.5, flexBasis: '80%' }}>
-                                <Skeleton />
-                                <Skeleton />
-                                <Skeleton />
-                                <Skeleton />
+            <Box sx={{ display: 'flex', gap: 1, mb: 1, alignItems: 'center', }}>
+                <UserAvatar imageURL={user.imageAsset?.secureURL} avatarStyles={avatarStyles} />
+                <TutorItemBody>
+                    {tutor._id ? (
+                        <Box>
+                            <Typography sx={{ fontSize: 16, lineHeight: 1.2, fontWeight: 600 }}>
+                                {tutor.firstName} {tutor.lastName}
+                            </Typography>
+                            <Typography sx={{ fontSize: 14, fontWeight: 600 }}>
+                                Music Artist
+                            </Typography>
+                            <Typography sx={{ fontSize: 13, lineHeight: 1.2, mt: .5, color: 'GrayText', fontWeight: 500 }}>
+                                This is a description of this creator.
+                            </Typography>
+                        </Box>) : (<Box sx={(theme) => ({
+                            p: 1,
+                            display: 'flex',
+                            flexWrap: 'wrap',
+                            justifyContent: 'center',
+                            [theme.breakpoints.down('sm')]: {
+                                width: '80%',
+                                margin: 'auto',
+                            }
+                        })}>
+                            <Box sx={{ display: 'grid' }}>
+                                <Skeleton width={180} />
+                                <Skeleton width={140} sx={{ mt: 1, justifySelf: 'center' }} />
+                                <Skeleton width={180} sx={{ justifySelf: 'center' }} />
+                                <Skeleton width={140} sx={{ justifySelf: 'center' }} />
+                                <Box sx={{ mt: 1.5, flexBasis: '80%' }}>
+                                    <Skeleton />
+                                    <Skeleton />
+                                    <Skeleton />
+                                    <Skeleton />
+                                </Box>
                             </Box>
-                        </Box>
+                        </Box>)}
+                </TutorItemBody>
+            </Box>
 
-
-                    </Box>)}
-
-
-                <ItemFooter>
-                    {tutor._id ? (<ButtonIcon sx={{
-                        color: colors.teal[400],
-                        border: 1,
-                        borderColor: colors.teal[400],
-                        backgroundColor: 'transparent',
-                        transition: '0.3s all',
-                        '&:hover': {
-                            color: '#fff',
-                            backgroundColor: colors.teal[400]
-                        }
-                    }}>
-                        <FavoriteBorderOutlinedIcon fontSize='small' />
-                    </ButtonIcon>) : (
-                        <Skeleton width={48} height={80} sx={{ borderRadius: '50%' }} />
-                    )}
-                    {tutor._id ? (<>
-                        {mode === 'read-only' ? (
-                            <Link href={`/tutor/${user.tutorInfo?.tutorId}`}
-                                style={{ flexBasis: '60%' }}>
-                                <StyledButtonOutlined
-                                    sx={{ width: '100%' }}>
-                                    <VisibilityOutlinedIcon fontSize='small' sx={{ mr: 1 }} />
-                                    View Profile
-                                </StyledButtonOutlined>
-                            </Link>
-                        ) : <></>}
-
-                    </>) : (
-                        <Skeleton width={148} height={60} sx={{ mr: .5 }} />
-                    )}
-
-                    {mode !== 'read-only' ? (
-                        <StyledButtonOutlined
-                            onClick={viewTutor}
-                            sx={{ flexBasis: '60%' }}>
-                            {inquired?.tutorId === tutor._id ? (
+            <ItemFooter>
+                {tutor._id ? (<ButtonIcon sx={{
+                    m: 0,
+                    color: colors.teal[400],
+                    border: 2,
+                    borderColor: colors.teal[400],
+                    backgroundColor: colorScheme(_theme).greyToTertiary,
+                    transition: '0.3s all',
+                    '&:hover': {
+                        color: '#fff',
+                        backgroundColor: colors.teal[400]
+                    }
+                }}>
+                    <FavoriteBorderOutlinedIcon fontSize='small' />
+                </ButtonIcon>) : (
+                    <Skeleton width={48} height={80} sx={{ borderRadius: '50%' }} />
+                )}
+                {tutor._id ? (<>
+                    {mode === 'read-only' ? (
+                        <Link href={`/tutor/${user.tutorInfo?.tutorId}`}
+                            style={{ flexBasis: '60%' }}>
+                            <StyledButtonOutlined
+                                sx={{ width: '100%', }}>
                                 <VisibilityOutlinedIcon fontSize='small' sx={{ mr: 1 }} />
-                            ) : (
-                                <AddCommentOutlinedIcon fontSize='small' sx={{ mr: 1 }} />
-                            )}
-                            {inquired?.tutorId === tutor._id ? 'View inquiry' : 'Send inquiry'}
-                        </StyledButtonOutlined>
+                                View Profile
+                            </StyledButtonOutlined>
+                        </Link>
                     ) : <></>}
-                </ItemFooter>
-            </TutorItemBody>
+
+                </>) : (
+                    <Skeleton width={148} height={60} sx={{ mr: .5 }} />
+                )}
+
+                {mode !== 'read-only' ? (
+                    <StyledButtonOutlined
+                        onClick={viewTutor}
+                        sx={(theme) => ({
+                            flexBasis: '60%',
+                            fontSize: 14,
+                            fontWeight: 600,
+                            color: colorScheme(theme).TextColor,
+                            me: 1,
+                            border: 0,
+                            bgcolor: colorScheme(theme).greyToTertiary, borderBottom: `2px solid ${colors.teal[500]}`
+                        })}>
+                        View Creator
+                        <East fontSize='small' sx={{ ml: 1 }} />
+                    </StyledButtonOutlined>
+                ) : <></>}
+            </ItemFooter>
         </TutorContainer>
     )
 }
