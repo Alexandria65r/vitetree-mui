@@ -62,9 +62,9 @@ const TutorsColumn = styled(Box)(({ theme }) => ({
     flexWrap: 'wrap',
     gridTemplateColumns: 'repeat(2,1fr)',
     justifyContent: 'space-between',
-    marginRight:15,
+    marginRight: 15,
     gap: 10,
-    flex:1,
+    flex: 1,
     // padding: 10,
     minHeight: 60,
     //  borderRadius: CSS_PROPERTIES.radius5,
@@ -80,7 +80,7 @@ const TutorsColumn = styled(Box)(({ theme }) => ({
 const TutorDetail = styled(Box)(({ theme }) => ({
     position: 'sticky',
     top: 20,
-    flexBasis:'40%',
+    flexBasis: '40%',
     minHeight: 260,
     borderRadius: CSS_PROPERTIES.radius10,
     backgroundColor: colorScheme(theme).secondaryColor,
@@ -161,7 +161,7 @@ export default function Tutors({ }: Props) {
     return (
         <Layout>
             <Container sx={(theme) => ({
-               // maxWidth: !isSidebarOpen ? '97%' : '90%',
+                // maxWidth: !isSidebarOpen ? '97%' : '90%',
                 [theme.breakpoints.down('sm')]: {
                     display: 'block',
                     maxWidth: tutor?._id ? '97%' : '93%',
@@ -192,7 +192,7 @@ export default function Tutors({ }: Props) {
                                 fontSize: 22
                             }
                         })}>
-                        {tutor?._id ? 'Support' : 'Find Creators'}
+                        Find Creators You Love
                     </Typography>
                 </CheckoutHeader>
 

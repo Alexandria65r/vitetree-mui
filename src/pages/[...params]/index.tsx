@@ -4,17 +4,15 @@ import Layout from '../../components/layout'
 import { styled, Box, Theme, SxProps, useTheme, colors } from '@mui/material'
 import { ThemedText, colorScheme } from '../../theme'
 import UserAvatar from '../../components/user/user-avatar'
-import { relative } from 'path'
-import { ButtonIcon, StyledButton, StyledInput } from '../../reusable/styles'
+import { ButtonIcon, StyledButton } from '../../reusable/styles'
 import IosShareIcon from '@mui/icons-material/IosShare';
 import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
 import { FaXTwitter } from "react-icons/fa6";
 import { FaTiktok } from "react-icons/fa";
 import YouTubeIcon from '@mui/icons-material/YouTube';
-import { FormatMoney } from 'format-money-js'
-import { formatMoney } from '../../reusable/helpers'
+import PageTabs from './page-tab-bar'
+import SupportCreator from './support-creator'
 const Container = styled(Box)(({ theme }) => ({
-
     [theme.breakpoints.up('xl')]: {
         width: '70%',
         margin: 'auto'
@@ -41,69 +39,32 @@ const SocialLinks = styled(Box)(({ theme }) => ({
 }))
 
 const PageInfo = styled(Box)(({ theme }) => ({
-    height: 195,
     marginTop: 36,
     display: 'grid',
     justifyContent: 'center',
     alignItems: 'center',
     borderBottom: `1px solid ${colorScheme(theme).grayToSecondaryColor}`,
     [theme.breakpoints.down('sm')]: {
-        height: 167,
         marginTop: 36
     }
 }))
 
-
-const MappedSupportCards = styled(Box)(({ theme }) => ({
-    display: 'flex',
-    gap: 10,
-    paddingBlock: 10,
-    [theme.breakpoints.down('sm')]: {
-        display: 'grid',
-        padding: 10,
-        gridTemplateColumns: 'repeat(2,1fr)'
-    }
-}))
-const SupportCard = styled(Box)(({ theme }) => ({
-    flex: 1,
-    //height: 200,
-    backgroundColor: colorScheme(theme).lightToSecondaryColor,
-    //border: `1px solid ${colorScheme(theme).lightToSecondaryColor}`,
-    borderRadius: 10,
-    boxShadow: `0 1px 2px 0 #ccc`,
-    [theme.breakpoints.down('sm')]: {
-    }
-}))
-const CardHead = styled(Box)(({ theme }) => ({
-    padding: 10,
-    borderBottom: `1px solid ${colorScheme(theme).grayToSecondaryColor}`,
-    [theme.breakpoints.down('sm')]: {
-
-    }
-}))
-const CardBody = styled(Box)(({ theme }) => ({
+const About = styled(Box)(({ theme }) => ({
     display: 'flex',
     justifyContent: 'center',
+    width: '60%',
+    margin: 'auto',
+    minHeight: 100,
     alignItems: 'center',
-    height: 80,
     [theme.breakpoints.down('sm')]: {
-        height: 50,
-    }
-}))
-const CardFooter = styled(Box)(({ theme }) => ({
-    padding: 10,
-    [theme.breakpoints.down('sm')]: {
-
+        width: '100%',
     }
 }))
 
 
 
-type Star = {
-    name: string;
-    amount: number;
-    accent: string
-}
+
+
 type Props = {}
 
 function index({ }: Props) {
@@ -115,7 +76,6 @@ function index({ }: Props) {
         position: 'absolute',
         left: '50%',
         bottom: '-31px',
-        // borderRadius:'10px',
         transform: 'translateX(-50%)',
         [_theme.breakpoints.down('sm')]: {
             height: 80, width: 80,
@@ -123,17 +83,9 @@ function index({ }: Props) {
         }
     }
 
-    const stars: Star[] = [
-        { name: 'starter', amount: 10, accent: colors.teal[500] },
-        { name: 'silver', amount: 20, accent: colors.grey[500] },
-        { name: 'bronze', amount: 50, accent: colors.deepOrange[600] },
-        { name: 'gold', amount: 100, accent: colors.amber[500] },
-        { name: 'custom', amount: 100, accent: colors.green[500] },
-    ]
 
     return (
         <Layout>
-
             <Container>
                 <Banner>
                     <UserAvatar imageURL={''} avatarStyles={avatarStyles} />
@@ -164,63 +116,21 @@ function index({ }: Props) {
                             <FaTiktok />
                         </ButtonIcon>
                     </SocialLinks>
+                    <PageTabs />
                 </PageInfo>
-                <Box sx={{ display: 'grid', p: 2, justifyContent: 'center' }}>
-                    <ThemedText sx={{ textAlign: 'center', fontSize: 24, fontWeight: 700 }}>
-                        Send a star to support this creator
-                    </ThemedText>
-                    <ThemedText sx={{ textAlign: 'center' }}>Supporting John Doe will enable him to continue doing his work even more.</ThemedText>
-                </Box>
-                <MappedSupportCards>
-                    {stars.map((item, index) => (
-                        <SupportCard key={index}>
-                            <CardHead sx={{ bgcolor: item.accent, borderTopLeftRadius: '10px', borderTopRightRadius: '10px' }}>
-                                <ThemedText
-                                    sx={{ textAlign: 'center', color: '#fff', textTransform: 'capitalize', fontSize: 18, fontWeight: 700 }}>
-                                    {item.name}
-                                </ThemedText>
-                            </CardHead>
-                            <CardBody>
-                                {item.name === 'custom' ? (<Box
-                                    sx={{
-                                        display:'flex',
-                                        width: '60px',
-                                        margin: 'auto',
-                                        textAlign:'center'
-                                    }}>
-                                    <StyledInput
-                                        value='0.00'
-                                        sx={(theme) => ({
-                                           width:'100%',
-                                            height:'35px',
-                                            fontSize:16,
-                                            textAlign:'center!important',
-                                            px: 1,
-                                            color: colorScheme(theme).TextColor,
-                                            bgcolor: colorScheme(theme).grayToSecondaryColor
-                                        })}
-                                        placeholder='Amount' />
-                                </Box>) : (<>
-                                    <ThemedText sx={{ textAlign: 'center', fontSize: 16, fontWeight: 700 }}> ZMW {formatMoney(item.amount)}</ThemedText>
-                                </>)}
-
-                            </CardBody>
-                            <CardFooter>
-                                <StyledButton
-                                    sx={(theme) => ({
-                                        width: '100%',
-                                        color: colorScheme(theme).TextColor,
-                                        backgroundColor: colorScheme(theme).grayToSecondaryColor
-                                    })}>
-                                    Select
-                                </StyledButton>
-                            </CardFooter>
-                        </SupportCard>
-                    ))}
-                </MappedSupportCards>
-
+                {params[1] === 'send-star' && <SupportCreator />}
+                {params[1] === 'about' && (
+                    <About>
+                        <Box sx={{ display: 'grid', p: 2, justifyContent: 'center' }}>
+                            <ThemedText sx={{ textAlign: 'center', fontSize: 24, fontWeight: 700 }}>
+                                About Creator
+                            </ThemedText>
+                            <ThemedText sx={{ textAlign: 'center' }}>Supporting John Doe will enable him to continue doing his work even more.</ThemedText>
+                        </Box>
+                       
+                    </About>
+                )}
             </Container>
-
         </Layout>
     )
 }

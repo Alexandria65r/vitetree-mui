@@ -45,7 +45,7 @@ const TutorItemBody = styled(Box)(({ theme }) => ({
 }))
 const ItemFooter = styled(Box)(({ theme }) => ({
     display: 'flex',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     alignItems: 'center',
     flex: 1,
     margin: 0,
@@ -90,9 +90,8 @@ export default function TutorItem({ tutor, mode }: Props) {
     })()
 
     function viewTutor() {
-        router.push(`/@creator_id`)
+        router.push(`/@creator_id/send-star`)
         dispatch(inquiryActions.setInquiryNetworkStatus(''))
-        dispatch(tutorsActions.setTutor(tutor))
     }
 
     const avatarStyles: SxProps<Theme> | undefined = {
@@ -149,8 +148,24 @@ export default function TutorItem({ tutor, mode }: Props) {
             </Box>
 
             <ItemFooter>
+                <StyledButtonOutlined
+                    onClick={viewTutor}
+                    sx={(theme) => ({
+                        flexBasis: '60%',
+                        fontSize: 14,
+                        fontWeight: 600,
+                        color: colorScheme(theme).TextColor,
+                        me: 1,
+                        border: 0,
+                        bgcolor: colorScheme(theme).greyToTertiary, borderBottom: `2px solid ${colors.teal[500]}`
+                    })}>
+                    View Creator
+                    <East fontSize='small' sx={{ ml: 1 }} />
+                </StyledButtonOutlined>
+
+
                 {tutor._id ? (<ButtonIcon sx={{
-                    m: 0,
+                    ml: 1,
                     color: colors.teal[400],
                     border: 2,
                     borderColor: colors.teal[400],
@@ -165,38 +180,10 @@ export default function TutorItem({ tutor, mode }: Props) {
                 </ButtonIcon>) : (
                     <Skeleton width={48} height={80} sx={{ borderRadius: '50%' }} />
                 )}
-                {tutor._id ? (<>
-                    {mode === 'read-only' ? (
-                        <Link href={`/tutor/${user.tutorInfo?.tutorId}`}
-                            style={{ flexBasis: '60%' }}>
-                            <StyledButtonOutlined
-                                sx={{ width: '100%', }}>
-                                <VisibilityOutlinedIcon fontSize='small' sx={{ mr: 1 }} />
-                                View Profile
-                            </StyledButtonOutlined>
-                        </Link>
-                    ) : <></>}
+        
 
-                </>) : (
-                    <Skeleton width={148} height={60} sx={{ mr: .5 }} />
-                )}
-
-                {mode !== 'read-only' ? (
-                    <StyledButtonOutlined
-                        onClick={viewTutor}
-                        sx={(theme) => ({
-                            flexBasis: '60%',
-                            fontSize: 14,
-                            fontWeight: 600,
-                            color: colorScheme(theme).TextColor,
-                            me: 1,
-                            border: 0,
-                            bgcolor: colorScheme(theme).greyToTertiary, borderBottom: `2px solid ${colors.teal[500]}`
-                        })}>
-                        View Creator
-                        <East fontSize='small' sx={{ ml: 1 }} />
-                    </StyledButtonOutlined>
-                ) : <></>}
+              
+       
             </ItemFooter>
         </TutorContainer>
     )
