@@ -10,8 +10,8 @@ import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
 import { FaXTwitter } from "react-icons/fa6";
 import { FaTiktok } from "react-icons/fa";
 import YouTubeIcon from '@mui/icons-material/YouTube';
-import PageTabs from './page-tab-bar'
-import SupportCreator from './support-creator'
+import PageTabs from '../../components/page-tab-bar'
+import SupportCreator from '../../components/support-creator'
 const Container = styled(Box)(({ theme }) => ({
     [theme.breakpoints.up('xl')]: {
         width: '70%',

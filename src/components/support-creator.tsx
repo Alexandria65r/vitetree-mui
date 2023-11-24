@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router'
 import React from 'react'
 import { styled, Box, useTheme, colors } from '@mui/material'
-import { ThemedText, colorScheme } from '../../theme'
-import { StyledButton, StyledInput } from '../../reusable/styles'
-import { formatMoney } from '../../reusable/helpers'
+import { ThemedText, colorScheme } from '../theme'
+import { StyledButton, StyledInput } from '../reusable/styles'
+import { formatMoney } from '../reusable/helpers'
 const Container = styled(Box)(({ theme }) => ({
     width: '100%'
 }))
@@ -52,7 +52,7 @@ const SupportHeader = styled(Box)(({ theme }) => ({
         width: '90%',
     },
     [theme.breakpoints.down('sm')]: {
-       
+
     },
 }))
 const CardFooter = styled(Box)(({ theme }) => ({
@@ -88,7 +88,7 @@ export default function SupportCreator({ }: Props) {
                 <ThemedText sx={{ textAlign: 'center', fontSize: 24, fontWeight: 700 }}>
                     Support  Creator
                 </ThemedText>
-                <ThemedText sx={{ textAlign: 'center',lineHeight:1.3 }}>Supporting John Doe will enable him to continue doing his work even more.</ThemedText>
+                <ThemedText sx={{ textAlign: 'center', lineHeight: 1.3 }}>Supporting John Doe will enable him to continue doing his work even more.</ThemedText>
             </SupportHeader>
             <MappedSupportCards>
                 {stars.map((item, index) => (
