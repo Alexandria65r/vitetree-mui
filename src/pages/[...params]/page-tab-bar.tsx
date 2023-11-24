@@ -1,10 +1,8 @@
 import * as React from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { useRouter } from 'next/router';
-import SupportCreator from './support-creator';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -23,9 +21,12 @@ export default function PageTabs() {
     const params: any = router.query.params || []
 
     React.useEffect(() => {
-        const index = links.indexOf(params[1])
-        setValue(index)
-    }, [params])
+        if (params?.length) {
+            const index = links.indexOf(params[1])
+            setValue(index)
+        }
+
+    }, [params?.length])
 
     const handleChange = (event: React.SyntheticEvent, index: number) => {
         setValue(index);

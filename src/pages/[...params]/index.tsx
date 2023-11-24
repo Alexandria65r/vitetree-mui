@@ -57,7 +57,7 @@ const About = styled(Box)(({ theme }) => ({
     minHeight: 100,
     alignItems: 'center',
     [theme.breakpoints.down('sm')]: {
-        width: '100%',
+        width: '90%',
     }
 }))
 
@@ -83,7 +83,7 @@ function index({ }: Props) {
         }
     }
 
-
+    console.log(params)
     return (
         <Layout>
             <Container>
@@ -118,18 +118,22 @@ function index({ }: Props) {
                     </SocialLinks>
                     <PageTabs />
                 </PageInfo>
-                {params[1] === 'send-star' && <SupportCreator />}
-                {params[1] === 'about' && (
-                    <About>
-                        <Box sx={{ display: 'grid', p: 2, justifyContent: 'center' }}>
-                            <ThemedText sx={{ textAlign: 'center', fontSize: 24, fontWeight: 700 }}>
-                                About Creator
-                            </ThemedText>
-                            <ThemedText sx={{ textAlign: 'center' }}>Supporting John Doe will enable him to continue doing his work even more.</ThemedText>
-                        </Box>
-                       
-                    </About>
-                )}
+                {params?.length ? (<>
+                    {params[1] === 'send-star' && <SupportCreator />}
+                    {params[1] === 'about' && (
+                        <About>
+                            <Box sx={{ display: 'grid', p: 2, justifyContent: 'center' }}>
+                                <ThemedText sx={{ textAlign: 'center', fontSize: 24, fontWeight: 700 }}>
+                                    About Creator
+                                </ThemedText>
+                                <ThemedText sx={{ textAlign: 'center' }}>
+                                    Supporting John Doe will enable him to continue doing his work even more.
+                                </ThemedText>
+                            </Box>
+                        </About>
+                    )}
+
+                </>) : <></>}
             </Container>
         </Layout>
     )
