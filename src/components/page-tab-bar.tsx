@@ -36,13 +36,14 @@ export default function PageTabs() {
 
     return (
         <Box sx={{}}>
-            <Tabs value={value} sx={{ minHeight: 0, height: 'auto', justifyContent: 'center' }} onChange={handleChange} aria-label="basic tabs example">
+            <Tabs value={value} sx={{ minHeight: 0, height: 'auto', justifyContent: 'center', backgroundColor: 'transparent' }} onChange={handleChange} aria-label="basic tabs example">
                 {links.map((link, index) => (
                     <Tab
                         key={index}
                         sx={{
                             height: 0, padding: 2, minHeight: 0,
-                            textTransform: 'capitalize'
+                            textTransform: 'capitalize',
+                            backgroundColor:'transparent'
                         }}
                         label={link.replace('-', ' ')}
                         id={`simple-tab-${index}`}

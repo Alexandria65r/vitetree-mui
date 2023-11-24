@@ -83,7 +83,6 @@ function index({ }: Props) {
         }
     }
 
-    console.log(params)
     return (
         <Layout>
             <Container>
