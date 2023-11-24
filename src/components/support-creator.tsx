@@ -78,11 +78,11 @@ type Props = {}
 export default function SupportCreator({ }: Props) {
 
     const stars: Star[] = [
-        { name: 'custom amount', amount: 100, accent: colors.pink[500] },
         { name: 'starter', amount: 10, accent: colors.teal[500] },
         { name: 'silver', amount: 20, accent: colors.grey[500] },
         { name: 'bronze', amount: 50, accent: colors.deepOrange[600] },
         { name: 'gold', amount: 100, accent: colors.amber[500] },
+        { name: 'prefered amount', amount: 100, accent: colors.pink[500] },
     ]
 
     return (
@@ -96,7 +96,7 @@ export default function SupportCreator({ }: Props) {
             </SupportHeader>
             <MappedSupportCards>
                 {stars.map((item, index) => (
-                    <SupportCard key={index} sx={{ border: `1px solid ${item.accent}`, flexBasis: item.name === 'custom amount' ? '80%' : '' }}>
+                    <SupportCard key={index} sx={{ border: `1px solid ${item.accent}`, flexBasis: item.name === 'prefered amount' ? '80%' : '' }}>
                         <CardHead sx={{ bgcolor: item.accent, borderTopLeftRadius: '10px', borderTopRightRadius: '10px' }}>
                             <ThemedText
                                 sx={{ textAlign: 'center', color: '#fff', textTransform: 'capitalize', fontSize: 16, fontWeight: 700 }}>
@@ -104,10 +104,10 @@ export default function SupportCreator({ }: Props) {
                             </ThemedText>
                         </CardHead>
                         <CardBody>
-                            {item.name === 'custom amount' ? (<Box
+                            {item.name === 'prefered amount' ? (<Box
                                 sx={{
                                     display: 'flex',
-                                    width: '60px',
+                                    width: '120px',
                                     margin: 'auto',
                                     textAlign: 'center'
                                 }}>
@@ -120,7 +120,7 @@ export default function SupportCreator({ }: Props) {
                                         textAlign: 'center!important',
                                         px: 1,
                                         color: colorScheme(theme).TextColor,
-                                        bgcolor: colorScheme(theme).grayToSecondaryColor
+                                        border:`1px dashed ${item.accent}`
                                     })}
                                     placeholder='Amount' />
                             </Box>) : (<>
@@ -142,7 +142,7 @@ export default function SupportCreator({ }: Props) {
                         </CardFooter>
                     </SupportCard>
                 ))}
-                {/* <StyledButton sx={{ flexBasis: '100%' }}>Custom</StyledButton> */}
+                {/* <StyledButton sx={{ flexBasis: '100%' }}>Prefered</StyledButton> */}
             </MappedSupportCards>
 
         </Container>
