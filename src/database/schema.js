@@ -10,6 +10,7 @@ const UserSchema = new mongoose.Schema({
   country: { type: String, required: false },
   imageAsset: { publicId: String, secureURL: String },
   courses: { type: Array, required: false },
+  creatorId:  { type: String, required: false },
   tutorInfo: { type: Object, required: false },
   inquiredList: { type: Array, required: false },
   studentInfo: { type: Object, required: false },
@@ -50,7 +51,7 @@ export const Partcipant = mongoose.model("partcipant", partcipantSchema);
 
 const courseSchema = new mongoose.Schema({
   _id: String,
-  author:{
+  author: {
     authorId: String,
     name: String,
   },

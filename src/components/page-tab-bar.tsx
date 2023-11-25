@@ -10,16 +10,19 @@ interface TabPanelProps {
     value: number;
 }
 
+type Props = {
+    links: string[];
+    path: string
+    mode: 'read-only'| 'page-user'
+}
 
 
 
-
-export default function PageTabs() {
+export default function PageTabs({ links, path,mode }: Props) {
     const router = useRouter()
     const [value, setValue] = React.useState(0);
-    const links = ['send-star', 'exclusive', 'about']
     const params: any = router.query.params || []
-
+    
     React.useEffect(() => {
         if (params?.length) {
             const index = links.indexOf(params[1])
@@ -30,7 +33,7 @@ export default function PageTabs() {
 
     const handleChange = (event: React.SyntheticEvent, index: number) => {
         setValue(index);
-        router.push(`/@creator/${links[index]}`)
+        router.push(`/${path}/${links[index]}`)
     };
 
 
@@ -43,7 +46,7 @@ export default function PageTabs() {
                         sx={{
                             height: 0, padding: 2, minHeight: 0,
                             textTransform: 'capitalize',
-                            backgroundColor:'transparent'
+                            backgroundColor: 'transparent'
                         }}
                         label={link.replace('-', ' ')}
                         id={`simple-tab-${index}`}

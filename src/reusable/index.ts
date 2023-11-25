@@ -34,5 +34,7 @@ export const CSS_PROPERTIES = {
     radius5: 10,
 }
 
+export const pageCartegories = ['music', 'Gaming', 'comedy', 'education','startups']
+
 
 export const SCHOOYARD_AUTH_TOKEN = 'SCHOOYARD_AUTH_TOKEN'

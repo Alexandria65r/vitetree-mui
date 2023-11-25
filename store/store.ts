@@ -17,6 +17,7 @@ import TaskUpdatesReducer from '../reducers/task-updtes-reducer'
 import bidsReducer from '../reducers/bids-reducer'
 import AcademicReducer from '../reducers/academic-answers-reducer'
 import DropzoneReducer from '../reducers/dropzone-reducer'
+import PageReducer from '../reducers/page-reducer'
 
 
 
@@ -38,7 +39,8 @@ const rootReducer = combineReducers({
   TaskUpdatesReducer,
   bidsReducer,
   AcademicReducer,
-  DropzoneReducer
+  DropzoneReducer,
+  PageReducer
 })
 
 

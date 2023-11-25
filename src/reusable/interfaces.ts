@@ -14,6 +14,7 @@ export type TutorService = {
     description?: string
 }
 
+
 export type Inquired = {
     tutorId: string
     inquiryId: string
@@ -39,6 +40,12 @@ export type TutorInfo = {
     updatedAt?: string
     createdAt?: string
 }
+
+
+
+
+
+
 
 export type StudentInfo = {
     studentId: string

@@ -12,22 +12,12 @@ import { FaTiktok } from "react-icons/fa";
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import PageTabs from '../../components/page-tab-bar'
 import SupportCreator from '../../components/support-creator'
+import Banner from '../../components/creator-page/banner'
 const Container = styled(Box)(({ theme }) => ({
     [theme.breakpoints.up('xl')]: {
         width: '70%',
         margin: 'auto'
     }
-}))
-
-const Banner = styled(Box)(({ theme }) => ({
-    position: 'relative',
-    height: 400,
-    borderRadius: 10,
-    backgroundColor: colorScheme(theme).grayToSecondaryColor,
-    [theme.breakpoints.down('sm')]: {
-        height: 160,
-        margin: 10,
-    },
 }))
 
 
@@ -71,24 +61,12 @@ function index({ }: Props) {
     const router = useRouter()
     const params: any = router.query.params || []
     const _theme = useTheme()
-    const avatarStyles: SxProps<Theme> | undefined = {
-        height: 180, width: 180,
-        position: 'absolute',
-        left: '50%',
-        bottom: '-31px',
-        transform: 'translateX(-50%)',
-        [_theme.breakpoints.down('sm')]: {
-            height: 80, width: 80,
-            bottom: '-31px',
-        }
-    }
+
 
     return (
         <Layout>
             <Container>
-                <Banner>
-                    <UserAvatar imageURL={''} avatarStyles={avatarStyles} />
-                </Banner>
+                <Banner />
                 <PageInfo>
                     <Box sx={{ display: 'grid', justifyContent: 'center' }}>
                         <ThemedText sx={{ textAlign: 'center', fontSize: 24, fontWeight: 700 }}>John Doe</ThemedText>
@@ -115,7 +93,7 @@ function index({ }: Props) {
                             <FaTiktok />
                         </ButtonIcon>
                     </SocialLinks>
-                    <PageTabs />
+                    <PageTabs links={['send-star', 'exclusive', 'about']} path='@creator' mode='read-only' />
                 </PageInfo>
                 {params?.length ? (<>
                     {params[1] === 'send-star' && <SupportCreator />}

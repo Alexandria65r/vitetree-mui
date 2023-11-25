@@ -118,7 +118,7 @@ export const ContinueWith = styled(Box)(({ theme }) => ({
     flexBasis: '100%',
     position: 'relative',
     marginBottom: 15,
-    borderBottom: `1px solid ${colorScheme(theme).chatBoarderColor}`
+    borderBottom: `1px solid ${colorScheme(theme).quaternay}`
 }))
 export const ContinueWithOverlayText = styled(Box)(({ theme }) => ({
     position: 'absolute',
