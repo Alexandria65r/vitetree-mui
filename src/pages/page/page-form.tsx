@@ -72,8 +72,8 @@ export default function PageForm({ }: Props) {
 
     if (!isFormOpen) return null
     return (
-        <PageModal>
-            <FormContainer>
+        <PageModal >
+            <FormContainer className='PageModal'>
                 <Header>
                     <ButtonIcon onClick={() => dispatch(pageActions.setIsFormOpen(false))}
                         sx={(theme) => ({ backgroundColor: colorScheme(theme).grayToSecondaryColor })}
@@ -96,7 +96,7 @@ export default function PageForm({ }: Props) {
                             fontSize: 18,
                             fontWeight: 600,
                         }}>
-                        Create Page
+                        Create a Page
                     </ThemedText>
                     <FormControl>
                         <TextInput placeholder='Page name' label='Page name' />
@@ -113,6 +113,9 @@ export default function PageForm({ }: Props) {
                             ))}
 
                         </Select>
+                        <ThemedText sx={{ fontSize: 13, my: 1, lineHeight: 1.2 }}>
+                            Enter a category that best describes you.
+                        </ThemedText>
                     </FormControl>
                     <FormControl>
                         <Textarea sx={{ width: '100%', borderRadius: 1 }} minRows={3} maxLength={60} placeholder='Bio' />
