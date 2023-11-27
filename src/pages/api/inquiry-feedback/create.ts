@@ -1,11 +1,12 @@
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import connection from '../../../database/connection'
-import { InquiryFeedbackSchema, NotificationSchema, User } from "../../../database/schema";
+import { InquiryFeedbackSchema, NotificationSchema } from "../../../database/schema";
 import { InquiryFeedback } from "../../../models/inquiry-feedback";
 import { Notification, NotificationModel, NotificationType } from "../../../models/notifications";
 import { ObjMapperSingle } from "../../../database/objectMapper";
 import moment from "moment";
 import { notifyAPI } from "../notification/helpers";
+import { UserModel } from "../../../models/user";
 
 
 const CreateTest: NextApiHandler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -53,8 +54,8 @@ export default CreateTest
 
 
 async function getUsers(fromId: string, toId: string) {
-    const fromUserRaw = await User.findById({ _id: fromId });
-    const toUserRaw = await User.findById({ _id: toId });
+    const fromUserRaw = await UserModel.findById({ _id: fromId });
+    const toUserRaw = await UserModel.findById({ _id: toId });
     const from = ObjMapperSingle(fromUserRaw)
     const to = ObjMapperSingle(toUserRaw)
     return { from, to };

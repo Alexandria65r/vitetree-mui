@@ -10,14 +10,12 @@ import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import { fetchInquiriesThunk } from '../../../reducers/inquiry-reducer/inquiry-thunks'
 import { inquiryActions } from '../../../reducers/inquiry-reducer'
 import { useRouter } from 'next/router'
-import InquiredItem from '../find-creators/inquiredItem'
 import NotificationItemSkeleton from '../../components/notification-item-sekeleton'
 import { Close, KeyboardBackspace } from '@mui/icons-material'
-import ResponseFooter from '../../components/service-inquiry/response-footer'
+ 
 import { fetchNotificationsThunk } from '../../../reducers/notification-reducer/notifications-thunks'
 import { Notification } from '../../models/notifications'
 import { notificationActions } from '../../../reducers/notification-reducer'
-import InquiryFeedback from '../../components/inquiry-feedback/inquiry-feedback'
 
 
 const Container = styled(Box)(({ theme }) => ({
@@ -196,13 +194,7 @@ export default function Notifications({ }: Props) {
                         </Typography>
                     </MainHeader>
 
-                    <ItemContainer>
-                        {notification.description}
-                        {notification.type === 'inquiry-purchase-feedback' ||
-                            notification.type === 'inquiry-terms-feedback' ?
-                            <InquiryFeedback /> : <></>}
-
-                    </ItemContainer>
+             
                 </MainCol>
             </Container>
         </Layout >

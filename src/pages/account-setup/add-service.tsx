@@ -24,7 +24,7 @@ type Props = {
 export default function AddService({ }: Props) {
     const dispatch = useAppDispatch()
     const selectedTutorService = useAppSelector((state) => state.AuthReducer.tutorService)
-    const tutorInfo = useAppSelector((state) => state.AuthReducer.user.tutorInfo)
+    
 
     function handlePriceChange({ target: { value } }: any) {
         dispatch(authActions.setTutorService({
@@ -33,16 +33,6 @@ export default function AddService({ }: Props) {
         }))
     }
 
-    function addService() {
-        dispatch(authActions.setUserProps({
-            name: 'tutorInfo',
-            value: {
-                ...tutorInfo,
-                services: [...tutorInfo?.services ?? [], selectedTutorService]
-            }
-        }))
-        dispatch(authActions.setTutorService(TutorServiceSchema))
-    }
 
     return (
         <Box sx={{ mt: 3 }}>
@@ -71,14 +61,7 @@ export default function AddService({ }: Props) {
                         <MenuItem value="Free">Free</MenuItem>
                     </Select>
                 </FormControl>
-                <FormControl sx={{ justifyContent: 'flex-end' }}>
-                    <StyledButton
-                        onClick={addService}
-                        sx={{ flexBasis: '30%', height: 40 }}>
-                        <Add fontSize='small' sx={{ mr: .5 }} />
-                        Add
-                    </StyledButton>
-                </FormControl>
+                
             </Box>
         </Box>
     )
