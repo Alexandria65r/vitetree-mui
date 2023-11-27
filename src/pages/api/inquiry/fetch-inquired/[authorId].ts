@@ -1,8 +1,9 @@
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import connection from '../../../../database/connection'
-import { Inquiry, User } from "../../../../database/schema";
-import { StudentInquiry, User as TypedUser } from "../../../../reusable/interfaces";
+import { Inquiry } from "../../../../database/schema";
+import { StudentInquiry} from "../../../../reusable/interfaces";
 import { ObjMapper } from "../../../../database/objectMapper";
+import { User, UserModel } from "../../../../models/user";
 
 
 
@@ -24,11 +25,11 @@ const fetchOwnInquiry: NextApiHandler = async (req: NextApiRequest, res: NextApi
 
 
 async function InquiredTutor(inquiries: StudentInquiry[]) {
-    const tutors: TypedUser[] = []
-    const rawTutors: any = await User.find().where({ role: 'tutor' }).exec()
+    const tutors: User[] = []
+    const rawTutors: any = await UserModel.find().where({ role: 'tutor' }).exec()
     const allTutors = ObjMapper(rawTutors)
     inquiries.forEach((inc) => {
-        const tutor:TypedUser | any = allTutors.find((tut: TypedUser) => tut._id === inc.authorId)
+        const tutor:User | any = allTutors.find((tut: User) => tut._id === inc.authorId)
         if (tutor) {
             tutors.push({
                 ...tutor,
