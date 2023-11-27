@@ -105,7 +105,7 @@ export default function Tutors({ }: Props) {
     const loadCreators = useCallback(() => {
         dispatch(fetchPagesThunk())
 
-    }, [router.pathname])
+    }, [router.pathname, dispatch])
 
 
     useEffect(() => {

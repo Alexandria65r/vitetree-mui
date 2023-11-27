@@ -1,7 +1,8 @@
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import connection from '../../../database/connection'
-import { Inquiry, User } from '../../../database/schema'
-import { Inquired, StudentInquiry, User as TypedUser } from "../../../reusable/interfaces";
+import { Inquiry } from '../../../database/schema'
+import { Inquired, StudentInquiry } from "../../../reusable/interfaces";
+import { UserModel } from "../../../models/user";
 
 
 const CreateInquiry: NextApiHandler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -28,7 +29,7 @@ const CreateInquiry: NextApiHandler = async (req: NextApiRequest, res: NextApiRe
 
 
 async function updateUserInquiredList(inquiryData: StudentInquiry) {
-    const user = await User.findById({ _id: inquiryData.authorId })
+    const user = await UserModel.findById({ _id: inquiryData.authorId })
     if (user) {
         const inquired: Inquired = {
             inquiryId: inquiryData._id,
