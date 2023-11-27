@@ -82,7 +82,7 @@ export default function AboutPage({ page, mode }: Props) {
             </AboutHead>
 
             {isEdit ? (<EditFormWrap>
-                <Textarea name="about" onChange={handleInputChange}
+                <Textarea value={page.about} name="about" onChange={handleInputChange}
                     sx={{ width: '100%', borderRadius: 1 }} minRows={5}
                     placeholder='About Page' />
 

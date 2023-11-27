@@ -33,7 +33,7 @@ export default class PageAPI {
 
     static async fetchPages() {
         setAxiosDefaults()
-        const { data } = await axios.get(`/api/page/fetch-pages`)
+        const { data } = await axios.get(`/api/page/fetch-pages/limit`)
         if (data.success) {
             return data.pages as Page[]
         }

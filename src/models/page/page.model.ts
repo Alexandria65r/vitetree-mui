@@ -14,6 +14,7 @@ export type Page = {
     name: string;
     pageId: string;
     bio: string;
+    cartegory: string;
     author: {
         id: string
     },
@@ -28,7 +29,7 @@ export type Page = {
         profile: Asset;
         background: Asset;
     };
-    about:string,
+    about: string,
     published: boolean,
     createdAt?: string;
     updatedAt?: string;
@@ -40,6 +41,7 @@ const _PageSchema = new mongoose.Schema<Page>({
     name: String,
     pageId: String,
     bio: String,
+    cartegory: String,
     author: {
         id: String
     },
@@ -54,18 +56,19 @@ const _PageSchema = new mongoose.Schema<Page>({
         profile: { type: Object, required: false },
         background: { type: Object, required: false },
     },
-    about:String,
+    about: String,
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
 });
 
 
-export const CreatorPage = mongoose.models?.page  || mongoose.model<Page>("page", _PageSchema);
+export const CreatorPage = mongoose.models?.page || mongoose.model<Page>("page", _PageSchema);
 
 export const PageSchema: Page = {
     name: '',
     pageId: '',
     bio: '',
+    cartegory: '',
     author: {
         id: ''
     },
@@ -82,6 +85,6 @@ export const PageSchema: Page = {
             secureURL: ""
         }
     },
-    about:'',
-    published:false
+    about: '',
+    published: false
 }

@@ -5,9 +5,9 @@ import { colorScheme } from '../theme'
 import { ButtonIcon, StyledButton, StyledButtonOutlined } from '../reusable/styles'
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import AddCommentOutlinedIcon from '@mui/icons-material/AddCommentOutlined';
-import { User } from '../reusable/interfaces'
+
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import { tutorsActions } from '../../reducers/tutors-reducer'
+
 import { inquiryActions } from '../../reducers/inquiry-reducer'
 import Randomstring from 'randomstring'
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
@@ -17,10 +17,12 @@ import { StudentInquiry } from '../reusable/schemas'
 import Link from 'next/link'
 import UserAvatar from './user/user-avatar'
 import { East } from '@mui/icons-material'
+import { User } from '../models/user'
+import { Page } from '../models/page/page.model'
 
 
 
-const TutorContainer = styled(Box)(({ theme }) => ({
+const PageContainer = styled(Box)(({ theme }) => ({
     padding: 10,
     flexBasis: '49%',
     gridTemplateColumns: 'repeat(2,1fr)',
@@ -34,7 +36,7 @@ const TutorContainer = styled(Box)(({ theme }) => ({
     }
 }))
 
-const TutorItemBody = styled(Box)(({ theme }) => ({
+const PageItemBody = styled(Box)(({ theme }) => ({
     flex: 1,
     display: 'flex',
     alignItems: 'center',
@@ -61,62 +63,50 @@ const ItemFooter = styled(Box)(({ theme }) => ({
 
 
 type Props = {
-    tutor: User,
-    mode: 'Send inquiry' | 'View inquiry' | 'read-only' | ''
+    page: Page,
 }
 
 
 
 
 
-export default function TutorItem({ tutor, mode }: Props) {
-    const _theme = useTheme()
+export default function PageItem({ page, }: Props) {
     const dispatch = useAppDispatch()
     const router = useRouter()
+    const _theme = useTheme()
     const user = useAppSelector((state) => state.AuthReducer.user)
-    const inquiry = useAppSelector((state) => state.InquiryReducer.inquiry)
-    const selectedTutor = useAppSelector((state) => state.TutorsReducer.tutor)
-    const theme = useTheme()
-    const inquiryId = Randomstring.generate(17)
-    const inquiredList = user.inquiredList
+
 
     const [sort, _inquiry]: any = router.query.params || []
 
 
-    const inquired = (function () {
-        const inquired = inquiredList?.find((item) => item.tutorId === tutor._id && item.status === 'active')
-        console.log(inquired)
-        return inquired
-    })()
 
-    function viewTutor() {
+    function viewPage() {
         router.push(`/@creator_id/send-star`)
         dispatch(inquiryActions.setInquiryNetworkStatus(''))
     }
 
     const avatarStyles: SxProps<Theme> | undefined = {
         height: 80, width: 80,
-        [theme.breakpoints.down('sm')]: {
+        [_theme.breakpoints.down('sm')]: {
             height: 80, width: 80,
         }
     }
     return (
-        <TutorContainer
+        <PageContainer
             sx={{
-                border: 1,
                 transition: '0.3s all',
-                borderColor: selectedTutor._id === tutor._id && router.pathname.includes('/tutors') ? colors.teal[400] : 'transparent'
             }}>
             <Box sx={{ display: 'flex', gap: 1, mb: 1, alignItems: 'center', }}>
-                <UserAvatar imageURL={user.imageAsset?.secureURL} avatarStyles={avatarStyles} />
-                <TutorItemBody>
-                    {tutor._id ? (
+                <UserAvatar imageURL={page.imageAssets.profile.secureURL} avatarStyles={avatarStyles} />
+                <PageItemBody>
+                    {page.pageId ? (
                         <Box>
                             <Typography sx={{ fontSize: 16, lineHeight: 1.2, fontWeight: 600 }}>
-                                {tutor.firstName} {tutor.lastName}
+                                {page.name}
                             </Typography>
-                            <Typography sx={{ fontSize: 14, fontWeight: 600 }}>
-                                Music Artist
+                            <Typography sx={{ fontSize: 14, fontWeight: 600, textTransform: 'capitalize' }}>
+                                {page.cartegory}
                             </Typography>
                             <Typography sx={{ fontSize: 13, lineHeight: 1.2, mt: .5, color: 'GrayText', fontWeight: 500 }}>
                                 This is a description of this creator.
@@ -144,27 +134,29 @@ export default function TutorItem({ tutor, mode }: Props) {
                                 </Box>
                             </Box>
                         </Box>)}
-                </TutorItemBody>
+                </PageItemBody>
             </Box>
 
             <ItemFooter>
-                <StyledButtonOutlined
-                    onClick={viewTutor}
-                    sx={(theme) => ({
-                        flexBasis: '60%',
-                        fontSize: 14,
-                        fontWeight: 600,
-                        color: colorScheme(theme).TextColor,
-                        me: 1,
-                        border: 0,
-                        bgcolor: colorScheme(theme).greyToTertiary, borderBottom: `2px solid ${colors.teal[500]}`
-                    })}>
-                    View Creator
-                    <East fontSize='small' sx={{ ml: 1 }} />
-                </StyledButtonOutlined>
+                <Link href={`/${page.pageId}/send-star`}>
+                    <StyledButtonOutlined
+
+                        sx={(theme) => ({
+                            flexBasis: '60%',
+                            fontSize: 14,
+                            fontWeight: 600,
+                            color: colorScheme(theme).TextColor,
+                            me: 1,
+                            border: 0,
+                            bgcolor: colorScheme(theme).greyToTertiary, borderBottom: `2px solid ${colors.teal[500]}`
+                        })}>
+                        View Creator
+                        <East fontSize='small' sx={{ ml: 1 }} />
+                    </StyledButtonOutlined>
+                </Link>
 
 
-                {tutor._id ? (<ButtonIcon sx={{
+                {page.pageId ? (<ButtonIcon sx={{
                     ml: 1,
                     color: colors.teal[400],
                     border: 2,
@@ -180,11 +172,11 @@ export default function TutorItem({ tutor, mode }: Props) {
                 </ButtonIcon>) : (
                     <Skeleton width={48} height={80} sx={{ borderRadius: '50%' }} />
                 )}
-        
 
-              
-       
+
+
+
             </ItemFooter>
-        </TutorContainer>
+        </PageContainer>
     )
 }

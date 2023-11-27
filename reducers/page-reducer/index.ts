@@ -17,6 +17,7 @@ export type CartNetworkStatus =
 
 type PageState = {
     page:Page;
+    pages:Page[];
     isFormOpen: boolean;
 
 }
@@ -24,6 +25,7 @@ type PageState = {
 
 const initialState: PageState = {
     page: PageSchema,
+    pages: [],
     isFormOpen: false
 }
 
@@ -39,6 +41,9 @@ const pageSlice = createSlice({
         },
         setPageData: (state, { payload }: PayloadAction<Page>) => {
             state.page = payload
+        },
+        setPages: (state, { payload }: PayloadAction<Page[]>) => {
+            state.pages = payload
         }
     }
 })

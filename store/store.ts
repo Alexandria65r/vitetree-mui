@@ -10,7 +10,6 @@ import CartReducer from '../reducers/cart-reducer'
 import WishListReducer from '../reducers/wishlist-reducer'
 import ForumReducer from '../reducers/forum-reducer'
 import InquiryReducer from '../reducers/inquiry-reducer'
-import TutorsReducer from '../reducers/tutors-reducer'
 import NotificationsReducer from '../reducers/notification-reducer'
 
 import AcademicReducer from '../reducers/academic-answers-reducer'
@@ -31,7 +30,6 @@ const rootReducer = combineReducers({
   WishListReducer,
   ForumReducer,
   InquiryReducer,
-  TutorsReducer,
   NotificationsReducer,
   AcademicReducer,
   DropzoneReducer,

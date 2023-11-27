@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import Layout from '../../components/layout'
 import { Box, Typography, colors, styled } from '@mui/material'
 import { colorScheme } from '../../theme'
@@ -6,23 +6,15 @@ import { useRouter } from 'next/router'
 import { CSS_PROPERTIES } from '../../reusable'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import TutorItem from '../../components/tutor-item'
-import KeyboardBackspaceOutlinedIcon from '@mui/icons-material/KeyboardBackspaceOutlined';
-import { Avatar, ButtonIcon, SearchInput, SearchInputWrap, TabButton } from '../../reusable/styles'
-import InquiryForm from '../../components/inquiry-form/forum-post-form'
+import { SearchInput, SearchInputWrap, TabButton } from '../../reusable/styles'
 import SearchIcon from '@mui/icons-material/Search';
-import { fetchTutorsThunk } from '../../../reducers/tutors-reducer/tutors-thunks'
-import { tutorsActions } from '../../../reducers/tutors-reducer'
-import { StudentInquiry } from '../../reusable/schemas'
-import InquireSuccess from './inquire-success'
+
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import ManageSearchOutlinedIcon from '@mui/icons-material/ManageSearchOutlined';
 import CoPresentIcon from '@mui/icons-material/CoPresent';
-import InquiredItem from './inquiredItem'
-import SelectTutor from './select-tutor'
 import PersonSearchOutlinedIcon from '@mui/icons-material/PersonSearchOutlined';
-import InquiredFooter from '../../components/service-inquiry/inquired-footer'
-import { inquiryActions } from '../../../reducers/inquiry-reducer'
-import { UserSchema } from '../../models/user'
+import { pageActions } from '../../../reducers/page-reducer'
+import { fetchPagesThunk } from '../../../reducers/page-reducer/page-thunks'
 
 const Container = styled(Box)(({ theme }) => ({
     width: '95%',
@@ -75,42 +67,14 @@ const TutorsColumn = styled(Box)(({ theme }) => ({
     // backgroundColor: colorScheme(theme).secondaryColor,
     //boxShadow: `0 1px 3px 0px ${theme.palette.mode === 'light' ? '#ddd' : 'transparent'}`,
     [theme.breakpoints.down("sm")]: {
+        display: 'grid',
         gridTemplateColumns: '1fr',
     }
 }))
 
 
 
-const TutorDetail = styled(Box)(({ theme }) => ({
-    position: 'sticky',
-    top: 20,
-    flexBasis: '40%',
-    minHeight: 260,
-    borderRadius: CSS_PROPERTIES.radius10,
-    backgroundColor: colorScheme(theme).secondaryColor,
-    boxShadow: `0 1px 3px 0px ${theme.palette.mode === 'light' ? '#ddd' : 'transparent'}`,
-    [theme.breakpoints.down("sm")]: {
-        flexBasis: '100%',
-        margin: '10px 0',
-    }
-}))
 
-const DetailHeader = styled(Box)(({ theme }) => ({
-    width: '100%',
-    display: 'flex',
-    alignItems: 'center',
-    height: 60,
-    padding: '0 15px',
-    [theme.breakpoints.down("sm")]: {
-        padding: '0 15px 0 5px',
-    }
-}))
-const FormContainer = styled(Box)(({ theme }) => ({
-    padding: 15,
-    [theme.breakpoints.down("sm")]: {
-
-    }
-}))
 const TabHeader = styled(Box)(({ theme }) => ({
     flex: 1,
     display: 'flex',
@@ -133,26 +97,21 @@ const TabHeader = styled(Box)(({ theme }) => ({
 type Props = {}
 
 export default function Tutors({ }: Props) {
-    const dispatch = useAppDispatch()
+    const dispatch =useAppDispatch()
     const router = useRouter()
-    const isSidebarOpen = useAppSelector((state) => state.MainReducer.isSidebarOpen)
-    const tutors = useAppSelector((state) => state.TutorsReducer.tutors)
-    const tutor = useAppSelector((state) => state.TutorsReducer.tutor)
-    const inquiryNetworkStatus = useAppSelector((state) => state.InquiryReducer.inquiryNetworkStatus)
-    const user = useAppSelector((state) => state.AuthReducer.user)
     const [sort, inquiry, inquiryId]: any = router.query.params || []
-    const inquiredList = []
-    console.log(inquiryId)
+    const pages = useAppSelector((state) => state.PageReducer.pages)
 
-    const loadTutors = useCallback(() => {
-        dispatch(fetchTutorsThunk())
+    const loadCreators = useCallback(() => {
+        dispatch(fetchPagesThunk())
+
     }, [router.pathname])
 
 
     useEffect(() => {
-        loadTutors()
+        loadCreators()
         return () => {
-            dispatch(tutorsActions.setTutors([]))
+            dispatch(pageActions.setPages([]))
         }
     }, [router.pathname])
 
@@ -163,26 +122,9 @@ export default function Tutors({ }: Props) {
                 // maxWidth: !isSidebarOpen ? '97%' : '90%',
                 [theme.breakpoints.down('sm')]: {
                     display: 'block',
-                    maxWidth: tutor?._id ? '97%' : '93%',
                 }
             })}>
                 <CheckoutHeader>
-                    <ButtonIcon
-                        sx={(theme) => ({
-                            flexBasis: 45, mr: 1,
-                            display: 'none',
-                            backgroundColor: 'transparent',
-                            [theme.breakpoints.down("sm")]: {
-                                display: tutor?._id ? 'flex' : 'none',
-                                ml: -1.5
-                            }
-                        })}
-                        onClick={() => {
-                            dispatch(inquiryActions.setInquiry(StudentInquiry))
-                            dispatch(tutorsActions.setTutor(UserSchema))
-                        }}>
-                        <KeyboardBackspaceOutlinedIcon />
-                    </ButtonIcon>
                     <Typography
                         sx={(theme) => ({
                             fontSize: 25,
@@ -195,12 +137,7 @@ export default function Tutors({ }: Props) {
                     </Typography>
                 </CheckoutHeader>
 
-                <TutorsColumn
-                    sx={(theme) => ({
-                        [theme.breakpoints.down('sm')]: {
-                            display: tutor?._id ? 'none' : 'grid'
-                        }
-                    })}>
+                <TutorsColumn>
                     <Box sx={{ flexBasis: '100%', ml: 0, my: 1 }}>
                         <SearchInputWrap sx={{ ml: 0, my: 1 }}>
                             <SearchIcon sx={(theme) => ({
@@ -254,45 +191,12 @@ export default function Tutors({ }: Props) {
                             </TabButton>
                         </TabHeader>
                     </Box>
-                    {tutors.map((tutor, index) => (
+                    {pages.map((page, index) => (
                         <TutorItem key={index}
-                            tutor={tutor} mode='Send inquiry' />
+                            page={page}  />
                     ))}
                 </TutorsColumn>
-                {/* <TutorDetail sx={(theme) => ({
-                    [theme.breakpoints.down('sm')]: {
-                        display: tutor?._id ? 'block' : 'none'
-                    }
-                })}>
-                    {inquiryNetworkStatus !== 'creatingInquirySuccess' && tutor._id && (
-                        <DetailHeader sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                            <Avatar sx={{ ml: 1, mr: 1.4 }}>
-
-                            </Avatar>
-                            <Typography sx={{ flex: 1, fontSize: 16, fontWeight: 600 }}>
-                                {tutor.firstName} {tutor.lastName}
-                            </Typography>
-                        </DetailHeader>
-                    )}
-
-                    {inquiryNetworkStatus === 'creatingInquirySuccess' ? (
-                        <InquireSuccess />
-                    ) : (
-                        <>
-                            {inquiry === 'inquiry' ? (
-                                <InquiredItem Footer={InquiredFooter} inquiryId={inquiryId} />
-                            ) : tutor._id !== inquired?.tutorId ? (
-                                <FormContainer>
-                                    <InquiryForm
-                                        tutor={tutor}
-                                        submitHandler={() => { }}
-                                    />
-                                </FormContainer>
-                            ) : <SelectTutor />}
-
-                        </>
-                    )}
-                </TutorDetail> */}
+                
             </Container>
         </Layout >
     )

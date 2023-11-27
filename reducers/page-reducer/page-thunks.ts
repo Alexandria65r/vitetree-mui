@@ -49,6 +49,18 @@ export const fetchPageThunk = createAsyncThunk<void, string, { state: AppState }
             dispatch(cartActions.setNetworkStatus('clear-cart-error'))
         }
     })
+export const fetchPagesThunk = createAsyncThunk<void, undefined, { state: AppState }>
+    ('cartSlice/fetchPagesThunk', async (pageId, thunkAPI) => {
+        const dispatch = thunkAPI.dispatch
+        try {
+            const pages = await PageAPI.fetchPages()
+            if (pages) {
+                dispatch(pageActions.setPages(pages))
+            }
+        } catch (error) {
+            dispatch(cartActions.setNetworkStatus('clear-cart-error'))
+        }
+    })
 
 
 export const updatePageThunk = createAsyncThunk<any, any, { state: AppState }>
