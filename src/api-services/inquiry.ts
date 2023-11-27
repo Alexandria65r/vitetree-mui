@@ -1,4 +1,5 @@
-import { StudentInquiry, User } from "../reusable/interfaces";
+import { User } from "../models/user";
+import { StudentInquiry } from "../reusable/interfaces";
 import axios from 'axios'
 
 
