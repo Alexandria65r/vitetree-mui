@@ -12,8 +12,6 @@ import ForumReducer from '../reducers/forum-reducer'
 import InquiryReducer from '../reducers/inquiry-reducer'
 import TutorsReducer from '../reducers/tutors-reducer'
 import NotificationsReducer from '../reducers/notification-reducer'
-import TaskReducer from '../reducers/tasks-reducer'
-import TaskUpdatesReducer from '../reducers/task-updtes-reducer'
 import bidsReducer from '../reducers/bids-reducer'
 import AcademicReducer from '../reducers/academic-answers-reducer'
 import DropzoneReducer from '../reducers/dropzone-reducer'
@@ -35,8 +33,6 @@ const rootReducer = combineReducers({
   InquiryReducer,
   TutorsReducer,
   NotificationsReducer,
-  TaskReducer,
-  TaskUpdatesReducer,
   bidsReducer,
   AcademicReducer,
   DropzoneReducer,

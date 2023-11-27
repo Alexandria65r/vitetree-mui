@@ -84,7 +84,7 @@ export default function SideBar({ }: Props) {
         const auth = getAuth()
         try {
             await signOut(auth)
-            Cookies.remove(types.SCHOOYARD_AUTH_TOKEN)
+            Cookies.remove(types.PUSHMEPAL_AUTH_TOKEN)
             window.location.href = '/'
         } catch (error) {
             console.log(error)
