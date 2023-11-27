@@ -1,15 +1,16 @@
 //helper function that adds value to the channel's property photoURL
 
 import { ObjMapper } from "../../../database/objectMapper";
-import { User } from "../../../database/schema";
-import { User as UserType, VideoCourse } from "../../../reusable/interfaces";
+import { User, UserModel } from "../../../models/user";
+
+import { VideoCourse } from "../../../reusable/interfaces";
 
 export async function normalizedCoursesWithTutorPhotoURL(
     videos: any[],
 ) {
     let clonedVideos: VideoCourse[] = [];
-    const users: UserType[]  = await User.find({});
-    const clonedUsers: UserType[] = [...ObjMapper(users)];
+    const users = await UserModel.find({});
+    const clonedUsers: User[] = [...ObjMapper(users)];
 
     if (users.length > 0 && videos.length > 0) {
         for (let vidIndex = 0; vidIndex < videos.length; vidIndex++) {
