@@ -2,21 +2,13 @@ import { Box, ButtonBase, MenuItem, Popover, colors, styled } from '@mui/materia
 import React from 'react'
 import { CSS_PROPERTIES } from '../../reusable';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { mainActions } from '../../../reducers/main-reducer';
-import * as types from '../../reusable'
-import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
-import AppRegistrationOutlinedIcon from '@mui/icons-material/AppRegistrationOutlined';
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { colorScheme } from '../../theme';
 import PopupState, { bindPopover, bindTrigger } from 'material-ui-popup-state'
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import classes from '../../styles/reusable.module.css'
-import { Participant, Test, VideoCourse } from '../../reusable/interfaces';
+import { VideoCourse } from '../../reusable/interfaces';
 import { useRouter } from 'next/router';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { StyledButton } from '../../reusable/styles';
-import AddIcon from '@mui/icons-material/Add';
-import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import AddShoppingCartOutlinedIcon from '@mui/icons-material/AddShoppingCartOutlined';
 import InventoryOutlinedIcon from '@mui/icons-material/InventoryOutlined';

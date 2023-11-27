@@ -12,7 +12,7 @@ import ForumReducer from '../reducers/forum-reducer'
 import InquiryReducer from '../reducers/inquiry-reducer'
 import TutorsReducer from '../reducers/tutors-reducer'
 import NotificationsReducer from '../reducers/notification-reducer'
-import bidsReducer from '../reducers/bids-reducer'
+
 import AcademicReducer from '../reducers/academic-answers-reducer'
 import DropzoneReducer from '../reducers/dropzone-reducer'
 import PageReducer from '../reducers/page-reducer'
@@ -33,7 +33,6 @@ const rootReducer = combineReducers({
   InquiryReducer,
   TutorsReducer,
   NotificationsReducer,
-  bidsReducer,
   AcademicReducer,
   DropzoneReducer,
   PageReducer
