@@ -13,16 +13,16 @@ interface TabPanelProps {
 type Props = {
     links: string[];
     path: string
-    mode: 'read-only'| 'page-user'
+    mode: 'author' | 'read-only'
 }
 
 
 
-export default function PageTabs({ links, path,mode }: Props) {
+export default function PageTabs({ links, path, mode }: Props) {
     const router = useRouter()
     const [value, setValue] = React.useState(0);
     const params: any = router.query.params || []
-    
+
     React.useEffect(() => {
         if (params?.length) {
             const index = links.indexOf(params[1])

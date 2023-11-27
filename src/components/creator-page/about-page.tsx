@@ -26,9 +26,9 @@ const AboutHead = styled(Box)(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    height:60,
+    height: 60,
     [theme.breakpoints.down('sm')]: {
-        height:50,
+        height: 50,
         width: '100%',
         borderBottom: `1px solid ${colorScheme(theme).grayToSecondaryColor}`,
     }
@@ -76,17 +76,17 @@ export default function AboutPage({ page, mode }: Props) {
                 <ThemedText sx={{ textAlign: 'center', fontSize: 16, fontWeight: 600 }}>
                     About This Page
                 </ThemedText>
-                <ButtonIcon onClick={() => setEdit(!isEdit)}>
-                    <FaEdit fontSize={21} />
-                </ButtonIcon>
+                {mode === 'author' && (
+                    <ButtonIcon onClick={() => setEdit(!isEdit)}>
+                        <FaEdit fontSize={21} />
+                    </ButtonIcon>
+                )}
             </AboutHead>
 
             {isEdit ? (<EditFormWrap>
                 <Textarea value={page.about} name="about" onChange={handleInputChange}
                     sx={{ width: '100%', borderRadius: 1 }} minRows={5}
                     placeholder='About Page' />
-
-
                 <StyledButton onClick={toggleEdit}
                     sx={(theme) => ({
                         mt: 2,
@@ -98,7 +98,7 @@ export default function AboutPage({ page, mode }: Props) {
                     <FaRegEdit style={{ marginRight: 5 }} /> Update
                 </StyledButton >
             </EditFormWrap>) : (<>
-                <Box sx={{ display: 'grid', px: 1, py:1, justifyContent: 'cente' }}>
+                <Box sx={{ display: 'grid', px: 1, py: 1, justifyContent: 'cente' }}>
                     <ThemedText sx={{ textAlign: 'center' }}>{page.about}</ThemedText>
                 </Box>
             </>)

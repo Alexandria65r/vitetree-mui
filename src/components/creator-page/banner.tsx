@@ -18,12 +18,13 @@ const Container = styled(Box)(({ theme }) => ({
     },
 }))
 const BannerWrapper = styled(Box)(({ theme }) => ({
-    height: 400,
+    height: 260,
     borderRadius: 10,
     backgroundColor: colorScheme(theme).grayToSecondaryColor,
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
     backgroundSize: 'cover',
+    border:`1px solid ${colorScheme(theme).grayToSecondaryColor}`,
     [theme.breakpoints.down('sm')]: {
         height: 160,
         margin: 10,
@@ -48,7 +49,7 @@ const SetCoverButton = styled(StyledButton)(({ theme }) => ({
 
 
 type Props = {
-    mode?: 'author-only' | ''
+    mode?: 'author' | 'read-only'
 }
 
 export default function Banner({ mode }: Props) {
@@ -58,10 +59,13 @@ export default function Banner({ mode }: Props) {
     const avatarStyles: SxProps<Theme> | undefined = {
         height: 180, width: 180,
         position: 'absolute',
-        left: '50%',
-        bottom: '-61px',
-        transform: 'translateX(-50%)',
+        left: '15%',
+        bottom: '-222px',
+        border:`1px solid ${colorScheme(_theme).grayToSecondaryColor}`,
+        //transform: 'translateX(-50%)',
         [_theme.breakpoints.down('sm')]: {
+            left: '50%',
+            transform: 'translateX(-50%)',
             height: 80, width: 80,
             bottom: '-31px',
         }
@@ -106,7 +110,7 @@ export default function Banner({ mode }: Props) {
             <BannerWrapper
                 className={styles.container}
                 sx={{ backgroundImage: `url(${base64 || page.imageAssets.background.secureURL})` }}>
-                {mode === 'author-only' && (
+            {mode === 'author'&& (
                     <SetCoverButton className={styles.coverButton} onClick={() => fileRef?.current?.click()}>
                         <ImageIcon />
                         Set cover

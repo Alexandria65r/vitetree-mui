@@ -12,7 +12,7 @@ import styles from './user-avatar.module.css'
 
 
 type Props = {
-    mode?: 'author-only' | ''
+    mode?: 'author' | 'read-only'
     userId?: string
     imageURL?: string
     changeImagePreview?: any
@@ -24,10 +24,10 @@ type Props = {
 const BrowseImage = styled(ButtonIcon)(({ theme }) => ({
     position: 'absolute',
     zIndex: 200,
-    bottom: -20,
+    bottom: -4,
     left: '50%',
     color: '#000',
-    transform: 'translateX(120%)',
+    transform: 'translateX(87%)',
     backgroundColor: '#fff',
     boxShadow: `0 1px 3px 0 ${colorScheme(theme).shadowColor}`,
     '&:hover': {
@@ -36,7 +36,7 @@ const BrowseImage = styled(ButtonIcon)(({ theme }) => ({
     [theme.breakpoints.down('sm')]: {
         width: 35,
         height: 35,
-        bottom: -30,
+        bottom: -6,
         transform: 'translateX(60%)',
     }
 }))
@@ -105,23 +105,23 @@ export default function UserAvatar({ userId, imageURL, changeImagePreview, avata
                         <img src={changeImagePreview || base64 || userAvatar.secureURL || imageURL} alt="" height='100%' width='100%'
                             style={{ borderRadius: '50%', objectFit: 'cover' }}
                         />
-                    </Avatar>
-                    {mode === 'author-only' && (
+                    {mode === 'author' && (
                         <BrowseImage className={styles.profileButton} onClick={() => fileRef.current.click()}>
                             <ImageIcon />
                         </BrowseImage>
                     )}
+                    </Avatar>
                 </Box>) : (
                 <Box>
                     <AvatarIcon
                         sx={avatarStyles}>
-                    </AvatarIcon>
-                    {mode === 'author-only' && (
+
+                    {mode === 'author' && (
                         <BrowseImage className={styles.profileButton} onClick={() => fileRef.current.click()}>
                             <ImageIcon />
                         </BrowseImage>
-
                     )}
+                    </AvatarIcon>
                 </Box>
             )}
             <input type='file' ref={fileRef} hidden onChange={fileOnChange} />

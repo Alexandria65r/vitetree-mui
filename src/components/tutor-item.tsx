@@ -109,7 +109,7 @@ export default function PageItem({ page, }: Props) {
                                 {page.cartegory}
                             </Typography>
                             <Typography sx={{ fontSize: 13, lineHeight: 1.2, mt: .5, color: 'GrayText', fontWeight: 500 }}>
-                                This is a description of this creator.
+                                {page.bio}
                             </Typography>
                         </Box>) : (<Box sx={(theme) => ({
                             p: 1,
@@ -138,11 +138,10 @@ export default function PageItem({ page, }: Props) {
             </Box>
 
             <ItemFooter>
-                <Link href={`/${page.pageId}/send-star`}>
+                <Link href={`/${page.pageId}/send-star`} style={{ flexBasis: '60%', }}>
                     <StyledButtonOutlined
-
                         sx={(theme) => ({
-                            flexBasis: '60%',
+                            width:'100%',
                             fontSize: 14,
                             fontWeight: 600,
                             color: colorScheme(theme).TextColor,

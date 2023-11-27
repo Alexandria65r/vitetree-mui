@@ -48,16 +48,13 @@ const CardBody = styled(Box)(({ theme }) => ({
     }
 }))
 const SupportHeader = styled(Box)(({ theme }) => ({
-    width: '80%',
+    width: '40%',
     display: 'grid',
     padding: 8,
     margin: '10px auto',
     justifyContent: 'center',
-    [theme.breakpoints.down('xs')]: {
-        width: '90%',
-    },
     [theme.breakpoints.down('sm')]: {
-
+        width: '90%',
     },
 }))
 const CardFooter = styled(Box)(({ theme }) => ({

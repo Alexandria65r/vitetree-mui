@@ -23,6 +23,7 @@
     "cloudinary-react": "^1.8.1",
     "firebase": "^9.19.1",
     "format-money-js": "^1.6.3",
+    "hex-to-rgba": "^2.0.1",
     "is-url": "^1.2.4",
     "js-cookie": "^3.0.1",
     "js-file-download": "^0.4.12",
