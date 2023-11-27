@@ -1,8 +1,9 @@
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import connection from '../../../../database/connection'
-import { Course, User } from "../../../../database/schema";
+import { Course } from "../../../../database/schema";
 import { normalizedCoursesWithTutorPhotoURL } from "../../helpers";
 import { VideoCourse } from "../../../../reusable/interfaces";
+import { UserModel } from "../../../../models/user";
 
 
 const fetchPurchasedCourses: NextApiHandler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -11,7 +12,7 @@ const fetchPurchasedCourses: NextApiHandler = async (req: NextApiRequest, res: N
     const coursesAll = await Course.find({ type: 'introduction' })
 
     console.log(owner)
-    const user = await User.findById({ _id: owner });
+    const user = await UserModel.findById({ _id: owner });
 
     if (user) {
         const ids: string[] = user.courses ?? []
