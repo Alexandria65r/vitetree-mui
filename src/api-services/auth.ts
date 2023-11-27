@@ -1,5 +1,6 @@
 import axios from "axios";
-import { Signin, User, UserAvatarAsset } from "../reusable/interfaces";
+import { Signin, UserAvatarAsset } from "../reusable/interfaces";
+import { User } from "../models/user";
 
 
 export default class AuthAPI {
