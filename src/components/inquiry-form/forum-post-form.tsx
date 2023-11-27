@@ -6,11 +6,12 @@ import { StyledButton, Textarea } from '../../reusable/styles'
 import AddCommentOutlinedIcon from '@mui/icons-material/AddCommentOutlined';
 import { colorScheme } from '../../theme'
 import { CSS_PROPERTIES } from '../../reusable'
-import { TutorService, User } from '../../reusable/interfaces'
+import { TutorService } from '../../reusable/interfaces'
 import { inquiryActions } from '../../../reducers/inquiry-reducer'
 import { AppSpinner } from '../activity-indicators'
 import { createInquiryThunk } from '../../../reducers/inquiry-reducer/inquiry-thunks'
 import { tutorServices } from '../../reusable/helpers'
+import { User } from '../../models/user'
 
 const ChoicesContainer = styled(Box)(({ theme }) => ({
     [theme.breakpoints.down('sm')]: {
@@ -142,13 +143,13 @@ export default function InquiryForm({ tutor, submitHandler }: Props) {
                 name="service"
                 onChange={handleOnChange}
             >
-                {tutor.tutorInfo?.services.map((service, index) => (
+                {/* {tutor.tutorInfo?.services.map((service, index) => (
                     <TutorService
                         key={index}
                         service={service}
                         error={isErr && !inquiry.service.label}
                     />
-                ))}
+                ))} */}
             </RadioGroup>
             <FormControl>
                 <TextInput sx={{ flexBasis: '50%' }}
