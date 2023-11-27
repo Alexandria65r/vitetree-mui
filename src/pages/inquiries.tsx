@@ -10,10 +10,10 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { fetchInquiriesThunk } from '../../reducers/inquiry-reducer/inquiry-thunks'
 import { inquiryActions } from '../../reducers/inquiry-reducer'
 import { useRouter } from 'next/router'
-import InquiredItem from './find-creators/inquiredItem'
+
 import NotificationItemSkeleton from '../components/notification-item-sekeleton'
 import { KeyboardBackspace } from '@mui/icons-material'
-import ResponseFooter from '../components/service-inquiry/response-footer'
+
 import NotificationInquiryItem from '../components/notification-inquiry-item-copy'
 
 
@@ -206,10 +206,7 @@ export default function Notifications({ }: Props) {
                                 {params[2] === 'detail' ? `John Doe - Student` : <Skeleton sx={{ width: 260 }} />}
                             </Typography>
                         </Box>
-                        <InquiredItem
-                            Footer={ResponseFooter}
-                            inquiryId={params[3]}
-                        />
+                
                     </ItemContainer>
 
 
