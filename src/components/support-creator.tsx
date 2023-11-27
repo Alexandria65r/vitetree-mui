@@ -4,6 +4,7 @@ import { styled, Box, useTheme, colors } from '@mui/material'
 import { ThemedText, colorScheme } from '../theme'
 import { StyledButton, StyledInput } from '../reusable/styles'
 import { formatMoney } from '../reusable/helpers'
+import { Page } from '../models/page/page.model'
 const Container = styled(Box)(({ theme }) => ({
     width: '100%'
 }))
@@ -73,9 +74,11 @@ type Star = {
     amount: number;
     accent: string
 }
-type Props = {}
+type Props = {
+    page:Page
+}
 
-export default function SupportCreator({ }: Props) {
+export default function SupportCreator({page }: Props) {
 
     const stars: Star[] = [
         { name: 'starter', amount: 10, accent: colors.teal[500] },
@@ -90,9 +93,11 @@ export default function SupportCreator({ }: Props) {
         <Container>
             <SupportHeader>
                 <ThemedText sx={{ textAlign: 'center', fontSize: 24, fontWeight: 700 }}>
-                    Support  Creator
+                    Support Creator
                 </ThemedText>
-                <ThemedText sx={{ textAlign: 'center', lineHeight: 1.3 }}>Supporting John Doe will enable him to continue doing his work even more.</ThemedText>
+                <ThemedText sx={{ textAlign: 'center', lineHeight: 1.3 }}>
+                Supporting {page.name} will enable him to continue doing his work even more.
+            </ThemedText>
             </SupportHeader>
             <MappedSupportCards>
                 {stars.map((item, index) => (

@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { CartItem } from '../../src/reusable/interfaces'
+import { Page, PageSchema } from '../../src/models/page/page.model'
 
 export type CartNetworkStatus =
     'fetching' |
@@ -15,13 +16,18 @@ export type CartNetworkStatus =
 
 
 type PageState = {
-    isFormOpen: boolean
+    page:Page;
+    isFormOpen: boolean;
+
 }
 
 
 const initialState: PageState = {
+    page: PageSchema,
     isFormOpen: false
 }
+
+
 
 
 const pageSlice = createSlice({
@@ -30,6 +36,9 @@ const pageSlice = createSlice({
     reducers: {
         setIsFormOpen: (state, { payload }: PayloadAction<boolean>) => {
             state.isFormOpen = payload
+        },
+        setPageData: (state, { payload }: PayloadAction<Page>) => {
+            state.page = payload
         }
     }
 })

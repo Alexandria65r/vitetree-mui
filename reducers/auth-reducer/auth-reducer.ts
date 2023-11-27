@@ -1,7 +1,8 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { TutorService, User } from '../../src/reusable/interfaces';
-import { TutorServiceSchema, UserSchema } from '../../src/reusable/schemas';
+import { TutorService } from '../../src/reusable/interfaces';
+import { TutorServiceSchema } from '../../src/reusable/schemas';
 import { Card, CardModel } from '../../src/models/card';
+import { User, UserSchema } from '../../src/models/user';
 type Role = 'tutor' | 'student' | ''
 export type AuthNetworkStatus =
     'signup' | 'signup-success' | 'signup-error' |

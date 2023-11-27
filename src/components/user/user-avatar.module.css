@@ -1,0 +1,7 @@
+.profileButton {
+  display: none;
+}
+
+.avatar:hover .profileButton {
+  display: flex!important;
+}

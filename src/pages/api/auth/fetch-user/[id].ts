@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { User } from "../../../../database/schema";
+import { UserModel } from "../../../../models/user";
+
 
 
 export default async function FetchUser(
@@ -7,7 +8,7 @@ export default async function FetchUser(
     res: NextApiResponse
 ) {
     const _id = req.query.id || [];
-    const user:any = await User.findById({_id})
+    const user:any = await UserModel.findById({_id})
     if (user) {
       
         return res.status(200).json({

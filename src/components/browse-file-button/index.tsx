@@ -32,7 +32,6 @@ export default function BrowseFileButton({ children, mode, getBlob, disabled, lo
     }
 
     function fileOnChange({ target: { files } }: any) {
-
         const file = files[0]
         if (file) {
             const reader = new FileReader()
@@ -44,6 +43,10 @@ export default function BrowseFileButton({ children, mode, getBlob, disabled, lo
             reader.readAsDataURL(file)
         }
     }
+
+
+
+
 
     return (<>
         {disabled ? (<>

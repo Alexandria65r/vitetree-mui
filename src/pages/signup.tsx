@@ -108,7 +108,8 @@ export default function Signup({ }: Props) {
           email: currentUser?.email ?? '',
           role: getUserRole() ?? '',
           password: '',
-          gender: ''
+          gender: '',
+
         }))
       }
     }
@@ -152,23 +153,31 @@ export default function Signup({ }: Props) {
               label="Last Name"
               placeholder="Last Name" />
           </FormControl>
-          <FormControl>
-            <TextInput name="email"
-              error={isError && !signUpData.email} value={signUpData.email}
-              onChange={handleOnChange}
-              sx={{ flex: 1 }} label="Email" placeholder="Email" />
-          </FormControl>
 
           <FormControl>
             <Select onChange={handleOnChange}
-              sx={{ flexBasis: '48%' }}
+              sx={{ flex: 1 }}
               error={isError && !signUpData.role}
               value={signUpData.role || undefined}
-              name='role' defaultValue='Select Role' >
-              <MenuItem value="Select Role">Select Role</MenuItem>
-              <MenuItem value="student">Student</MenuItem>
-              <MenuItem value="tutor">Tutor</MenuItem>
+              name='country' defaultValue='Select Role' >
+                <MenuItem value="Country Region">Country Region</MenuItem>
+                <MenuItem value="Zambia">Zambia</MenuItem>
+                <MenuItem value="South Africa">South Africa</MenuItem>
             </Select>
+          </FormControl>
+
+          <FormControl>
+            <TextInput name="phone"
+              error={isError && !signUpData.phone} value={signUpData.phone}
+              onChange={handleOnChange}
+              sx={{ flexBasis: '48%' }} label="Phone Number" placeholder="Phone Number" />
+            <TextInput name="email"
+              error={isError && !signUpData.email} value={signUpData.email}
+              onChange={handleOnChange}
+              sx={{ flexBasis: '48%' }} label="Email" placeholder="Email" />
+          </FormControl>
+
+          <FormControl>
             <Select onChange={handleOnChange}
               sx={{ flexBasis: '48%' }}
               error={isError && !signUpData.gender}
@@ -178,6 +187,13 @@ export default function Signup({ }: Props) {
               <MenuItem value="female">Female</MenuItem>
               <MenuItem value="male">Male</MenuItem>
             </Select>
+            <TextInput
+              name="birthday"
+              type='date'
+              error={isError && !signUpData.birthday} value={signUpData.birthday}
+              onChange={handleOnChange}
+              sx={{ flexBasis: '48%' }} label="Birthday" placeholder="Birthday" 
+            />
           </FormControl>
           <FormControl>
             <TextInput name="password"

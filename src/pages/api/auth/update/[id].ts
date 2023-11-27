@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { User } from "../../../../database/schema";
+import { UserModel } from "../../../../models/user";
+
 
 
 
@@ -8,7 +9,7 @@ export default async function UpdateUser(
     res: NextApiResponse) {
     const update = req.body
     const _id = req.query.id
-    const updated = await User.findByIdAndUpdate({ _id }, update);
+    const updated = await UserModel.findByIdAndUpdate({ _id }, update);
     if (updated) {
         res.status(201).json({
             success: true,

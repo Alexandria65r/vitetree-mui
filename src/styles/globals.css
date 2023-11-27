@@ -135,7 +135,7 @@ a {
 }
 .toast {
   animation: toast 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
-  transform-origin: right;
+  transform-origin: top;
 }
 
 @keyframes toast {
@@ -144,6 +144,19 @@ a {
   }
   100% {
     transform: translateY(0px);
+  }
+}
+.trans-from-top {
+  animation: trans-from-top 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transform-origin: top;
+}
+
+@keyframes trans-from-top {
+  0% {
+    transform: translateX(-100px);
+  }
+  100% {
+    transform: translateX(0px);
   }
 }
 

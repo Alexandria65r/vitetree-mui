@@ -12,7 +12,7 @@ import InquiryForm from '../../components/inquiry-form/forum-post-form'
 import SearchIcon from '@mui/icons-material/Search';
 import { fetchTutorsThunk } from '../../../reducers/tutors-reducer/tutors-thunks'
 import { tutorsActions } from '../../../reducers/tutors-reducer'
-import { StudentInquiry, UserSchema } from '../../reusable/schemas'
+import { StudentInquiry } from '../../reusable/schemas'
 import InquireSuccess from './inquire-success'
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import ManageSearchOutlinedIcon from '@mui/icons-material/ManageSearchOutlined';
@@ -22,9 +22,10 @@ import SelectTutor from './select-tutor'
 import PersonSearchOutlinedIcon from '@mui/icons-material/PersonSearchOutlined';
 import InquiredFooter from '../../components/service-inquiry/inquired-footer'
 import { inquiryActions } from '../../../reducers/inquiry-reducer'
+import { UserSchema } from '../../models/user'
 
 const Container = styled(Box)(({ theme }) => ({
-    maxWidth: '95%',
+    width: '95%',
     margin: '20px auto',
     display: 'flex',
     flexWrap: 'wrap',
@@ -33,8 +34,11 @@ const Container = styled(Box)(({ theme }) => ({
     [theme.breakpoints.down("sm")]: {
         margin: '10px auto',
     },
+    [theme.breakpoints.up("md")]: {
+        width: '70%',
+    },
     [theme.breakpoints.up("xl")]: {
-        maxWidth: '35%',
+        width: '35%',
     }
 }))
 
@@ -137,7 +141,7 @@ export default function Tutors({ }: Props) {
     const inquiryNetworkStatus = useAppSelector((state) => state.InquiryReducer.inquiryNetworkStatus)
     const user = useAppSelector((state) => state.AuthReducer.user)
     const [sort, inquiry, inquiryId]: any = router.query.params || []
-    const inquiredList = user.inquiredList
+    const inquiredList = []
     console.log(inquiryId)
 
     const loadTutors = useCallback(() => {
@@ -152,11 +156,6 @@ export default function Tutors({ }: Props) {
         }
     }, [router.pathname])
 
-    const inquired = (function () {
-        const inquired = inquiredList?.find(
-            (item) => item.tutorId === tutor._id && item.status === 'active')
-        return inquired
-    })()
 
     return (
         <Layout>

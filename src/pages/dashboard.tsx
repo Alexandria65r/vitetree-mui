@@ -131,7 +131,7 @@ export default function Darshboard({ }: Props) {
                         <CreateButtonOptions />
                     </SearchContainer>
                     <MappedCards>
-                        {dashCardList(user.role, lightMode).map((card, index) => (
+                        {dashCardList(user?.role??'', lightMode).map((card, index) => (
                             <Link key={index} href={card.route}>
                                 <DashCard sx={(theme) => ({
                                     borderColor: card.accent,

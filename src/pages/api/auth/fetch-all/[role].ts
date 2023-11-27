@@ -1,14 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { User } from "../../../../database/schema";
-import { User as TypedUser } from "../../../../reusable/interfaces";
-
+import { User, UserModel } from "../../../../models/user";
 
 export default async function FetchUsers(
     req: NextApiRequest,
     res: NextApiResponse
 ) {
     const role = req.query.role || [];
-    const users:any = await User.find().where({ role }).exec()
+    const users:any = await UserModel.find().where({ role }).exec()
     if (users) {
         userMapper(users)
         return res.status(200).json({
@@ -18,7 +16,7 @@ export default async function FetchUsers(
     }
 }
 
-function userMapper(users: TypedUser[]) {
+function userMapper(users: User[]) {
     const mapped = users.map((user) => {
         user.password = '🔒🔒🔒🔒'
     })

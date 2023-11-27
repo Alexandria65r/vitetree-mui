@@ -1,38 +1,122 @@
 import { Box, SxProps, Theme, styled, useTheme } from '@mui/material'
-import React from 'react'
+import React, { useRef, useState } from 'react'
 import { colorScheme } from '../../theme'
 import UserAvatar from '../user/user-avatar'
+import { StyledButton } from '../../reusable/styles'
+import ImageIcon from '@mui/icons-material/Image';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks'
+import { createToastThunk, uploadFileThunk } from '../../../reducers/main-reducer/main-thunks'
+import { updatePageThunk } from '../../../reducers/page-reducer/page-thunks'
+import page from '../../api-services/page'
+import styles from './banner.module.css'
 
 const Container = styled(Box)(({ theme }) => ({
-    position: 'relative',
-    height: 400,
-    borderRadius: 10,
-    backgroundColor: colorScheme(theme).grayToSecondaryColor,
+    position: 'relative', width: '100%', height: '100%', marginBottom: '65px',
     [theme.breakpoints.down('sm')]: {
         height: 160,
         margin: 10,
     },
 }))
+const BannerWrapper = styled(Box)(({ theme }) => ({
+    height: 400,
+    borderRadius: 10,
+    backgroundColor: colorScheme(theme).grayToSecondaryColor,
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+    [theme.breakpoints.down('sm')]: {
+        height: 160,
+        margin: 10,
+    },
+}))
+const SetCoverButton = styled(StyledButton)(({ theme }) => ({
+    position: 'absolute',
+    left: '50%',
+    top: '50%',
+    fontSize: 14,
+    padding: '0 15px',
+    transform: 'translate(-50%,-50%)',
+    borderRadius: 25,
+    backgroundColor: '#00000054',
+    fontWeight: 600,
+    [theme.breakpoints.down('sm')]: {
+        transform: 'translate(-50%,-80%)',
+    },
+}))
 
 
-type Props = {}
 
-export default function Banner({ }: Props) {
+
+type Props = {
+    mode?: 'author-only' | ''
+}
+
+export default function Banner({ mode }: Props) {
     const _theme = useTheme()
+    const dispatch = useAppDispatch()
+    const page = useAppSelector((state) => state.PageReducer.page)
     const avatarStyles: SxProps<Theme> | undefined = {
         height: 180, width: 180,
         position: 'absolute',
         left: '50%',
-        bottom: '-31px',
+        bottom: '-61px',
         transform: 'translateX(-50%)',
         [_theme.breakpoints.down('sm')]: {
             height: 80, width: 80,
             bottom: '-31px',
         }
     }
+
+    const [base64, setBase64] = useState<string | ArrayBuffer | null>('')
+    const fileRef: any = useRef()
+
+    function fileOnChange({ target: { files } }: any) {
+        const reader = new FileReader()
+        reader.onload = async () => {
+            const base64 = reader.result
+            setBase64(base64)
+            const response = await dispatch(uploadFileThunk({
+                base64,
+                resource_type: 'image',
+                preset: 'image_preset'
+            }))
+
+            if (response.payload.publicId) {
+                page.imageAssets
+                const { payload } = await dispatch(updatePageThunk({
+                    imageAssets: {
+                        ...page.imageAssets,
+                        background: response.payload
+                    }
+                }))
+
+                if (payload) {
+                    dispatch(createToastThunk('Cover image updated succesfully'))
+                }
+            }
+        }
+        reader.readAsDataURL(files[0])
+    }
+
+
+
+
     return (
         <Container>
-            <UserAvatar imageURL={''} avatarStyles={avatarStyles} />
+            <BannerWrapper
+                className={styles.container}
+                sx={{ backgroundImage: `url(${base64 || page.imageAssets.background.secureURL})` }}>
+                {mode === 'author-only' && (
+                    <SetCoverButton className={styles.coverButton} onClick={() => fileRef?.current?.click()}>
+                        <ImageIcon />
+                        Set cover
+                    </SetCoverButton>
+                )}
+
+            </BannerWrapper>
+
+            <UserAvatar imageURL={page.imageAssets.profile.secureURL} mode={mode} avatarStyles={avatarStyles} />
+            <input type='file' ref={fileRef} hidden onChange={fileOnChange} />
         </Container>
     )
 }

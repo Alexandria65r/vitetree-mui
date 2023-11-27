@@ -1,11 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { Signin, } from '../../../reusable/interfaces'
-import { User } from '../../../database/schema';
+
 import JWT from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
 import connection from '../../../database/connection';
 
 import { env } from 'process';
+import { UserModel } from '../../../models/user';
 
 const secret: any = env.JWT_SECRET
 
@@ -13,7 +14,7 @@ export default async function SigninEndpoint(req: NextApiRequest, res: NextApiRe
     await connection()
     const singin: Signin = req.body;
 
-    const user: any = await User.findOne({ email: singin.email });
+    const user: any = await UserModel.findOne({ email: singin.email });
 
     if (!user) {
         res.json({ error: true, accountError: true, message: "user doesn't exist" })

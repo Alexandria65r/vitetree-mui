@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useCallback, useEffect } from 'react'
 import Layout from '../../components/layout'
 import { styled, Box, Theme, SxProps, useTheme, colors } from '@mui/material'
 import { ThemedText, colorScheme } from '../../theme'
@@ -13,6 +13,10 @@ import YouTubeIcon from '@mui/icons-material/YouTube';
 import PageTabs from '../../components/page-tab-bar'
 import SupportCreator from '../../components/support-creator'
 import Banner from '../../components/creator-page/banner'
+import { fetchPageThunk } from '../../../reducers/page-reducer/page-thunks'
+import { useAppDispatch, useAppSelector } from '../../../store/hooks'
+import AboutPage from '../../components/creator-page/about-page'
+
 const Container = styled(Box)(({ theme }) => ({
     [theme.breakpoints.up('xl')]: {
         width: '70%',
@@ -39,18 +43,17 @@ const PageInfo = styled(Box)(({ theme }) => ({
     }
 }))
 
-const About = styled(Box)(({ theme }) => ({
-    display: 'flex',
-    justifyContent: 'center',
-    width: '60%',
+
+const InfoHead = styled(Box)(({ theme }) => ({
+    width: '100%',
     margin: 'auto',
-    minHeight: 100,
-    alignItems: 'center',
+    //display: 'grid',
+    marginBottom: 8,
+    justifyContent: 'center',
     [theme.breakpoints.down('sm')]: {
-        width: '90%',
+        width: '100%',
     }
 }))
-
 
 
 
@@ -58,9 +61,24 @@ const About = styled(Box)(({ theme }) => ({
 type Props = {}
 
 function index({ }: Props) {
+    const dispatch = useAppDispatch()
     const router = useRouter()
-    const params: any = router.query.params || []
+    const [pageId, secondParam]: any = router.query.params || []
+    const page = useAppSelector((state) => state.PageReducer.page)
     const _theme = useTheme()
+
+    console.log(secondParam)
+    console.log(router.query)
+
+    const loadPageData = useCallback(() => {
+        if (pageId) {
+            dispatch(fetchPageThunk(pageId))
+        }
+    }, [pageId])
+
+    useEffect(() => {
+        loadPageData()
+    }, [pageId])
 
 
     return (
@@ -68,17 +86,21 @@ function index({ }: Props) {
             <Container>
                 <Banner />
                 <PageInfo>
-                    <Box sx={{ display: 'grid', justifyContent: 'center' }}>
-                        <ThemedText sx={{ textAlign: 'center', fontSize: 24, fontWeight: 700 }}>John Doe</ThemedText>
-                        <ThemedText sx={{ textAlign: 'center' }}>this is a breif description of this page</ThemedText>
+                    <InfoHead>
+                        <ThemedText sx={{ textTransform: 'capitalize', textAlign: 'center', fontSize: 24, fontWeight: 700 }}>
+                            {page.name || 'Page Name'}
+                        </ThemedText>
+                        <ThemedText sx={{ textAlign: 'center', fontSize: 13, lineHeight: 1.2, }}>{page.bio}</ThemedText>
                         <Box sx={{ display: 'flex', gap: 1, mt: 2, alignItems: 'center' }}>
-                            <StyledButton sx={{ flex: 1, fontWeight: 700, borderBottom: `3px solid ${colors.teal[500]}` }}>Follow</StyledButton>
+                            <StyledButton sx={{ flexBasis: '70%', fontWeight: 700, borderBottom: `3px solid ${colors.teal[500]}` }}>
+                                Payout
+                            </StyledButton>
                             <StyledButton
                                 sx={(theme) => ({ fontSize: 14, bgcolor: colorScheme(theme).grayToSecondaryColor, color: colorScheme(theme).TextColor })} >
                                 <IosShareIcon sx={{ mb: .8, fontSize: 18 }} /> Share
                             </StyledButton>
                         </Box>
-                    </Box>
+                    </InfoHead>
                     <SocialLinks>
                         <ButtonIcon sx={{ color: colors.blue[500] }}>
                             <FacebookOutlinedIcon />
@@ -93,23 +115,11 @@ function index({ }: Props) {
                             <FaTiktok />
                         </ButtonIcon>
                     </SocialLinks>
-                    <PageTabs links={['send-star', 'exclusive', 'about']} path='@creator' mode='read-only' />
+                    <PageTabs links={['send-star', 'exclusive', 'about']} path={page.pageId} mode='read-only' />
                 </PageInfo>
-                {params?.length ? (<>
-                    {params[1] === 'send-star' && <SupportCreator />}
-                    {params[1] === 'about' && (
-                        <About>
-                            <Box sx={{ display: 'grid', p: 2, justifyContent: 'center' }}>
-                                <ThemedText sx={{ textAlign: 'center', fontSize: 24, fontWeight: 700 }}>
-                                    About Creator
-                                </ThemedText>
-                                <ThemedText sx={{ textAlign: 'center' }}>
-                                    Supporting John Doe will enable him to continue doing his work even more.
-                                </ThemedText>
-                            </Box>
-                        </About>
-                    )}
-
+                {secondParam ? (<>
+                    {secondParam === 'send-star' && <SupportCreator page={page} />}
+                    {secondParam === 'about' && <AboutPage page={page} mode='read-only' />}
                 </>) : <></>}
             </Container>
         </Layout>

@@ -2,14 +2,6 @@ import * as Types from "./interfaces";
 import { TutorService } from "./interfaces";
 
 
-export const UserSchema: Types.User = {
-    role: '',
-    gender: '',
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-}
 
 export const StudentInfo: Types.StudentInfo = {
     startYear: '',

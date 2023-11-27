@@ -1,24 +1,6 @@
 import mongoose from "mongoose";
 
-const UserSchema = new mongoose.Schema({
-  firstName: { type: String, required: true },
-  lastName: { type: String, required: true },
-  email: { type: String, required: true },
-  role: { type: String, required: true },
-  birthday: { type: String, required: false },
-  password: { type: String, required: true },
-  country: { type: String, required: false },
-  imageAsset: { publicId: String, secureURL: String },
-  courses: { type: Array, required: false },
-  creatorId:  { type: String, required: false },
-  tutorInfo: { type: Object, required: false },
-  inquiredList: { type: Array, required: false },
-  studentInfo: { type: Object, required: false },
-  accountBalance: { type: String, required: false },
-  createdAt: { type: Date, default: Date.now },
-});
 
-export const User = mongoose.model("user", UserSchema);
 
 const TestSchema = new mongoose.Schema({
   _id: String,

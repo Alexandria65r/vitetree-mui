@@ -156,7 +156,7 @@ export default function NewTest({ }: Props) {
             type: 'introduction',
             author: {
                 authorId: user._id ?? '',
-                name: user.tutorInfo?.name ?? ''
+                name:''
             },
         })
 

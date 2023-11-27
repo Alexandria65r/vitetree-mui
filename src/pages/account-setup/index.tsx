@@ -22,7 +22,10 @@ const Container = styled(Box)(({ theme }) => ({
     margin: '1px auto',
     alignItems: 'center',
     width: '100%',
-  }
+  },
+  // [theme.breakpoints.up("md")]: {
+  //   width: '90%',
+  // }
 }))
 
 export const ServicesCol = styled(Box)(({ theme }) => ({
@@ -46,6 +49,9 @@ export const FormCol = styled(Box)(({ theme }) => ({
   boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
   [theme.breakpoints.down("sm")]: {
     flexBasis: '96%'
+  },
+  [theme.breakpoints.up("md")]: {
+    flexBasis: '55%'
   },
   [theme.breakpoints.up("xl")]: {
     flexBasis: '30%'
@@ -108,11 +114,12 @@ export default function TutorForm({ }: Props) {
     setLoading(role)
     const { data } = await AuthAPI.update(signUpData._id ?? '', {
       role,
+      interaction: role,//dynamic
     })
     if (data.success) {
       setLoading('')
       if (role === 'creator') {
-        router.push('/page/setup')
+        router.push('/page/create')
       } else {
         router.push('/find-creators/q=nothing')
       }

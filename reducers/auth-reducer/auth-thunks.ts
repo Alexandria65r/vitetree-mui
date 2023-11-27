@@ -2,8 +2,8 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AppState } from "../../store/store";
 import AuthAPI from "../../src/api-services/auth";
 import { AuthNetworkStatus, authActions } from "./auth-reducer";
-import { Signin, User, UserAvatarAsset } from "../../src/reusable/interfaces";
-import { SCHOOYARD_AUTH_TOKEN } from "../../src/reusable";
+import { Signin, UserAvatarAsset } from "../../src/reusable/interfaces";
+import { PUSHMEPAL_AUTH_TOKEN } from "../../src/reusable";
 import Cookies from "js-cookie";
 import router, { Router } from "next/router";
 import { Card } from "../../src/models/card";
@@ -12,6 +12,7 @@ import randomstring from 'randomstring'
 import { FormatMoney } from "format-money-js";
 import { clearCartThunk } from "../cart-reducer/cart-thunks";
 import { createToastThunk } from "../main-reducer/main-thunks";
+import { User } from "../../src/models/user";
 
 const fm = new FormatMoney({
     decimals: 2
@@ -24,8 +25,8 @@ export const signupThunk = createAsyncThunk<void, undefined, { state: AppState }
         const dispatch = thunkAPI.dispatch
         const state = thunkAPI.getState()
         const signUpData = state.AuthReducer.user
-        const { firstName, lastName, email, role, password, gender } = signUpData
-        if (!(firstName && lastName && email && role && password && gender)) {
+        const { firstName, lastName, email, password, gender } = signUpData
+        if (!(firstName && lastName && email && password && gender)) {
             dispatch(authActions.setError(true))
         } else {
             try {
@@ -33,10 +34,9 @@ export const signupThunk = createAsyncThunk<void, undefined, { state: AppState }
                 const { data } = await AuthAPI.signUp(signUpData)
                 if (data.success) {
                     dispatch(authActions.setAuthNetworkStatus('signup-success'))
-                    Cookies.set(SCHOOYARD_AUTH_TOKEN, data.token)
+                    Cookies.set(PUSHMEPAL_AUTH_TOKEN, data.token)
                     dispatch(authActions.setAuhtUser(data.user))
-                    router.replace(`/account-setup/${data.user.role}`)
-                    localStorage.removeItem('getting-started-role')
+                    router.replace(`/account-setup`)
                 }
             } catch (error) {
                 dispatch(authActions.setAuthNetworkStatus('signup-error'))
@@ -58,14 +58,14 @@ export const SignInThunk = createAsyncThunk<void, Signin, { state: AppState }>
                 const user: User = data.user
                 if (data.success) {
                     dispatch(authActions.setAuthNetworkStatus('signin-success'))
-                    Cookies.set(SCHOOYARD_AUTH_TOKEN, data.token)
+                    Cookies.set(PUSHMEPAL_AUTH_TOKEN, data.token)
                     dispatch(authActions.setAuhtUser(user))
                     if (signInData.provider === 'google-provider') {
                         localStorage.removeItem('redirectFlag')
-                    } else if (user.role === 'student') {
+                    } else if (user.role === 'fan') {
                         router.replace('/find-creators/q=nothing')
                     } else {
-                        router.replace('/dashboard')
+                        router.replace(`/page/${user.pageId}`)
                     }
                 } else {
                     console.log(data)
@@ -90,7 +90,7 @@ export const checkAuthThunk = createAsyncThunk
         const dispatch = thunkAPI.dispatch
         const state = thunkAPI.getState()
         const user = state.AuthReducer.user
-        const token = Cookies.get(SCHOOYARD_AUTH_TOKEN)
+        const token = Cookies.get(PUSHMEPAL_AUTH_TOKEN)
         if (!token && router.pathname !== '/') {
             router.push('/signin')
         } else if (!user?._id && token) {
@@ -312,14 +312,10 @@ export const purchaseCourseThunk = createAsyncThunk<void, { balance: number, sub
         dispatch(authActions.setAuthNetworkStatus('order'))
         const chargeRes = await dispatch(chargeThunk(chargeParam))
         if (chargeRes.payload === 'success') {
-            const myCourses = user.courses ?? []
-            cart.forEach((item) => {
-                if (!myCourses.includes(item.productInfo.id)) {
-                    cartCoursesId.push(item.productInfo.id)
-                }
-            })
+          
+     
             const updateRes = await dispatch(updateUserThunk({
-                update: { courses: [...myCourses, ...cartCoursesId] },
+                update: { },
                 networkSatusList: [
                     'updating',
                     'updating-success',

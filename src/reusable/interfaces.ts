@@ -42,11 +42,6 @@ export type TutorInfo = {
 }
 
 
-
-
-
-
-
 export type StudentInfo = {
     studentId: string
     school: string
@@ -55,7 +50,7 @@ export type StudentInfo = {
     endYear: string
     description: string
 }
-export type Role = 'tutor' | 'student' | ''
+export type Role = 'tutor' | 'student' | 'creator' | 'fan' | ''
 
 export type Hired = {
     tutorId: string
@@ -68,21 +63,14 @@ export type UserAvatarAsset = {
     initials: string
 }
 
-export type User = {
-    _id?: string,
-    firstName: string
-    lastName: string,
-    email: string,
-    password: string
-    imageAsset?: Asset,
-    courses?: string[],
-    role: Role,
-    gender: 'female' | 'male' | '',
-    accountBalance?: string,
-    tutorInfo?: TutorInfo
-    studentInfo?: StudentInfo
-    inquiredList?: Inquired[]
-    createdAt?: string
+export type UploadPayload = {
+    base64: string | ArrayBuffer | null,
+    resource_type: string
+    preset: string
+}
+export type UploadResponse = {
+    public_id: string
+    secure_url: string
 }
 
 
