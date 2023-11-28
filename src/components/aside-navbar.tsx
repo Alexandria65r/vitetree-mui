@@ -107,13 +107,6 @@ export default function AsideNavbar({ }: Props) {
         </Box>
         <Box sx={{ alignSelf: 'flex-end', width: '100%' }}>
           <InteractionPopper />
-          {/* <NavItem
-            name={isSidebarOpen && !isMobile ? '' : "profile"}
-            route={`/account/${user._id}`}
-            startIcon={<AccountCircleOutlinedIcon sx={{ mr: isSidebarOpen && !isMobile ? 0 : 1, fontSize: 28 }} />}
-            isActive={router.asPath.includes(`/account`)}
-          /> */}
-
           <LogoutButton
             onClick={logout}
             sx={{ width: '100%', mt: 1 }}>

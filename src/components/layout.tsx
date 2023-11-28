@@ -17,6 +17,7 @@ import AsideNavbar from './aside-navbar'
 import { checkAuthThunk } from '../../reducers/auth-reducer/auth-thunks'
 import Toast from './toasts/toast'
 import BottomCardMenu from './menus/bottom-card-menu'
+import ReusableModal from './modals/reusable-modal'
 
 const FlexContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -118,6 +119,7 @@ export default function Layout({ children }: Props) {
             <WishListModal />
             <BottomCardMenu />
             <SideBar />
+            <ReusableModal />
         </Box>
     )
 }

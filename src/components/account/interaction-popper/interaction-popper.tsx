@@ -1,24 +1,23 @@
-import { Box, Menu, Popper, SxProps, Theme, colors, styled, useMediaQuery, useTheme } from '@mui/material'
+import { Box, Menu, SxProps, Theme, colors, styled, useMediaQuery, useTheme } from '@mui/material'
 import classes from '../../../styles/reusable.module.css'
-import React, { useState } from 'react'
+import React from 'react'
 import { ThemedText, colorScheme } from '../../../theme';
 import { StyledButton } from '../../../reusable/styles';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import MenuItem from '@mui/material/MenuItem';
-import PopupState, { bindTrigger, bindMenu, bindPopover } from 'material-ui-popup-state';
-import Link from 'next/link';
+import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 import IntractionMenu from './interaction-menu';
 import { mainActions } from '../../../../reducers/main-reducer';
+import UserAvatar from '../../user/user-avatar';
 
 
 const NavButton = styled(StyledButton)(({ theme }) => ({
-    justifyContent: 'flex-start',
+    justifyContent: 'start',
     fontSize: 16,
     flexBasis: '100%',
     marginBottom: 5,
     borderRadius: 29,
-    height: 45,
+    height: 55,
     color: theme.palette.mode === 'light' ? '#000' : colorScheme(theme).TextColor,
     backgroundColor: 'transparent',
     transition: '0.3s all',
@@ -27,12 +26,10 @@ const NavButton = styled(StyledButton)(({ theme }) => ({
     }
 }))
 
-// const Menu = styled(Box)(({ theme }) => ({
-//     width: '100%',
-//     padding: 10,
-//     borderRadius: 10,
-//     backgroundColor: colorScheme(theme).grayToSecondaryColor
-// }))
+const NavButtonText = styled(ThemedText)(({ theme }) => ({
+    color: '#fff', textAlign: 'left', lineHeight: 1.2, fontSize: 16, fontWeight: 500
+}))
+
 
 
 type Props = {
@@ -43,18 +40,8 @@ type Props = {
 function InteractionPopper({ }: Props) {
     const dispatch = useAppDispatch()
     const isMobile = useMediaQuery('(max-width:600px)')
-    const _theme = useTheme()
     const user = useAppSelector((state) => state.AuthReducer.user)
     const isSidebarOpen = useAppSelector((state) => state.MainReducer.isSidebarOpen)
-    const page = useAppSelector((state) => state.PageReducer.page)
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
-    const open = Boolean(anchorEl);
-
-
-    function togglePopper(event: React.MouseEvent<HTMLButtonElement>) {
-        setAnchorEl(anchorEl ? null : event.currentTarget)
-    }
-
 
     const buttonStyles: SxProps<Theme> = {
         width: '100%',
@@ -68,9 +55,23 @@ function InteractionPopper({ }: Props) {
 
     function openCardMenu() {
         dispatch(mainActions.setIsSideBarOpen(false))
-        dispatch(mainActions.setCardMenu({ component: 'account-menu' }))
+        dispatch(mainActions.setCardMenu({ component: 'account-menu', title: 'Account' }))
     }
+    const fullname = `${user.firstName} ${user.lastName}`
 
+
+    const NavButtonValue = () => (
+        <Box>
+            <NavButtonText sx={{ fontWeight: 600 }}>
+                {user.interaction === 'creator' ? user.pageInfo?.name : fullname}
+            </NavButtonText>
+            <NavButtonText sx={{ fontSize: 13 }}>
+                {user.interaction === 'creator' ? 'creator' : 'Member'}
+            </NavButtonText>
+        </Box>
+    )
+
+    const imageURL = user.interaction === 'creator' ? user.pageInfo?.photoURL : user.imageAsset?.secureURL
     return (
         <PopupState variant='popper'>
             {(popupState) => (
@@ -81,16 +82,23 @@ function InteractionPopper({ }: Props) {
                             onClick={openCardMenu}
                             sx={buttonStyles}
                         >
-                            <AccountCircleOutlinedIcon sx={{ mr: isSidebarOpen && !isMobile ? 0 : 1, fontSize: 28 }} />
-                            Profile
+                            <UserAvatar
+                                imageURL={imageURL}
+                                avatarStyles={{ mr: 1 }}
+                            />
+                            <NavButtonValue />
                         </NavButton>
                     ) : (
                         <NavButton
                             {...bindTrigger(popupState)}
                             sx={buttonStyles}
                         >
-                            <AccountCircleOutlinedIcon sx={{ mr: isSidebarOpen && !isMobile ? 0 : 1, fontSize: 28 }} />
-                            Profile
+                            <UserAvatar
+                                imageURL={imageURL}
+                                avatarStyles={{ mr: 1 }}
+                            />
+
+                            {!isSidebarOpen && <NavButtonValue />}
                         </NavButton>
                     )}
 
@@ -104,7 +112,7 @@ function InteractionPopper({ }: Props) {
                             }
                         }}>
 
-                        <IntractionMenu />
+                        <IntractionMenu popupState={popupState} />
                     </Menu>
                 </>
             )}

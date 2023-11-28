@@ -2,7 +2,6 @@ import { Box, SxProps, Theme, colors, styled } from "@mui/material"
 import { ThemedText, colorScheme } from "../../theme"
 import { FaTiktok } from "react-icons/fa"
 import { FaXTwitter } from "react-icons/fa6"
-import page from "../../api-services/page"
 import { ButtonIcon, StyledButton } from "../../reusable/styles"
 import PageTabs from "../page-tab-bar"
 import IosShareIcon from '@mui/icons-material/IosShare';
@@ -32,7 +31,6 @@ const Container = styled(Box)(({ theme }) => ({
 const InfoHead = styled(Box)(({ theme }) => ({
     width: '100%',
     margin: 'auto',
-    //display: 'grid',
     marginBottom: 8,
     justifyContent: 'center',
     [theme.breakpoints.down('sm')]: {
@@ -119,7 +117,7 @@ export default function PageInfo({ page, links, path, mode, mainButton }: Props)
                     loadingState={isBio} toggleUpdateHandler={toggleUpdateBio} />}
                 <ThemedText ref={bioRef} contentEditable={mode === 'author' && isBio === 'editting'}
                     sx={{ textAlign: 'center', outline: 'none', fontSize: 13, lineHeight: 1.2, }}>
-                    {page.bio || 'this is a bio of this page'}
+                    {page.bio || 'Update you page bio.'}
                 </ThemedText>
             </Box>
             <Box sx={{ display: 'flex', gap: 1, mt: 1, alignItems: 'center' }}>

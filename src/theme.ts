@@ -59,9 +59,3 @@ export function useColorScheme() {
 export const ThemedText = styled(Typography)(() => ({
     color: useColorScheme().TextColor
 }))
-
-
-
-
-
-

@@ -5,9 +5,15 @@ import { testDataSchema } from '../../src/reusable/schemas'
 
 
 type CardMenu = {
-    component: 'account-menu' | '',
-
+    component: 'account-menu' | 'page-more-options-menu' | '',
+    title: string
 }
+type Modal = {
+    component: 'page-more-options-menu' | '',
+    options?: any
+}
+
+
 interface State {
     popperState: PopperState
     showSelectedImage: boolean
@@ -20,6 +26,7 @@ interface State {
     deletePartcipantModal: DeletePartcipantModal
     toasts: Toast[]
     cardMenu: CardMenu
+    modal: Modal
 
 }
 const initialState: State = {
@@ -48,8 +55,12 @@ const initialState: State = {
         fullname: '',
     },
     toasts: [],
-    cardMenu:{
-        component:''
+    cardMenu: {
+        component: '',
+        title:''
+    },
+    modal: {
+        component: ''
     }
 }
 
@@ -92,6 +103,9 @@ const mainSlice = createSlice({
         },
         setCardMenu: (state, { payload }: PayloadAction<CardMenu>) => {
             state.cardMenu = payload
+        },
+        setModal: (state, { payload }: PayloadAction<Modal>) => {
+            state.modal = payload
         },
 
     },

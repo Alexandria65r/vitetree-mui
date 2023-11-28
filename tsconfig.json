@@ -23,7 +23,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "src/components/creator-page/page-more-options-menu.tsx"  ],
   "exclude": [
     "node_modules"
   ]

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from 'react'
 import Layout from '../../components/layout'
-import { Box, colors, styled } from '@mui/material'
+import { Box, colors, styled, useMediaQuery } from '@mui/material'
 import { useRouter } from 'next/router'
 import Banner from '../../components/creator-page/banner'
 import { ButtonIcon, StyledButton } from '../../reusable/styles'
@@ -14,7 +14,8 @@ import AboutPage from '../../components/creator-page/about-page'
 import PageInfo from '../../components/creator-page/page-info'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import PageOptionsPopper from '../../components/creator-page/page-options-popper'
+import PageOptionsPopper from '../../components/creator-page/page-more-options-menu'
+import { mainActions } from '../../../reducers/main-reducer'
 
 const Container = styled(Box)(({ theme }) => ({
     position: 'relative',
@@ -68,7 +69,7 @@ export default function Creator({ }: Props) {
     const router = useRouter()
     const [pageId, secondParam]: any = router.query.params || []
     const page = useAppSelector((state) => state.PageReducer.page)
-
+    const isMobile = useMediaQuery('(max-width:600px)')
 
     const loadPageData = useCallback(() => {
         if (pageId !== 'create' || pageId !== 'update') {
@@ -96,9 +97,17 @@ export default function Creator({ }: Props) {
     function close() {
         dispatch(pageActions.setPageData({ ...page, published: true }))
     }
+    function openMoreOptionsMenu() {
+        if (isMobile) {
+            dispatch(mainActions.setCardMenu({ component: 'page-more-options-menu',title:'What is in your mind?' }))
+        } else {
+            dispatch(mainActions.setModal({ component: 'page-more-options-menu' }))
+        }
+    }
 
     const MainButton = () => (
-        <StyledButton onClick={() => { }} sx={{ flexBasis: '70%', fontWeight: 700, borderBottom: `0 px solid ${colors.teal[500]}` }}>
+        <StyledButton onClick={openMoreOptionsMenu}
+            sx={{ flexBasis: '70%', fontWeight: 700, borderBottom: `0 px solid ${colors.teal[500]}` }}>
             more options <KeyboardArrowDownIcon sx={{ ml: 1 }} />
         </StyledButton>
     )
@@ -120,7 +129,7 @@ export default function Creator({ }: Props) {
                 )}
                 <Banner mode='author' />
                 <PageInfo
-                    mainButton={<PageOptionsPopper />}
+                    mainButton={<MainButton />}
                     page={page}
                     links={['send-star', 'exclusive', 'about']}
                     path={`page/${page.pageId}`} mode='author' />

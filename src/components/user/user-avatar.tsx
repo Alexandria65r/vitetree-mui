@@ -12,7 +12,7 @@ import styles from './user-avatar.module.css'
 
 
 type Props = {
-    mode?: 'author' | 'read-only'
+    mode?: 'author' | 'read-only' | ''
     userId?: string
     imageURL?: string
     changeImagePreview?: any
@@ -110,23 +110,21 @@ export default function UserAvatar({ userId, imageURL, changeImagePreview, avata
                         <img src={changeImagePreview || base64 || userAvatar.secureURL || imageURL} alt="" height='100%' width='100%'
                             style={{ borderRadius: '50%', objectFit: 'cover' }}
                         />
-                        {mode === 'author' && (
+                        {mode === 'author' ? (
                             <BrowseImage className={styles.profileButton} onClick={() => fileRef.current.click()}>
                                 <ImageIcon />
                             </BrowseImage>
-                        )}
+                        ) : <></>}
                     </Avatar>
                 </Box>) : (
-                <Box>
-                    <AvatarIcon
-                        sx={avatarStyles}>
-
-                        {mode === 'author' && (
-                            <BrowseImage className={styles.profileButton} onClick={() => fileRef.current.click()}>
-                                <ImageIcon />
-                            </BrowseImage>
-                        )}
+                <Box >
+                    <AvatarIcon sx={avatarStyles}>
                     </AvatarIcon>
+                    {mode === 'author' ? (
+                        <BrowseImage className={styles.profileButton} onClick={() => fileRef.current.click()}>
+                            <ImageIcon />
+                        </BrowseImage>
+                    ) : <></>}
                 </Box>
             )}
             <input type='file' ref={fileRef} hidden onChange={fileOnChange} />

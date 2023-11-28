@@ -50,7 +50,6 @@ type Props = {
 export default function AboutPage({ page, mode }: Props) {
     const router = useRouter()
     const dispatch = useAppDispatch()
-
     const [isEdit, setEdit] = useState<boolean>(false)
 
     function handleInputChange({ target }: any) {
@@ -60,18 +59,14 @@ export default function AboutPage({ page, mode }: Props) {
 
 
     async function toggleEdit() {
-        const { payload } = await dispatch(updatePageThunk({ about: page.about }))
+        const { payload } = await dispatch(updatePageThunk({ target: 'other', update: { about: page.about } }))
         if (payload.success) {
             setEdit(false)
         }
     }
 
-
     return (
         <About>
-
-
-
             <AboutHead>
                 <ThemedText sx={{ textAlign: 'center', fontSize: 16, fontWeight: 600 }}>
                     About This Page
