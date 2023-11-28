@@ -14,6 +14,7 @@ import AboutPage from '../../components/creator-page/about-page'
 import PageInfo from '../../components/creator-page/page-info'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import PageOptionsPopper from '../../components/creator-page/page-options-popper'
 
 const Container = styled(Box)(({ theme }) => ({
     position: 'relative',
@@ -119,7 +120,7 @@ export default function Creator({ }: Props) {
                 )}
                 <Banner mode='author' />
                 <PageInfo
-                    mainButton={<MainButton />}
+                    mainButton={<PageOptionsPopper />}
                     page={page}
                     links={['send-star', 'exclusive', 'about']}
                     path={`page/${page.pageId}`} mode='author' />

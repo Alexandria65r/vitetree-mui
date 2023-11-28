@@ -1,8 +1,7 @@
-import { styled, Box, ButtonBase, colors, Modal, Typography, IconButton, useMediaQuery, MenuItem } from '@mui/material'
+import { styled, Box, colors, Modal, Typography, useMediaQuery, MenuItem } from '@mui/material'
 import React from 'react'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { colorScheme } from '../theme'
-import { CSS_PROPERTIES } from '../reusable'
 import { StyledButton } from '../reusable/styles'
 import Cookies from 'js-cookie'
 import * as types from '../reusable'
@@ -10,11 +9,6 @@ import { useRouter } from 'next/router'
 import { getAuth, signOut } from "firebase/auth";
 import { mainActions } from '../../reducers/main-reducer'
 import Link from 'next/link'
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
-import CloseIcon from '@mui/icons-material/Close';
-import LoginIcon from '@mui/icons-material/Login';
-import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import AsideNavbar from './aside-navbar'
 
 
@@ -106,7 +100,7 @@ export default function SideBar({ }: Props) {
                 className="sideBarAnimated"
                 sx={(theme) => ({
                     width: isSidebarOpen ? '23%' : '5%',
-                    position: 'fixed',
+                    position: 'relative',
                     top: 0,
                     zIndex: 60,
                     [theme.breakpoints.down('sm')]: {
