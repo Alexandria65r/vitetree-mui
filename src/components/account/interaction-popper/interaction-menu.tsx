@@ -57,7 +57,7 @@ export default function IntractionMenu({ popupState }: Props) {
                     </Box>
                 </MenuItem>
             </Link>)}
-            <Link href={`/find-creators/q=nothing`}>
+            <Link href={`/account/${user._id}`}>
                 <MenuItem onClick={() => updateUserAccountInteraction('fan')}>
                     <UserAvatar
                         imageURL={user.imageAsset?.secureURL}

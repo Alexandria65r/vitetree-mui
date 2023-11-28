@@ -5,11 +5,11 @@ import { testDataSchema } from '../../src/reusable/schemas'
 
 
 type CardMenu = {
-    component: 'account-menu' | 'page-more-options-menu' | '',
+    component: 'account-menu' | 'page-more-options-menu' | 'read-only-more-options-menu'|'',
     title: string
 }
 type Modal = {
-    component: 'page-more-options-menu' | '',
+    component: 'page-more-options-menu' | 'read-only-more-options-menu' | '',
     options?: any
 }
 
@@ -57,7 +57,7 @@ const initialState: State = {
     toasts: [],
     cardMenu: {
         component: '',
-        title:''
+        title: ''
     },
     modal: {
         component: ''

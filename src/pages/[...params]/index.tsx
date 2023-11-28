@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Layout from '../../components/layout'
-import { styled, Box, Theme, SxProps, useTheme, colors } from '@mui/material'
+import { styled, Box, Theme, SxProps, useTheme, colors, useMediaQuery } from '@mui/material'
 import { ThemedText, colorScheme } from '../../theme'
 import UserAvatar from '../../components/user/user-avatar'
 import { ButtonIcon, StyledButton } from '../../reusable/styles'
@@ -18,7 +18,8 @@ import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import AboutPage from '../../components/creator-page/about-page'
 import EditIcon from '@mui/icons-material/Edit';
 import PageInfo from '../../components/creator-page/page-info'
-
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { mainActions } from '../../../reducers/main-reducer'
 
 
 
@@ -58,10 +59,12 @@ type Props = {}
 
 function index({ }: Props) {
     const dispatch = useAppDispatch()
+    const isMobile = useMediaQuery('(max-width:600px)')
     const router = useRouter()
     const [pageId, secondParam]: any = router.query.params || []
     const page = useAppSelector((state) => state.PageReducer.page)
     const _theme = useTheme()
+    const [isFollowing, setIsFollowing] = useState<boolean>(false)
 
     console.log(secondParam)
     console.log(router.query)
@@ -77,9 +80,25 @@ function index({ }: Props) {
     }, [pageId])
 
 
+
+    function followCreator() {
+        if (!isFollowing) {
+            setIsFollowing(true)
+        } else if (isMobile) {
+            dispatch(mainActions.setCardMenu({ component: 'read-only-more-options-menu', title: 'More Options' }))
+        } else {
+            dispatch(mainActions.setModal({ component: 'read-only-more-options-menu' }))
+        }
+    }
+
+
+
     const MainButton = () => (
-        <StyledButton onClick={() => { }} sx={{ flexBasis: '70%', fontWeight: 700, borderBottom: `0px solid ${colors.teal[500]}` }}>
-            Follow
+        <StyledButton onClick={followCreator} sx={{ flexBasis: '70%', fontWeight: 700, borderBottom: `0px solid ${colors.teal[500]}` }}>
+            {isFollowing ? (<>
+                More Options
+                <KeyboardArrowDownIcon sx={{ ml: 1 }} />
+            </>) : 'Follow'}
         </StyledButton>
     )
 

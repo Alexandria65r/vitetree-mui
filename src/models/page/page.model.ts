@@ -57,6 +57,7 @@ const _PageSchema = new mongoose.Schema<Page>({
         background: { type: Object, required: false },
     },
     about: String,
+    published: { type: Boolean, required: false },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
 });

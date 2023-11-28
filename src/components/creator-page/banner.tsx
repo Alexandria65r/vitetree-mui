@@ -55,8 +55,8 @@ export default function Banner({ mode }: Props) {
     const avatarStyles: SxProps<Theme> | undefined = {
         height: 180, width: 180,
         position: 'absolute',
-        left: '15%',
-        bottom: '-222px',
+        left: '18%',
+        bottom: '-248px',
         border: `1px solid ${colorScheme(_theme).grayToSecondaryColor}`,
         [_theme.breakpoints.down('sm')]: {
             left: '50%',

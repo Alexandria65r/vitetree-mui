@@ -9,13 +9,14 @@ import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import EditIcon from '@mui/icons-material/Edit';
 import { Page } from "../../models/page/page.model"
-import { MutableRefObject, useRef, useState } from "react"
+import { MutableRefObject, useEffect, useRef, useState } from "react"
 import { useAppDispatch } from "../../../store/hooks"
 import { updatePageThunk } from "../../../reducers/page-reducer/page-thunks"
 import { createToastThunk } from "../../../reducers/main-reducer/main-thunks"
 import DoneIcon from '@mui/icons-material/Done';
 import { AppSpinner } from "../activity-indicators"
 import hexToRgba from 'hex-to-rgba';
+import { pageActions } from "../../../reducers/page-reducer"
 
 
 const Container = styled(Box)(({ theme }) => ({
@@ -62,11 +63,20 @@ export default function PageInfo({ page, links, path, mode, mainButton }: Props)
 
     const bioRef: MutableRefObject<HTMLParagraphElement> | any = useRef()
 
+    useEffect(() => {
+        updateBioOnTextChange()
+    }, [bioRef?.current?.innerText])
+
+    function updateBioOnTextChange() {
+        dispatch(pageActions.setPageData({ ...page, bio: bioRef.current.innerText }))
+    }
+
     async function toggleUpdateBio() {
         if (!isBio) {
             setIsBio('editting')
         } else {
             setIsBio('loading')
+            dispatch(pageActions.setPageData({ ...page, bio: bioRef.current.innerText }))
             const { payload } = await dispatch(updatePageThunk({
                 target: 'other', update:
                     { bio: bioRef.current.innerText }

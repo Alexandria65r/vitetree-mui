@@ -1,19 +1,13 @@
-import { Box, styled, useMediaQuery, useTheme, } from '@mui/material'
-import React, { useState, useEffect } from 'react'
+import { Box, styled, useMediaQuery, useTheme } from '@mui/material'
+import React, { useState } from 'react'
 import { ThemedText, colorScheme } from '../../theme';
 import { ButtonIcon, StyledButton } from '../../reusable/styles';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import CloseIcon from '@mui/icons-material/Close';
 import { mainActions } from '../../../reducers/main-reducer';
-import SmartDisplayIcon from '@mui/icons-material/SmartDisplay';
-import FontDownloadIcon from '@mui/icons-material/FontDownload';
-import MicIcon from '@mui/icons-material/Mic';
-import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-
-
-
+import MessageIcon from '@mui/icons-material/Message';
+import TryIcon from '@mui/icons-material/Try';
+import PersonRemoveAlt1Icon from '@mui/icons-material/PersonRemoveAlt1';
 
 const Menu = styled(Box)(({ theme }) => ({
     position: 'absolute',
@@ -24,6 +18,7 @@ const Menu = styled(Box)(({ theme }) => ({
     width: '20%',
     //height: 300,
     borderRadius: 10,
+    boxShadow: `0 1px 3px 0px ${colorScheme(theme).grayToprimaryColor}`,
     backgroundColor: colorScheme(theme).lightToSecondaryColor,
     [theme.breakpoints.down('sm')]: {
         position: 'unset',
@@ -40,7 +35,7 @@ const CardMenuHead = styled(Box)(({ theme }) => ({
     alignItems: 'center',
     justifyContent: 'center',
     paddingInline: 12,
-    //borderBottom: `1px solid ${colorScheme(theme).grayToSecondaryColor}`,
+    //borderBottom: `1px solid ${colorScheme(theme).greyToTertiary}`,
     [theme.breakpoints.down('sm')]: {
         display: 'none'
     }
@@ -51,7 +46,7 @@ const CloseButton = styled(ButtonIcon)(({ theme }) => ({
 }))
 
 const MenuBody = styled(Box)(({ theme }) => ({
-
+    marginTop: 10,
     [theme.breakpoints.down('sm')]: {
 
     }
@@ -81,7 +76,7 @@ const MenuItemButton = styled(StyledButton)(({ theme }) => ({
     color: colorScheme(theme).TextColor,
     fontSize: 16,
     height: 60,
-    width: 60,
+    width: 80,
     transition: '0.3s all',
     '&:hover': {
         backgroundColor: colorScheme(theme).grayToprimaryColor,
@@ -96,26 +91,13 @@ type Props = {
 
 }
 
-function PageMoreOptionsMenu({ }: Props) {
-    const router = useRouter()
+function ReadOnlyMoreOptionsMenu({ }: Props) {
     const dispatch = useAppDispatch()
     const isMobile = useMediaQuery('(max-width:600px)')
+    const _theme = useTheme()
+    const isSidebarOpen = useAppSelector((state) => state.MainReducer.isSidebarOpen)
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
     const open = Boolean(anchorEl);
-
-
-    useEffect(() => {
-        router.events.on('routeChangeStart', routeChangeStart)
-        return () => {
-            router.events.off('routeChangeStart', routeChangeStart)
-        }
-    }, [])
-
-    function routeChangeStart() {
-        handleClose()
-    }
-
-
 
 
     function togglePopper(event: React.MouseEvent<HTMLButtonElement>) {
@@ -147,45 +129,25 @@ function PageMoreOptionsMenu({ }: Props) {
 
             <MenuBody>
                 <CreateContainer>
-                    <SectionHeader sx={{ flexBasis: '100%', }} >
-                        <ThemedText sx={{ fontSize: 15, fontWeight: 600 }}>Create</ThemedText>
-                    </SectionHeader>
-
-
                     <MenuItemButton>
-                        <Link href='/create/video'>
-                            <SmartDisplayIcon />
-                            <ThemedText sx={{ fontSize: 14 }}>Video</ThemedText>
-                        </Link>
+                        <Box>
+                            <TryIcon />
+                            <ThemedText sx={{ fontSize: 14 }}>Book</ThemedText>
+                        </Box>
 
                     </MenuItemButton>
                     <MenuItemButton >
-                        <Link href='/create/audio'>
-                            <MicIcon />
-                            <ThemedText sx={{ fontSize: 14 }}>Audio</ThemedText>
-                        </Link>
+                        <Box>
+                            <PersonRemoveAlt1Icon />
+                            <ThemedText sx={{ fontSize: 14 }}>Unfollow</ThemedText>
+                        </Box>
                     </MenuItemButton>
                     <MenuItemButton>
-                        <Link href='/create/text'>
-                            <FontDownloadIcon />
-                            <ThemedText sx={{ fontSize: 14 }}>Text</ThemedText>
-                        </Link>
+                        <Box>
+                            <MessageIcon />
+                            <ThemedText sx={{ fontSize: 14 }}>Message</ThemedText>
+                        </Box>
                     </MenuItemButton>
-
-                </CreateContainer>
-
-
-                <CreateContainer>
-                    <SectionHeader sx={{ flexBasis: '100%', }} >
-                        <ThemedText sx={{ fontSize: 15, fontWeight: 600 }}>Payouts</ThemedText>
-                    </SectionHeader>
-                    <MenuItemButton>
-                        <Link href='/payouts'>
-                            <AccountBalanceWalletIcon />
-                            <ThemedText sx={{ fontSize: 14 }}>Payout</ThemedText>
-                        </Link>
-                    </MenuItemButton>
-
                 </CreateContainer>
             </MenuBody>
         </Menu>
@@ -197,4 +159,4 @@ function PageMoreOptionsMenu({ }: Props) {
 
 
 
-export default PageMoreOptionsMenu
+export default ReadOnlyMoreOptionsMenu

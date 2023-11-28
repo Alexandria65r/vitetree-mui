@@ -2,6 +2,7 @@ import { Modal, Box } from '@mui/material'
 import React from 'react'
 import { useAppSelector } from '../../../store/hooks'
 import PageMoreOptionsMenu from '../creator-page/page-more-options-menu'
+import ReadOnlyMoreOptionsMenu from '../creator-page/read-only-more-options-menu'
 
 type Props = {}
 
@@ -13,7 +14,8 @@ export default function ReusableModal({ }: Props) {
         <Modal open={open} >
             <Box>
                 {modal.component === 'page-more-options-menu' && <PageMoreOptionsMenu />}
+                {modal.component === 'read-only-more-options-menu' && <ReadOnlyMoreOptionsMenu />}
             </Box>
         </Modal>
     )
-}
+}       

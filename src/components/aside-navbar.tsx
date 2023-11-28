@@ -99,7 +99,7 @@ export default function AsideNavbar({ }: Props) {
             startIcon={<NotificationsNoneIcon sx={{ mr: isSidebarOpen && !isMobile ? 0 : 1, fontSize: 28 }} />}
             isActive={router.asPath.includes('/notifications')}
           />
-          <NavItem route='/dashboard'
+          <NavItem route={user.interaction==='fan'? '/find-creators/q=nothing' : `/page/${user?.pageInfo?.pageId}`}
             name={isSidebarOpen && !isMobile ? '' : 'Home'}
             startIcon={<BiHomeAlt size={25} style={{ marginRight: isSidebarOpen && !isMobile ? 0 : 10 }} />}
             isActive={router.asPath === '/dashboard'}
