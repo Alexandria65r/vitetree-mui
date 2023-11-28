@@ -1,13 +1,15 @@
 import { Box, Menu, Popper, SxProps, Theme, colors, styled, useMediaQuery, useTheme } from '@mui/material'
-import classes from '../../styles/reusable.module.css'
+import classes from '../../../styles/reusable.module.css'
 import React, { useState } from 'react'
-import { ThemedText, colorScheme } from '../../theme';
-import { StyledButton } from '../../reusable/styles';
-import { useAppSelector } from '../../../store/hooks';
+import { ThemedText, colorScheme } from '../../../theme';
+import { StyledButton } from '../../../reusable/styles';
+import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import MenuItem from '@mui/material/MenuItem';
 import PopupState, { bindTrigger, bindMenu, bindPopover } from 'material-ui-popup-state';
 import Link from 'next/link';
+import IntractionMenu from './interaction-menu';
+import { mainActions } from '../../../../reducers/main-reducer';
 
 
 const NavButton = styled(StyledButton)(({ theme }) => ({
@@ -39,6 +41,7 @@ type Props = {
 }
 
 function InteractionPopper({ }: Props) {
+    const dispatch = useAppDispatch()
     const isMobile = useMediaQuery('(max-width:600px)')
     const _theme = useTheme()
     const user = useAppSelector((state) => state.AuthReducer.user)
@@ -63,20 +66,34 @@ function InteractionPopper({ }: Props) {
         }
     }
 
-
+    function openCardMenu() {
+        dispatch(mainActions.setIsSideBarOpen(false))
+        dispatch(mainActions.setCardMenu({ component: 'account-menu' }))
+    }
 
     return (
         <PopupState variant='popper'>
             {(popupState) => (
 
                 <>
-                    <NavButton
-                        {...bindTrigger(popupState)}
-                        sx={buttonStyles}
-                    >
-                        <AccountCircleOutlinedIcon sx={{ mr: isSidebarOpen && !isMobile ? 0 : 1, fontSize: 28 }} />
-                        Profile
-                    </NavButton>
+                    {isMobile ? (
+                        <NavButton
+                            onClick={openCardMenu}
+                            sx={buttonStyles}
+                        >
+                            <AccountCircleOutlinedIcon sx={{ mr: isSidebarOpen && !isMobile ? 0 : 1, fontSize: 28 }} />
+                            Profile
+                        </NavButton>
+                    ) : (
+                        <NavButton
+                            {...bindTrigger(popupState)}
+                            sx={buttonStyles}
+                        >
+                            <AccountCircleOutlinedIcon sx={{ mr: isSidebarOpen && !isMobile ? 0 : 1, fontSize: 28 }} />
+                            Profile
+                        </NavButton>
+                    )}
+
                     <Menu {...bindMenu(popupState)} open={popupState.isOpen}
                         classes={{
                             paper: classes.InteractionPaper
@@ -86,18 +103,8 @@ function InteractionPopper({ }: Props) {
                                 width: '27ch'
                             }
                         }}>
-                        <Link href={`/page/${user.pageId}`}>
-                            <MenuItem sx={{ display: 'block' }}>
-                                <Box>Page Name</Box>
-                                <ThemedText sx={{ fontSize: 13, color: 'GrayText' }}>Creator</ThemedText>
-                            </MenuItem>
-                        </Link>
-                        <Link href={`/find-creators/q=nothing`}>
-                            <MenuItem sx={{ display: 'block' }}>
-                                <ThemedText>{`${user.firstName} ${user.lastName}`}</ThemedText>
-                                <ThemedText sx={{ fontSize: 13, color: 'GrayText' }}>Member</ThemedText>
-                            </MenuItem>
-                        </Link>
+
+                        <IntractionMenu />
                     </Menu>
                 </>
             )}

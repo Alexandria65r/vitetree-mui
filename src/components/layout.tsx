@@ -16,6 +16,7 @@ import { LinearProgress, styled, useMediaQuery, useTheme } from '@mui/material'
 import AsideNavbar from './aside-navbar'
 import { checkAuthThunk } from '../../reducers/auth-reducer/auth-thunks'
 import Toast from './toasts/toast'
+import BottomCardMenu from './menus/bottom-card-menu'
 
 const FlexContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -54,7 +55,7 @@ export default function Layout({ children }: Props) {
     React.useEffect(() => {
         router.events.on('routeChangeStart', routeChangeStart)
         router.events.on('routeChangeComplete', routeChangeComplete)
-        router.events.on('routeChangeError', routeChangeError )
+        router.events.on('routeChangeError', routeChangeError)
 
         return () => {
             router.events.off('routeChangeStart', routeChangeStart)
@@ -115,10 +116,8 @@ export default function Layout({ children }: Props) {
             <DeletePartcipantModal />
             <CartModal />
             <WishListModal />
-
-
+            <BottomCardMenu />
             <SideBar />
-
         </Box>
     )
 }

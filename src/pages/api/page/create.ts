@@ -8,7 +8,14 @@ async function createPage(req: NextApiRequest, res: NextApiResponse) {
         console.log(newPage)
 
         if (newPage) {
-            await UserModel.findByIdAndUpdate({_id:newPage.author.id}, { pageId: newPage.pageId })
+            await UserModel.findByIdAndUpdate({ _id: newPage.author.id },
+                {
+                    pageInfo:
+                    {
+                        pageId: newPage.pageId,
+                        name: newPage.name
+                    }
+                })
             return res.json({ success: true, newPage })
         }
 

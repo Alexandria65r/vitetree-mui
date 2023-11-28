@@ -69,7 +69,10 @@ export default function PageInfo({ page, links, path, mode, mainButton }: Props)
             setIsBio('editting')
         } else {
             setIsBio('loading')
-            const { payload } = await dispatch(updatePageThunk({ bio: bioRef.current.innerText }))
+            const { payload } = await dispatch(updatePageThunk({
+                target: 'other', update:
+                    { bio: bioRef.current.innerText }
+            }))
             console.log(payload)
             if (payload.success) {
                 setIsBio('')
@@ -84,7 +87,10 @@ export default function PageInfo({ page, links, path, mode, mainButton }: Props)
             setIsLinks('editting')
         } else {
             setIsLinks('loading')
-            const { payload } = await dispatch(updatePageThunk({ bio: bioRef.current.innerText }))
+            const { payload } = await dispatch(updatePageThunk({
+                target: 'other', update:
+                    { bio: bioRef.current.innerText }
+            }))
             console.log(payload)
             if (payload.success) {
                 setIsLinks('')
@@ -105,11 +111,11 @@ export default function PageInfo({ page, links, path, mode, mainButton }: Props)
             </ThemedText>
             <Box sx={(theme) => ({
                 width: 260, position: 'relative', padding: 1,
-                border:isBio?`1px solid ${colors.teal[500]}`:'',
+                border: isBio ? `1px solid ${colors.teal[500]}` : '',
                 bgcolor: mode === 'author' ? hexToRgba(`${colorScheme(theme).grayToSecondaryColor}`, isBio ? '1' : '0.3') : 'unset', borderRadius: 10,
             })}>
                 {mode === 'author' && <EditButton
-                    sx={{ position: 'absolute', top: 0, right: 0, height: 30, width: 30, color: colors.teal[500] }}
+                    sx={{ position: 'absolute', top: -14, right: -24, height: 30, width: 30, color: colors.teal[500] }}
                     loadingState={isBio} toggleUpdateHandler={toggleUpdateBio} />}
                 <ThemedText ref={bioRef} contentEditable={mode === 'author' && isBio === 'editting'}
                     sx={{ textAlign: 'center', outline: 'none', fontSize: 13, lineHeight: 1.2, }}>

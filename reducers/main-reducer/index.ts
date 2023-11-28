@@ -3,6 +3,11 @@ import { HYDRATE } from 'next-redux-wrapper'
 import { DeletePartcipantModal, DeleteTestModal, DuplicateTestModal, ModalComponent, PopperState, Toast } from '../../src/reusable/interfaces'
 import { testDataSchema } from '../../src/reusable/schemas'
 
+
+type CardMenu = {
+    component: 'account-menu' | '',
+
+}
 interface State {
     popperState: PopperState
     showSelectedImage: boolean
@@ -14,7 +19,8 @@ interface State {
     deleteTestModal: DeleteTestModal
     deletePartcipantModal: DeletePartcipantModal
     toasts: Toast[]
-    
+    cardMenu: CardMenu
+
 }
 const initialState: State = {
     popperState: {
@@ -41,7 +47,10 @@ const initialState: State = {
         partcipantId: '',
         fullname: '',
     },
-    toasts: []
+    toasts: [],
+    cardMenu:{
+        component:''
+    }
 }
 
 const mainSlice = createSlice({
@@ -80,6 +89,9 @@ const mainSlice = createSlice({
         },
         setDeletePartcipantModal: (state, { payload }: PayloadAction<DeletePartcipantModal>) => {
             state.deletePartcipantModal = payload
+        },
+        setCardMenu: (state, { payload }: PayloadAction<CardMenu>) => {
+            state.cardMenu = payload
         },
 
     },

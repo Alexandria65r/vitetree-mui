@@ -65,7 +65,7 @@ export const SignInThunk = createAsyncThunk<void, Signin, { state: AppState }>
                     } else if (user.role === 'fan') {
                         router.replace('/find-creators/q=nothing')
                     } else {
-                        router.replace(`/page/${user.pageId}`)
+                        router.replace(`/page/${user?.pageInfo?.pageId}`)
                     }
                 } else {
                     console.log(data)

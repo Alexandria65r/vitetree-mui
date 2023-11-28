@@ -7,11 +7,10 @@ import ImageIcon from '@mui/icons-material/Image';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import { createToastThunk, uploadFileThunk } from '../../../reducers/main-reducer/main-thunks'
 import { updatePageThunk } from '../../../reducers/page-reducer/page-thunks'
-import page from '../../api-services/page'
 import styles from './banner.module.css'
 
 const Container = styled(Box)(({ theme }) => ({
-    position: 'relative', width: '100%', height: '100%', marginBottom: '65px',
+    position: 'relative', height: '100%', marginBottom: '65px',
     [theme.breakpoints.down('sm')]: {
         height: 160,
         margin: 10,
@@ -24,10 +23,10 @@ const BannerWrapper = styled(Box)(({ theme }) => ({
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
     backgroundSize: 'cover',
-    border:`1px solid ${colorScheme(theme).grayToSecondaryColor}`,
+    border: `1px solid ${colorScheme(theme).grayToSecondaryColor}`,
     [theme.breakpoints.down('sm')]: {
-        height: 160,
-        margin: 10,
+        height: 130,
+        margin: 5,
     },
 }))
 const SetCoverButton = styled(StyledButton)(({ theme }) => ({
@@ -45,9 +44,6 @@ const SetCoverButton = styled(StyledButton)(({ theme }) => ({
     },
 }))
 
-
-
-
 type Props = {
     mode?: 'author' | 'read-only'
 }
@@ -61,8 +57,7 @@ export default function Banner({ mode }: Props) {
         position: 'absolute',
         left: '15%',
         bottom: '-222px',
-        border:`1px solid ${colorScheme(_theme).grayToSecondaryColor}`,
-        //transform: 'translateX(-50%)',
+        border: `1px solid ${colorScheme(_theme).grayToSecondaryColor}`,
         [_theme.breakpoints.down('sm')]: {
             left: '50%',
             transform: 'translateX(-50%)',
@@ -88,9 +83,13 @@ export default function Banner({ mode }: Props) {
             if (response.payload.publicId) {
                 page.imageAssets
                 const { payload } = await dispatch(updatePageThunk({
-                    imageAssets: {
-                        ...page.imageAssets,
-                        background: response.payload
+                    target: 'other',
+                    update: {
+                        imageAssets: {
+                            ...page.imageAssets,
+                            background: response.payload
+                        }
+
                     }
                 }))
 
@@ -110,7 +109,7 @@ export default function Banner({ mode }: Props) {
             <BannerWrapper
                 className={styles.container}
                 sx={{ backgroundImage: `url(${base64 || page.imageAssets.background.secureURL})` }}>
-            {mode === 'author'&& (
+                {mode === 'author' && (
                     <SetCoverButton className={styles.coverButton} onClick={() => fileRef?.current?.click()}>
                         <ImageIcon />
                         Set cover

@@ -13,7 +13,7 @@ import Cookies from 'js-cookie'
 import * as types from '../reusable'
 import LoginIcon from '@mui/icons-material/Login';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
-import InteractionPopper from './account/interaction-popper'
+import InteractionPopper from './account/interaction-popper/interaction-popper'
 
 
 
@@ -92,7 +92,7 @@ export default function AsideNavbar({ }: Props) {
     <AsideNav sx={{}}
       className="sideBarAnimated">
       {user._id ? (<>
-        <Box sx={{width:'100%'}}>
+        <Box sx={{ width: '100%' }}>
           <NavItem
             route='/notifications/all'
             name={isSidebarOpen && !isMobile ? '' : 'Notifications'}
@@ -106,7 +106,7 @@ export default function AsideNavbar({ }: Props) {
           />
         </Box>
         <Box sx={{ alignSelf: 'flex-end', width: '100%' }}>
-          <InteractionPopper/>
+          <InteractionPopper />
           {/* <NavItem
             name={isSidebarOpen && !isMobile ? '' : "profile"}
             route={`/account/${user._id}`}

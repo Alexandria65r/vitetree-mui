@@ -82,13 +82,18 @@ export default function UserAvatar({ userId, imageURL, changeImagePreview, avata
             if (response.payload.publicId) {
                 page.imageAssets
                 const { payload } = await dispatch(updatePageThunk({
-                    imageAssets: {
-                        ...page.imageAssets,
-                        profile: response.payload
+                    target: 'profile-image',
+                    update: {
+                        imageAssets: {
+                            ...page.imageAssets,
+                            profile: response.payload
+                        }
                     }
+
                 }))
 
                 if (payload) {
+
                     dispatch(createToastThunk('Profile image updated succesfully'))
                 }
             }
@@ -105,22 +110,22 @@ export default function UserAvatar({ userId, imageURL, changeImagePreview, avata
                         <img src={changeImagePreview || base64 || userAvatar.secureURL || imageURL} alt="" height='100%' width='100%'
                             style={{ borderRadius: '50%', objectFit: 'cover' }}
                         />
-                    {mode === 'author' && (
-                        <BrowseImage className={styles.profileButton} onClick={() => fileRef.current.click()}>
-                            <ImageIcon />
-                        </BrowseImage>
-                    )}
+                        {mode === 'author' && (
+                            <BrowseImage className={styles.profileButton} onClick={() => fileRef.current.click()}>
+                                <ImageIcon />
+                            </BrowseImage>
+                        )}
                     </Avatar>
                 </Box>) : (
                 <Box>
                     <AvatarIcon
                         sx={avatarStyles}>
 
-                    {mode === 'author' && (
-                        <BrowseImage className={styles.profileButton} onClick={() => fileRef.current.click()}>
-                            <ImageIcon />
-                        </BrowseImage>
-                    )}
+                        {mode === 'author' && (
+                            <BrowseImage className={styles.profileButton} onClick={() => fileRef.current.click()}>
+                                <ImageIcon />
+                            </BrowseImage>
+                        )}
                     </AvatarIcon>
                 </Box>
             )}

@@ -9,7 +9,11 @@ export type User = {
     email: string,
     password: string
     imageAsset?: Asset,
-    pageId?: string;
+    pageInfo?: {
+        pageId?: string;
+        name: string
+        photoURL:string
+    }
     role?: Role,
     interaction?: Role;
     gender: 'female' | 'male' | '',
@@ -19,7 +23,6 @@ export type User = {
     accountBalance?: string,
     createdAt?: string
 }
-
 
 
 const _UserSchema = new mongoose.Schema<User>({
@@ -32,7 +35,11 @@ const _UserSchema = new mongoose.Schema<User>({
     password: { type: String, required: true },
     country: { type: String, required: false },
     phone: { type: String, required: true },
-    pageId: { type: String, required: false },
+    pageInfo: {
+        pageId: { type: String, required: false },
+        name: { type: String, required: false },
+        photoURL: { type: String, required: false },
+    },
     imageAsset: { publicId: String, secureURL: String },
     accountBalance: { type: String, required: false },
     createdAt: { type: Date, default: Date.now },

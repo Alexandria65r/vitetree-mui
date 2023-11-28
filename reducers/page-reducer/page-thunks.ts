@@ -62,13 +62,14 @@ export const fetchPagesThunk = createAsyncThunk<void, undefined, { state: AppSta
         }
     })
 
-
-export const updatePageThunk = createAsyncThunk<any, any, { state: AppState }>
-    ('cartSlice/fetchPageThunk', async (update, thunkAPI) => {
+    
+    type UpdatePageTargets = 'profile-image' |'other'
+export const updatePageThunk = createAsyncThunk<any, {target:UpdatePageTargets, update:any}, { state: AppState }>
+    ('cartSlice/fetchPageThunk', async (params, thunkAPI) => {
         const dispatch = thunkAPI.dispatch
         const { AuthReducer: { user: { _id: owner } }, PageReducer: { page } } = thunkAPI.getState()
         try {
-            const { data } = await PageAPI.update(page.pageId, update)
+            const { data } = await PageAPI.update(page.pageId, params)
             if (data.success) {
                 return { ...data }
             }
