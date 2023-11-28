@@ -6,7 +6,6 @@ import { ThemedText, colorScheme } from '../../theme'
 import { ButtonIcon, StyledButton, Textarea } from '../../reusable/styles'
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import { pageCartegories } from '../../reusable'
-import PageAPI from '../../api-services/page'
 import { createPageThunk, updatePageThunk } from '../../../reducers/page-reducer/page-thunks'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
@@ -103,10 +102,9 @@ export default function PageForm({ }: Props) {
         }
     }
 
-
     function handleOnClick() {
         if (isUpdate) {
-            dispatch(updatePageThunk(page))
+            dispatch(updatePageThunk({ target: 'other', update: { page } }))
         } else {
             dispatch(createPageThunk())
         }
