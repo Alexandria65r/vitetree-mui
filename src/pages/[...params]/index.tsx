@@ -109,7 +109,7 @@ function index({ }: Props) {
                 <PageInfo
                     page={page}
                     mainButton={<MainButton />}
-                    links={['send-star', 'exclusive', 'about']}
+                    links={['send-star', 'media', 'about']}
                     path={page.pageId} mode='read-only' />
                 {secondParam ? (<>
                     {secondParam === 'send-star' && <SupportCreator page={page} />}

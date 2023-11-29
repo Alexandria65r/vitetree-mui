@@ -266,5 +266,5 @@ export const StyledBox = styled(Box)(({ theme }) => ({
     padding: 10,
     borderRadius: CSS_PROPERTIES.radius10,
     boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
-    backgroundColor: theme.palette.mode === 'light' ? '#fff' : colorScheme(theme).secondaryColor
+    backgroundColor:colorScheme(theme).lightToSecondaryColor
 }))

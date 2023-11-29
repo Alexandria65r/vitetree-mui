@@ -1,10 +1,10 @@
 import React from 'react'
 import Layout from '../../components/layout'
-import { ThemedText } from '../../theme'
+import { ThemedText, colorScheme } from '../../theme'
 import { Box, styled, useTheme } from '@mui/material'
-import { StyledBox } from '../../reusable/styles'
 import { useRouter } from 'next/router'
 import TopTabTabs from '../../components/top-tab-bar'
+import PostItem from './post-item'
 
 const Container = styled(Box)(({ theme }) => ({
     width: '35%',
@@ -15,21 +15,16 @@ const Container = styled(Box)(({ theme }) => ({
     }
 }))
 
-const PageTitle = styled(Box)(({ theme }) => ({
+const PageTitle = styled(Box)(() => ({
     padding: '0 10px',
     marginBottom: 10,
 }))
-
-const Balance = styled(StyledBox)(({ theme }) => ({
-    display: 'flex',
-    minHeight: 120,
-    marginTop: 30,
-    padding: 20,
-    [theme.breakpoints.down('sm')]: {
-        marginTop: 30,
-        flexWrap: 'wrap',
-    }
+const MappedPosts = styled(Box)(() => ({
+    marginTop:40,
 }))
+
+
+
 
 const Text = styled(ThemedText)(({ theme }) => ({
     [theme.breakpoints.down('sm')]: {
@@ -50,12 +45,14 @@ export default function Create({ }: Props) {
                 <PageTitle>
                     <Text sx={{ fontSize: 23, fontWeight: 600 }}>Feed</Text>
                 </PageTitle>
-                <Box sx={{ flexBasis: '100%' }}>
+                <Box sx={{ flexBasis: '100%',borderBottom:`1px solid ${colorScheme(_theme).borderColor}` }}>
                     <TopTabTabs />
                 </Box>
-                <Balance>
-
-                </Balance>
+                <MappedPosts>
+                    {[1, 2, 3, 4, 5, 6].map((post) => (
+                        <PostItem key={post} />
+                    ))}
+                </MappedPosts>
             </Container>
         </Layout>
     )
