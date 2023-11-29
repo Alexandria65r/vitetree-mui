@@ -20,7 +20,7 @@ const PageTitle = styled(Box)(() => ({
     marginBottom: 10,
 }))
 const MappedPosts = styled(Box)(() => ({
-    marginTop:40,
+    marginTop:18,
 }))
 
 

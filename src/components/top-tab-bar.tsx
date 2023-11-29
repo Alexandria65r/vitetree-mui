@@ -68,7 +68,7 @@ export default function TopTabTabs({ }: Props) {
                                 display:'flex!important',
                                 alignItems:'center',
                                 minWidth:'fit-content',
-                                height: 0, py:1.5,px:0, minHeight: 0,
+                                height: 0, py:1.8,px:0, minHeight: 0,
                                 color: value === index ? colors.teal[500] : colorScheme(_theme).TextColor,
                                 fontWeight: value === index ? 600:500,
                                 textTransform: 'capitalize',

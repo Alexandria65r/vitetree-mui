@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from 'react'
 import Layout from '../../components/layout'
-import { Box, Typography, colors, styled } from '@mui/material'
+import { Box, Typography, colors, styled, useTheme } from '@mui/material'
 import { useRouter } from 'next/router'
 import { CSS_PROPERTIES } from '../../reusable'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
@@ -14,6 +14,7 @@ import PersonSearchOutlinedIcon from '@mui/icons-material/PersonSearchOutlined';
 import { pageActions } from '../../../reducers/page-reducer'
 import { fetchPagesThunk } from '../../../reducers/page-reducer/page-thunks'
 import TopTabTabs from '../../components/top-tab-bar'
+import { colorScheme } from '../../theme'
 
 const Container = styled(Box)(({ theme }) => ({
     width: '95%',
@@ -81,6 +82,7 @@ type Props = {}
 export default function Tutors({ }: Props) {
     const dispatch =useAppDispatch()
     const router = useRouter()
+    const _theme = useTheme()
     const [sort, inquiry, inquiryId]: any = router.query.params || []
     const pages = useAppSelector((state) => state.PageReducer.pages)
 
@@ -119,7 +121,7 @@ export default function Tutors({ }: Props) {
                     </Typography>
                 </PageTitle>
 
-                <Box sx={{ flexBasis: '100%'}}>
+                <Box sx={{ flexBasis: '100%', borderBottom: `1px solid ${colorScheme(_theme).borderColor}` }}>
                     <TopTabTabs/>
                 </Box>
 
