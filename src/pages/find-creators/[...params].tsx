@@ -1,20 +1,19 @@
 import React, { useCallback, useEffect } from 'react'
 import Layout from '../../components/layout'
 import { Box, Typography, colors, styled } from '@mui/material'
-import { colorScheme } from '../../theme'
 import { useRouter } from 'next/router'
 import { CSS_PROPERTIES } from '../../reusable'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import TutorItem from '../../components/tutor-item'
 import { SearchInput, SearchInputWrap, TabButton } from '../../reusable/styles'
 import SearchIcon from '@mui/icons-material/Search';
-
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import ManageSearchOutlinedIcon from '@mui/icons-material/ManageSearchOutlined';
 import CoPresentIcon from '@mui/icons-material/CoPresent';
 import PersonSearchOutlinedIcon from '@mui/icons-material/PersonSearchOutlined';
 import { pageActions } from '../../../reducers/page-reducer'
 import { fetchPagesThunk } from '../../../reducers/page-reducer/page-thunks'
+import TopTabTabs from '../../components/top-tab-bar'
 
 const Container = styled(Box)(({ theme }) => ({
     width: '95%',
@@ -35,22 +34,9 @@ const Container = styled(Box)(({ theme }) => ({
 }))
 
 
-const CheckoutHeader = styled(Box)(({ theme }) => ({
-    flexBasis: '100%',
-    //height: 60,
-    display: 'flex',
-    flexWrap: 'wrap',
-    alignItems: 'center',
+const PageTitle = styled(Box)(({ theme }) => ({
     padding: '0 10px',
     marginBottom: 10,
-    //backgroundColor: colorScheme(theme).secondaryColor,
-    borderRadius: CSS_PROPERTIES.radius10,
-    borderEndEndRadius: 0,
-    borderBottomLeftRadius: 0,
-    // boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
-    [theme.breakpoints.down("sm")]: {
-
-    }
 }))
 
 const TutorsColumn = styled(Box)(({ theme }) => ({
@@ -61,11 +47,7 @@ const TutorsColumn = styled(Box)(({ theme }) => ({
     marginRight: 15,
     gap: 10,
     flex: 1,
-    // padding: 10,
     minHeight: 60,
-    //  borderRadius: CSS_PROPERTIES.radius5,
-    // backgroundColor: colorScheme(theme).secondaryColor,
-    //boxShadow: `0 1px 3px 0px ${theme.palette.mode === 'light' ? '#ddd' : 'transparent'}`,
     [theme.breakpoints.down("sm")]: {
         display: 'grid',
         gridTemplateColumns: '1fr',
@@ -124,7 +106,7 @@ export default function Tutors({ }: Props) {
                     display: 'block',
                 }
             })}>
-                <CheckoutHeader>
+                <PageTitle>
                     <Typography
                         sx={(theme) => ({
                             fontSize: 25,
@@ -135,7 +117,11 @@ export default function Tutors({ }: Props) {
                         })}>
                         Find Creators You Love
                     </Typography>
-                </CheckoutHeader>
+                </PageTitle>
+
+                <Box sx={{ flexBasis: '100%'}}>
+                    <TopTabTabs/>
+                </Box>
 
                 <TutorsColumn>
                     <Box sx={{ flexBasis: '100%', ml: 0, my: 1 }}>

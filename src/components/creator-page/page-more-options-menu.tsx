@@ -93,16 +93,11 @@ const MenuItemButton = styled(StyledButton)(({ theme }) => ({
 
 type Props = {
 
-
 }
 
 function PageMoreOptionsMenu({ }: Props) {
     const router = useRouter()
     const dispatch = useAppDispatch()
-    const isMobile = useMediaQuery('(max-width:600px)')
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
-    const open = Boolean(anchorEl);
-
 
     useEffect(() => {
         router.events.on('routeChangeStart', routeChangeStart)
@@ -115,20 +110,9 @@ function PageMoreOptionsMenu({ }: Props) {
         handleClose()
     }
 
-
-
-
-    function togglePopper(event: React.MouseEvent<HTMLButtonElement>) {
-        setAnchorEl(anchorEl ? null : event.currentTarget)
-    }
-    function openCardMenu() {
-
-    }
-
-
-
     function handleClose() {
         dispatch(mainActions.setModal({ component: '' }))
+        dispatch(mainActions.setCardMenu({ component: '',title:'' }))
     }
 
 

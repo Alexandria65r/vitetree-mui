@@ -3,6 +3,8 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import { useRouter } from 'next/router';
+import { colors, useTheme } from '@mui/material';
+import { colorScheme } from '../../theme';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -22,7 +24,7 @@ export default function PageTabs({ links, path, mode }: Props) {
     const router = useRouter()
     const [value, setValue] = React.useState(0);
     const params: any = router.query.params || []
-
+    const _theme = useTheme()
     React.useEffect(() => {
         if (params?.length) {
             const index = links.indexOf(params[1])
@@ -39,11 +41,19 @@ export default function PageTabs({ links, path, mode }: Props) {
 
     return (
         <Box sx={{}}>
-            <Tabs value={value} sx={{ minHeight: 0, height: 'auto', justifyContent: 'center', backgroundColor: 'transparent' }} onChange={handleChange} aria-label="basic tabs example">
+            <Tabs
+                textColor={colors.teal[500] as any}
+                TabIndicatorProps={{
+                    style: {
+                        backgroundColor: colors.teal[500]
+                    }
+                }}
+                value={value} sx={{ minHeight: 0, height: 'auto', justifyContent: 'center', backgroundColor: 'transparent' }} onChange={handleChange} aria-label="basic tabs example">
                 {links.map((link, index) => (
                     <Tab
                         key={index}
                         sx={{
+                            color: value === index ? colors.teal[500] : colorScheme(_theme).TextColor,
                             height: 0, padding: 2, minHeight: 0,
                             textTransform: 'capitalize',
                             backgroundColor: 'transparent'
@@ -52,7 +62,6 @@ export default function PageTabs({ links, path, mode }: Props) {
                         id={`simple-tab-${index}`}
                     />
                 ))}
-
             </Tabs>
         </Box>
     );

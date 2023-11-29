@@ -60,7 +60,7 @@ export default function Create({ }: Props) {
     return (
         <Layout>
             <Container>
-                <Text sx={{ fontSize: 23, fontWeight: 600 }}>Create a {postType} Post</Text>
+                <Text sx={{ fontSize: 23, fontWeight: 600 }}>Post Detail</Text>
 
                 <Balance>
                     

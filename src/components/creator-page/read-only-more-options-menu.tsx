@@ -16,13 +16,14 @@ const Menu = styled(Box)(({ theme }) => ({
     transform: 'translate(-50%,-50%)',
     padding: 10,
     width: '20%',
-    height: 120,
+    height: 160,
     borderRadius: 10,
     boxShadow: `0 1px 3px 0px ${colorScheme(theme).grayToprimaryColor}`,
     backgroundColor: colorScheme(theme).lightToSecondaryColor,
     [theme.breakpoints.down('sm')]: {
         position: 'unset',
         width: '100%',
+        height: 120,
         transform: 'unset',
         backgroundColor: colorScheme(theme).lightToSecondaryColor,
     }

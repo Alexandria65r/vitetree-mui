@@ -10,7 +10,7 @@ import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
 import { FaXTwitter } from "react-icons/fa6";
 import { FaTiktok } from "react-icons/fa";
 import YouTubeIcon from '@mui/icons-material/YouTube';
-import PageTabs from '../../components/page-tab-bar'
+import PageTabs from '../../components/creator-page/page-tab-bar'
 import SupportCreator from '../../components/support-creator'
 import Banner from '../../components/creator-page/banner'
 import { fetchPageThunk } from '../../../reducers/page-reducer/page-thunks'

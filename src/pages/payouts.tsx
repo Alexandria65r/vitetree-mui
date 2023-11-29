@@ -18,6 +18,7 @@ const Balance = styled(StyledBox)(({ theme }) => ({
     marginTop: 30,
     padding: 20,
     [theme.breakpoints.down('sm')]: {
+        boxShadow:'none!important',
         marginTop: 30,
         flexWrap: 'wrap',
         backgroundColor: 'transparent'

@@ -3,7 +3,7 @@ import { ThemedText, colorScheme } from "../../theme"
 import { FaTiktok } from "react-icons/fa"
 import { FaXTwitter } from "react-icons/fa6"
 import { ButtonIcon, StyledButton } from "../../reusable/styles"
-import PageTabs from "../page-tab-bar"
+import PageTabs from "./page-tab-bar"
 import IosShareIcon from '@mui/icons-material/IosShare';
 import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
 import YouTubeIcon from '@mui/icons-material/YouTube';
