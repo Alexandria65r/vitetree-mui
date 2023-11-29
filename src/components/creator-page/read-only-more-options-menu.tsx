@@ -16,7 +16,7 @@ const Menu = styled(Box)(({ theme }) => ({
     transform: 'translate(-50%,-50%)',
     padding: 10,
     width: '20%',
-    //height: 300,
+    height: 120,
     borderRadius: 10,
     boxShadow: `0 1px 3px 0px ${colorScheme(theme).grayToprimaryColor}`,
     backgroundColor: colorScheme(theme).lightToSecondaryColor,

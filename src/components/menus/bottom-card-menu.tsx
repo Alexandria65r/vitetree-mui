@@ -1,4 +1,4 @@
-import { Box, hexToRgb, styled, useMediaQuery } from '@mui/material'
+import { Box, Modal, hexToRgb, styled, useMediaQuery } from '@mui/material'
 import React from 'react'
 import { ThemedText, colorScheme } from '../../theme'
 import IntractionMenu from '../account/interaction-popper/interaction-menu'
@@ -9,14 +9,9 @@ import { mainActions } from '../../../reducers/main-reducer'
 import PageMoreOptionsMenu from '../creator-page/page-more-options-menu'
 import ReadOnlyMoreOptionsMenu from '../creator-page/read-only-more-options-menu'
 
-const Container = styled(Box)(({ theme }) => ({
-    width: '100%',
-    position: 'fixed',
-    height: '100vh',
+const Container = styled(Modal)(({ theme }) => ({
     display: 'flex',
     alignItems: 'flex-end',
-    top: 0,
-    backgroundColor: '#00000040'
 }))
 const CardMenu = styled(Box)(({ theme }) => ({
     flex: 1,
@@ -47,7 +42,7 @@ export default function BottomCardMenu({ }: Props) {
     }
     if (!cardMenu.component || !isMobile) return null
     return (
-        <Container>
+        <Container open={cardMenu.component && isMobile} onClose={handleClose}>
             <CardMenu className='trans-from-bottom'>
                 <CardMenuHead >
                     <ThemedText sx={{ fontSize: 18, fontWeight: 600 }}>{cardMenu.title}</ThemedText>

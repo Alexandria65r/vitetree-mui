@@ -52,19 +52,7 @@ export default function Banner({ mode }: Props) {
     const _theme = useTheme()
     const dispatch = useAppDispatch()
     const page = useAppSelector((state) => state.PageReducer.page)
-    const avatarStyles: SxProps<Theme> | undefined = {
-        height: 180, width: 180,
-        position: 'absolute',
-        left: '18%',
-        bottom: '-248px',
-        border: `1px solid ${colorScheme(_theme).grayToSecondaryColor}`,
-        [_theme.breakpoints.down('sm')]: {
-            left: '50%',
-            transform: 'translateX(-50%)',
-            height: 80, width: 80,
-            bottom: '-31px',
-        }
-    }
+
 
     const [base64, setBase64] = useState<string | ArrayBuffer | null>('')
     const fileRef: any = useRef()
@@ -123,3 +111,26 @@ export default function Banner({ mode }: Props) {
         </Container>
     )
 }
+
+
+const avatarStyles: SxProps<Theme>  = (_theme)=>({
+    height: 180, width: 180,
+    position: 'absolute',
+    left: '18%',
+    bottom: '-248px',
+    border: `1px solid ${colorScheme(_theme).grayToSecondaryColor}`,
+    [_theme.breakpoints.down('sm')]: {
+        left: '50%',
+        transform: 'translateX(-50%)',
+        height: 80, width: 80,
+        bottom: '-31px',
+    },
+    [_theme.breakpoints.up('md')]: {
+        left: '11%',
+        bottom: '-248px',
+    },
+    [_theme.breakpoints.up('xl')]: {
+        left: '18%',
+        bottom: '-248px',
+    }
+})
