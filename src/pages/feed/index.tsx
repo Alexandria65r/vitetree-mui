@@ -45,7 +45,7 @@ export default function Create({ }: Props) {
                 <PageTitle>
                     <Text sx={{ fontSize: 23, fontWeight: 600 }}>Feed</Text>
                 </PageTitle>
-                <Box sx={{ flexBasis: '100%',borderBottom:`1px solid ${colorScheme(_theme).borderColor}` }}>
+                <Box sx={{ flexBasis: '100%',borderBottom:`0px solid ${colorScheme(_theme).borderColor}` }}>
                     <TopTabTabs />
                 </Box>
                 <MappedPosts>

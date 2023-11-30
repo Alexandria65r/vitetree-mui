@@ -43,48 +43,48 @@ export default function TopTabTabs({ }: Props) {
 
     const handleChange = (event: React.SyntheticEvent, index: number) => {
         setValue(index);
-        router.push(`/${links[index]}`)
+        router.push(`/${links[index].path}`)
     };
 
 
     return (
-     
-            <Tabs
-                value={value} 
-            textColor={colors.teal[500] as any}
-                TabIndicatorProps={{
-                    style:{
-                        display:'none'
-                    }
-                }} 
-            sx={{ minHeight: 0,px:1, height: 'auto', backgroundColor: 'transparent' }}
-                onChange={handleChange} aria-label="basic tabs example">
-                {links.map((link, index) => (
-                    <Link href={`/${link.path}`}>
-                        <Tab
-                        
-                            key={index}
-                            sx={{
-                                display:'flex!important',
-                                alignItems:'center',
-                                minWidth:'fit-content',
-                                height: 0, py:1.8,px:0, minHeight: 0,
-                                color: value === index ? colors.teal[500] : colorScheme(_theme).TextColor,
-                                fontWeight: value === index ? 600:500,
-                                textTransform: 'capitalize',
-                                backgroundColor: 'transparent',
-                                '&:nth-of-type(odd)':{
-                                    mr:2
-                                },
-                                borderBottom: value === index? `2px solid ${colors.teal[500]}`:0
-                            }}
-                            label={link.name.replace('-',' ')}
-                            id={`simple-tab-${index}`}
-                        />
-                    </Link>
-                ))}
 
-            </Tabs>
+        <Tabs
+            value={value}
+            textColor={colors.teal[500] as any}
+            TabIndicatorProps={{
+                style: {
+                    display: 'none'
+                }
+            }}
+            sx={{ minHeight: 0, px: 1, height: 'auto', backgroundColor: 'transparent' }}
+            onChange={handleChange} aria-label="basic tabs example">
+            {links.map((link, index) => (
+              
+                    <Tab
+                        key={index}
+                        sx={{
+                           
+                            alignItems: 'center',
+                            minWidth: 'fit-content',
+                            fontSize: 15,
+                            height: 0, py: 1.8, px: 0, minHeight: 0,
+                            color: value === index ? colors.teal[500] : colorScheme(_theme).TextColor,
+                            fontWeight: value === index ? 600 : 500,
+                            textTransform: 'capitalize',
+                            backgroundColor: 'transparent',
+                            '&:nth-of-type(odd)': {
+                                mr: 2
+                            },
+                            borderBottom: value === index ? `2px solid ${colors.teal[500]}` : 0
+                        }}
+                        label={link.name.replace('-', ' ')}
+                        id={`simple-tab-${index}`}
+                    />
+               
+            ))}
+
+        </Tabs>
 
     );
 }

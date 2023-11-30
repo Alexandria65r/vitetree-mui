@@ -48,7 +48,7 @@ export const colorScheme = (theme: Theme) => ({
     bgColor: isDarkMode(theme) ? colors.grey[800] : '#FFFFFF',
     SearchInputBG: isDarkMode(theme) ? colors.grey[800] : colors.grey[200],
     CardBg: isDarkMode(theme) ? colors.grey[800] : colors.grey[200],
-    TextColor: isDarkMode(theme) ? colors.grey[200] : colors.grey[800],
+    TextColor: isDarkMode(theme) ? colors.grey[100] : colors.grey[800],
 })
 
 export function useColorScheme() {

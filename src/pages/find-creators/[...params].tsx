@@ -121,7 +121,7 @@ export default function Tutors({ }: Props) {
                     </Typography>
                 </PageTitle>
 
-                <Box sx={{ flexBasis: '100%', borderBottom: `1px solid ${colorScheme(_theme).borderColor}` }}>
+                <Box sx={{ flexBasis: '100%', borderBottom: `0px solid ${colorScheme(_theme).borderColor}` }}>
                     <TopTabTabs/>
                 </Box>
 

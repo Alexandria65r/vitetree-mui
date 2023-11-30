@@ -11,7 +11,7 @@ import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined';
 
 const PostItemCard = styled(StyledBox)(({ theme }) => ({
     minHeight: 120,
-    marginTop: 30,
+    marginTop: 0,
     padding: 0,
     [theme.breakpoints.down('sm')]: {
         marginTop: 10,
