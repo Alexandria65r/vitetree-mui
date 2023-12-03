@@ -91,16 +91,16 @@ export default function PostItem({ post }: Props) {
                         }
                     </Image>
                 </PostCover>
-            ) : post.type === 'audio' ? (<Box sx={{ display: 'flex', mt: 2, justifyContent: 'center' }}>
+            ) : post?.type === 'audio' ? (<Box sx={{ display: 'flex', mt: 2, justifyContent: 'center' }}>
                     <audio src='https://res.cloudinary.com/alexandriah65/video/upload/v1679314196/audios/aqcszapett05dldh5244.mp3' controls />
             </Box>) : <></>}
             <PostFooter>
                 <Box sx={{ padding: 2 }}>
                     <ThemedText sx={{ fontSize: 18, fontWeight: 600 }}>
-                        {post.title || 'This is the title of the post'}
+                        {post?.title || 'This is the title of the post'}
                     </ThemedText>
                     <ThemedText sx={{ fontSize: 15, fontWeight: 500 }}>
-                        {post.description || 'The journey of every company starts with a simple idea 🎉🔥💯'}
+                        {post?.description || 'The journey of every company starts with a simple idea 🎉🔥💯'}
                     </ThemedText>
                 </Box>
 
