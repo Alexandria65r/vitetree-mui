@@ -7,7 +7,7 @@ async function fetchPosts(req: NextApiRequest, res: NextApiResponse) {
     await connection()
     const limit = req.query.limit
     try {
-        const posts = await PostModel.find({  })
+        const posts = await PostModel.find({}).sort({ createdAt: -1 })
         if (posts) {
             return res.json({ success: true, posts })
         }
