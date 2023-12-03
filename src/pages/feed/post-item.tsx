@@ -75,7 +75,7 @@ export default function PostItem({ post }: Props) {
                 <UserAvatar avatarStyles={{ width: 50, height: 50 }} />
                 <Box sx={{ flex: 1 }}>
                     <ThemedText sx={{ fontSize: 16, fontWeight: 500 }}>
-                        {post.author.pageName || 'Startups Media'}
+                        {post?.author?.pageName || 'Startups Media'}
                     </ThemedText>
                     <ThemedText sx={{ fontSize: 13, color: 'grayText' }}>Thur, 14hrs</ThemedText>
                 </Box>
