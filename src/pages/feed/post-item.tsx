@@ -81,7 +81,7 @@ export default function PostItem({ post }: Props) {
                 </Box>
                 <ButtonIcon><MoreVertOutlinedIcon /></ButtonIcon>
             </PostHeader>
-            {post.type !== 'audio' ? (
+            {post?.type !== 'audio' ? (
                 <PostCover>
                     <Image style={{ width: '100%', height: '100%' }} cloudName='alexandriah65' publicId={post?.postAssets?.image?.publicId ?? ''}>
                         {isMobile ?
