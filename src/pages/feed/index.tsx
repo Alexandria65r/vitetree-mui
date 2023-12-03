@@ -5,6 +5,12 @@ import { Box, styled, useTheme } from '@mui/material'
 import { useRouter } from 'next/router'
 import TopTabTabs from '../../components/top-tab-bar'
 import PostItem from './post-item'
+import { PostSchema } from '../../models/post'
+import { useEffectOnce } from 'react-use'
+import { useAppDispatch, useAppSelector } from '../../../store/hooks'
+import { postActions } from '../../../reducers/post-reducer'
+import { fetchPostsThunk } from '../../../reducers/post-reducer/post-thunks'
+
 
 const Container = styled(Box)(({ theme }) => ({
     width: '35%',
@@ -21,6 +27,10 @@ const PageTitle = styled(Box)(() => ({
 }))
 const MappedPosts = styled(Box)(() => ({
     marginTop:18,
+    display:'grid',
+    gap:10,
+    paddingBottom:15
+
 }))
 
 
@@ -36,9 +46,17 @@ const Text = styled(ThemedText)(({ theme }) => ({
 type Props = {}
 
 export default function Create({ }: Props) {
+    const dispatch = useAppDispatch()
     const router = useRouter()
     const _theme = useTheme()
+    const posts = useAppSelector((state)=>state.PostReducer.posts)
     const [postType, secondParam]: any = router.query.params || []
+
+    useEffectOnce(()=> {
+        dispatch(fetchPostsThunk())
+    })
+
+
     return (
         <Layout>
             <Container>
@@ -49,8 +67,8 @@ export default function Create({ }: Props) {
                     <TopTabTabs />
                 </Box>
                 <MappedPosts>
-                    {[1, 2, 3, 4, 5, 6].map((post) => (
-                        <PostItem key={post} />
+                    {posts.map((post) => (
+                        <PostItem key={post.postId} post={post} />
                     ))}
                 </MappedPosts>
             </Container>

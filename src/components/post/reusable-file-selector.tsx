@@ -1,10 +1,12 @@
-import { Box, Typography, styled, useTheme } from '@mui/material'
-import React, { Fragment, useCallback } from 'react'
-import { CSS_PROPERTIES } from '../reusable'
-import { colorScheme } from '../theme'
-import { useDropzone } from 'react-dropzone'
-import { useAppDispatch, useAppSelector } from '../../store/hooks'
 
+import { Box, Typography, styled, useTheme } from '@mui/material'
+import React, { Fragment, useCallback, useState } from 'react'
+import { CSS_PROPERTIES } from '../../reusable'
+import { colorScheme } from '../../theme'
+import { useDropzone } from 'react-dropzone'
+import { useAppDispatch, useAppSelector } from '../../../store/hooks'
+import { ButtonIcon } from '../../reusable/styles'
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 const Container = styled(Box)(({ theme }) => ({
     width: '100%',
@@ -56,14 +58,17 @@ const Text = styled(Typography)(({ theme }) => ({
 
 
 type Props = {
+    file_type: 'video' | 'image' | 'audio',
     uploadFile: (base64: string) => void
+    deleteFile: (type: string) => void
     browseButton: React.ReactNode
 }
 
-export default function ReusableDropzone({ browseButton, uploadFile }: Props) {
+export default function ReusableFileSelector({ file_type, browseButton, uploadFile, deleteFile }: Props) {
     const _theme = useTheme()
     const dispatch = useAppDispatch()
-    const { dropzoneList } = useAppSelector((state) => state.DropzoneReducer)
+    const post = useAppSelector((state) => state.PostReducer.post)
+    const [imagePreview, setImagePreview] = useState<string | ArrayBuffer | null>()
 
     const onDrop = useCallback((acceptedFiles: any) => {
         acceptedFiles.forEach((file: any) => {
@@ -74,6 +79,9 @@ export default function ReusableDropzone({ browseButton, uploadFile }: Props) {
             reader.onload = () => {
                 // Do whatever you want with the file contents
                 const base64: any = reader.result
+                if (file_type === 'image') {
+                    setImagePreview(base64)
+                }
                 uploadFile(base64)
             }
             reader.readAsDataURL(file)
@@ -82,24 +90,33 @@ export default function ReusableDropzone({ browseButton, uploadFile }: Props) {
     }, [])
 
 
+
+
+
     const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
 
     return (
         <Fragment>
             <Container
-                sx={{ borderColor: isDragActive ? colorScheme(_theme).quaternay : colorScheme(_theme).grayToSecondaryColor }}>
-
-                <DropzoneContainer {...getRootProps()}>
-                    <input {...getInputProps()} />
-                    {browseButton}
-                </DropzoneContainer>
-
-                {dropzoneList?.length ? (
-                    <MappedUploadedFiles
-                        sx={{ borderColor: isDragActive ? colorScheme(_theme).quaternay : colorScheme(_theme).grayToSecondaryColor }}
-                    >
-                    </MappedUploadedFiles>
-                ) : <></>}
+                sx={{ border: imagePreview ? 0 : '', borderColor: isDragActive ? colorScheme(_theme).quaternay : colorScheme(_theme).grayToSecondaryColor }}>
+                {imagePreview && file_type === 'image' ? (<Box sx={{position:'relative'}}>
+                    <ButtonIcon 
+                    sx={{position:'absolute', right:1,top:1}}
+                    onClick={() => {
+                        deleteFile('')
+                        setImagePreview('')
+                    }}>
+                        <DeleteOutlineIcon />
+                    </ButtonIcon>
+                    <img src={imagePreview as string} style={{ width: '140px', height: '140px', borderRadius: 10, objectFit: 'cover' }} />
+                </Box>) : post?.postAssets?.video?.publicId && file_type === 'video' ? (<>
+                        <video src={post.postAssets.video.secureURL} poster={post.postAssets.video.secureURL} />
+                </>) : (<>
+                    <DropzoneContainer {...getRootProps()}>
+                        <input {...getInputProps()} />
+                        {browseButton}
+                    </DropzoneContainer>
+                </>)}
             </Container>
         </Fragment>
     )

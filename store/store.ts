@@ -15,6 +15,7 @@ import NotificationsReducer from '../reducers/notification-reducer'
 import AcademicReducer from '../reducers/academic-answers-reducer'
 import DropzoneReducer from '../reducers/dropzone-reducer'
 import PageReducer from '../reducers/page-reducer'
+import PostReducer from '../reducers/post-reducer'
 
 
 
@@ -33,7 +34,8 @@ const rootReducer = combineReducers({
   NotificationsReducer,
   AcademicReducer,
   DropzoneReducer,
-  PageReducer
+  PageReducer,
+  PostReducer
 })
 
 

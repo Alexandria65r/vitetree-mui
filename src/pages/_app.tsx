@@ -102,6 +102,7 @@ function App({ Component, pageProps, ...rest }: AppProps) {
             rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Public+Sans&display=swap"
           /> */}
+
           </Head>
           <Component {...pageProps} />
         </ThemeProvider>

@@ -98,7 +98,7 @@ export default function PageItem({ page, }: Props) {
                 transition: '0.3s all',
             }}>
             <Box sx={{ display: 'flex', gap: 1, mb: 1, alignItems: 'center', }}>
-                <UserAvatar imageURL={page.imageAssets.profile.secureURL} avatarStyles={avatarStyles} />
+                <UserAvatar imageURL={page?.imageAssets?.profile?.secureURL??''} avatarStyles={avatarStyles} />
                 <PageItemBody>
                     {page.pageId ? (
                         <Box>
