@@ -54,7 +54,7 @@ function SendTipPopper({ postId }: Props) {
 
     const value = (<>
         {currentTip?.owner ? (<>
-            <ThemedText sx={{fontSize:18}}>{currentTip?.imoji}</ThemedText>
+            <ThemedText sx={{ fontSize: 18 }}>{currentTip?.imoji}</ThemedText>
             {currentTip?.name}
         </>)
             : (<>
@@ -88,11 +88,10 @@ function SendTipPopper({ postId }: Props) {
                         classes={{
                             //paper: classes.InteractionPaper
                         }}
-                        slotProps={{
-                            paper: {
-                                style: {
-                                    width: '37ch'
-                                }
+
+                        PaperProps={{
+                            style: {
+                                width: '37ch'
                             }
                         }}>
 
