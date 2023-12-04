@@ -1,4 +1,5 @@
-import { styled, Box, ButtonBase, colors, TextareaAutosize, InputBase } from '@mui/material'
+import { styled, Box, ButtonBase, colors, InputBase } from '@mui/material'
+import { TextareaAutosize } from '@mui/base'
 import { colorScheme } from '../theme'
 import { CSS_PROPERTIES } from '.'
 

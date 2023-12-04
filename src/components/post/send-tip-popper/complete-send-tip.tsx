@@ -28,8 +28,11 @@ const Container = styled(Box)(({ theme }) => ({
         display: 'block',
         borderRadius: 0,
         //padding: 10,
-        height: '100vh',
-        overflowY: 'auto'
+        height:'100vh',
+        overflowY: 'auto',
+        top: 0,
+        left: 0,
+         transform: 'unset',
     }
 }))
 const Head = styled(Box)(({ theme }) => ({
