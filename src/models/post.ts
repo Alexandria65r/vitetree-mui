@@ -11,6 +11,12 @@ export type Star = {
     username: string;
     package: Package
 }
+export type Tip = {
+    owner?:string;
+    name: string,
+    imoji: string
+    amount: number
+}
 export type Payout = {
 
 }
@@ -28,7 +34,7 @@ export type Post = {
         pageId: string
         pageName: string
     },
-    stars: Star[],
+    tips: Tip[],
     postAssets: {
         audio?: Asset;
         image?: Asset;
@@ -51,7 +57,7 @@ const _PostSchema = new mongoose.Schema<Post>({
         pageId: String,
         pageName:String
     },
-    stars: Array,
+    tips: Array,
     postAssets: { type: Object, required: false },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
@@ -70,7 +76,7 @@ export const PostSchema: Post = {
         pageId: "",
         pageName: ""
     },
-    stars: [],
+    tips: [],
     postAssets: {
         audio: undefined,
         image: undefined,

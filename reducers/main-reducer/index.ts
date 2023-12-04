@@ -5,8 +5,10 @@ import { testDataSchema } from '../../src/reusable/schemas'
 
 
 type CardMenu = {
-    component: 'account-menu' | 'page-more-options-menu' | 'read-only-more-options-menu'|'',
-    title: string
+    component: 'account-menu' | 'page-more-options-menu' | 'read-only-more-options-menu' | 'send-tip-picker' | '',
+    title: string;
+    showClose?:boolean;
+    postId?:string
 }
 type Modal = {
     component: 'page-more-options-menu' | 'read-only-more-options-menu' | '',
@@ -57,7 +59,8 @@ const initialState: State = {
     toasts: [],
     cardMenu: {
         component: '',
-        title: ''
+        title: '',
+        showClose: true
     },
     modal: {
         component: ''

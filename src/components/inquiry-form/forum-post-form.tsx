@@ -1,4 +1,4 @@
-import { Box, FormControlLabel, FormLabel, MenuItem, Radio, RadioGroup, TextField, Typography, colors, styled } from '@mui/material'
+import { Box, FormLabel, MenuItem, Radio, RadioGroup, TextField, Typography, colors, styled } from '@mui/material'
 import React, { useCallback, useEffect } from 'react'
 import SelectWithCheckMarks from '../form-inputs/select-with-checkmarks'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
@@ -241,8 +241,8 @@ function TutorService({ service, error }: TutorServiceProps) {
                 borderColor: error ? colors.red[400] :
                     `${theme.palette.mode === 'light' ? '#ddd' : colorScheme(theme).bgColor}`
             })}>
-            <FormControlLabel sx={{ flex: 1 }}
-                value={service.label} control={<Radio sx={RadioStyles} />} label={service.label} />
+            {/* <FormControlLabel sx={{ flex: 1 }}
+                value={service.label} control={<Radio sx={RadioStyles} />} label={service.label} /> */}
             <Typography sx={{ color: colors.teal[400] }}>{service.price}</Typography>
         </MenuItemButton>
     )

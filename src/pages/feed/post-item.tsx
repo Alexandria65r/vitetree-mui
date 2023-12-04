@@ -11,6 +11,7 @@ import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined';
 import { Image, Transformation } from 'cloudinary-react'
 import { Post } from '../../models/post'
 import { useMeasure, useWindowSize } from 'react-use'
+import SendTipPopper from '../../components/post/send-tip-popper'
 
 const PostItemCard = styled(StyledBox)(({ theme }) => ({
     minHeight: 120,
@@ -92,7 +93,7 @@ export default function PostItem({ post }: Props) {
                     </Image>
                 </PostCover>
             ) : post?.type === 'audio' ? (<Box sx={{ display: 'flex', mt: 2, justifyContent: 'center' }}>
-                    <audio src='https://res.cloudinary.com/alexandriah65/video/upload/v1679314196/audios/aqcszapett05dldh5244.mp3' controls />
+                <audio src='https://res.cloudinary.com/alexandriah65/video/upload/v1679314196/audios/aqcszapett05dldh5244.mp3' controls />
             </Box>) : <></>}
             <PostFooter>
                 <Box sx={{ padding: 2 }}>
@@ -108,19 +109,7 @@ export default function PostItem({ post }: Props) {
                     <Box sx={{ flex: 1 }}>
                         <ButtonIcon><FavoriteBorderIcon /></ButtonIcon>
                         <ButtonIcon><ModeCommentOutlinedIcon /></ButtonIcon>
-                        <StyledButton sx={{
-                            ml: 1.5, height: 30, fontSize: 14,
-                            bgcolor: colorScheme(_theme).lightToSecondaryColor,
-                            color: colorScheme(_theme).TextColor,
-                            border: `1px solid ${colorScheme(_theme).greyToTertiary}`,
-                            borderBottomWidth: 3,
-                            transition: '0.3s all',
-                            '&:hover': {
-                                borderColor: colors.teal[500]
-                            }
-                        }}>
-                            <StarsOutlinedIcon sx={{ mr: .4, fontSize: 16 }} /> Send Star
-                        </StyledButton>
+                        <SendTipPopper postId={post.postId} />
                     </Box>
                     <ButtonIcon><BookmarkAddOutlinedIcon /></ButtonIcon>
                 </PostReactions>

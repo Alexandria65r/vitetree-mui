@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import { mainActions } from '../../../reducers/main-reducer'
 import PageMoreOptionsMenu from '../creator-page/page-more-options-menu'
 import ReadOnlyMoreOptionsMenu from '../creator-page/read-only-more-options-menu'
+import SendTipMenu from '../post/send-tip-popper/send-tip-menu'
 
 const Container = styled(Modal)(({ theme }) => ({
     display: 'flex',
@@ -38,7 +39,7 @@ export default function BottomCardMenu({ }: Props) {
     const dispatch = useAppDispatch()
     const cardMenu = useAppSelector((state) => state.MainReducer.cardMenu)
     function handleClose() {
-        dispatch(mainActions.setCardMenu({ component: '',title:'' }))
+        dispatch(mainActions.setCardMenu({ component: '', title: '' }))
     }
     if (!cardMenu.component || !isMobile) return null
     return (
@@ -46,14 +47,17 @@ export default function BottomCardMenu({ }: Props) {
             <CardMenu className='trans-from-bottom'>
                 <CardMenuHead >
                     <ThemedText sx={{ fontSize: 18, fontWeight: 600 }}>{cardMenu.title}</ThemedText>
-                    <ButtonIcon onClick={handleClose}
-                        sx={{ position: 'absolute', top: 7, right: 1, height: '35px', width: '35px' }}>
-                        <CloseIcon />
-                    </ButtonIcon>
+                    {cardMenu.showClose ? (
+                        <ButtonIcon onClick={handleClose}
+                            sx={{ position: 'absolute', top: 7, right: 1, height: '35px', width: '35px' }}>
+                            <CloseIcon />
+                        </ButtonIcon>
+                    ) : <></>}
                 </CardMenuHead>
                 {cardMenu.component === 'account-menu' && <IntractionMenu />}
                 {cardMenu.component === 'page-more-options-menu' && <PageMoreOptionsMenu />}
                 {cardMenu.component === 'read-only-more-options-menu' && <ReadOnlyMoreOptionsMenu />}
+                {cardMenu.component === 'send-tip-picker' && <SendTipMenu postId={cardMenu?.postId ?? ''} />}
             </CardMenu>
         </Container>
     )
