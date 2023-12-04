@@ -106,11 +106,9 @@ function InteractionPopper({ }: Props) {
                         classes={{
                             paper: classes.InteractionPaper
                         }}
-                        slotProps={{
-                            paper: {
-                                style:{
-                                    width: '27ch' 
-                                }
+                        PaperProps={{
+                            style: {
+                                width: '27ch'
                             }
                         }}>
 
