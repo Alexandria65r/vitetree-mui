@@ -9,6 +9,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { mainActions } from '../../../../reducers/main-reducer';
 import SendTipMenu from './send-tip-menu';
 import StarsOutlinedIcon from '@mui/icons-material/StarsOutlined';
+import WestIcon from '@mui/icons-material/West';
 
 
 
@@ -28,11 +29,11 @@ const Container = styled(Box)(({ theme }) => ({
         display: 'block',
         borderRadius: 0,
         //padding: 10,
-        height:'100vh',
+        height: '100vh',
         overflowY: 'auto',
         top: 0,
         left: 0,
-         transform: 'unset',
+        transform: 'unset',
     }
 }))
 const Head = styled(Box)(({ theme }) => ({
@@ -41,11 +42,15 @@ const Head = styled(Box)(({ theme }) => ({
     alignItems: 'center',
     //justifyContent:'center',
     height: 60,
-    paddingInline: 10,
+    paddingInline: 22,
     flexBasis: '100%',
-    borderTopLeftRadius: 10, borderTopRightRadius: 10 ,
+    borderTopLeftRadius: 10, borderTopRightRadius: 10,
     backgroundColor: colorScheme(theme).lightToSecondaryColor,
-    //borderBottom: `1px solid ${colorScheme(theme).greyToTertiary}`
+    //borderBottom: `1px solid ${colorScheme(theme).greyToTertiary}`,
+    [theme.breakpoints.down('sm')]: {
+        borderRadius: 0,
+        paddingInline: 10,
+    }
 }))
 const LeftCol = styled(Box)(({ theme }) => ({
     flex: 1,
@@ -76,12 +81,27 @@ function CompleteSendTipAction({ postId }: Props) {
 
     return (
         <Container>
-            <Head sx={{border:0}}>
-                <ThemedText sx={{ fontSize: 18, fontWeight: 700 }}>Support Creator</ThemedText>
+            <Head sx={{ border: 0 }}>
+                <ThemedText sx={{
+                    fontSize: 18, fontWeight: 700,
+                    [_theme.breakpoints.down('sm')]: {
+                        marginLeft: 5
+                    }
+                }}>
+                    Support Creator
+                </ThemedText>
                 <ButtonIcon
                     onClick={handleClose}
-                    sx={{ position: 'absolute', top: 10, right: 2 }}>
-                    <CloseIcon />
+                    sx={{
+                        position: 'absolute', top: 10, right: 2,
+                        [_theme.breakpoints.down('sm')]: {
+                            right: 'auto',
+                            top: 7,
+                            left: 0
+                        }
+                    }}>
+                    {isMobile ? <WestIcon /> : <CloseIcon />}
+
                 </ButtonIcon>
             </Head>
             <LeftCol >
@@ -91,9 +111,11 @@ function CompleteSendTipAction({ postId }: Props) {
                 <Head sx={{ borderBottom: `1px solid ${colorScheme(_theme).greyToTertiary}` }}>
                     <ThemedText sx={{ fontSize: 17, fontWeight: 600 }}>Pick a Tip</ThemedText>
                 </Head>
-                <Box sx={{ bgcolor: colorScheme(_theme).lightToSecondaryColor, 
-                padding: 1,
-                     borderBottomLeftRadius: 10, borderBottomRightRadius:10 }}>
+                <Box sx={{
+                    bgcolor: colorScheme(_theme).lightToSecondaryColor,
+                    padding: 1,
+                    borderBottomLeftRadius: 10, borderBottomRightRadius: 10
+                }}>
                     <SendTipMenu postId={postId} />
                 </Box>
                 <Box sx={{ display: 'flex', mt: 2, justifyContent: 'space-between' }}>
