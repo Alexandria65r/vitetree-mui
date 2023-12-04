@@ -109,7 +109,7 @@ export default function PostItem({ post }: Props) {
                     <Box sx={{ flex: 1 }}>
                         <ButtonIcon><FavoriteBorderIcon /></ButtonIcon>
                         <ButtonIcon><ModeCommentOutlinedIcon /></ButtonIcon>
-                        <SendTipPopper postId={post.postId} />
+                        <SendTipPopper postId={post?.postId??''} />
                     </Box>
                     <ButtonIcon><BookmarkAddOutlinedIcon /></ButtonIcon>
                 </PostReactions>
