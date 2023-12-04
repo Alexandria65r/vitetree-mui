@@ -36,6 +36,7 @@ export default function SendTipMenu({ postId, popupState }: Props) {
             }
             dispatch(postActions.setPosts(clonedPosts))
             dispatch(mainActions.setCardMenu({ component: '', title: '', showClose: true }))
+            dispatch(mainActions.setModal({ component: 'complete-send-tip-action', postId}))
             popupState?.close()
         }
     }
@@ -46,7 +47,7 @@ export default function SendTipMenu({ postId, popupState }: Props) {
             {tips.map((tip) => (
                 <MenuItem key={tip.name} onClick={() => selectTip(tip)
                 } sx={(theme) => ({ borderBottom: `1px solid ${colorScheme(theme).greyToTertiary}` })}>
-                    <ThemedText sx={{ fontSize: 22 }}>{tip.imoji}</ThemedText>
+                    <ThemedText sx={{ fontSize: 22,mr:1 }}>{tip.imoji}</ThemedText>
                     <Box sx={{ flex: 1, display: 'flex' }}>
                         <ThemedText sx={{ flex: 1, fontWeight: 600, fontSize: 15, textTransform: 'capitalize' }}>{tip.name} </ThemedText>
                         <ThemedText sx={{ mr: 2, fontWeight: 600, fontSize: 15 }}>K{tip.amount}</ThemedText>

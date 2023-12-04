@@ -11,7 +11,7 @@ import { Tip } from '../../../models/post';
 
 
 const SendTipButton = styled(StyledButton)(({ theme }) => ({
-    ml: 1.5, height: 30, fontSize: 14,
+    marginLeft: 13, height: 30, fontSize: 14,
     backgroundColor: colorScheme(theme).lightToSecondaryColor,
     color: colorScheme(theme).TextColor,
     border: `1px solid ${colorScheme(theme).greyToTertiary}`,
@@ -54,7 +54,7 @@ function SendTipPopper({ postId }: Props) {
 
     const value = (<>
         {currentTip?.owner ? (<>
-            <ThemedText sx={{ fontSize: 18 }}>{currentTip?.imoji}</ThemedText>
+            <ThemedText sx={{ fontSize: 18, }}>{currentTip?.imoji}</ThemedText>
             {currentTip?.name}
         </>)
             : (<>
@@ -91,7 +91,8 @@ function SendTipPopper({ postId }: Props) {
                         slotProps={{
                             paper: {
                                 style: {
-                                    width: '37ch'
+                                    width: '37ch',
+                                    
                                 }
                             }
                         }}>

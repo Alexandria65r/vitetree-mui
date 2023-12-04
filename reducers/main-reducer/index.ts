@@ -11,8 +11,9 @@ type CardMenu = {
     postId?:string
 }
 type Modal = {
-    component: 'page-more-options-menu' | 'read-only-more-options-menu' | '',
-    options?: any
+    component: 'page-more-options-menu' | 'read-only-more-options-menu' |'complete-send-tip-action' |'',
+    options?: any;
+    postId?: string;
 }
 
 

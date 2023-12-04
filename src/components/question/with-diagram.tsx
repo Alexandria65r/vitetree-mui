@@ -56,7 +56,7 @@ const QuestionNumberText = styled(Typography)(() => ({
     fontWeight: 500,
     color: '#ffff'
 }))
-const Textarea = styled(TextareaAutosize)(({ theme }) => ({
+const Textarea = styled('textarea')(({ theme }) => ({
     padding: 10,
     resize: 'none',
     fontFamily: 'inherit',

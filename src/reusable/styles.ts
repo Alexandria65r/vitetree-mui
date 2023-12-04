@@ -128,7 +128,7 @@ export const ContinueWithOverlayText = styled(Box)(({ theme }) => ({
     transform: 'translate(-50% )'
 }))
 
-export const Textarea = styled(TextareaAutosize)(({ theme }) => ({
+export const Textarea = styled('textarea')(({ theme }) => ({
     padding: 10,
     resize: 'none',
     fontFamily: 'inherit',

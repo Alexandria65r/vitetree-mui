@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, ButtonBase, colors, styled, useMediaQuery, TextareaAutosize } from '@mui/material'
+import { Box, ButtonBase, colors, styled, useMediaQuery, } from '@mui/material'
 import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt';
 import MicIcon from '@mui/icons-material/Mic';
 import KeyboardVoiceOutlinedIcon from '@mui/icons-material/KeyboardVoiceOutlined';
@@ -10,7 +10,7 @@ import AttachFileIcon from '@mui/icons-material/AttachFile';
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
 import ChevronLeftOutlinedIcon from '@mui/icons-material/ChevronLeftOutlined';
 import { ButtonIcon } from '../../reusable/styles';
-import { Textarea } from '@mui/joy';
+
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
 import emotionStyled from '@emotion/styled'
 import { useAppDispatch } from '../../../store/hooks';
@@ -43,7 +43,7 @@ const FooterRightCol = styled(Box)(({ theme }) => ({
     transition: '0.3s all',
 }))
 
-const ChatTextField = styled(TextareaAutosize)(({ theme }) => ({
+const ChatTextField = styled('textarea')(({ theme }) => ({
     fontFamily: 'inherit',
     // overflow: 'hidden',
     flex: 1,
