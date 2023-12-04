@@ -53,9 +53,13 @@ function SendTipPopper({ postId }: Props) {
 
 
     const value = (<>
-        {currentTip?.owner ? `${currentTip?.imoji} ${currentTip?.name}` : (<>
-            <StarsOutlinedIcon sx={{ mr: .4, fontSize: 16 }} /> Send Tip
-        </>)}
+        {currentTip?.owner ? (<>
+            <ThemedText sx={{fontSize:18}}>{currentTip?.imoji}</ThemedText>
+            {currentTip?.name}
+        </>)
+            : (<>
+                <StarsOutlinedIcon sx={{ mr: .4, fontSize: 16 }} /> Send Tip
+            </>)}
     </>)
 
 
