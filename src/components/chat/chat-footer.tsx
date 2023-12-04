@@ -44,7 +44,7 @@ const FooterRightCol = styled(Box)(({ theme }) => ({
     transition: '0.3s all',
 }))
 
-const ChatTextField = styled(TextareaAutosize)(({ theme }) => ({
+const ChatTextField = styled('textarea')(({ theme }) => ({
     fontFamily: 'inherit',
     // overflow: 'hidden',
     flex: 1,
@@ -124,7 +124,7 @@ export default function ChatFooter({
                 <EmojiPickerButton>
                     <SentimentSatisfiedAltIcon />
                 </EmojiPickerButton>
-                <ChatTextField
+                {/* <ChatTextField
                     // color='success'
                     id="textField"
                     maxRows={2}
@@ -132,7 +132,7 @@ export default function ChatFooter({
                     onFocus={() => setIsFocused(true)}
                     onBlur={() => setIsFocused(false)}
                     placeholder={!isFocused && isMobile ? 'Message...' : 'Write your message'}
-                />
+                /> */}
 
             </ChatTextFieldWrapper>
 
