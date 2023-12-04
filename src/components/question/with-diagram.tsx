@@ -1,7 +1,7 @@
-import { Box, Button, MenuItem, Select, TextField, Typography, colors, styled } from '@mui/material'
+import { Box, Button, MenuItem, Select, TextField, TextareaAutosize, Typography, colors, styled } from '@mui/material'
 import React from 'react'
 import { CSS_PROPERTIES } from '../../reusable'
-import TextareaAutosize from '@mui/base/TextareaAutosize'
+
 import { colorScheme } from '../../theme'
 import { Question } from '../../reusable/interfaces'
 

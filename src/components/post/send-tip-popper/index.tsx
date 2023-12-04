@@ -88,10 +88,11 @@ function SendTipPopper({ postId }: Props) {
                         classes={{
                             //paper: classes.InteractionPaper
                         }}
-
-                        PaperProps={{
-                            style: {
-                                width: '37ch'
+                        slotProps={{
+                            paper: {
+                                style: {
+                                    width: '37ch'
+                                }
                             }
                         }}>
 
