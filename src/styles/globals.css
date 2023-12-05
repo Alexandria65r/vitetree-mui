@@ -186,3 +186,15 @@ a {
     transform: translateY(0);
   }
 }
+.trans-from-left {
+  animation: trans-from-left 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+@keyframes trans-from-left {
+  0% {
+    transform: translateX(-600px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}

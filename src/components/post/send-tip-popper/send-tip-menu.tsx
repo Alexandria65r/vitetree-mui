@@ -52,7 +52,7 @@ export default function SendTipMenu({ postId, popupState }: Props) {
                         <ThemedText sx={{ flex: 1, fontWeight: 600, fontSize: 15, textTransform: 'capitalize' }}>{tip.name} </ThemedText>
                         <ThemedText sx={{ mr: 2, fontWeight: 600, fontSize: 15 }}>K{tip.amount}</ThemedText>
                     </Box>
-                    {user.interaction === 'creator' ? <RadioButtonCheckedIcon sx={{ color: colors.teal[500] }} /> : <></>}
+                    <RadioButtonCheckedIcon sx={{ color: colors.teal[500] }} /> 
                 </MenuItem>
             ))}
         </>

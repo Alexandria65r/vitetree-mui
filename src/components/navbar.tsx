@@ -89,7 +89,7 @@ export default function NavBar() {
                             flexGrow: 1, color: colors.teal[400]
                         }}>
                         <Link href={user?._id ? '/find-creators/q=nothing' : '/'}>
-                          Pushmefans
+                         Vitefans
                         </Link>
                     </Typography>
                     {router.pathname !== '/' && (
