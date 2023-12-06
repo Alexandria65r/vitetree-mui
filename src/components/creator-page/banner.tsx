@@ -71,6 +71,7 @@ export default function Banner({ mode }: Props) {
             if (response.payload.publicId) {
                 page.imageAssets
                 const { payload } = await dispatch(updatePageThunk({
+                    pageId: page.pageId,
                     target: 'other',
                     update: {
                         imageAssets: {
@@ -113,7 +114,7 @@ export default function Banner({ mode }: Props) {
 }
 
 
-const avatarStyles: SxProps<Theme>  = (_theme)=>({
+const avatarStyles: SxProps<Theme> = (_theme) => ({
     height: 180, width: 180,
     position: 'absolute',
     left: '18%',

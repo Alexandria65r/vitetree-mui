@@ -82,6 +82,7 @@ export default function UserAvatar({ userId, imageURL, changeImagePreview, avata
             if (response.payload.publicId) {
                 page.imageAssets
                 const { payload } = await dispatch(updatePageThunk({
+                    pageId: page.pageId,
                     target: 'profile-image',
                     update: {
                         imageAssets: {

@@ -78,6 +78,7 @@ export default function PageInfo({ page, links, path, mode, mainButton }: Props)
             setIsBio('loading')
             dispatch(pageActions.setPageData({ ...page, bio: bioRef.current.innerText }))
             const { payload } = await dispatch(updatePageThunk({
+                pageId: page.pageId,
                 target: 'other', update:
                     { bio: bioRef.current.innerText }
             }))
@@ -96,6 +97,7 @@ export default function PageInfo({ page, links, path, mode, mainButton }: Props)
         } else {
             setIsLinks('loading')
             const { payload } = await dispatch(updatePageThunk({
+                pageId: page.pageId,
                 target: 'other', update:
                     { bio: bioRef.current.innerText }
             }))
