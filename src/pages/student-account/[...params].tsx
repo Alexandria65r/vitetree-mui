@@ -130,7 +130,7 @@ export default function Checkout({ }: Props) {
     const dispatch = useAppDispatch()
     const user = useAppSelector((state) => state.AuthReducer.user)
     const cartItems = useAppSelector((state) => state.CartReducer.cartItems)
-    const [amount, setAmount] = useState<string>("0")
+    const [amount, setAmount] = useState<number>(0)
     const isErr = useAppSelector((state) => state.AuthReducer.isError)
     const card = useAppSelector((state) => state.AuthReducer.card)
     const authNetworkStatus = useAppSelector((state) => state.AuthReducer.authNetworkStatus)
@@ -140,18 +140,6 @@ export default function Checkout({ }: Props) {
     useEffect(() => {
         loadActiveCard()
     }, [dispatch, user])
-
-
-
-    function getSubtotal() {
-        return cartItems.reduce((s, item) => {
-            const price = parseFloat(item.price)
-            return s + price
-        }, 0)
-    }
-    const fm = new FormatMoney({
-        decimals: 2
-    })
 
 
     return (
@@ -198,7 +186,7 @@ export default function Checkout({ }: Props) {
                             Enter topup amount
                         </Typography>
                         <TextInput sx={{ flexBasis: '100%' }}
-                            error={isErr && amount === "0"
+                            error={isErr && amount === 0
                             }
                             value={amount}
                             onChange={({ target }: any) => setAmount(target.value)}
