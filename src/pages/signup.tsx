@@ -107,6 +107,7 @@ export default function Signup({ }: Props) {
           lastName: splitedName[1] ?? '',
           email: currentUser?.email ?? '',
           role: getUserRole() ?? '',
+          accountBalance:0,
           password: '',
           gender: '',
 
