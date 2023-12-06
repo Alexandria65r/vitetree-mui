@@ -8,7 +8,7 @@ import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import { PopupState } from 'material-ui-popup-state/hooks';
 import { Tip } from '../../../models/post';
 import { postActions } from '../../../../reducers/post-reducer';
-
+import RadioButtonUncheckedOutlinedIcon from '@mui/icons-material/RadioButtonUncheckedOutlined';
 type Props = {
     postId?: string
     popupState?: PopupState
@@ -19,24 +19,26 @@ export default function SendTipMenu({ postId, popupState }: Props) {
     const dispatch = useAppDispatch()
     const user = useAppSelector((state) => state.AuthReducer.user)
     const posts = useAppSelector((state) => state.PostReducer.posts)
+    const selectedTip = useAppSelector((state) => state.PostReducer.tip)
 
     const post = posts.find((postItem) => postItem.postId === postId)
     const clonedPosts = [...posts]
 
     //Note Make this a thunk action
     function selectTip(tip: Tip) {
+        dispatch(postActions.setTip(tip))
         if (post) {
             const clonedTips = [...post.tips]
-            const isExist = clonedTips.find((tipItem) => tipItem.owner === user._id)
+            const isExist = clonedTips.find((tipItem) => tipItem?.owner === user._id)
             if (!isExist) {
-                clonedPosts.splice(posts.indexOf(post), 1, { ...post, tips: [...post?.tips, { ...tip, owner: user._id }] })
+                clonedPosts.splice(posts.indexOf(post), 1, { ...post, tips: [...post?.tips, tip] })
             } else {
-                clonedTips.splice(post.tips.indexOf(isExist), 1, { ...tip, owner: user._id })
+                clonedTips.splice(post.tips.indexOf(isExist), 1, tip)
                 clonedPosts.splice(posts.indexOf(post), 1, { ...post, tips: clonedTips })
             }
             dispatch(postActions.setPosts(clonedPosts))
             dispatch(mainActions.setCardMenu({ component: '', title: '', showClose: true }))
-            dispatch(mainActions.setModal({ component: 'complete-send-tip-action', postId}))
+            dispatch(mainActions.setModal({ component: 'complete-send-tip-action', postId }))
             popupState?.close()
         }
     }
@@ -45,14 +47,15 @@ export default function SendTipMenu({ postId, popupState }: Props) {
     return (
         <>
             {tips.map((tip) => (
-                <MenuItem key={tip.name} onClick={() => selectTip(tip)
+                <MenuItem key={tip.name} onClick={() => selectTip({ ...tip, owner: user._id, postId })
                 } sx={(theme) => ({ borderBottom: `1px solid ${colorScheme(theme).greyToTertiary}` })}>
-                    <ThemedText sx={{ fontSize: 22,mr:1 }}>{tip.imoji}</ThemedText>
+                    <ThemedText sx={{ fontSize: 22, mr: 1 }}>{tip.imoji}</ThemedText>
                     <Box sx={{ flex: 1, display: 'flex' }}>
                         <ThemedText sx={{ flex: 1, fontWeight: 600, fontSize: 15, textTransform: 'capitalize' }}>{tip.name} </ThemedText>
                         <ThemedText sx={{ mr: 2, fontWeight: 600, fontSize: 15 }}>K{tip.amount}</ThemedText>
                     </Box>
-                    <RadioButtonCheckedIcon sx={{ color: colors.teal[500] }} /> 
+                    {selectedTip?.name === tip.name ? <RadioButtonCheckedIcon sx={{ color: colors.teal[500] }} />
+                     : <RadioButtonUncheckedOutlinedIcon sx={{ color: colors.teal[500] }} />}  
                 </MenuItem>
             ))}
         </>

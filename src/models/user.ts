@@ -12,7 +12,7 @@ export type User = {
     pageInfo?: {
         pageId?: string;
         name: string
-        photoURL:string
+        photoURL: string
     }
     role?: Role,
     interaction?: Role;
@@ -20,7 +20,7 @@ export type User = {
     birthday?: string;
     phone?: string;
     country?: string;
-    accountBalance?: string,
+    accountBalance: number,
     createdAt?: string
 }
 
@@ -41,13 +41,14 @@ const _UserSchema = new mongoose.Schema<User>({
         photoURL: { type: String, required: false },
     },
     imageAsset: { publicId: String, secureURL: String },
-    accountBalance: { type: String, required: false },
+    accountBalance: Number,
     createdAt: { type: Date, default: Date.now },
 });
 
 export const UserModel = mongoose.models?.user || mongoose.model<User>("user", _UserSchema);
 
 export const UserSchema: User = {
+    accountBalance: 0,
     gender: '',
     firstName: '',
     lastName: '',

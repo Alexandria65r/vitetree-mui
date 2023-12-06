@@ -251,23 +251,25 @@ export const removeCardThunk = createAsyncThunk<void, string, { state: AppState 
 
         }
     })
-export const topupAccountThunk = createAsyncThunk<void, string, { state: AppState }>
-    ('authSlice/removeCard', async (amount, thunkAPI) => {
+export const topupAccountThunk = createAsyncThunk<void, number, { state: AppState }>
+    ('authSlice/topupAccountThunk', async (amount, thunkAPI) => {
         const dispatch = thunkAPI.dispatch
         const state = thunkAPI.getState()
         const user = state.AuthReducer.user
-        if (amount === "0") {
+        if (amount === 0) {
             dispatch(authActions.setError(true))
         } else {
             try {
                 dispatch(authActions.setAuthNetworkStatus('topup-account'))
                 const { data } = await AuthAPI.update(user._id ?? '', { accountBalance: amount })
                 if (data.success) {
+                    dispatch(createToastThunk('Your Balance topup went successfull'))
                     dispatch(authActions.setAuthNetworkStatus('topup-account-success'))
-                    const newBalance = fm.from(parseInt(user?.accountBalance ?? '') + parseInt(amount))
-                    dispatch(authActions.setAuhtUser({ ...user, accountBalance: `${newBalance}` }))
+                    const newBalance = user.accountBalance + amount
+                    dispatch(authActions.setAuhtUser({ ...user, accountBalance: newBalance }))
                 }
             } catch (error) {
+                dispatch(createToastThunk('An error occured while try to topup your balance!'))
                 dispatch(authActions.setAuthNetworkStatus('topup-account-error'))
             }
         }
@@ -282,14 +284,14 @@ export const chargeThunk = createAsyncThunk<ReturnType, { balance: number, subTo
         if (chargeParam.balance < chargeParam.subTotal) {
             router.push('/student-account/recharge')
         } else {
-            const newBalance = fm.from(chargeParam.balance - chargeParam.subTotal)
+            const newBalance = chargeParam.balance - chargeParam.subTotal
 
             try {
                 dispatch(authActions.setAuthNetworkStatus('deduct-account'))
                 const { data } = await AuthAPI.update(user._id ?? '', { accountBalance: newBalance })
                 if (data.success) {
                     dispatch(authActions.setAuthNetworkStatus('deduct-account-success'))
-                    dispatch(authActions.setAuhtUser({ ...user, accountBalance: `${newBalance}` }))
+                    dispatch(authActions.setAuhtUser({ ...user, accountBalance: newBalance }))
 
                     return 'success'
                 }
@@ -312,10 +314,10 @@ export const purchaseCourseThunk = createAsyncThunk<void, { balance: number, sub
         dispatch(authActions.setAuthNetworkStatus('order'))
         const chargeRes = await dispatch(chargeThunk(chargeParam))
         if (chargeRes.payload === 'success') {
-          
-     
+
+
             const updateRes = await dispatch(updateUserThunk({
-                update: { },
+                update: {},
                 networkSatusList: [
                     'updating',
                     'updating-success',

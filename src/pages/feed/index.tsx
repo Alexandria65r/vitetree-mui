@@ -13,10 +13,10 @@ import { fetchPostsThunk } from '../../../reducers/post-reducer/post-thunks'
 
 
 const Container = styled(Box)(({ theme }) => ({
-    width: '35%',
+    width: '30%',
     margin: '10px auto',
     [theme.breakpoints.down('sm')]: {
-        width: '95%',
+        width: '100%',
         margin: '0 auto',
     }
 }))
@@ -26,10 +26,10 @@ const PageTitle = styled(Box)(() => ({
     marginBottom: 10,
 }))
 const MappedPosts = styled(Box)(() => ({
-    marginTop:18,
-    display:'grid',
-    gap:10,
-    paddingBottom:15
+    marginTop: 18,
+    display: 'grid',
+    gap: 10,
+    paddingBottom: 15
 
 }))
 
@@ -49,21 +49,22 @@ export default function Create({ }: Props) {
     const dispatch = useAppDispatch()
     const router = useRouter()
     const _theme = useTheme()
-    const posts = useAppSelector((state)=>state.PostReducer.posts)
+    const isSidebarOpen = useAppSelector((state) => state.MainReducer.isSidebarOpen)
+    const posts = useAppSelector((state) => state.PostReducer.posts)
     const [postType, secondParam]: any = router.query.params || []
 
-    useEffectOnce(()=> {
+    useEffectOnce(() => {
         dispatch(fetchPostsThunk())
     })
 
 
     return (
         <Layout>
-            <Container>
+            <Container sx={{ width: isSidebarOpen ? '30%' : '33%' }}>
                 <PageTitle>
                     <Text sx={{ fontSize: 23, fontWeight: 600 }}>Feed</Text>
                 </PageTitle>
-                <Box sx={{ flexBasis: '100%',borderBottom:`0px solid ${colorScheme(_theme).borderColor}` }}>
+                <Box sx={{ flexBasis: '100%', borderBottom: `0px solid ${colorScheme(_theme).borderColor}` }}>
                     <TopTabTabs />
                 </Box>
                 <MappedPosts>

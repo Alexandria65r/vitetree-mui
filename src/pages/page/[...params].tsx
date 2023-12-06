@@ -111,6 +111,7 @@ export default function Creator({ }: Props) {
         } else {
 
             const { payload } = await dispatch(updatePageThunk({
+                pageId:page.pageId,
                 target: 'other',
                 update: {
                     published: true

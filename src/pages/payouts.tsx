@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useCallback, useEffect } from 'react'
 import Layout from '../components/layout'
 import { ThemedText } from '../theme'
 import { Box, colors, styled, useTheme } from '@mui/material'
 import { StyledBox, StyledButton } from '../reusable/styles'
+import { fetchPageThunk } from '../../reducers/page-reducer/page-thunks'
+import { useAppDispatch, useAppSelector } from '../../store/hooks'
+import { formatMoney } from '../reusable/helpers'
 
 const Container = styled(Box)(({ theme }) => ({
     width: '60%',
@@ -18,7 +21,7 @@ const Balance = styled(StyledBox)(({ theme }) => ({
     marginTop: 30,
     padding: 20,
     [theme.breakpoints.down('sm')]: {
-        boxShadow:'none!important',
+        boxShadow: 'none!important',
         marginTop: 30,
         flexWrap: 'wrap',
         backgroundColor: 'transparent'
@@ -54,6 +57,23 @@ type Props = {}
 
 export default function Payouts({ }: Props) {
     const _theme = useTheme()
+    const dispatch = useAppDispatch()
+    const user = useAppSelector((state) => state.AuthReducer.user)
+    const page = useAppSelector((state) => state.PageReducer.page)
+
+    const loadPageData = useCallback(() => {
+        dispatch(fetchPageThunk(user.pageInfo?.pageId ?? ''))
+
+    }, [user,dispatch])
+
+    useEffect(() => {
+        loadPageData()
+    }, [user])
+
+
+
+
+
     return (
         <Layout>
             <Container>
@@ -62,10 +82,12 @@ export default function Payouts({ }: Props) {
                 <Balance>
                     <LeftColumn>
                         <Text sx={{ flexBasis: '100%', fontSize: 15, fontWeight: 500 }}>Balance</Text>
-                        <Text sx={{ fontSize: 32, mt: 2, fontWeight: 600, color: colors.teal[500] }}>K0.00</Text>
+                        <Text sx={{ fontSize: 32, mt: 2, fontWeight: 600, color: colors.teal[500] }}>
+                            K{formatMoney(page.earnings.balance)}
+                        </Text>
                     </LeftColumn>
                     <RightColumn >
-                        <StyledButton sx={{ fontSize: 14, fontWeight: 600,whiteSpace:'nowrap' }}>Add payout method</StyledButton>
+                        <StyledButton sx={{ fontSize: 14, fontWeight: 600, whiteSpace: 'nowrap' }}>Add payout method</StyledButton>
                     </RightColumn>
                 </Balance>
             </Container>

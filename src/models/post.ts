@@ -12,7 +12,8 @@ export type Star = {
     package: Package
 }
 export type Tip = {
-    owner?:string;
+    owner?: string;
+    postId?: string;
     name: string,
     imoji: string
     amount: number
@@ -55,7 +56,7 @@ const _PostSchema = new mongoose.Schema<Post>({
     author: {
         userId: String,
         pageId: String,
-        pageName:String
+        pageName: String
     },
     tips: Array,
     postAssets: { type: Object, required: false },

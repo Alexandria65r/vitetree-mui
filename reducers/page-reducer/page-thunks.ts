@@ -5,8 +5,6 @@ import PageAPI from "../../src/api-services/page";
 import { Page } from "../../src/models/page/page.model";
 import router from "next/router";
 import { pageActions } from ".";
-import { createToastThunk } from "../main-reducer/main-thunks";
-
 
 export const createPageThunk = createAsyncThunk<void, undefined, { state: AppState }>
     ('cartSlice/createPageThunk', async (_, thunkAPI) => {
@@ -19,7 +17,11 @@ export const createPageThunk = createAsyncThunk<void, undefined, { state: AppSta
                 ...page,
                 pageId,
                 earnings: {
-                    balance: 0
+                    balance: 0,
+                    activity: {
+                        payouts: [],
+                        stars: []
+                    }
                 },
                 author: {
                     id: owner ?? ''
@@ -62,14 +64,17 @@ export const fetchPagesThunk = createAsyncThunk<void, undefined, { state: AppSta
         }
     })
 
-    
-    type UpdatePageTargets = 'profile-image' |'other'
-export const updatePageThunk = createAsyncThunk<any, {target:UpdatePageTargets, update:any}, { state: AppState }>
-    ('cartSlice/fetchPageThunk', async (params, thunkAPI) => {
+
+type UpdatePageTargets = 'profile-image' | 'balance' | 'other'
+export const updatePageThunk = createAsyncThunk<any, {
+    pageId: string, target: UpdatePageTargets, update: any
+},
+    { state: AppState }>
+    ('pageSlice/updatePageThunk', async (params, thunkAPI) => {
         const dispatch = thunkAPI.dispatch
         const { AuthReducer: { user: { _id: owner } }, PageReducer: { page } } = thunkAPI.getState()
         try {
-            const { data } = await PageAPI.update(page.pageId, params)
+            const { data } = await PageAPI.update(params.pageId, params)
             if (data.success) {
                 return { ...data }
             }

@@ -104,7 +104,7 @@ export default function PageForm({ }: Props) {
 
     function handleOnClick() {
         if (isUpdate) {
-            dispatch(updatePageThunk({ target: 'other', update: { page } }))
+            dispatch(updatePageThunk({pageId, target: 'other', update: { page } }))
         } else {
             dispatch(createPageThunk())
         }

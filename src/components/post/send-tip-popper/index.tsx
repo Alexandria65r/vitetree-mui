@@ -8,6 +8,7 @@ import SendTipMenu from './send-tip-menu';
 import { mainActions } from '../../../../reducers/main-reducer';
 import StarsOutlinedIcon from '@mui/icons-material/StarsOutlined';
 import { Tip } from '../../../models/post';
+import { postActions } from '../../../../reducers/post-reducer';
 
 
 const SendTipButton = styled(StyledButton)(({ theme }) => ({
@@ -34,13 +35,13 @@ function SendTipPopper({ postId }: Props) {
     const user = useAppSelector((state) => state.AuthReducer.user)
     const posts = useAppSelector((state) => state.PostReducer.posts)
     const [currentTip, setCurrentTip] = useState<Tip>()
-
     const getUserTip = useCallback(() => {
         const post = posts.find((postItem) => postItem.postId === postId);
         if (post) {
-            const userTip = post.tips.find((tipItem) => tipItem.owner === user._id)
-            setCurrentTip(userTip)
-
+            const userTip = post.tips.find((tipItem) => tipItem?.owner === user._id)
+            if (userTip) {
+                setCurrentTip(userTip)
+            }
         }
     }, [posts, dispatch])
 
@@ -52,8 +53,10 @@ function SendTipPopper({ postId }: Props) {
 
 
 
-    const value = (<>
-        {currentTip?.owner ? (<>
+    const value = (
+    <>
+        {currentTip?.postId === postId ? (
+        <>
             <ThemedText sx={{ fontSize: 18, }}>{currentTip?.imoji}</ThemedText>
             {currentTip?.name}
         </>)
@@ -92,7 +95,7 @@ function SendTipPopper({ postId }: Props) {
                             paper: {
                                 style: {
                                     width: '37ch',
-                                    
+
                                 }
                             }
                         }}>

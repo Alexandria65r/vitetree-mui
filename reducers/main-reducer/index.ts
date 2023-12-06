@@ -108,8 +108,21 @@ const mainSlice = createSlice({
         setCardMenu: (state, { payload }: PayloadAction<CardMenu>) => {
             state.cardMenu = payload
         },
+        closeCardMenu: (state) => {
+            state.cardMenu = {
+                component:'',
+                title:'',
+                postId:''
+            }
+        },
         setModal: (state, { payload }: PayloadAction<Modal>) => {
             state.modal = payload
+        },
+        closeModal: (state) => {
+            state.modal = {
+                component:'',
+                postId:''
+            }
         },
 
     },

@@ -12,25 +12,30 @@ import { Image, Transformation } from 'cloudinary-react'
 import { Post } from '../../models/post'
 import { useMeasure, useWindowSize } from 'react-use'
 import SendTipPopper from '../../components/post/send-tip-popper'
+import { useAppSelector } from '../../../store/hooks'
 
 const PostItemCard = styled(StyledBox)(({ theme }) => ({
     minHeight: 120,
     marginTop: 0,
     padding: 0,
+    borderRadius:5,
     [theme.breakpoints.down('sm')]: {
-        marginTop: 10,
+        marginTop: 0,
+        borderRadius: 0,
         flexWrap: 'wrap',
     }
 }))
 const PostHeader = styled(Box)(({ theme }) => ({
     display: 'flex',
+    flexWrap:'wrap',
     gap: 8,
     padding: 10,
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
-    borderBottom: `1px solid ${colorScheme(theme).borderColor} `,
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 5,
+    //borderBottom: `1px solid ${colorScheme(theme).borderColor} `,
     [theme.breakpoints.down('sm')]: {
-
+        borderTopLeftRadius: 5,
+        borderTopRightRadius: 5,
     }
 }))
 const PostCover = styled(Box)(({ theme }) => ({
@@ -73,7 +78,7 @@ export default function PostItem({ post }: Props) {
     return (
         <PostItemCard ref={PostPreviewRef}>
             <PostHeader>
-                <UserAvatar avatarStyles={{ width: 50, height: 50 }} />
+                <UserAvatar avatarStyles={{ width: 40, height: 40 }} />
                 <Box sx={{ flex: 1 }}>
                     <ThemedText sx={{ fontSize: 16, fontWeight: 500 }}>
                         {post?.author?.pageName || 'Startups Media'}
@@ -81,7 +86,11 @@ export default function PostItem({ post }: Props) {
                     <ThemedText sx={{ fontSize: 13, color: 'grayText' }}>Thur, 14hrs</ThemedText>
                 </Box>
                 <ButtonIcon><MoreVertOutlinedIcon /></ButtonIcon>
+                 <ThemedText sx={{flexBasis:'100%', fontSize: 15, fontWeight: 500 }}>
+                     {post?.description || 'The journey of every company starts with a simple idea 🎉🔥💯'}
+                 </ThemedText>
             </PostHeader>
+          
             {post?.type !== 'audio' ? (
                 <PostCover>
                     <Image style={{ width: '100%', height: '100%' }} cloudName='alexandriah65' publicId={post?.postAssets?.image?.publicId ?? ''}>
@@ -92,19 +101,11 @@ export default function PostItem({ post }: Props) {
                         }
                     </Image>
                 </PostCover>
-            ) : post?.type === 'audio' ? (<Box sx={{ display: 'flex', mt: 2, justifyContent: 'center' }}>
+            ) : post?.type === 'audio' ? (<Box sx={{ display: 'flex', mt: 0, justifyContent: 'center' }}>
                 <audio src='https://res.cloudinary.com/alexandriah65/video/upload/v1679314196/audios/aqcszapett05dldh5244.mp3' controls />
             </Box>) : <></>}
             <PostFooter>
-                <Box sx={{ padding: 2 }}>
-                    <ThemedText sx={{ fontSize: 18, fontWeight: 600 }}>
-                        {post?.title || 'This is the title of the post'}
-                    </ThemedText>
-                    <ThemedText sx={{ fontSize: 15, fontWeight: 500 }}>
-                        {post?.description || 'The journey of every company starts with a simple idea 🎉🔥💯'}
-                    </ThemedText>
-                </Box>
-
+          
                 <PostReactions>
                     <Box sx={{ flex: 1 }}>
                         <ButtonIcon><FavoriteBorderIcon /></ButtonIcon>

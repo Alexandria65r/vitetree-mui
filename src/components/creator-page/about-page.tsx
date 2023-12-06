@@ -59,7 +59,13 @@ export default function AboutPage({ page, mode }: Props) {
 
 
     async function toggleEdit() {
-        const { payload } = await dispatch(updatePageThunk({ target: 'other', update: { about: page.about } }))
+        const { payload } = await dispatch(updatePageThunk({
+            pageId: page.pageId,
+            target: 'other',
+            update: {
+                about: page.about
+            }
+        }))
         if (payload.success) {
             setEdit(false)
         }

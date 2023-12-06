@@ -3,7 +3,12 @@ import { Asset } from "../../reusable/interfaces";
 
 
 export type Star = {
-
+    type: 'post-tip' | 'support-creator',
+    postId?: string;
+    owner: string;
+    amount: number;
+    accent?: string;
+    emoji?: string
 }
 export type Payout = {
 
@@ -20,9 +25,9 @@ export type Page = {
     },
     earnings: {
         balance: number;
-        activity?: {
-            payouts: Payout;
-            stars: Star
+        activity: {
+            payouts: Payout[];
+            stars: Star[]
         }
     },
     imageAssets: {
@@ -33,8 +38,18 @@ export type Page = {
     published: boolean,
     createdAt?: string;
     updatedAt?: string;
+
 }
 
+
+const earningsSchema = new mongoose.Schema({
+    balance: Number,
+    activity: {
+        type: Object, required: false,
+        payouts: { type: Array, required: false },
+        stars: { type: Array, required: false },
+    },
+})
 
 
 const _PageSchema = new mongoose.Schema<Page>({
@@ -47,10 +62,7 @@ const _PageSchema = new mongoose.Schema<Page>({
     },
     earnings: {
         balance: Number,
-        activity: {
-            payouts: { type: Object, required: false },
-            stars: { type: Object, required: false },
-        },
+        activity: { type: Object, required: false, },
     },
     imageAssets: {
         profile: { type: Object, required: false },
@@ -75,6 +87,10 @@ export const PageSchema: Page = {
     },
     earnings: {
         balance: 0,
+        activity: {
+            payouts: [],
+            stars: []
+        }
     },
     imageAssets: {
         profile: {

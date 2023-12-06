@@ -1,11 +1,15 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import CourseAPI from "../../src/api-services/course"
 import { AppState } from "../../store/store"
 import { postActions } from "."
 import PostAPI from "../../src/api-services/post"
 import { PostSchema, PostType } from "../../src/models/post"
 import { createToastThunk } from "../main-reducer/main-thunks"
 import Randomstring from "randomstring"
+import { chargeThunk } from "../auth-reducer/auth-thunks"
+import { updatePageThunk } from "../page-reducer/page-thunks"
+import { Star } from "../../src/models/page/page.model"
+import { pageActions } from "../page-reducer"
+import { mainActions } from "../main-reducer"
 
 
 export const createPostThunk = createAsyncThunk<void, PostType, { state: AppState }>
@@ -44,5 +48,47 @@ export const fetchPostsThunk = createAsyncThunk<void, undefined, { state: AppSta
             }
         } catch (error) {
 
+        }
+    })
+export const sendTipThunk = createAsyncThunk<void, { postId: string }, { state: AppState }>
+    ('authSlice/sendTipThunk', async ({ postId }, thunkAPI) => {
+        const dispatch = thunkAPI.dispatch
+        const state = thunkAPI.getState()
+        const user = state.AuthReducer.user
+        const { tip, posts } = state.PostReducer
+        const post = posts.find((postItem) => postItem.postId === postId)
+        dispatch(pageActions.setPageNetworkStatus('updating'))
+
+        const { payload } = await dispatch(chargeThunk({ balance: user.accountBalance, subTotal: tip.amount }))
+        if (payload === 'success') {
+            //update page: the owner of the post
+            const star: Star = {
+                postId,
+                type: "post-tip",
+                owner: user._id ?? '',
+                amount: tip.amount,
+                emoji: tip.imoji
+            }
+
+            const updatePageRes = await dispatch(updatePageThunk({
+                pageId: post?.author.pageId ?? '',
+                target: 'balance',
+                update: {
+                    earnings: {
+                        amount: tip.amount,
+                        activity: {
+                            star,
+                            tip
+                        }
+                    }
+                }
+            }))
+
+
+            if (updatePageRes.payload.success) {
+                dispatch(pageActions.setPageNetworkStatus('updating-success'))
+                dispatch(createToastThunk('Tip sent successfully'))
+                dispatch(mainActions.closeModal())
+            }
         }
     })
