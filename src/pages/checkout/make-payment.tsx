@@ -143,7 +143,7 @@ export default function Checkout({ }: Props) {
 
     function handlePay() {
         dispatch(purchaseCourseThunk({
-            balance: parseInt(user.accountBalance ?? ''),
+            balance: user.accountBalance,
             subTotal: getSubtotal()
         }))
     }
