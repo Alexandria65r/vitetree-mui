@@ -74,15 +74,6 @@ export default function PostItem({ post }: Props) {
     const user = useAppSelector((state) => state.AuthReducer.user)
     const posts = useAppSelector((state) => state.PostReducer.posts)
 
-    function handleLike(type: string, postId: string) {
-        dispatch(likePostThunk({
-            postId: post.postId,
-            like: undefined
-        }))
-    }
-
-
-
 
     return (
         <PostItemCard ref={PostPreviewRef}>
