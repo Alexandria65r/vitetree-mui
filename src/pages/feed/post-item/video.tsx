@@ -42,7 +42,7 @@ export default function PostVideo({ videoAssets }: Props) {
                 fluid={false}
                 playsInline
                 poster="/assets/poster.png"
-                src={videoAssets.secureURL}
+                src={videoAssets?.secureURL}
                 height={300}
                 width='100%'
             >
