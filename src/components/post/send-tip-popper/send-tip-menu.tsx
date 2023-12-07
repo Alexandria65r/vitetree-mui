@@ -68,16 +68,19 @@ const tips: Tip[] = [
     {
         name: 'wow',
         imoji: '😲',
-        amount: 5
+        amount: 5,
+        state:'pending',
     },
     {
         name: 'amazing',
         imoji: '😍',
-        amount: 10
+        amount: 10,
+        state:'pending',
     },
     {
         name: 'greatiful fan',
         imoji: '🎉',
-        amount: 30
+        amount: 30,
+        state:'pending',
     }
 ]

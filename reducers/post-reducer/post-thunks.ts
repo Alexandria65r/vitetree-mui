@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 import { AppState } from "../../store/store"
 import { postActions } from "."
 import PostAPI from "../../src/api-services/post"
-import { PostSchema, PostType } from "../../src/models/post"
+import { PostSchema, PostType, TipSchema } from "../../src/models/post"
 import { createToastThunk } from "../main-reducer/main-thunks"
 import Randomstring from "randomstring"
 import { chargeThunk } from "../auth-reducer/auth-thunks"
@@ -78,7 +78,7 @@ export const sendTipThunk = createAsyncThunk<void, { postId: string }, { state: 
                         amount: tip.amount,
                         activity: {
                             star,
-                            tip
+                            tip: { ...tip, state: 'sent' }
                         }
                     }
                 }
@@ -88,6 +88,7 @@ export const sendTipThunk = createAsyncThunk<void, { postId: string }, { state: 
             if (updatePageRes.payload.success) {
                 dispatch(pageActions.setPageNetworkStatus('updating-success'))
                 dispatch(createToastThunk('Tip sent successfully'))
+                dispatch(postActions.setTip(TipSchema))
                 dispatch(mainActions.closeModal())
             }
         }

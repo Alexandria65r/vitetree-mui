@@ -14,9 +14,10 @@ export type Star = {
 export type Tip = {
     owner?: string;
     postId?: string;
-    name: string,
-    imoji: string
-    amount: number
+    name: string;
+    imoji: string;
+    amount: number;
+    state: 'pending' | 'sent'
 }
 export type Payout = {
 
@@ -83,4 +84,11 @@ export const PostSchema: Post = {
         image: undefined,
         video: undefined
     }
+}
+
+export const TipSchema:Tip = {
+    name: "",
+    imoji: "",
+    amount: 0,
+    state: "pending"
 }

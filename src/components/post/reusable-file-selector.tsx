@@ -10,7 +10,7 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 const Container = styled(Box)(({ theme }) => ({
     width: '100%',
-    minHeight: 140,
+    minHeight: 240,
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'center',

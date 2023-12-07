@@ -44,7 +44,7 @@ async function updateBalance(pageId: string | string[] | undefined, update: any)
             page.earnings.activity.stars = [update.earnings.activity.star, ...page.earnings.activity.stars];
             const post = await PostModel.findOne({ postId: update.earnings.activity.star.postId });
             post.tips = [update.earnings.activity.tip, ...post.tips]
-            post.save()
+            await post.save()
         } else if (update.earnings.activity?.payout) {
             page.earnings.activity.payouts = [update.earnings.activity.payout, ...page.earnings.activity.payouts]
         }

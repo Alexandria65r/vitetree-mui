@@ -14,7 +14,8 @@ const initialState: PostState = {
     tip: {
         name: '',
         imoji: '',
-        amount: 0
+        amount: 0,
+        state:'pending'
     }
 }
 

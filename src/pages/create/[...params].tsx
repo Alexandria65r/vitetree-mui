@@ -160,20 +160,26 @@ export default function Create({ }: Props) {
                 <FormCol>
                     <FormWrap>
                         <Box sx={{ display: 'flex', gap: 2 }}>
-                            <Box sx={(theme) => ({ flexBasis: '35%', [theme.breakpoints.down('sm')]: { flexBasis: '50%' } })}>
-                                <ReusableFileSelector file_type='image' browseButton={<BrowseImage />} uploadFile={imageUploadHandler} deleteFile={deleteFile} />
-                            </Box>
-                            <Box sx={(theme) => ({ flexBasis: '55%', [theme.breakpoints.down('sm')]: { flexBasis: '50%' } })}>
-                                <ReusableFileSelector file_type='video' browseButton={<BrowseVideo />} uploadFile={videoUploadHandler} deleteFile={deleteFile} />
-                            </Box>
+                            {postType === 'photo' && (
+                                <Box sx={(theme) => ({ flex:1, [theme.breakpoints.down('sm')]: { flexBasis: '50%' } })}>
+                                    <ReusableFileSelector file_type='image' browseButton={<BrowseImage />} uploadFile={imageUploadHandler} deleteFile={deleteFile} />
+                                </Box>
+
+                            )}
+                            {postType === 'video' && (
+                                <Box sx={(theme) => ({ flex:1, [theme.breakpoints.down('sm')]: { flexBasis: '50%' } })}>
+                                    <ReusableFileSelector file_type='video' browseButton={<BrowseVideo />} uploadFile={videoUploadHandler} deleteFile={deleteFile} />
+                                </Box>
+                            )}
                         </Box>
-                        <TextInput name='title'
+                        {/* <TextInput hidden name='title'
                             onChange={handleTextChange} sx={{ fontSize: 23, mt: 2, fontWeight: 600 }}
-                            placeholder='Add a title...' />
+                            placeholder='Add a title...' /> */}
+
                         <Box>
                             <TextInput name='description'
-                                onChange={handleTextChange} sx={{ fontSize: 16, mt: 2, fontWeight: 600 }}
-                                placeholder='Caption text or description...' />
+                                onChange={handleTextChange} sx={{ width: '100%', fontSize: 23, mt: 2, fontWeight: 600 }}
+                                placeholder='Say something about this post' />
                         </Box>
                     </FormWrap>
                 </FormCol>
