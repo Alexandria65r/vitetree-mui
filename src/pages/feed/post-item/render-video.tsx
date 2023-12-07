@@ -24,9 +24,9 @@ type Props = {
 export default function RenderVideoAsset({ post }: Props) {
     return (
         <>
-            {post?.type === 'photo' ? (<PostImage imageAssets={post.postAssets?.image as Asset} />)
-            : post.type === 'video' ? <PostVideo videoAssets={post.postAssets?.video as Asset} /> :
-            post?.type === 'audio' ? (<PostAudio audioAssets={post.postAssets?.audio as Asset} />) : <></>}
+            {post?.type === 'photo' ? (<PostImage imageAssets={post?.postAssets?.image as Asset} />)
+            : post?.type === 'video' ? <PostVideo videoAssets={post?.postAssets?.video as Asset} /> :
+            post?.type === 'audio' ? (<PostAudio audioAssets={post?.postAssets?.audio as Asset} />) : <></>}
         </>
     )
 }
