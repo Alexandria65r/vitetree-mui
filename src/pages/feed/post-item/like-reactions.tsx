@@ -3,7 +3,7 @@ import React, { useCallback, useEffect } from 'react'
 import { ButtonIcon, StyledButton } from '../../../reusable/styles'
 import { colorScheme, ThemedText } from '../../../theme'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import { Like, Post } from '../../../models/post';
+import { Like, LikeSchema, Post } from '../../../models/post';
 import { useDispatch } from 'react-redux';
 import { likePostThunk } from '../../../../reducers/post-reducer/post-thunks';
 import { useAppSelector } from '../../../../store/hooks';
@@ -17,7 +17,7 @@ const ReactionIconButton = styled(ButtonIcon)(({ theme }) => ({
     }
 }))
 const PostLikeReactions = styled(Box)(({ theme }) => ({
-    paddingInline:10,
+    paddingInline: 10,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -34,24 +34,9 @@ export default function LikeReactions({ post }: Props) {
     const dispatch = useDispatch()
     const _theme = useTheme()
     const user = useAppSelector((state) => state.AuthReducer.user)
-    //const [like, setLike] = useState<Like>(LikeSchema)
+  
 
-
-    const getUserTip = useCallback(() => {
-        if (post) {
-            const userLike = post.likes.find((tipItem) => tipItem?.owner === user._id)
-            // setLike(userLike)
-
-        }
-    }, [post.likes, dispatch])
-
-
-    useEffect(() => {
-        getUserTip()
-    }, [post.likes])
-
-
-    const like = post.likes.find((tipItem) => tipItem?.owner === user._id)
+    const like = post?.likes.find((tipItem) => tipItem?.owner === user._id) ?? LikeSchema
 
     return (
 
@@ -95,7 +80,7 @@ export default function LikeReactions({ post }: Props) {
                         }}
                     >
                         <PostLikeReactions>
-         
+
                             {reactions.map((reaction, index) => (
                                 <ReactionIconButton
                                     key={index}
