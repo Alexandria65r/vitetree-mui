@@ -49,7 +49,7 @@ export default function SendTipMenu({ postId, popupState }: Props) {
             {tips.map((tip) => (
                 <MenuItem key={tip.name} onClick={() => selectTip({ ...tip, owner: user._id, postId })
                 } sx={(theme) => ({ borderBottom: `1px solid ${colorScheme(theme).greyToTertiary}` })}>
-                    <ThemedText sx={{ fontSize: 22, mr: 1 }}>{tip.imoji}</ThemedText>
+                    <ThemedText sx={{ fontSize: 22, mr: 1 }}>{tip.emoji}</ThemedText>
                     <Box sx={{ flex: 1, display: 'flex' }}>
                         <ThemedText sx={{ flex: 1, fontWeight: 600, fontSize: 15, textTransform: 'capitalize' }}>{tip.name} </ThemedText>
                         <ThemedText sx={{ mr: 2, fontWeight: 600, fontSize: 15 }}>K{tip.amount}</ThemedText>
@@ -67,19 +67,19 @@ export default function SendTipMenu({ postId, popupState }: Props) {
 const tips: Tip[] = [
     {
         name: 'wow',
-        imoji: '😲',
+        emoji: '😲',
         amount: 5,
         state:'pending',
     },
     {
         name: 'amazing',
-        imoji: '😍',
+        emoji: '😍',
         amount: 10,
         state:'pending',
     },
     {
         name: 'greatiful fan',
-        imoji: '🎉',
+        emoji: '🎉',
         amount: 30,
         state:'pending',
     }

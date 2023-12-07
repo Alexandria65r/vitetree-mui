@@ -2,6 +2,20 @@ import React from 'react'
 import { Asset } from '../../../reusable/interfaces'
 import { Box, styled } from '@mui/material'
 import { colorScheme } from '../../../theme'
+import ReactPlayer from 'react-player'
+import {
+    Player,
+    ControlBar,
+    ReplayControl,
+    ForwardControl,
+    CurrentTimeDisplay,
+    TimeDivider,
+    PlaybackRateMenuButton,
+    VolumeMenuButton,
+    BigPlayButton
+} from 'video-react';
+import "node_modules/video-react/dist/video-react.css";
+
 
 const PostCover = styled(Box)(({ theme }) => ({
     minHeight: 280,
@@ -20,11 +34,36 @@ type Props = {
 export default function PostVideo({ videoAssets }: Props) {
     return (
         <PostCover>
-            <video className='html5-video-player' src={videoAssets?.secureURL} controls />
+            {/* <video className='html5-video-player' src={videoAssets?.secureURL} controls /> */}
+            {/* <ReactPlayer  url={videoAssets?.secureURL} controls />  */}
 
+            <Player
+                fluid={false}
+                playsInline
+                poster="/assets/poster.png"
+                src={videoAssets.secureURL}
+                height={300}
+                width='100%'
+            >
+                <BigPlayButton position="center" />
+                {/* <LoadingSpinner /> */}
+                <ControlBar>
+                    <ReplayControl seconds={10} order={1.1} />
+                    <ForwardControl seconds={30} order={1.2} />
+                    <CurrentTimeDisplay order={4.1} />
+                    <TimeDivider order={4.2} />
+                    <PlaybackRateMenuButton rates={[5, 2, 1, 0.5, 0.1]} order={7.1} />
+                    <VolumeMenuButton disabled />
+                </ControlBar>
+            </Player>
 
             <style jsx>{`
+         
+        
         @media (orientation: landscape) {
+.video-react-play-progress {
+    background-color:red
+}
           .html5-video-player {
             position: relative;
             top: 0px !important;
@@ -147,7 +186,7 @@ export default function PostVideo({ videoAssets }: Props) {
             position: relative;
             top: 4px;
             max-width: 1280px;
-            height: 720px !important;
+            height: 720px!important;
             object-fit: contain;
             overflow: hidden;
           }

@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 import { AppState } from "../../store/store"
 import { postActions } from "."
 import PostAPI from "../../src/api-services/post"
-import { PostSchema, PostType, TipSchema } from "../../src/models/post"
+import { Like, Post, PostSchema, PostType, TipSchema } from "../../src/models/post"
 import { createToastThunk } from "../main-reducer/main-thunks"
 import Randomstring from "randomstring"
 import { chargeThunk } from "../auth-reducer/auth-thunks"
@@ -50,8 +50,65 @@ export const fetchPostsThunk = createAsyncThunk<void, undefined, { state: AppSta
 
         }
     })
+
+type UpdatePostPayload = {
+    postId: string,
+    target: 'likes' | 'other';
+    update: any
+}
+export const updatePostThunk = createAsyncThunk<any, UpdatePostPayload, { state: AppState }>
+    ('postSlice/updatePostThunk', async (updateParams, thunkAPI) => {
+        const dispatch = thunkAPI.dispatch
+        const state = thunkAPI.getState()
+        try {
+            const { data } = await PostAPI.update(updateParams.postId, updateParams)
+            if (data.success) {
+                return data
+            }
+        } catch (error) {
+
+        }
+    })
+
+
+export const likePostThunk = createAsyncThunk<void, { postId: string, like: Like },
+    { state: AppState }>
+    ('postSlice/likePostThunk', async (params, thunkAPI) => {
+        const dispatch = thunkAPI.dispatch
+        const state = thunkAPI.getState()
+        const { user } = state.AuthReducer
+        const { posts } = state.PostReducer
+        const post: any = posts.find((postItem) => postItem.postId === params.postId)
+        let likes: Like[] = [...post.likes]
+        const clonedPosts = [...posts]
+        const like: any = post.likes.find((likeItem: Like) => likeItem.owner === user._id)
+        if (!like) {
+            console.log('new like')
+            likes = [params.like, ...post.likes]
+        } else if (like.name !== params.like.name) {
+            likes.splice(likes.indexOf(like), 1, params.like)
+        } else {
+            likes.splice(likes.indexOf(like), 1)
+        }
+        clonedPosts.splice(posts.indexOf(post), 1, { ...post, isReactionsOpen: false, likes })
+        dispatch(postActions.setPosts(clonedPosts))
+
+        try {
+            const { payload } = await dispatch(updatePostThunk({
+                postId: params.postId,
+                target: 'likes', update: {
+                    like: params.like
+                }
+            }))
+            console.log(payload)
+        } catch (error) {
+
+        }
+
+    })
+
 export const sendTipThunk = createAsyncThunk<void, { postId: string }, { state: AppState }>
-    ('authSlice/sendTipThunk', async ({ postId }, thunkAPI) => {
+    ('postSlice/sendTipThunk', async ({ postId }, thunkAPI) => {
         const dispatch = thunkAPI.dispatch
         const state = thunkAPI.getState()
         const user = state.AuthReducer.user
@@ -67,7 +124,7 @@ export const sendTipThunk = createAsyncThunk<void, { postId: string }, { state: 
                 type: "post-tip",
                 owner: user._id ?? '',
                 amount: tip.amount,
-                emoji: tip.imoji
+                emoji: tip.emoji
             }
 
             const updatePageRes = await dispatch(updatePageThunk({
@@ -93,3 +150,5 @@ export const sendTipThunk = createAsyncThunk<void, { postId: string }, { state: 
             }
         }
     })
+
+

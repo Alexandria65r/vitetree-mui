@@ -57,7 +57,7 @@ function SendTipPopper({ postId }: Props) {
     <>
         {currentTip?.postId === postId ? (
         <>
-            <ThemedText sx={{ fontSize: 18, }}>{currentTip?.imoji}</ThemedText>
+            <ThemedText sx={{ fontSize: 18,mr:.4 }}>{currentTip?.emoji}</ThemedText>
             {currentTip?.name}
         </>)
             : (<>

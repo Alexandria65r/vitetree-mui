@@ -10,8 +10,8 @@ export default class PostAPI {
         }
     }
 
-    static update(id: string) {
-        return axios.put(`/api/post/update/${id}`)
+    static update(id: string,update:any) {
+        return axios.put(`/api/post/update/${id}`,update)
     }
 
 

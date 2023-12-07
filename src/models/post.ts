@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { Asset } from "../reusable/interfaces";
+import React from "react";
 
 type Package = {
     name: string;
@@ -15,9 +16,15 @@ export type Tip = {
     owner?: string;
     postId?: string;
     name: string;
-    imoji: string;
+    emoji: string;
     amount: number;
     state: 'pending' | 'sent'
+}
+export type Like = {
+    name: 'like' | 'love' | 'angry' | 'sad' | 'haha' | 'wow' | ''
+    owner?: string 
+    postId?: string;
+    emoji: string;
 }
 export type Payout = {
 
@@ -26,6 +33,7 @@ export type Payout = {
 export type PostType = 'video' | 'photo' | 'photo-with-audio' | 'audio' | 'text' | '';
 
 export type Post = {
+    save?: any;
     title: string;
     postId: string;
     description: string;
@@ -36,12 +44,14 @@ export type Post = {
         pageId: string
         pageName: string
     },
+    likes: Like[],
     tips: Tip[],
     postAssets: {
         audio?: Asset;
         image?: Asset;
         video?: Asset;
     };
+    isReactionsOpen?: boolean;
     createdAt?: string;
     updatedAt?: string;
 }
@@ -59,6 +69,7 @@ const _PostSchema = new mongoose.Schema<Post>({
         pageId: String,
         pageName: String
     },
+    likes: Array,
     tips: Array,
     postAssets: { type: Object, required: false },
     createdAt: { type: Date, default: Date.now },
@@ -78,17 +89,27 @@ export const PostSchema: Post = {
         pageId: "",
         pageName: ""
     },
+    likes: [],
     tips: [],
     postAssets: {
         audio: undefined,
         image: undefined,
         video: undefined
-    }
+    },
+    isReactionsOpen: false,
 }
 
-export const TipSchema:Tip = {
+
+export const LikeSchema: Like = {
+    name: '',
+    owner: '',
+    postId: '',
+    emoji: '',
+}
+export const TipSchema: Tip = {
     name: "",
-    imoji: "",
+    emoji: "",
     amount: 0,
     state: "pending"
 }
+
