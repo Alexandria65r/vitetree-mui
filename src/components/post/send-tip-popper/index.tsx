@@ -34,23 +34,9 @@ function SendTipPopper({ postId }: Props) {
     const isMobile = useMediaQuery('(max-width:600px)')
     const user = useAppSelector((state) => state.AuthReducer.user)
     const posts = useAppSelector((state) => state.PostReducer.posts)
-    const [currentTip, setCurrentTip] = useState<Tip>()
-    const getUserTip = useCallback(() => {
-        const post = posts.find((postItem) => postItem.postId === postId);
-        if (post) {
-            const userTip = post.tips.find((tipItem) => tipItem?.owner === user._id)
-            if (userTip) {
-                setCurrentTip(userTip)
-            }
-        }
-    }, [posts, dispatch])
+    const post = posts.find((postItem) => postItem.postId === postId);
 
-
-    useEffect(() => {
-        getUserTip()
-    }, [posts])
-
-
+    const currentTip = post?.tips.find((tipItem) => tipItem?.owner === user._id)
 
 
     const value = (
@@ -95,7 +81,7 @@ function SendTipPopper({ postId }: Props) {
                             paper: {
                                 style: {
                                     width: '37ch',
-
+                                    borderRadius:10
                                 }
                             }
                         }}>

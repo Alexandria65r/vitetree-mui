@@ -15,7 +15,7 @@ import RenderVideoAsset from './render-video'
 import LikeReactions from './like-reactions'
 import { likePostThunk } from '../../../../reducers/post-reducer/post-thunks'
 import FavoriteIcon from '@mui/icons-material/Favorite';
-
+import { RiChat1Line, RiBookmarkLine } from "react-icons/ri";
 
 
 const PostItemCard = styled(StyledBox)(({ theme }) => ({
@@ -96,10 +96,10 @@ export default function PostItem({ post }: Props) {
                     <Box sx={{ flex: 1, position: 'relative' }}>
                         <LikeReactions post={post} />
                    
-                        <ButtonIcon><ModeCommentOutlinedIcon /></ButtonIcon>
+                        <ButtonIcon><RiChat1Line size={22} /></ButtonIcon>
                         <SendTipPopper postId={post?.postId ?? ''} />
                     </Box>
-                    <ButtonIcon><BookmarkAddOutlinedIcon /></ButtonIcon>
+                    <ButtonIcon><RiBookmarkLine size={22}/></ButtonIcon>
                 </PostReactions>
             </PostFooter>
         </PostItemCard>

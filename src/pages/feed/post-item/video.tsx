@@ -1,64 +1,69 @@
 import React from 'react'
 import { Asset } from '../../../reusable/interfaces'
-import { Box, styled } from '@mui/material'
+import { Box, styled, useMediaQuery } from '@mui/material'
 import { colorScheme } from '../../../theme'
 import ReactPlayer from 'react-player'
 import {
-    Player,
-    ControlBar,
-    ReplayControl,
-    ForwardControl,
-    CurrentTimeDisplay,
-    TimeDivider,
-    PlaybackRateMenuButton,
-    VolumeMenuButton,
-    BigPlayButton
+  Player,
+  ControlBar,
+  ReplayControl,
+  ForwardControl,
+  CurrentTimeDisplay,
+  TimeDivider,
+  PlaybackRateMenuButton,
+  VolumeMenuButton,
+  BigPlayButton
+  
 } from 'video-react';
 
 import "node_modules/video-react/dist/video-react.css";
 
 
 const PostCover = styled(Box)(({ theme }) => ({
-    minHeight: 280,
-    backgroundColor: colorScheme(theme).greyToTertiary,
-    [theme.breakpoints.down('sm')]: {
-        minHeight: 231,
-    }
+  minHeight: 280,
+  backgroundColor: colorScheme(theme).greyToTertiary,
+  [theme.breakpoints.down('sm')]: {
+    minHeight: 231,
+  }
 }))
 
 
 
 type Props = {
-    videoAssets: Asset
+  videoAssets: Asset
 }
 
 export default function PostVideo({ videoAssets }: Props) {
-    return (
-        <PostCover>
-            {/* <video className='html5-video-player' src={videoAssets?.secureURL} controls /> */}
-            {/* <ReactPlayer  url={videoAssets?.secureURL} controls />  */}
 
-            <Player
-                fluid={false}
-                playsInline
-                poster="/assets/poster.png"
-                src={videoAssets?.secureURL}
-                height={300}
-                width='100%'
-            >
-                <BigPlayButton position="center" />
-                {/* <LoadingSpinner /> */}
-                <ControlBar>
-                    <ReplayControl seconds={10} order={1.1} />
-                    <ForwardControl seconds={30} order={1.2} />
-                    <CurrentTimeDisplay order={4.1} />
-                    <TimeDivider order={4.2} />
-                    <PlaybackRateMenuButton rates={[5, 2, 1, 0.5, 0.1]} order={7.1} />
-                    <VolumeMenuButton disabled />
-                </ControlBar>
-            </Player>
+  const isMobile = useMediaQuery('(max-width:600px)')
 
-            <style jsx>{`
+
+  return (
+    <PostCover>
+      {/* <video className='html5-video-player' src={videoAssets?.secureURL} controls /> */}
+      {/* <ReactPlayer  url={videoAssets?.secureURL} controls />  */}
+
+      <Player
+        fluid={false}
+        playsInline
+        poster="/assets/poster.png"
+        src={videoAssets?.secureURL}
+        height={300}
+        width='100%'
+      >
+        <BigPlayButton position="center" />
+        {/* <LoadingSpinner /> */}
+        <ControlBar>
+          <ReplayControl seconds={10} order={1.1} />
+          <ForwardControl seconds={30} order={1.2} />
+          <CurrentTimeDisplay order={4.1} disabled />
+          <TimeDivider order={4.2} disabled />
+          <PlaybackRateMenuButton rates={[5, 2, 1, 0.5, 0.1]} order={7.1} />
+          <VolumeMenuButton  />
+        </ControlBar>
+      </Player>
+
+      <style jsx>{`
          
         
         @media (orientation: landscape) {
@@ -193,6 +198,6 @@ export default function PostVideo({ videoAssets }: Props) {
           }
         }
       `}</style>
-        </PostCover>
-    )
+    </PostCover>
+  )
 }
