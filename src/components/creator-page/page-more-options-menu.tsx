@@ -157,7 +157,7 @@ function PageMoreOptionsMenu({ }: Props) {
                         </Link>
                     </MenuItemButton>
                     <MenuItemButton>
-                        <Link href='/create/image'>
+                        <Link href='/create/photo'>
                             <ImageIcon />
                             <ThemedText sx={{ fontSize: 14 }}>Image</ThemedText>
                         </Link>

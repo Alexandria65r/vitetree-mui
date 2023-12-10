@@ -39,20 +39,21 @@ export default function SendTipMenu({ postId, popupState, parent }: Props) {
                 clonedTips.splice(post.tips.indexOf(isExist), 1, tip)
                 clonedPosts.splice(posts.indexOf(post), 1, { ...post, tips: clonedTips })
             }
-            dispatch(postActions.setPosts(clonedPosts))
+            const updated = clonedPosts.find((postItem) => postItem.postId === postId)
+            if (!updated) return
+            dispatch(postActions.setPosts([updated]))
             dispatch(mainActions.setCardMenu({ component: '', title: '', showClose: true }))
             popupState?.close()
+            if (parent === 'feed') {
+                router.push(`/feed/${postId}/send-tip`)
+            }
         }
     }
 
 
     function handleSelectedTip(tip: Tip) {
-        if (parent === 'feed') {
-            selectTip({ ...tip, owner: user._id, postId })
-            router.push(`/feed/${postId}`)
-        } else if (parent === 'post-detail') {
-            selectTip({ ...tip, owner: user._id, postId })
-        }
+        if (!post) return
+        selectTip({ ...tip, owner: user._id, postId })
     }
 
     return (

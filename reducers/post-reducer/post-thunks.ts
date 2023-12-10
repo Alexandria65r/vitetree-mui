@@ -59,7 +59,7 @@ export const fetchPostThunk = createAsyncThunk<void, string, { state: AppState }
         try {
             const post = await PostAPI.fetchPost(postId)
             if (post) {
-                dispatch(postActions.setPost(post))
+                dispatch(postActions.setPosts([post]))
             }
         } catch (error) {
 

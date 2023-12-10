@@ -18,16 +18,17 @@ import StarsOutlinedIcon from '@mui/icons-material/StarsOutlined';
 import { useCallback, useEffect } from "react"
 import { useRouter } from "next/router"
 import Layout from "../../components/layout"
+import PostComments from "./post-comments"
 
 
 
 const Container = styled(Box)(({ theme }) => ({
-    width: '30%',
-    position: 'absolute',
+    width: '60%',
+    margin: 'auto',
     top: '50%',
     left: '50%',
     minHeight: 300,
-    transform: 'translate(-50%,-50%)',
+    // transform: 'translate(-50%,-50%)',
     [theme.breakpoints.down('sm')]: {
         width: '100%',
         height: '100vh',
@@ -38,7 +39,7 @@ const Container = styled(Box)(({ theme }) => ({
     }
 }))
 const Wrapper = styled(Box)(({ theme }) => ({
-    display: 'fle',
+    display: 'flex',
     flexWrap: 'wrap',
     borderRadius: 20,
     [theme.breakpoints.down('sm')]: {
@@ -89,7 +90,7 @@ function CompleteSendTipAction(props: Props) {
     const _theme = useTheme()
     const isMobile = useMediaQuery('(max-width:600px)')
     const user = useAppSelector((state) => state.AuthReducer.user)
-    const post = useAppSelector((state) => state.PostReducer.post)
+    const post = useAppSelector((state) => state.PostReducer.posts[0])
     const pageNetworkStatus = useAppSelector((state) => state.PageReducer.pageNetworkStatus)
     const [postId, ...restParams]: any = router.query.params || []
     console.log(postId)
@@ -97,13 +98,17 @@ function CompleteSendTipAction(props: Props) {
 
 
     const loadPostDetails = useCallback(() => {
+        if (router.asPath.includes('/send-tip') && post) return
         dispatch(fetchPostThunk(postId))
     }, [postId])
 
 
     useEffect(() => {
         loadPostDetails()
-    }, [postId, router.pathname])
+        return () => {
+            dispatch(postActions.setPosts([]))
+        }
+    }, [])
 
 
 
@@ -119,11 +124,11 @@ function CompleteSendTipAction(props: Props) {
 
             <Container>
 
-                <Wrapper className={isMobile ? 'trans-from-left' : ''}>
+                <Wrapper>
                     <Head sx={{
                         display: 'none',
                         border: 0,
-                         [_theme.breakpoints.down('sm')]: {
+                        [_theme.breakpoints.down('sm')]: {
                             display: 'flex'
                         }
                     }}>
@@ -151,9 +156,7 @@ function CompleteSendTipAction(props: Props) {
                     </Head>
                     <LeftCol >
                         <PostItem post={post} parent='post-detail' />
-                    </LeftCol>
-                    <RightCol>
-                        {user.accountBalance > 0 ? (<>
+                        {user.accountBalance > 0 ? (<Box mt={2}>
                             <Head sx={{ borderBottom: `1px solid ${colorScheme(_theme).greyToTertiary}` }}>
                                 <ThemedText sx={{ fontSize: 17, fontWeight: 600 }}>
                                     Pick a Tip
@@ -191,7 +194,10 @@ function CompleteSendTipAction(props: Props) {
                                     <AppSpinner visible={pageNetworkStatus === 'updating'} size={20} />
                                 </StyledButton>
                             </Box>
-                        </>) : <PostTipsBalance postId={postId} />}
+                        </Box>) : <PostTipsBalance postId={postId} />}
+                    </LeftCol>
+                    <RightCol>
+                        <PostComments post={post} />
                     </RightCol>
                 </Wrapper>
             </Container >

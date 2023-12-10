@@ -159,7 +159,7 @@ export default function Create({ }: Props) {
                 <FormCol>
                     <FormWrap>
                         <Box sx={{ display: 'flex', gap: 2 }}>
-                            {postType === 'image' && (
+                            {postType === 'photo' && (
                                 <Box sx={(theme) => ({ flex:1, [theme.breakpoints.down('sm')]: { flexBasis: '50%' } })}>
                                     <ReusableFileSelector file_type='image' browseButton={<BrowseImage />} uploadFile={imageUploadHandler} deleteFile={deleteFile} />
                                 </Box>

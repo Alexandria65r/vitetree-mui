@@ -28,13 +28,13 @@ const PostLikeReactions = styled(Box)(({ theme }) => ({
 
 type Props = {
     post: Post
+   
 }
 
 export default function LikeReactions({ post }: Props) {
     const dispatch = useDispatch()
     const _theme = useTheme()
     const user = useAppSelector((state) => state.AuthReducer.user)
-  
 
     const like = post?.likes.find((tipItem) => tipItem?.owner === user._id) ?? LikeSchema
 
