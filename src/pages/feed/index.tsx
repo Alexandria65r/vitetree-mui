@@ -69,7 +69,7 @@ export default function Create({ }: Props) {
                 </Box>
                 <MappedPosts>
                     {posts.map((post) => (
-                        <PostItem key={post.postId} post={post} />
+                        <PostItem parent='feed' key={post.postId} post={post} />
                     ))}
                 </MappedPosts>
             </Container>

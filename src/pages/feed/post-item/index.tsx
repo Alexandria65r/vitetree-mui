@@ -1,21 +1,18 @@
 import React from 'react'
-import { ThemedText, colorScheme } from '../../../theme'
-import { Box, colors, styled, useMediaQuery, useTheme } from '@mui/material'
-import { ButtonIcon, StyledBox, StyledButton } from '../../../reusable/styles'
+import { ThemedText } from '../../../theme'
+import { Box, styled, useMediaQuery } from '@mui/material'
+import { ButtonIcon, StyledBox } from '../../../reusable/styles'
 import UserAvatar from '../../../components/user/user-avatar'
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
-import BookmarkAddOutlinedIcon from '@mui/icons-material/BookmarkAddOutlined';
 import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined';
-import { Like, Post } from '../../../models/post'
+import { Post } from '../../../models/post'
 import { useMeasure, useWindowSize } from 'react-use'
 import SendTipPopper from '../../../components/post/send-tip-popper'
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks'
 import RenderVideoAsset from './render-video'
 import LikeReactions from './like-reactions'
-import { likePostThunk } from '../../../../reducers/post-reducer/post-thunks'
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import { RiChat1Line, RiBookmarkLine } from "react-icons/ri";
+import moment from 'moment'
+import { useRouter } from 'next/router'
 
 
 const PostItemCard = styled(StyledBox)(({ theme }) => ({
@@ -63,11 +60,12 @@ const PostReactions = styled(Box)(({ theme }) => ({
 
 type Props = {
     post: Post
+    parent: 'feed' | 'post-detail'
 }
 
 export default function PostItem({ post }: Props) {
+    const router = useRouter()
     const dispatch = useAppDispatch()
-  
     const [PostPreviewRef, { }] = useMeasure()
     const { width, height } = useWindowSize()
     const isMobile = useMediaQuery('(max-width:600px)')
@@ -81,9 +79,9 @@ export default function PostItem({ post }: Props) {
                 <UserAvatar avatarStyles={{ width: 40, height: 40 }} />
                 <Box sx={{ flex: 1 }}>
                     <ThemedText sx={{ fontSize: 16, fontWeight: 500 }}>
-                        {post?.author?.pageName || 'Startups Media'}
+                        {post?.author.pageName || 'Page Name'}
                     </ThemedText>
-                    <ThemedText sx={{ fontSize: 13, color: 'grayText' }}>Thur, 14hrs</ThemedText>
+                    <ThemedText sx={{ fontSize: 13, color: 'grayText' }}>{moment(post?.createdAt).fromNow()}</ThemedText>
                 </Box>
                 <ButtonIcon sx={{ width: 30, height: 30 }}><MoreVertOutlinedIcon /></ButtonIcon>
                 <ThemedText sx={{ flexBasis: '100%', fontSize: 15, fontWeight: 500 }}>
@@ -95,11 +93,13 @@ export default function PostItem({ post }: Props) {
                 <PostReactions>
                     <Box sx={{ flex: 1, position: 'relative' }}>
                         <LikeReactions post={post} />
-                   
-                        <ButtonIcon><RiChat1Line size={22} /></ButtonIcon>
-                        <SendTipPopper postId={post?.postId ?? ''} />
+
+                        <ButtonIcon onClick={() => router.push(`/feed/${post.postId}`)}>
+                            <RiChat1Line size={22} />
+                        </ButtonIcon>
+                        <SendTipPopper parent='feed' postId={post?.postId ?? ''} />
                     </Box>
-                    <ButtonIcon><RiBookmarkLine size={22}/></ButtonIcon>
+                    <ButtonIcon><RiBookmarkLine size={22} /></ButtonIcon>
                 </PostReactions>
             </PostFooter>
         </PostItemCard>

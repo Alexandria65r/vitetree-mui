@@ -43,6 +43,7 @@ export type Post = {
         userId: string
         pageId: string
         pageName: string
+        profileAsset?:Asset
     },
     likes: Like[],
     tips: Tip[],

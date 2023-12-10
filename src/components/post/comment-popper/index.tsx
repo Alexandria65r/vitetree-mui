@@ -27,15 +27,14 @@ const SendTipButton = styled(StyledButton)(({ theme }) => ({
 
 type Props = {
     postId: string
-    parent: 'feed' | 'post-detail'
 }
 
-function SendTipPopper({ postId,parent }: Props) {
+function SendTipPopper({ postId }: Props) {
     const dispatch = useAppDispatch()
     const isMobile = useMediaQuery('(max-width:600px)')
     const user = useAppSelector((state) => state.AuthReducer.user)
-    const post = useAppSelector((state) => state.PostReducer.post)
-
+    const posts = useAppSelector((state) => state.PostReducer.posts)
+    const post = posts.find((postItem) => postItem.postId === postId);
 
     const currentTip = post?.tips.find((tipItem) => tipItem?.owner === user._id)
 
@@ -89,7 +88,7 @@ function SendTipPopper({ postId,parent }: Props) {
                             }
                         }}>
 
-                        <SendTipMenu parent={parent}  postId={postId} popupState={popupState} />
+                        <SendTipMenu postId={postId} popupState={popupState} />
                     </Menu>
                 </>
             )}

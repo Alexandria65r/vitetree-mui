@@ -1,3 +1,5 @@
+
+
 import { NextApiRequest, NextApiResponse } from 'next'
 import connection from '../../../../database/connection'
 import { PostModel } from '../../../../models/post'
@@ -18,3 +20,11 @@ async function fetchPosts(req: NextApiRequest, res: NextApiResponse) {
 }
 
 export default fetchPosts
+
+
+
+
+
+
+
+

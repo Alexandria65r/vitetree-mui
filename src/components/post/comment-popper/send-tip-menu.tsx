@@ -9,15 +9,12 @@ import { PopupState } from 'material-ui-popup-state/hooks';
 import { Tip } from '../../../models/post';
 import { postActions } from '../../../../reducers/post-reducer';
 import RadioButtonUncheckedOutlinedIcon from '@mui/icons-material/RadioButtonUncheckedOutlined';
-import { useRouter } from 'next/router';
 type Props = {
     postId?: string
     popupState?: PopupState
-    parent: 'feed' | 'post-detail'
 }
 
-export default function SendTipMenu({ postId, popupState, parent }: Props) {
-    const router = useRouter()
+export default function SendTipMenu({ postId, popupState }: Props) {
     const _theme = useTheme()
     const dispatch = useAppDispatch()
     const user = useAppSelector((state) => state.AuthReducer.user)
@@ -41,32 +38,24 @@ export default function SendTipMenu({ postId, popupState, parent }: Props) {
             }
             dispatch(postActions.setPosts(clonedPosts))
             dispatch(mainActions.setCardMenu({ component: '', title: '', showClose: true }))
+            dispatch(mainActions.setModal({ component: 'complete-send-tip-action', postId }))
             popupState?.close()
         }
     }
 
 
-    function handleSelectedTip(tip: Tip) {
-        if (parent === 'feed') {
-            selectTip({ ...tip, owner: user._id, postId })
-            router.push(`/feed/${postId}`)
-        } else if (parent === 'post-detail') {
-            selectTip({ ...tip, owner: user._id, postId })
-        }
-    }
-
     return (
         <>
             {tips.map((tip) => (
-                <MenuItem key={tip.name} onClick={() => handleSelectedTip(tip)}
-                    sx={(theme) => ({ borderBottom: `1px solid ${colorScheme(theme).greyToTertiary}` })}>
+                <MenuItem key={tip.name} onClick={() => selectTip({ ...tip, owner: user._id, postId })
+                } sx={(theme) => ({ borderBottom: `1px solid ${colorScheme(theme).greyToTertiary}` })}>
                     <ThemedText sx={{ fontSize: 22, mr: 1 }}>{tip.emoji}</ThemedText>
                     <Box sx={{ flex: 1, display: 'flex' }}>
                         <ThemedText sx={{ flex: 1, fontWeight: 600, fontSize: 15, textTransform: 'capitalize' }}>{tip.name} </ThemedText>
                         <ThemedText sx={{ mr: 2, fontWeight: 600, fontSize: 15 }}>K{tip.amount}</ThemedText>
                     </Box>
                     {selectedTip?.name === tip.name ? <RadioButtonCheckedIcon sx={{ color: colors.teal[500] }} />
-                        : <RadioButtonUncheckedOutlinedIcon sx={{ color: colors.teal[500] }} />}
+                     : <RadioButtonUncheckedOutlinedIcon sx={{ color: colors.teal[500] }} />}  
                 </MenuItem>
             ))}
         </>
@@ -80,18 +69,18 @@ const tips: Tip[] = [
         name: 'wow',
         emoji: '😲',
         amount: 5,
-        state: 'pending',
+        state:'pending',
     },
     {
         name: 'amazing',
         emoji: '😍',
         amount: 10,
-        state: 'pending',
+        state:'pending',
     },
     {
         name: 'greatiful fan',
         emoji: '🎉',
         amount: 30,
-        state: 'pending',
+        state:'pending',
     }
 ]

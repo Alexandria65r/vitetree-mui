@@ -9,6 +9,7 @@ import { mainActions } from '../../../reducers/main-reducer'
 import PageMoreOptionsMenu from '../creator-page/page-more-options-menu'
 import ReadOnlyMoreOptionsMenu from '../creator-page/read-only-more-options-menu'
 import SendTipMenu from '../post/send-tip-popper/send-tip-menu'
+import { useRouter } from 'next/router'
 
 const Container = styled(Modal)(({ theme }) => ({
     display: 'flex',
@@ -35,12 +36,18 @@ const CardMenuHead = styled(Box)(({ theme }) => ({
 type Props = {}
 
 export default function BottomCardMenu({ }: Props) {
+    const router = useRouter()
     const isMobile = useMediaQuery('(max-width:600px)')
     const dispatch = useAppDispatch()
     const cardMenu = useAppSelector((state) => state.MainReducer.cardMenu)
     function handleClose() {
         dispatch(mainActions.setCardMenu({ component: '', title: '' }))
     }
+
+
+    const parent = router.query.params ? 'post-detail' : 'feed'
+
+
     if (!cardMenu.component || !isMobile) return null
     return (
         <Container open={cardMenu.component && isMobile} onClose={handleClose}>
@@ -57,7 +64,7 @@ export default function BottomCardMenu({ }: Props) {
                 {cardMenu.component === 'account-menu' && <IntractionMenu />}
                 {cardMenu.component === 'page-more-options-menu' && <PageMoreOptionsMenu />}
                 {cardMenu.component === 'read-only-more-options-menu' && <ReadOnlyMoreOptionsMenu />}
-                {cardMenu.component === 'send-tip-picker' && <SendTipMenu postId={cardMenu?.postId ?? ''} />}
+                {cardMenu.component === 'send-tip-picker' && <SendTipMenu parent={parent} postId={cardMenu?.postId ?? ''} />}
             </CardMenu>
         </Container>
     )

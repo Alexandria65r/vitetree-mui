@@ -51,6 +51,21 @@ export const fetchPostsThunk = createAsyncThunk<void, undefined, { state: AppSta
         }
     })
 
+
+export const fetchPostThunk = createAsyncThunk<void, string, { state: AppState }>
+    ('authSlice/fetchPost', async (postId, thunkAPI) => {
+        const dispatch = thunkAPI.dispatch
+        const state = thunkAPI.getState()
+        try {
+            const post = await PostAPI.fetchPost(postId)
+            if (post) {
+                dispatch(postActions.setPost(post))
+            }
+        } catch (error) {
+
+        }
+    })
+
 type UpdatePostPayload = {
     postId: string,
     target: 'likes' | 'other';
