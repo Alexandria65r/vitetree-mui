@@ -76,7 +76,7 @@ export default function PostItem({ post }: Props) {
     return (
         <PostItemCard ref={PostPreviewRef}>
             <PostHeader>
-                <UserAvatar avatarStyles={{ width: 40, height: 40 }} />
+                <UserAvatar imageURL={post.author.profileAsset?.secureURL} avatarStyles={{ width: 40, height: 40 }} />
                 <Box sx={{ flex: 1 }}>
                     <ThemedText sx={{ fontSize: 16, fontWeight: 500 }}>
                         {post?.author.pageName || 'Page Name'}

@@ -124,7 +124,7 @@ function CompleteSendTipAction({ postId }: Props) {
                     </ButtonIcon>
                 </Head>
                 <LeftCol >
-                    <PostItem post={post} />
+                    <PostItem parent='feed' post={post} />
                 </LeftCol>
                 <RightCol>
                     {user.accountBalance > 0 ? (<>

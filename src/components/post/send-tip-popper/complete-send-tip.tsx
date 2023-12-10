@@ -124,7 +124,7 @@ function CompleteSendTipAction({ postId }: Props) {
                     </ButtonIcon>
                 </Head>
                 <LeftCol >
-                    <PostItem post={post} />
+                    <PostItem parent='feed' post={post} />
                 </LeftCol>
                 <RightCol>
                     {user.accountBalance > 0 ? (<>
@@ -139,7 +139,7 @@ function CompleteSendTipAction({ postId }: Props) {
                             mb: 1.6,
                             borderBottomLeftRadius: 10, borderBottomRightRadius: 10
                         }}>
-                            <SendTipMenu postId={postId} />
+                            <SendTipMenu parent='feed' postId={postId} />
                         </Box>
                         <Balance sx={{ borderTopLeftRadius: !user.accountBalance ? 0 : '', borderTopRightRadius: !user.accountBalance ? 0 : '' }}>
                             <ThemedText sx={{ flex: 1, fontSize: 17, fontWeight: 600 }}>Your Balance</ThemedText>
