@@ -9,6 +9,7 @@ import SmartDisplayIcon from '@mui/icons-material/SmartDisplay';
 import FontDownloadIcon from '@mui/icons-material/FontDownload';
 import MicIcon from '@mui/icons-material/Mic';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import ImageIcon from '@mui/icons-material/Image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
@@ -153,6 +154,12 @@ function PageMoreOptionsMenu({ }: Props) {
                         <Link href='/create/text'>
                             <FontDownloadIcon />
                             <ThemedText sx={{ fontSize: 14 }}>Text</ThemedText>
+                        </Link>
+                    </MenuItemButton>
+                    <MenuItemButton>
+                        <Link href='/create/image'>
+                            <ImageIcon />
+                            <ThemedText sx={{ fontSize: 14 }}>Image</ThemedText>
                         </Link>
                     </MenuItemButton>
 

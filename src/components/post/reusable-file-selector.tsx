@@ -108,7 +108,7 @@ export default function ReusableFileSelector({ file_type, browseButton, uploadFi
                     }}>
                         <DeleteOutlineIcon />
                     </ButtonIcon>
-                    <img src={imagePreview as string} style={{ width: '140px', height: '140px', borderRadius: 10, objectFit: 'cover' }} />
+                    <img src={imagePreview as string} style={{ width: '100%', height: '240px', borderRadius: 10, objectFit: 'cover' }} />
                 </Box>) : post?.postAssets?.video?.publicId && file_type === 'video' ? (<>
                         <video src={post.postAssets.video.secureURL} poster={post.postAssets.video.secureURL} />
                 </>) : (<>

@@ -30,7 +30,7 @@ export type Payout = {
 
 }
 
-export type PostType = 'video' | 'photo' | 'photo-with-audio' | 'audio' | 'text' | '';
+export type PostType = 'video' | 'image' | 'image-with-audio' | 'audio' | 'text' | '';
 
 export type Post = {
     save?: any;

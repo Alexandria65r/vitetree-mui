@@ -1,6 +1,6 @@
-import React, { useRef } from 'react'
+import React, { useCallback, useRef } from 'react'
 import Layout from '../../components/layout'
-import { ThemedText } from '../../theme'
+import { ThemedText, colorScheme } from '../../theme'
 import { Box, InputBase, colors, styled, useTheme } from '@mui/material'
 import { StyledButton } from '../../reusable/styles'
 import { useRouter } from 'next/router'
@@ -83,25 +83,24 @@ export default function Create({ }: Props) {
     const _theme = useTheme()
 
     const [PostPreviewRef, { width, height }] = useMeasure()
-
     const user = useAppSelector((state) => state.AuthReducer.user)
     const post = useAppSelector((state) => state.PostReducer.post)
     const [postType, secondParam]: any = router.query.params || []
+  
 
-
-    React.useEffect(() => {
-        setPostDefaults()
-    }, [user])
-
-    console.log(post)
-    function setPostDefaults() {
-        const [postType, secondParam]: any = router.query.params || []
+    const setPostDefaults = useCallback(()=> {
         dispatch(postActions.setPost({
             ...post,
             type: postType,
             author: { ...post?.author, pageName: user.pageInfo?.name ?? '' }
         }))
-    }
+    }, [postType, post])
+
+    React.useEffect(() => {
+        setPostDefaults()
+    }, [user, postType])
+
+  
 
     async function imageUploadHandler(base64: string) {
         const { payload } = await dispatch(uploadFileThunk({ base64, resource_type: 'image', preset: 'image_preset' }))
@@ -160,7 +159,7 @@ export default function Create({ }: Props) {
                 <FormCol>
                     <FormWrap>
                         <Box sx={{ display: 'flex', gap: 2 }}>
-                            {postType === 'photo' && (
+                            {postType === 'image' && (
                                 <Box sx={(theme) => ({ flex:1, [theme.breakpoints.down('sm')]: { flexBasis: '50%' } })}>
                                     <ReusableFileSelector file_type='image' browseButton={<BrowseImage />} uploadFile={imageUploadHandler} deleteFile={deleteFile} />
                                 </Box>
@@ -178,7 +177,8 @@ export default function Create({ }: Props) {
 
                         <Box>
                             <TextInput name='description'
-                                onChange={handleTextChange} sx={{ width: '100%', fontSize: 23, mt: 2, fontWeight: 600 }}
+                                onChange={handleTextChange} sx={{ width: '100%', border:`1px dashed ${colorScheme(_theme).borderColor}`, 
+                                fontSize: 16, mt: 2,p:1,borderRadius:2, fontWeight: 500 }}
                                 placeholder='Say something about this post' />
                         </Box>
                     </FormWrap>
@@ -187,7 +187,7 @@ export default function Create({ }: Props) {
                     <ThemedText sx={{ flexBasis: '100%', fontSize: 18, mb: 2, fontWeight: 600 }}>Post Preview</ThemedText>
                     <PostItem post={post} />
                     <Box my={2} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                        <StyledButton onClick={() => dispatch(createPostThunk(postType))} sx={{ fontSize: 16, fontWeight: 600 }}>
+                        <StyledButton onClick={() => dispatch(createPostThunk(postType))} sx={{ fontSize: 15, fontWeight: 600 }}>
                             Publish Post
                         </StyledButton>
                     </Box>
