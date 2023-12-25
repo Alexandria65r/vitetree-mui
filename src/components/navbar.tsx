@@ -89,15 +89,10 @@ export default function NavBar() {
                             flexGrow: 1, color: colors.teal[400]
                         }}>
                         <Link href={user?._id ? '/find-creators/q=nothing' : '/'}>
-                         Vitefans
+                            Jobstrap
                         </Link>
                     </Typography>
-                    {router.pathname !== '/' && (
-                        <ButtonIcon onClick={togggleCart} sx={{ position: 'relative' }}>
-                            <ShoppingCartOutlinedIcon />
-                            <Badge>{cartItems.length}</Badge>
-                        </ButtonIcon>
-                    )}
+            
                     {!isMobile && user?._id && (<>
                         <ButtonIcon onClick={() => router.push('/conversations/conv-list')} sx={{ position: 'relative' }}>
                             <ChatOutlinedIcon />

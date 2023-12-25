@@ -87,6 +87,7 @@ const FrontBox = styled(Box)(({ theme }) => ({
   }
 }))
 const CommunityButton = styled(StyledButton)(({ theme }) => ({
+  whiteSpace:'nowrap',
   textTransform: 'capitalize',
   fontSize: 17,
   height: 50,
@@ -189,7 +190,8 @@ const IndexPage: NextPage = () => {
               }
             })} onClick={() => gettingStartedRole('tutor')}
               color='secondary'>
-              <AddIcon /> Become a tutor
+              <AddIcon /> 
+              Job Searching
             </CommunityButton>
 
             <CommunityButton sx={(theme) => ({
@@ -202,7 +204,7 @@ const IndexPage: NextPage = () => {
               }
             })} onClick={() => gettingStartedRole('student')}
               color='secondary'>
-              <SlGraduation size={21} style={{ marginRight: 6 }} />Start Learnning
+              <SlGraduation size={21} style={{ marginRight: 6 }} />Here to hire
             </CommunityButton>
 
 

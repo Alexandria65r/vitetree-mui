@@ -19,7 +19,7 @@ import { colorScheme } from '../../theme'
 const Container = styled(Box)(({ theme }) => ({
     width: '95%',
     margin: '20px auto',
-    display: 'flex',
+    // display: 'flex',
     flexWrap: 'wrap',
     alignItems: 'start',
     justifyContent: 'space-between',
@@ -30,7 +30,7 @@ const Container = styled(Box)(({ theme }) => ({
         width: '70%',
     },
     [theme.breakpoints.up("xl")]: {
-        width: '35%',
+        width: '90%',
     }
 }))
 
@@ -40,12 +40,12 @@ const PageTitle = styled(Box)(({ theme }) => ({
     marginBottom: 10,
 }))
 
-const TutorsColumn = styled(Box)(({ theme }) => ({
-    display: 'flex',
+const JobResults = styled(Box)(({ theme }) => ({
+    display: 'grid',
     flexWrap: 'wrap',
-    gridTemplateColumns: 'repeat(2,1fr)',
+    gridTemplateColumns: '35% 1fr',
     justifyContent: 'space-between',
-    marginRight: 15,
+    marginTop: 20,
     gap: 10,
     flex: 1,
     minHeight: 60,
@@ -54,7 +54,13 @@ const TutorsColumn = styled(Box)(({ theme }) => ({
         gridTemplateColumns: '1fr',
     }
 }))
+const JobsCol = styled(Box)(({ theme }) => ({
+    display: 'grid',
+    gap: 10
+}))
+const JobPreviewCol = styled(Box)(({ theme }) => ({
 
+}))
 
 
 
@@ -80,7 +86,7 @@ const TabHeader = styled(Box)(({ theme }) => ({
 type Props = {}
 
 export default function Tutors({ }: Props) {
-    const dispatch =useAppDispatch()
+    const dispatch = useAppDispatch()
     const router = useRouter()
     const _theme = useTheme()
     const [sort, inquiry, inquiryId]: any = router.query.params || []
@@ -103,12 +109,20 @@ export default function Tutors({ }: Props) {
     return (
         <Layout>
             <Container sx={(theme) => ({
-                // maxWidth: !isSidebarOpen ? '97%' : '90%',
                 [theme.breakpoints.down('sm')]: {
                     display: 'block',
                 }
             })}>
-                <PageTitle>
+
+
+
+                <Box sx={{
+                    width: '50%', m: 'auto', my: 1,
+                    [_theme.breakpoints.down('sm')]: {
+                        width: '100%'
+                    }
+                }}>
+                    {/* <PageTitle>
                     <Typography
                         sx={(theme) => ({
                             fontSize: 25,
@@ -117,74 +131,72 @@ export default function Tutors({ }: Props) {
                                 fontSize: 22
                             }
                         })}>
-                        Find Creators You Love
+                        Begin Your Job Search
                     </Typography>
-                </PageTitle>
-
-                <Box sx={{ flexBasis: '100%', borderBottom: `0px solid ${colorScheme(_theme).borderColor}` }}>
-                    <TopTabTabs/>
+                </PageTitle> */}
+                    <SearchInputWrap sx={{ flexBasis: '30%', ml: 0, my: 1 }}>
+                        <SearchIcon sx={(theme) => ({
+                            flexBasis: '6%',
+                            ml: .5,
+                            [theme.breakpoints.down("sm")]: {
+                                flexBasis: '16%',
+                            }
+                        })} />
+                        <SearchInput placeholder='Search for jobs' />
+                    </SearchInputWrap>
+                    <TabHeader>
+                        <TabButton
+                            onClick={() => router.push(`/find-creators/all`)}
+                            sx={{
+                                backgroundColor: sort === 'all' ? colors.teal[400] : '',
+                                color: sort === 'all' ? '#fff' : ''
+                            }}
+                        >
+                            <PersonSearchOutlinedIcon fontSize='small' style={{ marginRight: '.1em' }} />
+                            All
+                        </TabButton>
+                        <TabButton
+                            onClick={() => router.push(`/find-creators/available`)}
+                            sx={{
+                                backgroundColor: sort === 'available' ? colors.teal[400] : '',
+                                color: sort === 'available' ? '#fff' : ''
+                            }}
+                        >
+                            <CoPresentIcon fontSize='small' sx={{ mr: .5 }} />
+                            Available
+                        </TabButton>
+                        <TabButton
+                            onClick={() => router.push(`/find-creators/favourites`)}
+                            sx={{
+                                backgroundColor: sort === 'favourites' ? colors.teal[400] : '',
+                                color: sort === 'favourites' ? '#fff' : ''
+                            }}
+                        >
+                            <FavoriteBorderOutlinedIcon fontSize='small' sx={{ mr: .5 }} />
+                            Favourites
+                        </TabButton>
+                        <TabButton
+                            sx={{
+                                backgroundColor: sort === 'inquired' ? colors.teal[400] : '',
+                                color: sort === 'inquired' ? '#fff' : ''
+                            }}
+                            onClick={() => router.push(`/find-creators/inquired`)}>
+                            <ManageSearchOutlinedIcon fontSize='small' sx={{ mr: .5 }} />
+                            Recently Viewed
+                        </TabButton>
+                    </TabHeader>
                 </Box>
 
-                <TutorsColumn>
-                    <Box sx={{ flexBasis: '100%', ml: 0, my: 1 }}>
-                        <SearchInputWrap sx={{ ml: 0, my: 1 }}>
-                            <SearchIcon sx={(theme) => ({
-                                flexBasis: '6%',
-                                ml: .5,
-                                [theme.breakpoints.down("sm")]: {
-                                    flexBasis: '16%',
-                                }
-                            })} />
-                            <SearchInput placeholder='Search for creator' />
-                        </SearchInputWrap>
-                        <TabHeader>
-                            <TabButton
-                                onClick={() => router.push(`/find-creators/all`)}
-                                sx={{
-                                    backgroundColor: sort === 'all' ? colors.teal[400] : '',
-                                    color: sort === 'all' ? '#fff' : ''
-                                }}
-                            >
-                                <PersonSearchOutlinedIcon fontSize='small' style={{ marginRight: '.1em' }} />
-                                All
-                            </TabButton>
-                            <TabButton
-                                onClick={() => router.push(`/find-creators/available`)}
-                                sx={{
-                                    backgroundColor: sort === 'available' ? colors.teal[400] : '',
-                                    color: sort === 'available' ? '#fff' : ''
-                                }}
-                            >
-                                <CoPresentIcon fontSize='small' sx={{ mr: .5 }} />
-                                Available
-                            </TabButton>
-                            <TabButton
-                                onClick={() => router.push(`/find-creators/favourites`)}
-                                sx={{
-                                    backgroundColor: sort === 'favourites' ? colors.teal[400] : '',
-                                    color: sort === 'favourites' ? '#fff' : ''
-                                }}
-                            >
-                                <FavoriteBorderOutlinedIcon fontSize='small' sx={{ mr: .5 }} />
-                                Favourites
-                            </TabButton>
-                            <TabButton
-                                sx={{
-                                    backgroundColor: sort === 'inquired' ? colors.teal[400] : '',
-                                    color: sort === 'inquired' ? '#fff' : ''
-                                }}
-                                onClick={() => router.push(`/find-creators/inquired`)}>
-                                <ManageSearchOutlinedIcon fontSize='small' sx={{ mr: .5 }} />
-                                Supported
-                            </TabButton>
-                        </TabHeader>
-                    </Box>
-                    {pages.map((page, index) => (
-                        <TutorItem key={index}
-                            page={page}  />
-                    ))}
-                </TutorsColumn>
-                
+                <JobResults>
+                    <JobsCol>
+                        {[1, 2, 3, 4, 5, 6, 7].map((page, index) => (
+                            <TutorItem key={index} />
+                        ))}
+                    </JobsCol>
+                    <JobPreviewCol>
+
+                    </JobPreviewCol>
+                </JobResults>
             </Container>
         </Layout >
     )

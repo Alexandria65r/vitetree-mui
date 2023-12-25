@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import { mainActions } from '../../../reducers/main-reducer'
 import PageMoreOptionsMenu from '../creator-page/page-more-options-menu'
 import ReadOnlyMoreOptionsMenu from '../creator-page/read-only-more-options-menu'
-import SendTipMenu from '../post/send-tip-popper/send-tip-menu'
+
 import { useRouter } from 'next/router'
 
 const Container = styled(Modal)(({ theme }) => ({
@@ -64,7 +64,6 @@ export default function BottomCardMenu({ }: Props) {
                 {cardMenu.component === 'account-menu' && <IntractionMenu />}
                 {cardMenu.component === 'page-more-options-menu' && <PageMoreOptionsMenu />}
                 {cardMenu.component === 'read-only-more-options-menu' && <ReadOnlyMoreOptionsMenu />}
-                {cardMenu.component === 'send-tip-picker' && <SendTipMenu parent={parent} postId={cardMenu?.postId ?? ''} />}
             </CardMenu>
         </Container>
     )

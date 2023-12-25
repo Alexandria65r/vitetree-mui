@@ -1,25 +1,19 @@
-import { Box, Skeleton, SxProps, Theme, Typography, colors, styled, useTheme } from '@mui/material'
+import { Box, SxProps, Theme, colors, styled, useTheme } from '@mui/material'
 import React from 'react'
 import { CSS_PROPERTIES } from '../reusable'
-import { colorScheme } from '../theme'
-import { ButtonIcon, StyledButton, StyledButtonOutlined } from '../reusable/styles'
-import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
-import AddCommentOutlinedIcon from '@mui/icons-material/AddCommentOutlined';
+import { ThemedText, colorScheme } from '../theme'
+import { StyledButton, StyledButtonOutlined } from '../reusable/styles'
 
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 
 import { inquiryActions } from '../../reducers/inquiry-reducer'
-import Randomstring from 'randomstring'
-import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
-import { nomalizedText } from '../reusable/helpers'
 import { useRouter } from 'next/router'
-import { StudentInquiry } from '../reusable/schemas'
 import Link from 'next/link'
-import UserAvatar from './user/user-avatar'
 import { East } from '@mui/icons-material'
-import { User } from '../models/user'
-import { Page } from '../models/page/page.model'
-
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import PlaceOutlinedIcon from '@mui/icons-material/PlaceOutlined';
+import QueryBuilderOutlinedIcon from '@mui/icons-material/QueryBuilderOutlined';
+import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 
 
 const PageContainer = styled(Box)(({ theme }) => ({
@@ -38,19 +32,40 @@ const PageContainer = styled(Box)(({ theme }) => ({
 
 const PageItemBody = styled(Box)(({ theme }) => ({
     flex: 1,
-    display: 'flex',
+    padding: 10,
     alignItems: 'center',
     flexBasis: '100%',
     [theme.breakpoints.down("sm")]: {
 
     }
 }))
+const Description = styled(Box)(({ theme }) => ({
+    marginTop: 10,
+    [theme.breakpoints.down("sm")]: {
+
+    }
+}))
+const ViewJobButton = styled(StyledButton)(({ theme }) => ({
+    width: '60%',
+    height: 45,
+    fontSize: 16,
+    fontWeight: 600,
+    color: colorScheme(theme).TextColor,
+    border: 0,
+    backgroundColor:colorScheme(theme).greyToTertiary,
+    borderRadius: 25,
+    whiteSpace: 'nowrap',
+    [theme.breakpoints.down("sm")]: {
+
+    }
+}))
 const ItemFooter = styled(Box)(({ theme }) => ({
+    width: '100%',
     display: 'flex',
-    justifyContent: 'flex-end',
     alignItems: 'center',
+    justifyContent: 'flex-end',
     flex: 1,
-    margin: 0,
+    gap: 10,
     borderRadius: CSS_PROPERTIES.radius10,
     backgroundColor: colorScheme(theme).secondaryColor,
     [theme.breakpoints.down('sm')]: {
@@ -63,14 +78,14 @@ const ItemFooter = styled(Box)(({ theme }) => ({
 
 
 type Props = {
-    page: Page,
+
 }
 
 
 
 
 
-export default function PageItem({ page, }: Props) {
+export default function PageItem({ }: Props) {
     const dispatch = useAppDispatch()
     const router = useRouter()
     const _theme = useTheme()
@@ -98,83 +113,45 @@ export default function PageItem({ page, }: Props) {
                 transition: '0.3s all',
             }}>
             <Box sx={{ display: 'flex', gap: 1, mb: 1, alignItems: 'center', }}>
-                <UserAvatar imageURL={page?.imageAssets?.profile?.secureURL??''} avatarStyles={avatarStyles} />
+
                 <PageItemBody>
-                    {page.pageId ? (
-                        <Box>
-                            <Typography sx={{ fontSize: 16, lineHeight: 1.2, fontWeight: 600 }}>
-                                {page.name}
-                            </Typography>
-                            <Typography sx={{ fontSize: 14, fontWeight: 600, textTransform: 'capitalize' }}>
-                                {page.cartegory}
-                            </Typography>
-                            <Typography sx={{ fontSize: 13, lineHeight: 1.2, mt: .5, color: 'GrayText', fontWeight: 500 }}>
-                                {page.bio}
-                            </Typography>
-                        </Box>) : (<Box sx={(theme) => ({
-                            p: 1,
-                            display: 'flex',
-                            flexWrap: 'wrap',
-                            justifyContent: 'center',
-                            [theme.breakpoints.down('sm')]: {
-                                width: '80%',
-                                margin: 'auto',
-                            }
-                        })}>
-                            <Box sx={{ display: 'grid' }}>
-                                <Skeleton width={180} />
-                                <Skeleton width={140} sx={{ mt: 1, justifySelf: 'center' }} />
-                                <Skeleton width={180} sx={{ justifySelf: 'center' }} />
-                                <Skeleton width={140} sx={{ justifySelf: 'center' }} />
-                                <Box sx={{ mt: 1.5, flexBasis: '80%' }}>
-                                    <Skeleton />
-                                    <Skeleton />
-                                    <Skeleton />
-                                    <Skeleton />
-                                </Box>
-                            </Box>
-                        </Box>)}
+                    <Box>
+                        <ThemedText sx={{ fontSize: 20,  fontWeight: 600 }}>
+                            Full Stack Engineer
+                        </ThemedText>
+                    </Box>
+                    <Box sx={{ display: 'flex', gap: 2, mt: 1 }}>
+                        <ThemedText sx={{ display: 'flex', alignItems: 'center', fontSize: 16, lineHeight: 1.2, fontWeight: 500 }}>
+                            <PlaceOutlinedIcon sx={{ fontSize: 16,mr:.5 }} /> Remote
+                        </ThemedText>
+                        <ThemedText sx={{ display: 'flex', alignItems: 'center', fontSize: 16, lineHeight: 1.2, fontWeight: 500 }}>
+                            <QueryBuilderOutlinedIcon sx={{ fontSize: 16,mr:.5 }} />Anytime
+                        </ThemedText>
+                        <ThemedText sx={{ display: 'flex', alignItems: 'center', fontSize: 16, lineHeight: 1.2, fontWeight: 500 }}>
+                            <CalendarTodayIcon sx={{ fontSize: 16,mr:.5 }} /> 40hrs/wk
+                        </ThemedText>
+                    </Box>
+                    <Description>
+                        <ThemedText sx={{ display: 'flex', alignItems: 'center', fontSize: 15, lineHeight: 1.2, fontWeight: 500 }}>
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat, error eligend
+                            dolore obcaecati vero voluptatem quibusdam itaque aut voluptas odio
+                            culpa minus debitis, enim, omnis consequatur repellendus ut fugiat saepe!
+                        </ThemedText>
+                    </Description>
                 </PageItemBody>
             </Box>
 
             <ItemFooter>
-                <Link href={`/${page.pageId}/send-star`} style={{ flexBasis: '60%', }}>
-                    <StyledButtonOutlined
-                        sx={(theme) => ({
-                            width:'100%',
-                            fontSize: 14,
-                            fontWeight: 600,
-                            color: colorScheme(theme).TextColor,
-                            me: 1,
-                            border: 0,
-                            bgcolor: colorScheme(theme).greyToTertiary, borderBottom: `2px solid ${colors.teal[500]}`
-                        })}>
-                        View Creator
+                <ViewJobButton sx={{ flex: 1, bgcolor: colors.teal[500],color:'#fff' }}>
+                    <BookmarkBorderIcon fontSize='small' sx={{ mr: 1 }} />
+                    Save Job
+                </ViewJobButton>
+                <Link href={`/`} style={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
+                    <ViewJobButton sx={{width:'100%'}} >
+                        View Job
                         <East fontSize='small' sx={{ ml: 1 }} />
-                    </StyledButtonOutlined>
+                    </ViewJobButton>
                 </Link>
-
-
-                {page.pageId ? (<ButtonIcon sx={{
-                    ml: 1,
-                    color: colors.teal[400],
-                    border: 2,
-                    borderColor: colors.teal[400],
-                    backgroundColor: colorScheme(_theme).greyToTertiary,
-                    transition: '0.3s all',
-                    '&:hover': {
-                        color: '#fff',
-                        backgroundColor: colors.teal[400]
-                    }
-                }}>
-                    <FavoriteBorderOutlinedIcon fontSize='small' />
-                </ButtonIcon>) : (
-                    <Skeleton width={48} height={80} sx={{ borderRadius: '50%' }} />
-                )}
-
-
-
-
             </ItemFooter>
         </PageContainer>
     )
