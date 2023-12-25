@@ -3,9 +3,7 @@ import React from 'react'
 import { CSS_PROPERTIES } from '../reusable'
 import { ThemedText, colorScheme } from '../theme'
 import { StyledButton, StyledButtonOutlined } from '../reusable/styles'
-
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
-
 import { inquiryActions } from '../../reducers/inquiry-reducer'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
@@ -14,7 +12,7 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import PlaceOutlinedIcon from '@mui/icons-material/PlaceOutlined';
 import QueryBuilderOutlinedIcon from '@mui/icons-material/QueryBuilderOutlined';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
-
+import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
 
 const PageContainer = styled(Box)(({ theme }) => ({
     padding: 10,
@@ -52,7 +50,7 @@ const ViewJobButton = styled(StyledButton)(({ theme }) => ({
     fontWeight: 600,
     color: colorScheme(theme).TextColor,
     border: 0,
-    backgroundColor:colorScheme(theme).greyToTertiary,
+    backgroundColor: colorScheme(theme).greyToTertiary,
     borderRadius: 25,
     whiteSpace: 'nowrap',
     [theme.breakpoints.down("sm")]: {
@@ -116,19 +114,19 @@ export default function PageItem({ }: Props) {
 
                 <PageItemBody>
                     <Box>
-                        <ThemedText sx={{ fontSize: 20,  fontWeight: 600 }}>
+                        <ThemedText sx={{ fontSize: 20, fontWeight: 600 }}>
                             Full Stack Engineer
                         </ThemedText>
                     </Box>
                     <Box sx={{ display: 'flex', gap: 2, mt: 1 }}>
                         <ThemedText sx={{ display: 'flex', alignItems: 'center', fontSize: 16, lineHeight: 1.2, fontWeight: 500 }}>
-                            <PlaceOutlinedIcon sx={{ fontSize: 16,mr:.5 }} /> Remote
+                            <PlaceOutlinedIcon sx={{ fontSize: 16, mr: .5 }} /> Remote
                         </ThemedText>
                         <ThemedText sx={{ display: 'flex', alignItems: 'center', fontSize: 16, lineHeight: 1.2, fontWeight: 500 }}>
-                            <QueryBuilderOutlinedIcon sx={{ fontSize: 16,mr:.5 }} />Anytime
+                            <QueryBuilderOutlinedIcon sx={{ fontSize: 16, mr: .5 }} />Anytime
                         </ThemedText>
                         <ThemedText sx={{ display: 'flex', alignItems: 'center', fontSize: 16, lineHeight: 1.2, fontWeight: 500 }}>
-                            <CalendarTodayIcon sx={{ fontSize: 16,mr:.5 }} /> 40hrs/wk
+                            <CalendarTodayIcon sx={{ fontSize: 16, mr: .5 }} /> 40hrs/wk
                         </ThemedText>
                     </Box>
                     <Description>
@@ -142,12 +140,17 @@ export default function PageItem({ }: Props) {
             </Box>
 
             <ItemFooter>
-                <ViewJobButton sx={{ flex: 1, bgcolor: colors.teal[500],color:'#fff' }}>
+                <ViewJobButton sx={{ flex: 1, }}>
                     <BookmarkBorderIcon fontSize='small' sx={{ mr: 1 }} />
                     Save Job
                 </ViewJobButton>
-                <Link href={`/`} style={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
-                    <ViewJobButton sx={{width:'100%'}} >
+              
+                <ViewJobButton sx={{ flex: 1, }}>
+                    <ShareOutlinedIcon fontSize='small' sx={{ mr: 1 }} />
+                    Share
+                </ViewJobButton>
+                <Link href={`/job/jobid`} style={{ flexBasis: '60%', display: 'flex', justifyContent: 'center' }}>
+                    <ViewJobButton sx={{ width: '100%', bgcolor: colors.teal[500], color: '#fff' }} >
                         View Job
                         <East fontSize='small' sx={{ ml: 1 }} />
                     </ViewJobButton>

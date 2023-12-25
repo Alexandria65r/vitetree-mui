@@ -23,6 +23,7 @@ const AsideNav = styled(Box)(({ theme }) => ({
   alignItems: 'flex-start',
   height: 'calc(100% - 0px)',
   //border: '1px solid',
+ // borderRight: `1px solid ${colorScheme(theme).borderColor}`,
   padding: 10,
   flexBasis: '100%',
   [theme.breakpoints.down('sm')]: {

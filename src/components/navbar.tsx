@@ -88,7 +88,7 @@ export default function NavBar() {
                             fontWeight: 600,
                             flexGrow: 1, color: colors.teal[400]
                         }}>
-                        <Link href={user?._id ? '/find-creators/q=nothing' : '/'}>
+                        <Link href={user?._id ? '/find-jobs/q=nothing' : '/'}>
                             Jobstrap
                         </Link>
                     </Typography>
