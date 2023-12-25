@@ -47,7 +47,7 @@ const Container = styled(Box)(({ theme }) => ({
 const Searchbar = styled(Box)(({ theme }) => ({
     borderBottom: `1px solid ${colorScheme(theme).borderColor}`
 }))
-const PageTitle = styled(Box)(({ theme }) => ({
+const PageTitle = styled(Box)(() => ({
     padding: '0 10px',
     marginBottom: 10,
 }))
@@ -67,48 +67,18 @@ const JobResults = styled(Box)(({ theme }) => ({
         gridTemplateColumns: '1fr',
     }
 }))
-const JobsCol = styled(Box)(({ theme }) => ({
+const JobsCol = styled(Box)(() => ({
     display: 'grid',
     gap: 10
 }))
-const JobPreviewCol = styled(Box)(({ theme }) => ({
-
-}))
-const JobPreviewContainer = styled(Box)(({ theme }) => ({
-    height: 600,
-    borderRadius: 10,
-    backgroundColor: colorScheme(theme).lightToSecondaryColor
-}))
-const JobPreviewHeader = styled(Box)(({ theme }) => ({
-    display: 'flex',
-    flexWrap: 'wrap',
-    minHeight: 200,
-    gap: 10,
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
-    padding: 15,
-    borderBottom: `1px solid ${colorScheme(theme).greyToTertiary}`
-}))
-const JobRecruterLogo = styled(Box)(({ theme }) => ({
-    flexBasis: '20%',
-    borderRadius: 10,
-    marginRight: 10,
-    backgroundColor: colorScheme(theme).grayToprimaryColor,
-    [theme.breakpoints.down('sm')]: {
-        marginRight: 0,
-        height: 140,
-        flexBasis: '100%',
-    }
+const JobPreviewCol = styled(Box)(({theme}) => ({
+    position: 'sticky',
+    top: 0,
+    [theme.breakpoints.down("sm")]: {
+        display: 'none'
+    },
 }))
 
-const ProfileInsights = styled(Box)(({ theme }) => ({
-    padding: 10,
-    borderBottom: `1px solid ${colorScheme(theme).greyToTertiary}`
-}))
-const PostDetails = styled(Box)(({ theme }) => ({
-    padding: 10,
-    borderBottom: `1px solid ${colorScheme(theme).greyToTertiary}`
-}))
 
 const TabHeader = styled(Box)(({ theme }) => ({
     flex: 1,
@@ -127,20 +97,6 @@ const TabHeader = styled(Box)(({ theme }) => ({
     }
 }))
 
-const ViewJobButton = styled(StyledButton)(({ theme }) => ({
-    width: '60%',
-    height: 45,
-    fontSize: 16,
-    fontWeight: 600,
-    color: colorScheme(theme).TextColor,
-    border: 0,
-    backgroundColor: colorScheme(theme).greyToTertiary,
-    borderRadius: 25,
-    whiteSpace: 'nowrap',
-    [theme.breakpoints.down("sm")]: {
-
-    }
-}))
 
 
 type Props = {}
@@ -150,7 +106,6 @@ export default function Tutors({ }: Props) {
     const router = useRouter()
     const _theme = useTheme()
     const [sort, inquiry, inquiryId]: any = router.query.params || []
-    const pages = useAppSelector((state) => state.PageReducer.pages)
     const isSidebarOpen = useAppSelector((state) => state.MainReducer.isSidebarOpen)
 
     const loadCreators = useCallback(() => {

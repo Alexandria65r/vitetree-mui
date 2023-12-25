@@ -1,4 +1,4 @@
-import { Box, SxProps, Theme, colors, styled, useTheme } from '@mui/material'
+import { Box, SxProps, Theme, colors, styled, useMediaQuery, useTheme } from '@mui/material'
 import React from 'react'
 import { CSS_PROPERTIES } from '../reusable'
 import { ThemedText, colorScheme } from '../theme'
@@ -88,7 +88,7 @@ export default function PageItem({ }: Props) {
     const router = useRouter()
     const _theme = useTheme()
     const user = useAppSelector((state) => state.AuthReducer.user)
-
+    const isMobile = useMediaQuery('(max-width:600px)')
 
     const [sort, _inquiry]: any = router.query.params || []
 
@@ -141,18 +141,19 @@ export default function PageItem({ }: Props) {
 
             <ItemFooter>
                 <ViewJobButton sx={{ flex: 1, }}>
-                    <BookmarkBorderIcon fontSize='small' sx={{ mr: 1 }} />
-                    Save Job
+                    <BookmarkBorderIcon fontSize='small' sx={{ mr: .3 }} />
+                    Save
                 </ViewJobButton>
-              
+
                 <ViewJobButton sx={{ flex: 1, }}>
-                    <ShareOutlinedIcon fontSize='small' sx={{ mr: 1 }} />
+                    <ShareOutlinedIcon fontSize='small' sx={{ mr: .3 }} />
                     Share
                 </ViewJobButton>
-                <Link href={`/job/jobid`} style={{ flexBasis: '60%', display: 'flex', justifyContent: 'center' }}>
+                <Link href={`/job/jobid`}
+                    style={{ flex: isMobile ? 1 : 'unset', flexBasis: !isMobile ? '60%' : 'unset', display: 'flex', justifyContent: 'center' }}>
                     <ViewJobButton sx={{ width: '100%', bgcolor: colors.teal[500], color: '#fff' }} >
                         View Job
-                        <East fontSize='small' sx={{ ml: 1 }} />
+                        <East fontSize='small' sx={{ ml: .3 }} />
                     </ViewJobButton>
                 </Link>
             </ItemFooter>

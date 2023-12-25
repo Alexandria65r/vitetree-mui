@@ -101,16 +101,16 @@ export default function RenderJobDetail({}: Props) {
                   </ThemedText>
                   <Box sx={{ display: 'flex', gap: 1 }}>
                       <ViewJobButton sx={{ flex: 1, }}>
-                          <BookmarkBorderIcon fontSize='small' sx={{ mr: 1 }} />
-                          Save Job
+                          <BookmarkBorderIcon fontSize='small' sx={{ mr: .3 }} />
+                          Save
                       </ViewJobButton>
                       <ViewJobButton sx={{ flex: 1, }}>
-                          <ShareOutlinedIcon fontSize='small' sx={{ mr: 1 }} />
+                          <ShareOutlinedIcon fontSize='small' sx={{ mr: .3 }} />
                           Share
                       </ViewJobButton>
                       <ViewJobButton sx={{ width: '100%', bgcolor: colors.teal[500], color: '#fff' }} >
                           Apply Job
-                          <LaunchOutlinedIcon fontSize='small' sx={{ ml: 1 }} />
+                          <LaunchOutlinedIcon fontSize='small' sx={{ ml: .3 }} />
                       </ViewJobButton>
                   </Box>
               </Box>

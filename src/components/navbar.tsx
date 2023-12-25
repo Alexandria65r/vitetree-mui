@@ -36,10 +36,14 @@ const Button = styled(ButtonBase)(({ theme }) => ({
 }))
 
 const AppBar = styled(AppNavigationBar)(({ theme }) => ({
+   
     //  boxShadow: `0 1px 3px 0 ${isDarkMode(theme) ? colors.grey[800] :'transparent'}`,
     //borderBottom: `1px solid ${colorScheme(theme).secondaryColor}`,
     // backgroundColor: colorScheme(theme).primaryToGrey100Color,
     backgroundColor: 'transparent',
+    [theme.breakpoints.down('sm')]:{
+       
+    }
 }))
 
 
