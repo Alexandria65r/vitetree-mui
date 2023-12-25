@@ -4,12 +4,12 @@ import { ThemedText, colorScheme } from '../../theme'
 import { Box, InputBase, colors, styled, useTheme } from '@mui/material'
 import { StyledButton } from '../../reusable/styles'
 import { useRouter } from 'next/router'
-import PostItem from '../feed/post-item'
+
 import PhotoSizeSelectActualIcon from '@mui/icons-material/PhotoSizeSelectActual';
 import SmartDisplayIcon from '@mui/icons-material/SmartDisplay';
 import { uploadFileThunk } from '../../../reducers/main-reducer/main-thunks'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
-import ReusableFileSelector from '../../components/post/reusable-file-selector'
+
 import { postActions } from '../../../reducers/post-reducer'
 import { useMeasure } from 'react-use'
 import { createPostThunk } from '../../../reducers/post-reducer/post-thunks'
@@ -161,13 +161,13 @@ export default function Create({ }: Props) {
                         <Box sx={{ display: 'flex', gap: 2 }}>
                             {postType === 'photo' && (
                                 <Box sx={(theme) => ({ flex:1, [theme.breakpoints.down('sm')]: { flexBasis: '50%' } })}>
-                                    <ReusableFileSelector file_type='image' browseButton={<BrowseImage />} uploadFile={imageUploadHandler} deleteFile={deleteFile} />
+                                   
                                 </Box>
 
                             )}
                             {postType === 'video' && (
                                 <Box sx={(theme) => ({ flex:1, [theme.breakpoints.down('sm')]: { flexBasis: '50%' } })}>
-                                    <ReusableFileSelector file_type='video' browseButton={<BrowseVideo />} uploadFile={videoUploadHandler} deleteFile={deleteFile} />
+                                   
                                 </Box>
                             )}
                         </Box>
@@ -185,7 +185,7 @@ export default function Create({ }: Props) {
                 </FormCol>
                 <PostPreview ref={PostPreviewRef}>
                     <ThemedText sx={{ flexBasis: '100%', fontSize: 18, mb: 2, fontWeight: 600 }}>Post Preview</ThemedText>
-                    <PostItem post={post} />
+                  
                     <Box my={2} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                         <StyledButton onClick={() => dispatch(createPostThunk(postType))} sx={{ fontSize: 15, fontWeight: 600 }}>
                             Publish Post
