@@ -63,15 +63,15 @@ function InteractionPopper({ }: Props) {
     const NavButtonValue = () => (
         <Box>
             <NavButtonText sx={{ fontWeight: 600 }}>
-                {user.interaction === 'creator' ? user.pageInfo?.name : fullname}
+                {user.interaction === 'employer ' ? user.pageInfo?.name : fullname}
             </NavButtonText>
             <NavButtonText sx={{ fontSize: 13 }}>
-                {user.interaction === 'creator' ? 'creator' : 'Member'}
+                {user.interaction === 'employer ' ? 'employer' : 'Member'}
             </NavButtonText>
         </Box>
     )
 
-    const imageURL = user.interaction === 'creator' ? user.pageInfo?.photoURL : user.imageAsset?.secureURL
+    const imageURL = user.interaction === 'employer ' ? user.pageInfo?.photoURL : user.imageAsset?.secureURL
     return (
         <PopupState variant='popper'>
             {(popupState) => (
