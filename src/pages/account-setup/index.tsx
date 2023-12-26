@@ -11,6 +11,7 @@ import { ThemedText, colorScheme } from '../../theme'
 import { StudentInfo } from '../../reusable/schemas'
 import Layout from '../../components/layout'
 import { AppSpinner } from '../../components/activity-indicators'
+import { Role } from '../../reusable/interfaces'
 
 const Container = styled(Box)(({ theme }) => ({
   width: '80%',
@@ -84,7 +85,7 @@ const AccountTypeHead = styled(Box)(({ theme }) => ({
 
 
 type UserTtype = {
-  name: 'creator' | 'fan';
+  name: 'employer ' | 'job seeker';
   description: string;
   accent: string
 }
@@ -99,18 +100,18 @@ export default function TutorForm({ }: Props) {
 
   const accountTypes: UserTtype[] = [
     {
-      name: 'creator',
-      description: 'Invite fans and connect with them directly for free.Create premium content for your fans',
+      name: 'employer ',
+      description: 'Manage your company hiring needs on one place',
       accent: colors.amber[500]
     },
     {
-      name: 'fan',
-      description: 'Easly connect with your creators you love and have access to exclusive/premium content.',
+      name: 'job seeker',
+      description: 'Stay connected with varieties of jobs posted while you in the job search journey',
       accent: colors.green[500]
     }
   ]
 
-  async function updateUserAccountType(role: 'creator' | 'fan') {
+  async function updateUserAccountType(role: Role) {
     setLoading(role)
     const { data } = await AuthAPI.update(signUpData._id ?? '', {
       role,
@@ -118,11 +119,7 @@ export default function TutorForm({ }: Props) {
     })
     if (data.success) {
       setLoading('')
-      if (role === 'creator') {
-        router.push('/page/create')
-      } else {
-        router.push('/find-creators/q=nothing')
-      }
+      router.push('/page/create')
     }
   }
 
@@ -135,12 +132,12 @@ export default function TutorForm({ }: Props) {
             Welcome {fullname}
           </ThemedText>
           <ThemedText mt={1} >
-            Welcome to the place where content creators love.
-            as a creator you can recieve support from your fans while
-            you give exclusive content to your fans.
+            Welcome to <b>Jobstrap</b> where Job seekers and Employers  love.
+            as a Employer  you can post jobs for your open positions,If youre a
+            job seeker there are 10,000 of jobs posted everyday.
           </ThemedText>
           <ContinueWith sx={{ my: 2 }}>
-            <ContinueWithOverlayText sx={{ fontWeight: 600 }}>Register as a</ContinueWithOverlayText>
+            <ContinueWithOverlayText sx={{ fontWeight: 600 }}>Register as </ContinueWithOverlayText>
           </ContinueWith>
           <ChooseAccountType>
             {accountTypes.map((item, index) => (

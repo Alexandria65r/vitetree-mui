@@ -118,7 +118,7 @@ export default function SideBar({ }: Props) {
                             flexGrow: 1, color: colors.teal[400]
                         }}>
                         <Link href={user?._id ? '/dashboard' : '/'}>
-                            Schooyard
+                            Jobstrap
                         </Link>
                     </Typography>
                 </SideBarHeader>

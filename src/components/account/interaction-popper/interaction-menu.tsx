@@ -10,6 +10,7 @@ import { mainActions } from '../../../../reducers/main-reducer';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import { PopupState } from 'material-ui-popup-state/hooks';
 import UserAvatar from '../../user/user-avatar';
+import { Role } from '../../../reusable/interfaces';
 
 type Props = {
     popupState?: PopupState
@@ -20,7 +21,7 @@ export default function IntractionMenu({ popupState }: Props) {
     const dispatch = useAppDispatch()
     const user = useAppSelector((state) => state.AuthReducer.user)
 
-    function updateUserAccountInteraction(interaction: 'creator' | 'fan') {
+    function updateUserAccountInteraction(interaction:Role) {
         dispatch(authActions.setAuhtUser({ ...user, interaction }))
         dispatch(mainActions.setCardMenu({ component: '',title:'' }))
         dispatch(updateUserThunk({
@@ -33,9 +34,9 @@ export default function IntractionMenu({ popupState }: Props) {
 
     return (
         <>
-            {user.role === 'creator' ? (
+            {user.role === 'employer ' ? (
                 <Link href={`/page/${user?.pageInfo?.pageId}`}>
-                    <MenuItem onClick={() => updateUserAccountInteraction('creator')
+                    <MenuItem onClick={() => updateUserAccountInteraction('employer ')
                     } sx={(theme) => ({ borderBottom: `1px solid ${colorScheme(theme).greyToTertiary}` })}>
                         <UserAvatar
                             imageURL={user.pageInfo?.photoURL}
@@ -43,9 +44,9 @@ export default function IntractionMenu({ popupState }: Props) {
                         />
                         <Box sx={{ flex: 1 }}>
                             <ThemedText sx={{ fontWeight: 600, fontSize: 15 }}>{user?.pageInfo?.name}</ThemedText>
-                            <ThemedText sx={{ fontSize: 13, color: 'GrayText' }}>Creator</ThemedText>
+                            <ThemedText sx={{ fontSize: 13, color: 'GrayText' }}>Employer</ThemedText>
                         </Box>
-                        {user.interaction === 'creator' ? <RadioButtonCheckedIcon sx={{ color: colors.teal[500] }} /> : <></>}
+                        {user.interaction === 'employer ' ? <RadioButtonCheckedIcon sx={{ color: colors.teal[500] }} /> : <></>}
                     </MenuItem>
                 </Link>
             ) : (<Link href={`/account-setup`}>
@@ -58,7 +59,7 @@ export default function IntractionMenu({ popupState }: Props) {
                 </MenuItem>
             </Link>)}
             <Link href={`/account/${user._id}`}>
-                <MenuItem onClick={() => updateUserAccountInteraction('fan')}>
+                <MenuItem onClick={() => updateUserAccountInteraction('job seeker')}>
                     <UserAvatar
                         imageURL={user.imageAsset?.secureURL}
                         avatarStyles={{ mr: 1,border:`1px solid ${colorScheme(_theme).grayToSecondaryColor}` }}
@@ -67,7 +68,7 @@ export default function IntractionMenu({ popupState }: Props) {
                         <ThemedText sx={{ fontWeight: 600, fontSize: 15, textTransform: 'capitalize' }}>{`${user.firstName} ${user.lastName}`}</ThemedText>
                         <ThemedText sx={{ fontSize: 13, color: 'GrayText' }}>Member</ThemedText>
                     </Box>
-                    {user.interaction === 'fan' ? <RadioButtonCheckedIcon sx={{ color: colors.teal[500] }} /> : <></>}
+                    {user.interaction === 'job seeker' ? <RadioButtonCheckedIcon sx={{ color: colors.teal[500] }} /> : <></>}
                 </MenuItem>
             </Link>
         </>

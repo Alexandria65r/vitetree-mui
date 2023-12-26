@@ -10,7 +10,7 @@ export const createPageThunk = createAsyncThunk<void, undefined, { state: AppSta
     ('cartSlice/createPageThunk', async (_, thunkAPI) => {
         const dispatch = thunkAPI.dispatch
         const { AuthReducer: { user: { _id: owner } }, PageReducer: { page } } = thunkAPI.getState()
-        const pageId = page.name.replace(' ', '').toLowerCase()
+        const pageId = page.name.replaceAll(' ', '').toLowerCase()
 
         try {
             const newPagePayload: Page = {

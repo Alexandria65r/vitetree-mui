@@ -13,14 +13,8 @@ import CoPresentIcon from '@mui/icons-material/CoPresent';
 import PersonSearchOutlinedIcon from '@mui/icons-material/PersonSearchOutlined';
 import { pageActions } from '../../../reducers/page-reducer'
 import { fetchPagesThunk } from '../../../reducers/page-reducer/page-thunks'
-import TopTabTabs from '../../components/top-tab-bar'
-import { ThemedText, colorScheme, useColorScheme } from '../../theme'
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
-import PlaceOutlinedIcon from '@mui/icons-material/PlaceOutlined';
-import QueryBuilderOutlinedIcon from '@mui/icons-material/QueryBuilderOutlined';
+import { colorScheme } from '../../theme'
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
-import LaunchOutlinedIcon from '@mui/icons-material/LaunchOutlined';
-import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
 import RenderJobDetail from '../../components/job/render-job-details'
 
 
@@ -48,6 +42,8 @@ const Searchbar = styled(Box)(({ theme }) => ({
     borderBottom: `1px solid ${colorScheme(theme).borderColor}`
 }))
 const PageTitle = styled(Box)(() => ({
+    display: 'flex',
+    flexWrap:'wrap',
     padding: '0 10px',
     marginBottom: 10,
 }))
@@ -61,7 +57,6 @@ const JobResults = styled(Box)(({ theme }) => ({
     gap: 20,
     flex: 1,
     minHeight: 60,
-
     [theme.breakpoints.down("sm")]: {
         display: 'grid',
         gridTemplateColumns: '1fr',
@@ -86,7 +81,6 @@ const TabHeader = styled(Box)(({ theme }) => ({
     alignItems: 'center',
     padding: '5px 10px',
     borderRadius: CSS_PROPERTIES.radius5,
-
     [theme.breakpoints.down('sm')]: {
         width: '94vw',
         overflowX: 'auto',
@@ -94,6 +88,21 @@ const TabHeader = styled(Box)(({ theme }) => ({
     },
     "::-webkit-scrollbar": {
         display: 'none'
+    }
+}))
+
+const ViewJobButton = styled(StyledButton)(({ theme }) => ({
+    width: '60%',
+    height: 45,
+    fontSize: 16,
+    fontWeight: 600,
+    color: colorScheme(theme).TextColor,
+    border: 0,
+    backgroundColor: colorScheme(theme).greyToTertiary,
+    borderRadius: 25,
+    whiteSpace: 'nowrap',
+    [theme.breakpoints.down("sm")]: {
+
     }
 }))
 
@@ -183,6 +192,7 @@ export default function Tutors({ }: Props) {
                         <PageTitle>
                             <Typography
                                 sx={(theme) => ({
+                                    flex:1,
                                     fontSize: 22,
                                     fontWeight: 600,
                                     [theme.breakpoints.down("sm")]: {
@@ -191,6 +201,11 @@ export default function Tutors({ }: Props) {
                                 })}>
                                 120 React Jobs
                             </Typography>
+
+                            <ViewJobButton sx={{flexBasis:'35%'}}>
+                                <BookmarkBorderIcon fontSize='small' sx={{ mr: .3 }} />
+                                Save Search
+                            </ViewJobButton>
                         </PageTitle>
                         {[1, 2, 3, 4, 5, 6, 7].map((page, index) => (
                             <TutorItem key={index} />

@@ -104,7 +104,7 @@ export default function PageForm({ }: Props) {
 
     function handleOnClick() {
         if (isUpdate) {
-            dispatch(updatePageThunk({pageId, target: 'other', update: { page } }))
+            dispatch(updatePageThunk({ pageId, target: 'other', update: { page } }))
         } else {
             dispatch(createPageThunk())
         }
@@ -120,7 +120,7 @@ export default function PageForm({ }: Props) {
                     >
                         <CloseOutlinedIcon />
                     </ButtonIcon>
-                    <Link href={user?.interaction === 'fan' ? '/find-creators/q=nothing' : `/page/${pageId}`}>
+                    <Link href={user?.interaction === 'job seeker' ? '/find-creators/q=nothing' : `/page/${pageId}`}>
                         <ThemedText
                             sx={{
                                 ml: 2,
@@ -128,53 +128,66 @@ export default function PageForm({ }: Props) {
                                 fontWeight: 600,
                                 flexGrow: 1, color: colors.teal[400]
                             }}>
-                            Pushmepal
+                            Jobstrap
                         </ThemedText>
 
                     </Link>
                 </Header>
-                <Box sx={{ height: 'calc(100% - 160px)', padding: 2 }}>
+                <Box sx={{ height: 'calc(100% - 160px)', overflowY:'auto', padding: 2 }}>
                     <ThemedText
                         sx={{
                             fontSize: 20,
                             fontWeight: 600,
                         }}>
-                        Create a Page
+                        Create an Employer account
                     </ThemedText>
                     <FormControl>
-                        <TextInput name="name" onChange={handleInputChange} placeholder='Page name' label='Page name' />
+                        <TextInput name="name" onChange={handleInputChange} placeholder='Company name' label='Company name' />
                         <ThemedText sx={{ fontSize: 13, my: 1, lineHeight: 1.2 }}>
                             Use the name of your business, brand or organization, or a name that helps explain your Page
                         </ThemedText>
                     </FormControl>
                     <FormControl>
                         <Select fullWidth onChange={handleInputChange}
-                            name='cartegory' defaultValue='Select cartegory' >
-                            <MenuItem value="Select cartegory">Select cartegory</MenuItem>
-                            {pageCartegories.map((cartegory) => (
-                                <MenuItem key={cartegory} sx={{ textTransform: 'capitalize' }} value={cartegory}>{cartegory}</MenuItem>
-                            ))}
+                            name='num_of_employess' defaultValue='Number of employees' >
+                            <MenuItem value="Number of employees">Number of employees</MenuItem>
+                            <MenuItem sx={{ textTransform: 'capitalize' }} value='1-20'>1-20</MenuItem>
+                            <MenuItem sx={{ textTransform: 'capitalize' }} value='40-80'>40-80</MenuItem>
+                            <MenuItem sx={{ textTransform: 'capitalize' }} value='80-160'>80-160</MenuItem>
+
                         </Select>
                         <ThemedText sx={{ fontSize: 13, my: 1, lineHeight: 1.2 }}>
                             Enter a category that best describes you.
                         </ThemedText>
                     </FormControl>
                     <FormControl>
+                        <TextInput name="fullname" onChange={handleInputChange} placeholder='First and last name' label='First and last name' />
+                        <ThemedText sx={{ fontSize: 13, my: 1, lineHeight: 1.2 }}>
+                            Employers Fullname
+                        </ThemedText>
+                    </FormControl>
+                    <FormControl>
+                        <TextInput name="phone_number" onChange={handleInputChange} placeholder='Phone number' label='Phone number' />
+                        <ThemedText sx={{ fontSize: 13, my: 1, lineHeight: 1.2 }}>
+                           Your phone number - not available to job seekers
+                        </ThemedText>
+                    </FormControl>
+                    <FormControl>
                         <Textarea name="bio" onChange={handleInputChange} sx={{ width: '100%', borderRadius: 1 }} minRows={3} maxLength={60} placeholder='Bio' />
                         <ThemedText sx={{ fontSize: 13, my: 1, lineHeight: 1.2 }}>
-                            Tell people a little about what you do.
+                            Tell people a little about your company.
                         </ThemedText>
                     </FormControl>
                     <FormControl>
                         <Textarea name="about" onChange={handleInputChange} sx={{ width: '100%', borderRadius: 1 }} minRows={5} placeholder='About Page' />
                         <ThemedText sx={{ fontSize: 13, my: 1, lineHeight: 1.2 }}>
-                            What is this page all about.
+                            What is this page all company.
                         </ThemedText>
                     </FormControl>
                 </Box>
                 <Footer>
                     <StyledButton onClick={handleOnClick} sx={{ flex: 1, fontWeight: 600 }}>
-                        {isUpdate ? 'Update Page' : '  Create Page'}
+                        {isUpdate ? 'Update Account' : '  Create Account'}
                     </StyledButton>
                 </Footer>
             </FormContainer>

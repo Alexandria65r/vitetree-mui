@@ -18,8 +18,9 @@ export type Payout = {
 export type Page = {
     name: string;
     pageId: string;
+    phone_number: string;
+    num_of_employees: string;
     bio: string;
-    cartegory: string;
     author: {
         id: string
     },
@@ -56,7 +57,8 @@ const _PageSchema = new mongoose.Schema<Page>({
     name: String,
     pageId: String,
     bio: String,
-    cartegory: String,
+    phone_number: String,
+    num_of_employees: String,
     author: {
         id: String
     },
@@ -81,7 +83,6 @@ export const PageSchema: Page = {
     name: '',
     pageId: '',
     bio: '',
-    cartegory: '',
     author: {
         id: ''
     },
@@ -103,5 +104,7 @@ export const PageSchema: Page = {
         }
     },
     about: '',
-    published: false
+    published: false,
+    phone_number: "",
+    num_of_employees: ''
 }

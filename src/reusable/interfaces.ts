@@ -50,7 +50,7 @@ export type StudentInfo = {
     endYear: string
     description: string
 }
-export type Role = 'tutor' | 'student' | 'creator' | 'fan' | ''
+export type Role = 'tutor' | 'student' | 'employer ' | 'job seeker' | ''
 
 export type Hired = {
     tutorId: string
