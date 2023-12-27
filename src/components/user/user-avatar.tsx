@@ -1,13 +1,13 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react'
-import { Avatar as AvatarIcon, Box, SxProps, Theme, Typography, styled, useTheme } from "@mui/material"
-import { ActiveIndicator, Avatar, ButtonIcon } from "../../reusable/styles"
+import { Avatar as AvatarIcon, Box, SxProps, Theme, styled, useTheme } from "@mui/material"
+import { Avatar, ButtonIcon } from "../../reusable/styles"
 import { Asset, UserAvatarAsset } from '../../reusable/interfaces'
-import { useAppDispatch, useAppSelector } from '../../../store/hooks'
-import { fetchUserAvatarThunk, updateUserThunk } from '../../../reducers/auth-reducer/auth-thunks'
+import { useAppDispatch } from '../../../store/hooks'
+import { fetchUserAvatarThunk } from '../../../reducers/auth-reducer/auth-thunks'
 import ImageIcon from '@mui/icons-material/Image';
 import { colorScheme } from '../../theme'
-import { createToastThunk, uploadFileThunk } from '../../../reducers/main-reducer/main-thunks'
-import { updatePageThunk } from '../../../reducers/page-reducer/page-thunks'
+import {uploadFileThunk } from '../../../reducers/main-reducer/main-thunks'
+
 import styles from './user-avatar.module.css'
 
 
@@ -43,7 +43,6 @@ const BrowseImage = styled(ButtonIcon)(({ theme }) => ({
 
 export default function UserAvatar({ userId, imageURL, changeImagePreview, avatarStyles, changeProfileImage, mode }: Props) {
     const dispatch = useAppDispatch()
-    const page = useAppSelector((state) => state.PageReducer.page)
     const [userAvatar, setUserAvatar] = useState<UserAvatarAsset>({
         publicId: '',
         secureURL: '',
@@ -80,23 +79,7 @@ export default function UserAvatar({ userId, imageURL, changeImagePreview, avata
             }))
 
             if (response.payload.publicId) {
-                page.imageAssets
-                const { payload } = await dispatch(updatePageThunk({
-                    pageId: page.pageId,
-                    target: 'profile-image',
-                    update: {
-                        imageAssets: {
-                            ...page.imageAssets,
-                            profile: response.payload
-                        }
-                    }
-
-                }))
-
-                if (payload) {
-
-                    dispatch(createToastThunk('Profile image updated succesfully'))
-                }
+              
             }
         }
         reader.readAsDataURL(files[0])

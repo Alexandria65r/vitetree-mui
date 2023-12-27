@@ -3,14 +3,12 @@ import { createWrapper } from 'next-redux-wrapper'
 import MainReducer from '../reducers/main-reducer'
 import AuthReducer from '../reducers/auth-reducer/auth-reducer'
 import NotificationsReducer from '../reducers/notification-reducer'
-import PageReducer from '../reducers/page-reducer'
 import PostReducer from '../reducers/post-reducer'
 
 const rootReducer = combineReducers({
   AuthReducer,
   MainReducer,
   NotificationsReducer,
-  PageReducer,
   PostReducer
 })
 

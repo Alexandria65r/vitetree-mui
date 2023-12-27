@@ -81,7 +81,6 @@ export default function Layout({ children }: Props) {
                 <Box
                     sx={{
                         transition: '0.3s all',
-                        display: router.pathname === '/' ? 'none' : 'block',
                         flexBasis: isSidebarOpen ? '5%' : '20%',
                         [theme.breakpoints.down('sm')]: {
                             display: 'none'

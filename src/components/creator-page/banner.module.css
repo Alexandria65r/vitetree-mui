@@ -1,8 +1,0 @@
-.coverButton {
-  display: none;
-}
-
-.container:hover .coverButton {
-  display: flex;
-}
-
