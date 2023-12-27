@@ -2,14 +2,14 @@
 
 import { NextApiRequest, NextApiResponse } from 'next'
 import connection from '../../../../database/connection'
-import { PostModel } from '../../../../models/post'
+import { JobModel } from '../../../../models/post'
 
 
 async function fetchPosts(req: NextApiRequest, res: NextApiResponse) {
     await connection()
     const limit = req.query.limit
     try {
-        const posts = await PostModel.find({}).sort({ createdAt: -1 })
+        const posts = await JobModel.find({}).sort({ createdAt: -1 })
         if (posts) {
             return res.json({ success: true, posts })
         }
@@ -20,11 +20,4 @@ async function fetchPosts(req: NextApiRequest, res: NextApiResponse) {
 }
 
 export default fetchPosts
-
-
-
-
-
-
-
 
