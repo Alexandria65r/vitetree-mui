@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 import { AppState } from "../../store/store"
 import { postActions } from "."
 import PostAPI from "../../src/api-services/post"
-import { Like, Post, PostSchema, PostType, TipSchema } from "../../src/models/post"
+import { Like, Job, JobSchema, TipSchema } from "../../src/models/post"
 import { createToastThunk } from "../main-reducer/main-thunks"
 import Randomstring from "randomstring"
 import { chargeThunk } from "../auth-reducer/auth-thunks"
@@ -12,7 +12,7 @@ import { pageActions } from "../page-reducer"
 import { mainActions } from "../main-reducer"
 
 
-export const createPostThunk = createAsyncThunk<void, PostType, { state: AppState }>
+export const createPostThunk = createAsyncThunk<void, any, { state: AppState }>
     ('authSlice/createPostThunk', async (postType, thunkAPI) => {
         const dispatch = thunkAPI.dispatch
         const state = thunkAPI.getState()
@@ -22,7 +22,7 @@ export const createPostThunk = createAsyncThunk<void, PostType, { state: AppStat
             const newPost = await PostAPI.create({
                 ...post,
                 postId: Randomstring.generate(16),
-                type: postType,
+               
                 author: {
                     userId: user?._id ?? '',
                     pageId: user?.pageInfo?.pageId ?? '',
@@ -31,7 +31,7 @@ export const createPostThunk = createAsyncThunk<void, PostType, { state: AppStat
             })
             if (newPost) {
                 dispatch(createToastThunk('Post has been published successfully'))
-                dispatch(postActions.setPost(PostSchema))
+                dispatch(postActions.setPost(JobSchema))
             }
         } catch (error) {
 
@@ -93,7 +93,7 @@ export const likePostThunk = createAsyncThunk<void, { postId: string, like: Like
         const state = thunkAPI.getState()
         const { user } = state.AuthReducer
         const { posts } = state.PostReducer
-        const post: any = posts.find((postItem) => postItem.postId === params.postId)
+        const post: any = posts.find((postItem) => postItem.jobId === params.postId)
         let likes: Like[] = [...post.likes]
         const clonedPosts = [...posts]
         const like: any = post.likes.find((likeItem: Like) => likeItem.owner === user._id)
@@ -128,7 +128,7 @@ export const sendTipThunk = createAsyncThunk<void, { postId: string }, { state: 
         const state = thunkAPI.getState()
         const user = state.AuthReducer.user
         const { tip, posts } = state.PostReducer
-        const post = posts.find((postItem) => postItem.postId === postId)
+        const post = posts.find((postItem) => postItem.jobId === postId)
         dispatch(pageActions.setPageNetworkStatus('updating'))
 
         const { payload } = await dispatch(chargeThunk({ balance: user.accountBalance, subTotal: tip.amount }))
@@ -143,7 +143,7 @@ export const sendTipThunk = createAsyncThunk<void, { postId: string }, { state: 
             }
 
             const updatePageRes = await dispatch(updatePageThunk({
-                pageId: post?.author.pageId ?? '',
+                pageId: post?.author.companyId ?? '',
                 target: 'balance',
                 update: {
                     earnings: {

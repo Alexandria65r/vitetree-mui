@@ -98,7 +98,6 @@ export default function Create({ }: Props) {
     const setPostDefaults = useCallback(() => {
         dispatch(postActions.setPost({
             ...post,
-            type: postType,
             author: { ...post?.author, pageName: user.pageInfo?.name ?? '' }
         }))
     }, [postType, post])
@@ -107,18 +106,6 @@ export default function Create({ }: Props) {
         setPostDefaults()
     }, [user, postType])
 
-
-
-    async function imageUploadHandler(base64: string) {
-        const { payload } = await dispatch(uploadFileThunk({ base64, resource_type: 'image', preset: 'image_preset' }))
-        dispatch(postActions.setPost({ ...post, postAssets: { ...post?.postAssets, image: payload } }))
-        console.log(payload)
-    }
-
-    async function videoUploadHandler(base64: string) {
-        const { payload } = await dispatch(uploadFileThunk({ base64, resource_type: 'auto', preset: 'video_preset' }))
-        dispatch(postActions.setPost({ ...post, postAssets: { ...post?.postAssets, video: payload } }))
-    }
 
     async function deleteFile(base64: string) {
         const uploadedFile = await dispatch(uploadFileThunk({ base64, resource_type: 'video', preset: 'video_preset' }))

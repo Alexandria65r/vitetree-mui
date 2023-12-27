@@ -1,15 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { Post, PostSchema, Tip } from '../../src/models/post'
+import { Job, JobSchema, Tip } from '../../src/models/post'
 
 type PostState = {
-    post: Post
-    posts: Post[]
+    post: Job
+    posts: Job[]
     tip: Tip
 }
 
 
 const initialState: PostState = {
-    post: PostSchema,
+    post: JobSchema,
     posts: [],
     tip: {
         name: '',
@@ -24,10 +24,10 @@ const postSlice = createSlice({
     name: 'postSlice',
     initialState,
     reducers: {
-        setPost: (state, { payload }: PayloadAction<Post>) => {
+        setPost: (state, { payload }: PayloadAction<Job>) => {
             state.post = payload
         },
-        setPosts: (state, { payload }: PayloadAction<Post[]>) => {
+        setPosts: (state, { payload }: PayloadAction<Job[]>) => {
             state.posts = payload
         },
         setTip: (state, { payload }: PayloadAction<Tip>) => {
