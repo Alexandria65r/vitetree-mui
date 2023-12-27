@@ -7,12 +7,11 @@ import WestIcon from '@mui/icons-material/West';
 import NotificationItem from '../../components/notification-item'
 import { BiSearchAlt } from 'react-icons/bi'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
-import { fetchInquiriesThunk } from '../../../reducers/inquiry-reducer/inquiry-thunks'
-import { inquiryActions } from '../../../reducers/inquiry-reducer'
+
 import { useRouter } from 'next/router'
 import NotificationItemSkeleton from '../../components/notification-item-sekeleton'
 import { Close, KeyboardBackspace } from '@mui/icons-material'
- 
+
 import { fetchNotificationsThunk } from '../../../reducers/notification-reducer/notifications-thunks'
 import { Notification } from '../../models/notifications'
 import { notificationActions } from '../../../reducers/notification-reducer'
@@ -81,7 +80,6 @@ export default function Notifications({ }: Props) {
     const dispatch = useAppDispatch()
     const router = useRouter()
     const isMobile = useMediaQuery('(max-width:600px)')
-    const inquiry = useAppSelector((state) => state.InquiryReducer.inquiry)
     const notification = useAppSelector((state) => state.NotificationsReducer.notification)
     const notifications = useAppSelector((state) => state.NotificationsReducer.notifications)
     const NotificationNetworkStatus = useAppSelector((state) => state.NotificationsReducer.NotificationNetworkStatus)
@@ -98,7 +96,7 @@ export default function Notifications({ }: Props) {
     useEffect(() => {
         loadInquiries()
         return () => {
-            dispatch(inquiryActions.setInquiries([]))
+
         }
     }, [dispatch, user, router.pathname])
 
@@ -194,7 +192,7 @@ export default function Notifications({ }: Props) {
                         </Typography>
                     </MainHeader>
 
-             
+
                 </MainCol>
             </Container>
         </Layout >

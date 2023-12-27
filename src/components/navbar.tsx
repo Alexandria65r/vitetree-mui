@@ -66,7 +66,7 @@ export default function NavBar() {
         <Box sx={{ flexGrow: 1, position: 'relative' }}>
             <AppBar position="static" color='default' elevation={0}>
                 <Toolbar >
-                    {router.pathname !== '/' && (
+             
                         <IconButton
                             onClick={toggleSideBar}
                             size="large"
@@ -77,7 +77,7 @@ export default function NavBar() {
                         >
                             {!isSidebarOpen ? <MenuOpenIcon /> : <MenuIcon />}
                         </IconButton>
-                    )}
+                    
 
                     <Typography
                         sx={{
