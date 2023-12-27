@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { CreatorPage, Page } from '../../../../models/page/page.model';
 import { UserModel } from '../../../../models/user';
 import connection from '../../../../database/connection';
-import { Post, PostModel } from '../../../../models/post';
+import { JobModel } from '../../../../models/post';
 
 
 
@@ -42,7 +42,7 @@ async function updateBalance(pageId: string | string[] | undefined, update: any)
         page.earnings.balance += update.earnings.amount;
         if (update.earnings?.activity.star) {
             page.earnings.activity.stars = [update.earnings.activity.star, ...page.earnings.activity.stars];
-            const post = await PostModel.findOne({ postId: update.earnings.activity.star.postId });
+            const post = await JobModel.findOne({ postId: update.earnings.activity.star.postId });
             post.tips = [update.earnings.activity.tip, ...post.tips]
             await post.save()
         } else if (update.earnings.activity?.payout) {
