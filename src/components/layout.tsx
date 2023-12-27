@@ -5,19 +5,12 @@ import _app from '../pages/_app'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { useRouter } from 'next/router'
 import ReusablePopper from './reusable-popper'
-import DuplicateTestModal from './modals/duplicate-test-modal'
-import DeleteTestModal from './modals/delete-test-modal'
-import DeletePartcipantModal from './modals/delete-partcipant-modal'
-import CartModal from './modals/cart-modal'
-import WishListModal from './modals/wishlist-modal'
 import SideBar from './side-bar'
 import { mainActions } from '../../reducers/main-reducer'
 import { LinearProgress, styled, useMediaQuery, useTheme } from '@mui/material'
 import AsideNavbar from './aside-navbar'
 import { checkAuthThunk } from '../../reducers/auth-reducer/auth-thunks'
 import Toast from './toasts/toast'
-import BottomCardMenu from './menus/bottom-card-menu'
-import ReusableModal from './modals/reusable-modal'
 
 const FlexContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -84,10 +77,7 @@ export default function Layout({ children }: Props) {
             </Box>
             <NavBar />
             <Toast />
-            <FlexContainer sx={{
-                // display: !isSidebarOpen ? 'flex' : 'block',
-
-            }}>
+            <FlexContainer>
                 <Box
                     sx={{
                         transition: '0.3s all',
@@ -112,14 +102,7 @@ export default function Layout({ children }: Props) {
                 </Box>
             </FlexContainer>
             <ReusablePopper />
-            <DuplicateTestModal />
-            <DeleteTestModal />
-            <DeletePartcipantModal />
-            <CartModal />
-            <WishListModal />
-            <BottomCardMenu />
             <SideBar />
-            <ReusableModal />
         </Box>
     )
 }

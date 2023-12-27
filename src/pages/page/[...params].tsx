@@ -12,10 +12,8 @@ import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import { fetchPageThunk, updatePageThunk } from '../../../reducers/page-reducer/page-thunks'
 import AboutPage from '../../components/creator-page/about-page'
 import PageInfo from '../../components/creator-page/page-info'
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import AddIcon from '@mui/icons-material/Add';
-import PageOptionsPopper from '../../components/creator-page/page-more-options-menu'
 import { mainActions } from '../../../reducers/main-reducer'
 import { createToastThunk } from '../../../reducers/main-reducer/main-thunks'
 import { AppSpinner } from '../../components/activity-indicators'

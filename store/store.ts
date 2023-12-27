@@ -1,39 +1,15 @@
 import { configureStore, ThunkAction, Action, combineReducers } from '@reduxjs/toolkit'
 import { createWrapper } from 'next-redux-wrapper'
 import MainReducer from '../reducers/main-reducer'
-import ChatReducer from '../reducers/chat-reducer'
-import TestReducer from '../reducers/test-reducer'
-import PartcipantReducer from '../reducers/partcipant-reducer'
 import AuthReducer from '../reducers/auth-reducer/auth-reducer'
-import CourseReducer from '../reducers/course-reducer'
-import CartReducer from '../reducers/cart-reducer'
-import WishListReducer from '../reducers/wishlist-reducer'
-import ForumReducer from '../reducers/forum-reducer'
-import InquiryReducer from '../reducers/inquiry-reducer'
 import NotificationsReducer from '../reducers/notification-reducer'
-
-import AcademicReducer from '../reducers/academic-answers-reducer'
-import DropzoneReducer from '../reducers/dropzone-reducer'
 import PageReducer from '../reducers/page-reducer'
 import PostReducer from '../reducers/post-reducer'
-
-
-
 
 const rootReducer = combineReducers({
   AuthReducer,
   MainReducer,
-  ChatReducer,
-  TestReducer,
-  PartcipantReducer,
-  CourseReducer,
-  CartReducer,
-  WishListReducer,
-  ForumReducer,
-  InquiryReducer,
   NotificationsReducer,
-  AcademicReducer,
-  DropzoneReducer,
   PageReducer,
   PostReducer
 })

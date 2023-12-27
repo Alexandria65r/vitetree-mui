@@ -4,7 +4,6 @@ import { CSS_PROPERTIES } from '../reusable'
 import { ThemedText, colorScheme } from '../theme'
 import { StyledButton, StyledButtonOutlined } from '../reusable/styles'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import { inquiryActions } from '../../reducers/inquiry-reducer'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { East } from '@mui/icons-material'
@@ -89,15 +88,8 @@ export default function JobItem({ }: Props) {
     const _theme = useTheme()
     const user = useAppSelector((state) => state.AuthReducer.user)
     const isMobile = useMediaQuery('(max-width:600px)')
-
     const [sort, _inquiry]: any = router.query.params || []
 
-
-
-    function viewPage() {
-        router.push(`/@creator_id/send-star`)
-        dispatch(inquiryActions.setInquiryNetworkStatus(''))
-    }
 
     const avatarStyles: SxProps<Theme> | undefined = {
         height: 80, width: 80,

@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AppState } from "../../store/store";
-import { cartActions } from "../cart-reducer";
+
 import PageAPI from "../../src/api-services/page";
 import { Page } from "../../src/models/page/page.model";
 import router from "next/router";
@@ -33,7 +33,7 @@ export const createPageThunk = createAsyncThunk<void, undefined, { state: AppSta
                 dispatch(pageActions.setIsFormOpen(false))
             }
         } catch (error) {
-            dispatch(cartActions.setNetworkStatus('clear-cart-error'))
+            dispatch(pageActions.setPageNetworkStatus(''))
         }
     })
 
@@ -48,7 +48,7 @@ export const fetchPageThunk = createAsyncThunk<void, string, { state: AppState }
                 dispatch(pageActions.setPageData(pageData))
             }
         } catch (error) {
-            dispatch(cartActions.setNetworkStatus('clear-cart-error'))
+            dispatch(pageActions.setPageNetworkStatus(''))
         }
     })
 export const fetchPagesThunk = createAsyncThunk<void, undefined, { state: AppState }>
@@ -60,7 +60,7 @@ export const fetchPagesThunk = createAsyncThunk<void, undefined, { state: AppSta
                 dispatch(pageActions.setPages(pages))
             }
         } catch (error) {
-            dispatch(cartActions.setNetworkStatus('clear-cart-error'))
+            dispatch(pageActions.setPageNetworkStatus(''))
         }
     })
 
@@ -79,6 +79,6 @@ export const updatePageThunk = createAsyncThunk<any, {
                 return { ...data }
             }
         } catch (error) {
-            dispatch(cartActions.setNetworkStatus(''))
+            dispatch(pageActions.setPageNetworkStatus(''))
         }
     })

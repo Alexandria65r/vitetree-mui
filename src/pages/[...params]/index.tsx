@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import Layout from '../../components/layout'
 import { styled, Box, useTheme, colors, useMediaQuery } from '@mui/material'
 import { StyledButton } from '../../reusable/styles'
-import SupportCreator from '../../components/support-creator'
+
 import Banner from '../../components/creator-page/banner'
 import { fetchPageThunk } from '../../../reducers/page-reducer/page-thunks'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
@@ -103,7 +103,6 @@ function index({ }: Props) {
                     links={['jobs', 'salaries', 'about']}
                     path={page.pageId} mode='read-only' />
                 {secondParam ? (<>
-                    {secondParam === 'send-star' && <SupportCreator page={page} />}
                     {secondParam === 'about' && <AboutPage page={page} mode='read-only' />}
                 </>) : <></>}
             </Container>

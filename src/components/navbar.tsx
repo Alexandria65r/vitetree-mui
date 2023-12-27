@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Link from 'next/link';
-import { Badge, ButtonIcon } from '../reusable/styles';
+import { ButtonIcon } from '../reusable/styles';
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import { ButtonBase, colors, styled, useMediaQuery, useTheme } from '@mui/material';
@@ -15,9 +15,9 @@ import { CSS_PROPERTIES } from '../reusable';
 import { useRouter } from 'next/router';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { mainActions } from '../../reducers/main-reducer';
-import Timer from './timer';
-import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import { cartActions } from '../../reducers/cart-reducer';
+
+
+
 import ChatOutlinedIcon from '@mui/icons-material/ChatOutlined';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
@@ -55,21 +55,15 @@ export default function NavBar() {
     const { toggleColorMode } = React.useContext(ColorModeContext)
     const isMobile = useMediaQuery('(max-width:600px)')
     const isSidebarOpen = useAppSelector((state) => state.MainReducer.isSidebarOpen)
-    const isCartOpen = useAppSelector((state) => state.CartReducer.isOpen)
-    const cartItems = useAppSelector((state) => state.CartReducer.cartItems)
-
     function toggleSideBar() {
         dispatch(mainActions.setIsSideBarOpen(!isSidebarOpen))
     }
-    function togggleCart() {
-        dispatch(cartActions.toggleCartModal(!isCartOpen))
-    }
+
 
 
 
     return (
         <Box sx={{ flexGrow: 1, position: 'relative' }}>
-            {router.pathname.includes('/partcipate') && <Timer pathName={router.pathname} />}
             <AppBar position="static" color='default' elevation={0}>
                 <Toolbar >
                     {router.pathname !== '/' && (

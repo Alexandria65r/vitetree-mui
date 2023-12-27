@@ -1,23 +1,8 @@
-import styled from '@emotion/styled'
-import { ClickAwayListener, IconButton, Popper, Typography } from '@mui/material'
+
+import { ClickAwayListener, IconButton, Popper } from '@mui/material'
 import { Box } from '@mui/system'
-import { BsInfoCircle } from 'react-icons/bs'
-import { MdClose } from 'react-icons/md'
 import { mainActions } from '../../reducers/main-reducer'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
-
-import * as types from '../reusable'
-import FilesOptions from './chat/files-options'
-import MessageMoreOptions from './chat/message-more-options/message-more-options'
-import ReactToMessage from './chat/react-to-message/react-to-message'
-import TestCardOptions from './test-card-options'
-
-const AlertClose = styled(IconButton)({
-    position: 'absolute',
-    right: 5,
-    top: 2,
-})
-
 
 export default function ReusablePopper() {
     const dispatch = useAppDispatch()
@@ -52,9 +37,7 @@ export default function ReusablePopper() {
             // placement={'bottom-end'}
             >
                 <Box className='animated-popper'>
-                    {popperState.component === types.REUSABLE_POPPER.FilesOptions.component && <FilesOptions />}
-                    {popperState.component === types.REUSABLE_POPPER.ReactToMessage.component && <ReactToMessage />}
-                    {popperState.component === types.REUSABLE_POPPER.MessageMoreOptions.component && <MessageMoreOptions />}
+                   
                 </Box>
 
             </Popper>

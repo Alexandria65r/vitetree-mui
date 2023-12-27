@@ -30,10 +30,10 @@ const Container = styled(Box)(({ theme }) => ({
         margin: '10px auto',
     },
     [theme.breakpoints.up("md")]: {
-        width: '70%',
+        width: '90%',
     },
     [theme.breakpoints.up("xl")]: {
-        width: '95%',
+        width: '80%',
     }
 }))
 
@@ -49,7 +49,7 @@ const PageTitle = styled(Box)(() => ({
 }))
 
 const JobResults = styled(Box)(({ theme }) => ({
-    display: 'grid',
+    display: 'flex',
     flexWrap: 'wrap',
     gridTemplateColumns: '35% 60%',
     justifyContent: 'space-',
@@ -63,11 +63,13 @@ const JobResults = styled(Box)(({ theme }) => ({
     }
 }))
 const JobsCol = styled(Box)(() => ({
+    flex:1,
     display: 'grid',
     gap: 10
 }))
 const JobPreviewCol = styled(Box)(({theme}) => ({
-    position: 'sticky',
+    //position: 'sticky',
+    flexBasis:'60%',
     top: 0,
     [theme.breakpoints.down("sm")]: {
         display: 'none'
