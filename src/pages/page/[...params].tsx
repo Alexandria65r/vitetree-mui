@@ -14,10 +14,12 @@ import AboutPage from '../../components/creator-page/about-page'
 import PageInfo from '../../components/creator-page/page-info'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import AddIcon from '@mui/icons-material/Add';
 import PageOptionsPopper from '../../components/creator-page/page-more-options-menu'
 import { mainActions } from '../../../reducers/main-reducer'
 import { createToastThunk } from '../../../reducers/main-reducer/main-thunks'
 import { AppSpinner } from '../../components/activity-indicators'
+import Link from 'next/link'
 
 const Container = styled(Box)(({ theme }) => ({
     position: 'relative',
@@ -96,12 +98,22 @@ export default function Creator({ }: Props) {
             dispatch(mainActions.setModal({ component: 'page-more-options-menu' }))
         }
     }
-
+    //todo: if more options we will use this button :)
+    //lets keep things simple for now
     const MainButton = () => (
         <StyledButton onClick={openMoreOptionsMenu}
             sx={{ flexBasis: '70%', fontWeight: 700, borderBottom: `0 px solid ${colors.teal[500]}` }}>
             more options <KeyboardArrowDownIcon sx={{ ml: 1 }} />
         </StyledButton>
+    )
+
+    const PostAJobButton = () => (
+        <Link href='/new-job'>
+            <StyledButton
+                sx={{ flexBasis: '70%', fontWeight: 700, borderBottom: `0 px solid ${colors.teal[500]}` }}>
+                <AddIcon/>  Post a Job 
+            </StyledButton>
+        </Link>
     )
 
 
@@ -111,7 +123,7 @@ export default function Creator({ }: Props) {
         } else {
 
             const { payload } = await dispatch(updatePageThunk({
-                pageId:page.pageId,
+                pageId: page.pageId,
                 target: 'other',
                 update: {
                     published: true
@@ -144,9 +156,9 @@ export default function Creator({ }: Props) {
                 )}
                 <Banner mode='author' />
                 <PageInfo
-                    mainButton={<MainButton />}
+                    mainButton={<PostAJobButton />}
                     page={page}
-                    links={['send-star', 'exclusive', 'about']}
+                    links={['jobs', 'salaries', 'about',]}
                     path={`page/${page.pageId}`} mode='author' />
                 {secondParam === 'about' && <AboutPage page={page} mode='author' />}
             </Container>

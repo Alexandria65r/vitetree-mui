@@ -138,31 +138,13 @@ function PageMoreOptionsMenu({ }: Props) {
 
 
                     <MenuItemButton>
-                        <Link href='/create/video'>
+                        <Link href='/new-job'>
                             <SmartDisplayIcon />
-                            <ThemedText sx={{ fontSize: 14 }}>Video</ThemedText>
+                            <ThemedText sx={{ fontSize: 14 }}>New Job</ThemedText>
                         </Link>
 
                     </MenuItemButton>
-                    <MenuItemButton >
-                        <Link href='/create/audio'>
-                            <MicIcon />
-                            <ThemedText sx={{ fontSize: 14 }}>Audio</ThemedText>
-                        </Link>
-                    </MenuItemButton>
-                    <MenuItemButton>
-                        <Link href='/create/text'>
-                            <FontDownloadIcon />
-                            <ThemedText sx={{ fontSize: 14 }}>Text</ThemedText>
-                        </Link>
-                    </MenuItemButton>
-                    <MenuItemButton>
-                        <Link href='/create/photo'>
-                            <ImageIcon />
-                            <ThemedText sx={{ fontSize: 14 }}>Image</ThemedText>
-                        </Link>
-                    </MenuItemButton>
-
+                    
                 </CreateContainer>
 
 

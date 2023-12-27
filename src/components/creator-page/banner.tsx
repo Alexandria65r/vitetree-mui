@@ -10,14 +10,16 @@ import { updatePageThunk } from '../../../reducers/page-reducer/page-thunks'
 import styles from './banner.module.css'
 
 const Container = styled(Box)(({ theme }) => ({
-    position: 'relative', height: '100%', marginBottom: '65px',
+    position: 'relative', height: '100%', marginBottom: '30px',
     [theme.breakpoints.down('sm')]: {
         height: 160,
         margin: 10,
     },
 }))
 const BannerWrapper = styled(Box)(({ theme }) => ({
-    height: 260,
+    height: 240,
+    width: '80%',
+    margin: 'auto',
     borderRadius: 10,
     backgroundColor: colorScheme(theme).grayToSecondaryColor,
     backgroundRepeat: 'no-repeat',
@@ -25,6 +27,7 @@ const BannerWrapper = styled(Box)(({ theme }) => ({
     backgroundSize: 'cover',
     border: `1px solid ${colorScheme(theme).grayToSecondaryColor}`,
     [theme.breakpoints.down('sm')]: {
+        width: '100%',
         height: 130,
         margin: 5,
     },
@@ -104,34 +107,12 @@ export default function Banner({ mode }: Props) {
                         Set cover
                     </SetCoverButton>
                 )}
-
             </BannerWrapper>
 
-            <UserAvatar imageURL={page.imageAssets.profile.secureURL} mode={mode} avatarStyles={avatarStyles} />
+            
             <input type='file' ref={fileRef} hidden onChange={fileOnChange} />
         </Container>
     )
 }
 
 
-const avatarStyles: SxProps<Theme> = (_theme) => ({
-    height: 180, width: 180,
-    position: 'absolute',
-    left: '18%',
-    bottom: '-248px',
-    border: `1px solid ${colorScheme(_theme).grayToSecondaryColor}`,
-    [_theme.breakpoints.down('sm')]: {
-        left: '50%',
-        transform: 'translateX(-50%)',
-        height: 80, width: 80,
-        bottom: '-31px',
-    },
-    [_theme.breakpoints.up('md')]: {
-        left: '11%',
-        bottom: '-248px',
-    },
-    [_theme.breakpoints.up('xl')]: {
-        left: '18%',
-        bottom: '-248px',
-    }
-})

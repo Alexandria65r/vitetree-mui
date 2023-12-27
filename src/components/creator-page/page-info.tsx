@@ -17,10 +17,10 @@ import DoneIcon from '@mui/icons-material/Done';
 import { AppSpinner } from "../activity-indicators"
 import hexToRgba from 'hex-to-rgba';
 import { pageActions } from "../../../reducers/page-reducer"
+import UserAvatar from "../user/user-avatar"
 
 
 const Container = styled(Box)(({ theme }) => ({
-    marginTop: 36,
     display: 'grid',
     justifyContent: 'center',
     alignItems: 'center',
@@ -29,16 +29,34 @@ const Container = styled(Box)(({ theme }) => ({
         marginTop: 36
     }
 }))
+const Wrapper = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    gap: 12,
+    alignItems: 'center',
+    [theme.breakpoints.down('sm')]: {
+        gap: 0,
+        flexWrap: 'wrap',
+    }
+}))
 const InfoHead = styled(Box)(({ theme }) => ({
     width: '100%',
     margin: 'auto',
-    marginBottom: 8,
     justifyContent: 'center',
     [theme.breakpoints.down('sm')]: {
-        width: '100%',
+        flexBasis: '100%',
     }
 }))
 
+const AvatarWrapper = styled(Box)(({ theme }) => ({
+    position:'relative',
+    marginBottom:8,
+    [theme.breakpoints.down('sm')]: {
+        flexBasis: '100%', display: 'flex',
+        justifyContent: 'center',
+         marginTop: -98,
+        zIndex: 30
+    }
+}))
 const SocialLinks = styled(Box)(({ theme }) => ({
     position: 'relative',
     display: 'flex', justifyContent: 'center',
@@ -115,48 +133,36 @@ export default function PageInfo({ page, links, path, mode, mainButton }: Props)
 
 
     return (<Container>
-        <InfoHead>
-            <ThemedText sx={{ textTransform: 'capitalize', mb: 1, textAlign: 'center', fontSize: 24, fontWeight: 700 }}>
-                {page.name || 'Page Name'}
-            </ThemedText>
-            <Box sx={(theme) => ({
-                width: 260, position: 'relative', padding: 1,
-                border: isBio ? `1px solid ${colors.teal[500]}` : '',
-                bgcolor: mode === 'author' ? hexToRgba(`${colorScheme(theme).grayToSecondaryColor}`, isBio ? '1' : '0.3') : 'unset', borderRadius: 10,
-            })}>
-                {mode === 'author' && <EditButton
-                    sx={{ position: 'absolute', top: -14, right: -24, height: 30, width: 30, color: colors.teal[500] }}
-                    loadingState={isBio} toggleUpdateHandler={toggleUpdateBio} />}
-                <ThemedText ref={bioRef} contentEditable={mode === 'author' && isBio === 'editting'}
-                    sx={{ textAlign: 'center', outline: 'none', fontSize: 13, lineHeight: 1.2, }}>
-                    {page.bio || 'Update you page bio.'}
+        <Wrapper>
+            <AvatarWrapper>
+                <UserAvatar imageURL={page.imageAssets.profile.secureURL} mode={mode} avatarStyles={avatarStyles} />
+            </AvatarWrapper>
+            <InfoHead>
+                <ThemedText sx={{ textTransform: 'capitalize', mb: 1, textAlign: 'center', fontSize: 24, fontWeight: 700 }}>
+                    {page.name || 'Page Name'}
                 </ThemedText>
-            </Box>
-            <Box sx={{ display: 'flex', gap: 1, mt: 1, alignItems: 'center' }}>
-                {mainButton}
-                <StyledButton
-                    sx={(theme) => ({ fontSize: 14, bgcolor: colorScheme(theme).grayToSecondaryColor, color: colorScheme(theme).TextColor })}>
-                    <IosShareIcon sx={{ mb: .8, fontSize: 18 }} /> Share
-                </StyledButton>
-            </Box>
-        </InfoHead>
-        <SocialLinks>
-            {mode === 'author' && <EditButton
-                sx={{ position: 'absolute', top: 3, right: 0, height: 30, width: 30, color: colors.teal[500] }}
-                loadingState={isLinks} toggleUpdateHandler={toggleUpdateLinks} />}
-            <ButtonIcon sx={{ color: colors.blue[500] }}>
-                <FacebookOutlinedIcon />
-            </ButtonIcon>
-            <ButtonIcon>
-                <FaXTwitter />
-            </ButtonIcon>
-            <ButtonIcon sx={{ color: colors.red[500] }}>
-                <YouTubeIcon />
-            </ButtonIcon>
-            <ButtonIcon>
-                <FaTiktok />
-            </ButtonIcon>
-        </SocialLinks>
+                <Box sx={(theme) => ({
+                    width: 260, position: 'relative', padding: 1,
+                    border: isBio ? `1px solid ${colors.teal[500]}` : '',
+                    bgcolor: mode === 'author' ? hexToRgba(`${colorScheme(theme).grayToSecondaryColor}`, isBio ? '1' : '0.3') : 'unset', borderRadius: 10,
+                })}>
+                    {mode === 'author' && <EditButton
+                        sx={{ position: 'absolute', top: -14, right: -24, height: 30, width: 30, color: colors.teal[500] }}
+                        loadingState={isBio} toggleUpdateHandler={toggleUpdateBio} />}
+                    <ThemedText ref={bioRef} contentEditable={mode === 'author' && isBio === 'editting'}
+                        sx={{ textAlign: 'center', outline: 'none', fontSize: 13, lineHeight: 1.2, }}>
+                        {page.bio || 'Update you page bio.'}
+                    </ThemedText>
+                </Box>
+                <Box sx={{ display: 'flex', gap: 1, mt: 1, alignItems: 'center' }}>
+                    {mainButton}
+                    <StyledButton
+                        sx={(theme) => ({ fontSize: 14, bgcolor: colorScheme(theme).grayToSecondaryColor, color: colorScheme(theme).TextColor })}>
+                        <IosShareIcon sx={{ mb: .8, fontSize: 18 }} /> Share
+                    </StyledButton>
+                </Box>
+            </InfoHead>
+        </Wrapper>
         <PageTabs links={links} path={path} mode={mode} />
     </Container>)
 }
@@ -171,3 +177,12 @@ const EditButton = ({ loadingState, toggleUpdateHandler, sx }: EditButtonProp) =
         {loadingState === 'loading' ? <AppSpinner visible={true} /> : loadingState === 'editting' ? <DoneIcon sx={{ fontSize: 14 }} /> : <EditIcon sx={{ fontSize: 14 }} />}
     </ButtonIcon>
 )
+
+const avatarStyles: SxProps<Theme> = (_theme) => ({
+    height: 180, width: 180,
+    border: `1px solid ${colorScheme(_theme).grayToSecondaryColor}`,
+    [_theme.breakpoints.down('sm')]: {
+        height: 80, width: 80,
+    },
+
+})

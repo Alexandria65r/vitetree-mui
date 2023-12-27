@@ -198,3 +198,8 @@ a {
     transform: translateX(0);
   }
 }
+
+
+.MuiTabs-flexContainer{
+  background-color: transparent!important;
+}

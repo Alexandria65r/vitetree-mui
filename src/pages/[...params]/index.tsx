@@ -1,22 +1,13 @@
 import { useRouter } from 'next/router'
 import React, { useCallback, useEffect, useState } from 'react'
 import Layout from '../../components/layout'
-import { styled, Box, Theme, SxProps, useTheme, colors, useMediaQuery } from '@mui/material'
-import { ThemedText, colorScheme } from '../../theme'
-import UserAvatar from '../../components/user/user-avatar'
-import { ButtonIcon, StyledButton } from '../../reusable/styles'
-import IosShareIcon from '@mui/icons-material/IosShare';
-import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
-import { FaXTwitter } from "react-icons/fa6";
-import { FaTiktok } from "react-icons/fa";
-import YouTubeIcon from '@mui/icons-material/YouTube';
-import PageTabs from '../../components/creator-page/page-tab-bar'
+import { styled, Box, useTheme, colors, useMediaQuery } from '@mui/material'
+import { StyledButton } from '../../reusable/styles'
 import SupportCreator from '../../components/support-creator'
 import Banner from '../../components/creator-page/banner'
 import { fetchPageThunk } from '../../../reducers/page-reducer/page-thunks'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import AboutPage from '../../components/creator-page/about-page'
-import EditIcon from '@mui/icons-material/Edit';
 import PageInfo from '../../components/creator-page/page-info'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { mainActions } from '../../../reducers/main-reducer'
@@ -109,7 +100,7 @@ function index({ }: Props) {
                 <PageInfo
                     page={page}
                     mainButton={<MainButton />}
-                    links={['send-star', 'media', 'about']}
+                    links={['jobs', 'salaries', 'about']}
                     path={page.pageId} mode='read-only' />
                 {secondParam ? (<>
                     {secondParam === 'send-star' && <SupportCreator page={page} />}

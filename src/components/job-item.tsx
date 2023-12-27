@@ -83,7 +83,7 @@ type Props = {
 
 
 
-export default function PageItem({ }: Props) {
+export default function JobItem({ }: Props) {
     const dispatch = useAppDispatch()
     const router = useRouter()
     const _theme = useTheme()

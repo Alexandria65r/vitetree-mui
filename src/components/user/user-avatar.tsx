@@ -24,19 +24,19 @@ type Props = {
 const BrowseImage = styled(ButtonIcon)(({ theme }) => ({
     position: 'absolute',
     zIndex: 200,
-    bottom: -4,
-    left: '50%',
+    bottom: -5,
+    right: '0%',
     color: '#000',
-    transform: 'translateX(87%)',
     backgroundColor: '#fff',
     boxShadow: `0 1px 3px 0 ${colorScheme(theme).shadowColor}`,
     '&:hover': {
         backgroundColor: '#fff',
     },
     [theme.breakpoints.down('sm')]: {
+        left: '50%',
         width: 35,
         height: 35,
-        bottom: -6,
+        bottom: 25,
         transform: 'translateX(60%)',
     }
 }))

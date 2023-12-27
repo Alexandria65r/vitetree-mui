@@ -48,7 +48,9 @@ export default function PageTabs({ links, path, mode }: Props) {
                         backgroundColor: colors.teal[500]
                     }
                 }}
-                value={value} sx={{ minHeight: 0, height: 'auto', justifyContent: 'center', backgroundColor: 'transparent' }} onChange={handleChange} aria-label="basic tabs example">
+                value={value}
+                sx={{ minHeight: 0, height: 'auto', justifyContent: 'center', backgroundColor: 'transparent' }}
+                onChange={handleChange} aria-label="basic tabs example">
                 {links.map((link, index) => (
                     <Tab
                         key={index}

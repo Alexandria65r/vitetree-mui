@@ -4,7 +4,7 @@ import { Box, Typography, colors, styled, useTheme } from '@mui/material'
 import { useRouter } from 'next/router'
 import { CSS_PROPERTIES } from '../../reusable'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
-import TutorItem from '../../components/tutor-item'
+import JobItem from '../../components/job-item'
 import { SearchInput, SearchInputWrap, StyledButton, TabButton } from '../../reusable/styles'
 import SearchIcon from '@mui/icons-material/Search';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
@@ -208,7 +208,7 @@ export default function Tutors({ }: Props) {
                             </ViewJobButton>
                         </PageTitle>
                         {[1, 2, 3, 4, 5, 6, 7].map((page, index) => (
-                            <TutorItem key={index} />
+                            <JobItem key={index} />
                         ))}
                     </JobsCol>
                     <JobPreviewCol>

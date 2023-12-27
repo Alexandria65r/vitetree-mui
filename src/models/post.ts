@@ -14,7 +14,7 @@ export type Star = {
 }
 export type Tip = {
     owner?: string;
-    postId?: string;
+    jobId?: string;
     name: string;
     emoji: string;
     amount: number;
@@ -23,31 +23,28 @@ export type Tip = {
 export type Like = {
     name: 'like' | 'love' | 'angry' | 'sad' | 'haha' | 'wow' | ''
     owner?: string 
-    postId?: string;
+    jobId?: string;
     emoji: string;
 }
 export type Payout = {
 
 }
 
-export type PostType = 'video' | 'photo' | 'photo-with-audio' | 'audio' | 'text' | '';
+export type JobType = 'video' | 'photo' | 'photo-with-audio' | 'audio' | 'text' | '';
 
-export type Post = {
+export type Job = {
     save?: any;
     title: string;
-    postId: string;
+    jobId: string;
     description: string;
     cartegory?: string;
-    type: PostType;
     author: {
         userId: string
-        pageId: string
+        companyId: string
         pageName: string
         profileAsset?:Asset
     },
-    likes: Like[],
-    tips: Tip[],
-    postAssets: {
+    jobAssets: {
         audio?: Asset;
         image?: Asset;
         video?: Asset;
@@ -59,40 +56,34 @@ export type Post = {
 
 
 
-const _PostSchema = new mongoose.Schema<Post>({
+const _JobSchema = new mongoose.Schema<Job>({
     title: String,
-    postId: String,
+    jobId: String,
     description: { type: String, required: false },
     cartegory: String,
-    type: String,
     author: {
-        userId: String,
+        companyId: String,
         pageId: String,
         pageName: String
     },
-    likes: Array,
-    tips: Array,
-    postAssets: { type: Object, required: false },
+    jobAssets: { type: Object, required: false },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
 });
 
 
-export const PostModel = mongoose.models?.post || mongoose.model<Post>("post", _PostSchema);
+export const JobModel = mongoose.models?.job || mongoose.model<Job>("job", _JobSchema);
 
-export const PostSchema: Post = {
+export const JobSchema: Job = {
     title: '',
-    postId: '',
+    jobId: '',
     description: '',
-    type: '',
     author: {
         userId: "",
-        pageId: "",
+        companyId: "",
         pageName: ""
     },
-    likes: [],
-    tips: [],
-    postAssets: {
+    jobAssets: {
         audio: undefined,
         image: undefined,
         video: undefined
@@ -104,7 +95,7 @@ export const PostSchema: Post = {
 export const LikeSchema: Like = {
     name: '',
     owner: '',
-    postId: '',
+    jobId: '',
     emoji: '',
 }
 export const TipSchema: Tip = {
