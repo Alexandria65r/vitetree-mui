@@ -1,54 +1,55 @@
 
 import axios from 'axios'
-import { Post } from '../models/post'
-export default class PostAPI {
+import { Job } from '../models/post'
 
-    static async create(newVideo: Post) {
-        const { data } = await axios.post('/api/post/create', newVideo)
+export default class JobAPI {
+
+    static async create(newVideo: Job) {
+        const { data } = await axios.post('/api/job/create', newVideo)
         if (data.success) {
-            return data.newPost as Post
+            return data.newJob as Job
         }
     }
 
     static update(id: string,update:any) {
-        return axios.put(`/api/post/update/${id}`,update)
+        return axios.put(`/api/job/update/${id}`,update)
     }
 
 
     static delete(id: string) {
-        return axios.delete(`/api/post/delete/${id}`)
+        return axios.delete(`/api/job/delete/${id}`)
     }
 
-    static async fetchPost(id: string) {
-        const { data } = await axios.get(`/api/post/fetch-post/${id}`)
+    static async fetchJob(id: string) {
+        const { data } = await axios.get(`/api/job/fetch-job/${id}`)
         if (data.success) {
-            return data.post as Post
-        }
-    }
-
-    static async fetchPosts() {
-        const { data } = await axios.get(`/api/post/fetch-posts/limit`)
-        if (data.success) {
-            return data.posts as Post[]
+            return data.job as Job
         }
     }
 
-    static async fetchAll(type: 'introduction' | 'post') {
-        const { data } = await axios.get(`/api/post/fetch-all/${type}`)
+    static async fetchJobs() {
+        const { data } = await axios.get(`/api/job/fetch-jobs/limit`)
         if (data.success) {
-            return data.posts as Post[]
+            return data.jobs as Job[]
         }
     }
-    static async fetchOwnPosts(id: string, type: 'introduction' | 'post') {
-        const { data } = await axios.get(`/api/post/fetch-own-posts/${id}/${type}`)
+
+    static async fetchAll(type: 'introduction' | 'job') {
+        const { data } = await axios.get(`/api/job/fetch-all/${type}`)
         if (data.success) {
-            return data.posts as Post[]
+            return data.jobs as Job[]
         }
     }
-    static async fetchPurchasedPosts(owner: string) {
-        const { data } = await axios.get(`/api/post/fetch-purchased-posts/${owner}`)
+    static async fetchOwnJobs(id: string, type: 'introduction' | 'job') {
+        const { data } = await axios.get(`/api/job/fetch-own-jobs/${id}/${type}`)
         if (data.success) {
-            return data.posts as Post[]
+            return data.jobs as Job[]
+        }
+    }
+    static async fetchPurchasedJobs(owner: string) {
+        const { data } = await axios.get(`/api/job/fetch-purchased-jobs/${owner}`)
+        if (data.success) {
+            return data.jobs as Job[]
         }
     }
 

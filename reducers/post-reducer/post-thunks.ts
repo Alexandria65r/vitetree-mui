@@ -21,11 +21,10 @@ export const createPostThunk = createAsyncThunk<void, any, { state: AppState }>
         try {
             const newPost = await PostAPI.create({
                 ...post,
-                postId: Randomstring.generate(16),
-               
+                jobId: Randomstring.generate(16),
                 author: {
                     userId: user?._id ?? '',
-                    pageId: user?.pageInfo?.pageId ?? '',
+                    companyId: user?.pageInfo?.pageId ?? '',
                     pageName: user?.pageInfo?.name ?? '',
                 }
             })
@@ -42,7 +41,7 @@ export const fetchPostsThunk = createAsyncThunk<void, undefined, { state: AppSta
         const dispatch = thunkAPI.dispatch
         const state = thunkAPI.getState()
         try {
-            const posts = await PostAPI.fetchPosts()
+            const posts = await PostAPI.fetchJobs()
             if (posts) {
                 dispatch(postActions.setPosts(posts))
             }
@@ -57,7 +56,7 @@ export const fetchPostThunk = createAsyncThunk<void, string, { state: AppState }
         const dispatch = thunkAPI.dispatch
         const state = thunkAPI.getState()
         try {
-            const post = await PostAPI.fetchPost(postId)
+            const post = await PostAPI.fetchJob(postId)
             if (post) {
                 dispatch(postActions.setPosts([post]))
             }
