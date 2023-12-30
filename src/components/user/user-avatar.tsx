@@ -10,17 +10,6 @@ import {uploadFileThunk } from '../../../reducers/main-reducer/main-thunks'
 
 import styles from './user-avatar.module.css'
 
-
-type Props = {
-    mode?: 'author' | 'read-only' | ''
-    userId?: string
-    imageURL?: string
-    changeImagePreview?: any
-    avatarStyles: SxProps<Theme>
-    changeProfileImage?: () => void
-}
-
-
 const BrowseImage = styled(ButtonIcon)(({ theme }) => ({
     position: 'absolute',
     zIndex: 200,
@@ -40,6 +29,17 @@ const BrowseImage = styled(ButtonIcon)(({ theme }) => ({
         transform: 'translateX(60%)',
     }
 }))
+
+type Props = {
+    mode?: 'author' | 'read-only' | ''
+    userId?: string
+    imageURL?: string
+    changeImagePreview?: any
+    avatarStyles: SxProps<Theme>
+    changeProfileImage?: () => void
+}
+
+
 
 export default function UserAvatar({ userId, imageURL, changeImagePreview, avatarStyles, changeProfileImage, mode }: Props) {
     const dispatch = useAppDispatch()

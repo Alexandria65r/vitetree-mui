@@ -73,7 +73,7 @@ function InteractionPopper({ }: Props) {
 
     const imageURL = user.interaction === 'employer ' ? user.pageInfo?.photoURL : user.imageAsset?.secureURL
     return (
-        <PopupState variant='popper'>
+    <PopupState variant='popper'>
             {(popupState) => (
 
                 <>

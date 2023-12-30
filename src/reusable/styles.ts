@@ -269,3 +269,23 @@ export const StyledBox = styled(Box)(({ theme }) => ({
     boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
     backgroundColor:colorScheme(theme).lightToSecondaryColor
 }))
+
+
+export const OptionButton = styled(ButtonIcon)(({ theme }) => ({
+    width: 40,
+    height: 40,
+    margin: 0,
+    borderRadius: 15,
+    backgroundColor: colorScheme(theme).lightToSecondaryColor,
+    color: colorScheme(theme).TextColor,
+    boxShadow: `0 1px 3px 0 ${colorScheme(theme).grayToprimaryColor}`
+}))
+
+export const PickerButton = styled(StyledButton)(({ theme }) => ({
+    flex: 1,
+    display: 'flex',
+    alignItems: 'center',
+    gap: 10,
+    fontSize: 14,
+    borderRadius: 5
+}))

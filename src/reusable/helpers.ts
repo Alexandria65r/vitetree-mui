@@ -1,7 +1,6 @@
 import { FormatMoney } from "format-money-js";
 import moment from "moment";
 import { Choice, Role, TutorService } from "./interfaces";
-import { Task } from "../models/task";
 
 
 const fm = new FormatMoney({
@@ -133,14 +132,43 @@ export function nomalizedText(subjects: string[], index: number) {
 }
 
 /// to be used in tasks
-export function getSwapedTaskUserInfo(role: Role, task: Task) {
-    if (role === 'student') return task.tutorInfo;
-    return task.studentInfo
-}
+// export function getSwapedTaskUserInfo(role: Role, task: Task) {
+//     if (role === 'student') return task.tutorInfo;
+//     return task.studentInfo
+// }
 
 
 
 
-export function formatMoney(amount:number) {
+export function formatMoney(amount: number) {
     return fm.from(amount) as any
 }
+
+
+export const colors = [
+    // "#ffffff",
+    // "#d0d1df",
+    // "#f44336",
+    "#e91e63",
+    "#9c27b0",
+    "#c5a5ff",
+    "#673ab7",
+    "#3f51b5",
+    "#2196f3",
+    "#03a9f4",
+    "#00bcd4",
+    "#009688",
+    "#4caf50",
+    "#8bc34a",
+    "#cddc39",
+    "#b7a616",
+    "#ffc107", //14
+    "#ff9800",
+    "#ff5722",
+    "#795548",
+    "#607d8b",
+    "#2BD8AD",
+    "#adadad",
+    "#464646",
+    "#111111",
+];

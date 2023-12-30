@@ -7,12 +7,13 @@ import InfoItem from './info-item'
 import { RiBankCard2Line } from 'react-icons/ri'
 import { Add } from '@mui/icons-material'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
-import AddNewCardModal from '../modals/add-new-card'
+
 import { authActions } from '../../../reducers/auth-reducer/auth-reducer'
 import { fetchCardsThunk } from '../../../reducers/auth-reducer/auth-thunks'
 import ChevronRightOutlinedIcon from '@mui/icons-material/ChevronRightOutlined';
 import CardItem from './card-item'
-import RemoveCartAlert from '../modals/remove-card-modal'
+
+import AddNewCardModal from '../menus/add-new-card'
 
 const Container = styled(Box)(({ theme }) => ({
   width: '60%',
@@ -62,7 +63,6 @@ export default function PaymentMethods({ }: Props) {
         </StyledButton>
       </Container>
       <AddNewCardModal />
-      <RemoveCartAlert />
     </Layout>
   )
 }

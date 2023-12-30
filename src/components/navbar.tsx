@@ -37,10 +37,10 @@ const Button = styled(ButtonBase)(({ theme }) => ({
 
 const AppBar = styled(AppNavigationBar)(({ theme }) => ({
    
-    //  boxShadow: `0 1px 3px 0 ${isDarkMode(theme) ? colors.grey[800] :'transparent'}`,
-    //borderBottom: `1px solid ${colorScheme(theme).secondaryColor}`,
-    // backgroundColor: colorScheme(theme).primaryToGrey100Color,
-    backgroundColor: 'transparent',
+     //boxShadow: `0 1px 3px 0 ${isDarkMode(theme) ? colors.grey[800] :'transparent'}`,
+    borderBottom: `1px solid ${colorScheme(theme).grayToSecondaryColor}`,
+     backgroundColor: colorScheme(theme).lightToprimaryColor,
+
     [theme.breakpoints.down('sm')]:{
        
     }
@@ -87,7 +87,7 @@ export default function NavBar() {
                             flexGrow: 1, color: colors.teal[400]
                         }}>
                         <Link href={user?._id ? '/find-jobs/q=nothing' : '/'}>
-                            Jobstrap
+                            Vitetree
                         </Link>
                     </Typography>
             
