@@ -11,7 +11,7 @@ import { colorScheme } from '../../theme';
 import PopupState, { bindPopover, bindTrigger } from 'material-ui-popup-state'
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import classes from '../../styles/reusable.module.css'
-import { Participant, Test } from '../../reusable/interfaces';
+
 import { useRouter } from 'next/router';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { StyledButton } from '../../reusable/styles';
