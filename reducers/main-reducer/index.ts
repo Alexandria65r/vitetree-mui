@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { HYDRATE } from 'next-redux-wrapper'
-import { DeletePartcipantModal, DeleteTestModal, DuplicateTestModal, ModalComponent, PopperState, Toast } from '../../src/reusable/interfaces'
-import { testDataSchema } from '../../src/reusable/schemas'
+import { Toast } from '../../src/reusable/interfaces';
+
+
 
 
 type CardMenu = {
@@ -18,45 +19,23 @@ type Modal = {
 
 
 interface State {
-    popperState: PopperState
     showSelectedImage: boolean
     isMultipleChoiceEnabled: boolean;
     isOneWordAnswerEnabled: boolean;
     isDiagramQuestion: boolean;
     isSidebarOpen: boolean
-    duplicateTestModal: DuplicateTestModal
-    deleteTestModal: DeleteTestModal
-    deletePartcipantModal: DeletePartcipantModal
     toasts: Toast[]
     cardMenu: CardMenu
     modal: Modal
 
 }
 const initialState: State = {
-    popperState: {
-        component: '',
-        popperId: '',
-        placement: ''
-    },
     showSelectedImage: false,
     isMultipleChoiceEnabled: false,
     isOneWordAnswerEnabled: false,
     isDiagramQuestion: false,
     isSidebarOpen: false,
-    duplicateTestModal: {
-        component: 'close',
-        testData: testDataSchema
-    },
-    deleteTestModal: {
-        component: 'close',
-        testId: '',
-        subject: ''
-    },
-    deletePartcipantModal: {
-        component: 'close',
-        partcipantId: '',
-        fullname: '',
-    },
+
     toasts: [],
     cardMenu: {
         component: '',
@@ -78,9 +57,7 @@ const mainSlice = createSlice({
         closeToast: (state, { payload }: PayloadAction<string>) => {
             state.toasts = state.toasts.filter((toast) => toast.id !== payload)
         },
-        setPopperState: (state, { payload }: PayloadAction<PopperState>) => {
-            state.popperState = payload
-        },
+      
         setShowSelectedImage: (state, { payload }: PayloadAction<boolean>) => {
             state.showSelectedImage = payload
         },
@@ -95,15 +72,6 @@ const mainSlice = createSlice({
         },
         setIsSideBarOpen: (state, { payload }: PayloadAction<boolean>) => {
             state.isSidebarOpen = payload
-        },
-        setDuplicateTestModal: (state, { payload }: PayloadAction<DuplicateTestModal>) => {
-            state.duplicateTestModal = payload
-        },
-        setDeleteTestModal: (state, { payload }: PayloadAction<DeleteTestModal>) => {
-            state.deleteTestModal = payload
-        },
-        setDeletePartcipantModal: (state, { payload }: PayloadAction<DeletePartcipantModal>) => {
-            state.deletePartcipantModal = payload
         },
         setCardMenu: (state, { payload }: PayloadAction<CardMenu>) => {
             state.cardMenu = payload
