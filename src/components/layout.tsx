@@ -4,7 +4,6 @@ import NavBar from './navbar'
 import _app from '../pages/_app'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { useRouter } from 'next/router'
-import ReusablePopper from './reusable-popper'
 import SideBar from './side-bar'
 import { mainActions } from '../../reducers/main-reducer'
 import { LinearProgress, styled, useMediaQuery, useTheme } from '@mui/material'
@@ -100,7 +99,6 @@ export default function Layout({ children }: Props) {
                     {children}
                 </Box>
             </FlexContainer>
-            <ReusablePopper />
             <SideBar />
         </Box>
     )
