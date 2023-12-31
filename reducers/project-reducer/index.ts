@@ -1,8 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { Element, SubFeature, SubFeatureSchema } from '../../src/models/element'
+import { Project, ProjectSchema } from '../../src/models/project'
 
 
-import { Element, Project, SubFeature } from '../../src/reusable/interfaces'
-import { ProjectSchema, SubFeatureSchema } from '../../src/reusable/schemas'
+
 
 type InitialState = {
     project: Project,
@@ -54,19 +55,16 @@ const projectSlice = createSlice({
             state.isAddingFeature = !state.isAddingFeature
         },
         setProject(state, { payload }: PayloadAction<Project>) {
-            state.project = payload
+            
         },
         setElementDetail(state, { payload }: PayloadAction<Element[]>) {
             state.elementTreeDetail = payload
         },
 
         setProjectList(state, { payload }: PayloadAction<Project[]>) {
-            state.projectList = payload
+            
         },
-        setProjectElements(state, { payload }: PayloadAction<Element[]>) {
-            state.project.elements = payload
-
-        },
+  
         updateNewElementName(state, { payload }: PayloadAction<string>) {
             state.newElementName = payload
         },
@@ -74,16 +72,12 @@ const projectSlice = createSlice({
             state.searchQuery = payload
         },
 
-        addFeature(state, { payload }: PayloadAction<Element>) {
-            state.project.elements = [...state.project.elements, payload]
-        },
+   
 
         updateNewSubFeatureName(state, { payload }: PayloadAction<string>) {
             state.newSubFeature.name = payload
         },
-        addSubFeature(state, { payload }: PayloadAction<Element>) {
-            state.project.elements = [...state.project.elements, payload]
-        },
+      
         setNewNote(state, { payload }: PayloadAction<string>) {
             state.newNote = payload
         },
