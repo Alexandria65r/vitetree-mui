@@ -1,4 +1,4 @@
-import { UploadPayload, VideoCourse } from "../reusable/interfaces";
+import { UploadPayload } from "../reusable/interfaces";
 import axios from 'axios'
 export default class UploadAPI {
     // upload to cloudinary
