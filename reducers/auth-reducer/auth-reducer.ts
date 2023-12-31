@@ -1,6 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { TutorService } from '../../src/reusable/interfaces';
-import { TutorServiceSchema } from '../../src/reusable/schemas';
+
 import { Card, CardModel } from '../../src/models/card';
 import { User, UserSchema } from '../../src/models/user';
 type Role = 'tutor' | 'student' | ''
@@ -20,7 +19,6 @@ export type AuthNetworkStatus =
 
 type AuthState = {
     user: User,
-    tutorService: TutorService
     isRedirecting: boolean
     gettingStartedRole: Role
     authNetworkStatus: AuthNetworkStatus
@@ -33,7 +31,6 @@ type AuthState = {
 
 const initialState: AuthState = {
     user: UserSchema,
-    tutorService: TutorServiceSchema,
     isRedirecting: false,
     gettingStartedRole: '',
     authNetworkStatus: '',
@@ -66,9 +63,7 @@ const authSlice = createSlice({
                 ...state.user, [payload.name]: payload.value
             }
         },
-        setTutorService: (state, { payload }: PayloadAction<TutorService>) => {
-            state.tutorService = payload
-        },
+    
         setError: (state, { payload }: PayloadAction<boolean>) => {
             state.isError = payload
         },
