@@ -1,7 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AppState } from "../../store/store";
 import NotificationsAPI from "../../src/api-services/notification";
-import { inquiryActions } from "../inquiry-reducer";
 import { notificationActions } from ".";
 
 
