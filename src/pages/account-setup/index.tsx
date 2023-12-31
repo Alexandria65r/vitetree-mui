@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux'
 import { authActions } from '../../../reducers/auth-reducer/auth-reducer'
 import { useAppSelector } from '../../../store/hooks'
 import { ThemedText, colorScheme } from '../../theme'
-import { StudentInfo } from '../../reusable/schemas'
+
 import Layout from '../../components/layout'
 import { AppSpinner } from '../../components/activity-indicators'
 import { Role } from '../../reusable/interfaces'
