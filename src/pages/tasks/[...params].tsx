@@ -12,6 +12,9 @@ import GroupedSubItem from '../../components/element-tree/grouped-sub-item';
 import TreeOptions from '../../components/element-tree/tree-options';
 import TreePickers from '../../components/element-tree/tree-pickers';
 import SubItemInput from '../../components/element-tree/sub-item-input';
+import { useAppSelector, useParentElements } from '../../../store/hooks';
+import ElementTreeItem from '../../components/element-tree/element-tree-item';
+import RenderElementTreeItems from '../../components/element-tree/render-element-tree-items';
 
 const Container = styled(Box)(({ theme }) => ({
     padding: 10
@@ -66,39 +69,13 @@ const DeleteButton = styled(ButtonIcon)(({ theme }) => ({
 type Props = {}
 
 export default function Tasks({ }: Props) {
-
+    const elements = useParentElements()
     const [isAddNewElement, toggleAddNewElement] = useState(false)
 
     return (
         <Layout>
             <Container>
-                <ProjectTreeButton />
-                <ElementItemWrapper>
-                    <MainElementWrapper>
-                        <UserAvatar avatarStyles={null} />
-                        <MainElement />
-                        <DeleteButton>
-                            <DeleteOutlineIcon />
-                        </DeleteButton>
-                    </MainElementWrapper>
-                    <SubElementWrapper>
-                        <TreePickers />
-                        {[1, 2, 3, 4].map((subItem) => (
-                            <GroupedSubItem />
-                        ))}
-                        <SubItemInput />
-                        <TreeOptions />
-                    </SubElementWrapper>
-                </ElementItemWrapper>
-
-                <NewElementWrapper>
-                    {isAddNewElement ?
-                        (<Input placeholder='New Task' autoFocus onBlur={() => toggleAddNewElement(false)} />) : (
-                            <NewElementButton onClick={() => toggleAddNewElement(!isAddNewElement)}>
-                                <Add sx={{ mr: 0 }} /> New Task
-                            </NewElementButton>
-                        )}
-                </NewElementWrapper>
+                <RenderElementTreeItems elements={elements}/>
             </Container>
         </Layout>
     )

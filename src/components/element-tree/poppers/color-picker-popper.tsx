@@ -11,7 +11,7 @@ const Container = styled(Box)(({ theme }) => ({
 
 type Props = {
     color: string
-    onChange: () => void
+    onChange: (hex: string) => void
 }
 
 export default function ColorPickerPopper({ color, onChange }: Props) {
@@ -20,22 +20,22 @@ export default function ColorPickerPopper({ color, onChange }: Props) {
             <PopupState variant='popper'>
                 {(popupState) => (<>
                     <OptionButton {...bindTrigger(popupState)}>
-                        <BiColorFill size={16} />
+                        <BiColorFill size={16} color={color} />
                     </OptionButton>
                     <Menu {...bindMenu(popupState)}
                         transformOrigin={{
-                            horizontal:'right',
-                            vertical:'top'
+                            horizontal: 'right',
+                            vertical: 'top'
                         }}
                         anchorOrigin={{
-                            horizontal:'right',
-                            vertical:'top'
+                            horizontal: 'right',
+                            vertical: 'top'
                         }}
                         slotProps={{
                             paper: {
                                 style: {
                                     padding: 10,
-                                     borderRadius: 10
+                                    borderRadius: 10
                                 }
                             }
                         }}
@@ -43,7 +43,10 @@ export default function ColorPickerPopper({ color, onChange }: Props) {
                         <CirclePicker
                             color={color}
                             colors={colors}
-                            onChange={onChange}
+                            onChange={({hex}: any) => {
+                                onChange(hex)
+                                popupState.close()
+                            }}
                             circleSize={25}
                         />
                     </Menu>

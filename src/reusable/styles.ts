@@ -137,10 +137,11 @@ export const Textarea = styled(TextareaAutosize)(({ theme }) => ({
     borderRadius: CSS_PROPERTIES.radius5,
     color: colorScheme(theme).TextColor,
     backgroundColor: colorScheme(theme).secondaryColor,
-    borderColor: theme.palette.grey[400],
+    //borderColor: theme.palette.grey[400],
     transition: '0.3s all',
-    '&:hover': {
-        borderBottom: `4px solid ${colors.teal[400]}`
+    borderBottom: `3px solid transparent!important`,
+    '&:focus': {
+        borderBottomColor: `${colors.teal[400]}!important`
     },
     [theme.breakpoints.down("sm")]: {
         flex: 1
@@ -170,10 +171,10 @@ export const SearchInput = styled(InputBase)(({ theme }) => ({
 }))
 export const StyledInput = styled('input')(({ theme }) => ({
     flex: 1,
-    outline:'none',
+    outline: 'none',
     padding: '8px 10px 8px 0',
     backgroundColor: 'transparent',
-    border:0,
+    border: 0,
     borderRadius: CSS_PROPERTIES.radius5,
 }))
 
@@ -185,7 +186,7 @@ export const StyledButton = styled(ButtonBase)(({ theme }) => ({
     height: 40,
     color: '#fff',
     fontSize: 16,
-    alignItems:'center',
+    alignItems: 'center',
     borderRadius: CSS_PROPERTIES.radius5,
     backgroundColor: colors.teal[400],
 }))
@@ -267,7 +268,7 @@ export const StyledBox = styled(Box)(({ theme }) => ({
     padding: 10,
     borderRadius: CSS_PROPERTIES.radius10,
     boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
-    backgroundColor:colorScheme(theme).lightToSecondaryColor
+    backgroundColor: colorScheme(theme).lightToSecondaryColor
 }))
 
 
@@ -278,14 +279,21 @@ export const OptionButton = styled(ButtonIcon)(({ theme }) => ({
     borderRadius: 15,
     backgroundColor: colorScheme(theme).lightToSecondaryColor,
     color: colorScheme(theme).TextColor,
-    boxShadow: `0 1px 3px 0 ${colorScheme(theme).grayToprimaryColor}`
+    boxShadow: `0 1px 3px 0 ${colorScheme(theme).darkGreyToSecondary}`,
+    '&:hover': {
+        backgroundColor: colorScheme(theme).lightToSecondaryColor
+    }
 }))
 
 export const PickerButton = styled(StyledButton)(({ theme }) => ({
     flex: 1,
     display: 'flex',
+    height: 38,
     alignItems: 'center',
     gap: 10,
     fontSize: 14,
-    borderRadius: 5
+    borderRadius: 5,
+    color:colorScheme(theme).TextColor,
+    backgroundColor:colorScheme(theme).lightToSecondaryColor
+
 }))

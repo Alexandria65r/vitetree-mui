@@ -4,12 +4,16 @@ import MainReducer from '../reducers/main-reducer'
 import AuthReducer from '../reducers/auth-reducer/auth-reducer'
 import NotificationsReducer from '../reducers/notification-reducer'
 import PostReducer from '../reducers/post-reducer'
+import ProjectReducer from '../reducers/project-reducer'
+import ElementsReducer from '../reducers/elements-reducer'
 
 const rootReducer = combineReducers({
   AuthReducer,
   MainReducer,
   NotificationsReducer,
-  PostReducer
+  PostReducer,
+  ProjectReducer,
+  ElementsReducer
 })
 
 

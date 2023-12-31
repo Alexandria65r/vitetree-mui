@@ -1,6 +1,6 @@
 import { FormatMoney } from "format-money-js";
 import moment from "moment";
-import { Choice, Role, TutorService } from "./interfaces";
+
 
 
 const fm = new FormatMoney({
@@ -94,31 +94,7 @@ export function normalizedDate(createdAt: string) {
 }
 
 
-export const tutorServices: TutorService[] = [
-    {
-        price: '$24.60',
-        label: 'private class',
-        description: `Charge students for teaching them on live video 
-        e.g google meet or any face to face platform for the meantime you
-         can use any meeting app of your choice as we are in development of
-          schooyard meet.🎉`
-    },
-    {
-        price: '$12.60',
-        label: 'assignment solving',
-        description: `This service allows you to charge students who want 
-        their school assignment get solved by you. Add it in your list of 
-        services if you wish to offer this service.`
-    },
-    {
-        price: '$9.60',
-        label: 'prepare video tutorial',
-        description: `If you sell your video courses on course marketplace 
-        here on schooyard you're probably familiar with his service the only
-        difference is that students will request a video tutorial specifically
-        for them on their preffered topic and they'll pay for it. `
-    }
-]
+
 
 
 export function nomalizedText(subjects: string[], index: number) {

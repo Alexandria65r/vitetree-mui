@@ -4,56 +4,75 @@ import { colorScheme } from '../../theme'
 import { ButtonIcon, OptionButton } from '../../reusable/styles'
 import { BiColorFill, BiDuplicate } from 'react-icons/bi'
 import { HiPencil } from 'react-icons/hi'
-import { MdNotes,MdAdd } from 'react-icons/md'
+import { MdNotes, MdAdd } from 'react-icons/md'
 import ColorPickerPopper from './poppers/color-picker-popper'
 import DuplicateActionsPopper from './poppers/duplicate-actions-popper'
+import { useAppDispatch, useAppSelector } from '../../../store/hooks'
+import { getElementById } from '../../../reducers/elements-reducer/elements-thunks'
+import { elementsActions } from '../../../reducers/elements-reducer'
+import ChildRootLine from './child-root-line'
 
 
 
 const Container = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
-  marginTop:10,
+  marginTop: 10,
 
 }))
-const OptionsRootLine = styled(Box)(({ theme }) => ({
-  width: 36,
-  height: 20,
-  marginTop: -8,
-  marginLeft: -2,
-  borderLeft: '1px solid #000',
-  borderBottom: '1px solid #000',
-  borderRadius: '0 0 1px 20px'
-}))
+
 const Options = styled(Box)(({ theme }) => ({
-  height:40,
+  height: 40,
   display: 'flex',
-  gap:10,
+  gap: 10,
   alignItems: 'center',
 }))
 
 
 
 
-type Props = {}
+type Props = {
+  id: string
+}
 
-export default function TreeOptions({ }: Props) {
+export default function TreeOptions({ id }: Props) {
+  const dispatch = useAppDispatch()
+  const element = useAppSelector((state) => getElementById(state, id))
+
+  function handleColorChange(hex: string) {
+    console.log(hex)
+    dispatch(elementsActions.updateElement({
+      id,
+      update: {
+        key: 'color',
+        value: hex
+      }
+    }))
+  }
+
   return (
     <Container>
-      <OptionsRootLine></OptionsRootLine>
+      <ChildRootLine color={element?.color ?? ''} />
       <Options sx={{ flex: 1 }}>
         <OptionButton>
-          <MdNotes size={16}/>
+          <MdNotes size={16} color={element?.color??''} />
         </OptionButton>
-        <DuplicateActionsPopper/>
+        <DuplicateActionsPopper id={element?._id??''} />
 
-        <OptionButton>
-          <MdAdd size={16}/>
+        <OptionButton
+          onClick={() => dispatch(elementsActions.setElementAction({
+            elementId: id,
+            action: 'add-sub-element'
+          }))}>
+          <MdAdd size={16} color={element?.color??''} />
         </OptionButton>
-        <OptionButton>
-          <HiPencil size={16}/>
+        <OptionButton onClick={() => dispatch(elementsActions.setElementAction({
+          elementId: id,
+          action: 'edit-element'
+        }))}>
+          <HiPencil size={16} color={element?.color??''} />
         </OptionButton>
-        <ColorPickerPopper color='' onChange={()=>{}}/>
+        <ColorPickerPopper color={element?.color ?? ''} onChange={handleColorChange} />
       </Options>
     </Container>
   )

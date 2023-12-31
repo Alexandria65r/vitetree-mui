@@ -27,6 +27,7 @@ export const colorScheme = (theme: Theme) => ({
     lightToTertiary: isDarkMode(theme) ? '#393939' : '#FFF',
     greyToTertiary: isDarkMode(theme) ? '#393939' : '#e2e6ea',
     darkGreyToTertiary: isDarkMode(theme) ? '#393939' : '#c3c5c7',
+    darkGreyToSecondary: isDarkMode(theme) ? '#000' : '#c3c5c7',
     tertiary: isDarkMode(theme) ? '#28282d' : '#e2e6ea',
     quaternay: isDarkMode(theme) ? '#3a3a3f' : '#c8cdd1',
     // SIDEBAR

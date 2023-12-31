@@ -1,4 +1,4 @@
-import { Box, Menu, MenuItem, styled } from '@mui/material'
+import { Box, Menu, MenuItem, colors, styled } from '@mui/material'
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state'
 import React from 'react'
 import { PickerButton } from '../../../reusable/styles'
@@ -8,24 +8,31 @@ import { ImMoveUp } from 'react-icons/im'
 
 
 const Container = styled(Box)(({ theme }) => ({
-    flex:1
+    flex: 1
 }))
 const MenuListItem = styled(MenuItem)(({ theme }) => ({
-    fontSize:14,
-    gap:10
+    fontSize: 14,
+    gap: 10
 }))
 
 type Props = {
-
+    height?: number
 }
 
-export default function PriorityPickerPopper({ }: Props) {
+export default function PriorityPickerPopper({ height }: Props) {
     return (
         <Container>
             <PopupState variant='popper'>
                 {(popupState) => (<>
-                    <PickerButton sx={{ width: '100%', borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
-                     {...bindTrigger(popupState)}>Priority</PickerButton>
+                    <PickerButton sx={{
+                        width: '100%',
+                        height,
+                        border: `1px solid ${colors.amber[600]}`,
+                        //color:'#000',
+                        // fontWeight:600,
+                        // borderTopRightRadius: 0, borderBottomRightRadius: 0
+                    }}
+                        {...bindTrigger(popupState)}>Priority</PickerButton>
                     <Menu {...bindMenu(popupState)}
                         transformOrigin={{
                             horizontal: 'center',

@@ -1,35 +1,27 @@
 import { Box, styled } from '@mui/material'
 import React from 'react'
-import { StyledButton } from '../../reusable/styles'
-import PriorityPickerPopper from './poppers/priority-picker-popper'
-import StatusPickerPopper from './poppers/status-picker-popper'
 import StatusAndPriorityPickers from './poppers/status-and-priority-pickers'
+import ChildRootLine from './child-root-line'
+import { useSelectedElement } from '../../../store/hooks'
+import { colorScheme } from '../../theme'
 
 const Container = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   marginTop: 8,
-}))
-const OptionsRootLine = styled(Box)(({ theme }) => ({
-  width: 36,
-  height: 20,
-  marginTop: -8,
-  marginLeft: -2,
-  borderLeft: '1px solid #000',
-  borderBottom: '1px solid #000',
-  borderRadius: '0 0 1px 20px'
+  
 }))
 
 
+type Props = {
+  id: string
+}
 
-
-
-type Props = {}
-
-export default function TreePickers({ }: Props) {
+export default function TreePickers({ id }: Props) {
+  const color = useSelectedElement(id)?.color
   return (
     <Container>
-      <OptionsRootLine></OptionsRootLine>
+      <ChildRootLine color={color ?? ''} />
       <StatusAndPriorityPickers />
     </Container>
   )

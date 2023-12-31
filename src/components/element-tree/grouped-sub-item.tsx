@@ -1,11 +1,15 @@
 import { Box, Menu, MenuItem, styled } from '@mui/material'
-import React from 'react'
+import React, { MutableRefObject, useRef } from 'react'
 import { colorScheme } from '../../theme'
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state'
 import { BiTrash } from 'react-icons/bi'
 import { HiPencil } from 'react-icons/hi'
 import { MdNotes } from 'react-icons/md'
 import StatusAndPriorityPickers from './poppers/status-and-priority-pickers'
+import { useAppDispatch, useAppSelector, useElementAction, useSelectedElement } from '../../../store/hooks'
+import { getElementById } from '../../../reducers/elements-reducer/elements-thunks'
+import ChildRootLine from './child-root-line'
+import { elementsActions } from '../../../reducers/elements-reducer'
 
 const Container = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -21,14 +25,31 @@ const SubElementRootLine = styled(Box)(({ theme }) => ({
   borderRadius: '0 0 1px 20px'
 }))
 const SubElement = styled(Box)(({ theme }) => ({
-  flex:1,
+  width: 'fit-content',
   marginTop: 10,
   padding: 10,
-  borderRadius: 5,
-  cursor:'pointer',
+  fontSize: 14,
+  minHeight:40,
+  borderRadius: '4px 9px 9px 4px',
+  cursor: 'pointer',
   backgroundColor: colorScheme(theme).lightToSecondaryColor,
   color: colorScheme(theme).TextColor,
-  boxShadow: `0 1px 3px 0 ${colorScheme(theme).grayToprimaryColor}`
+  transition: '0.3s all',
+  boxShadow: `0 1px 3px 0 ${colorScheme(theme).darkGreyToSecondary}`,
+  [theme.breakpoints.up('md')]: {
+    width: 'fit-content',
+    maxWidth: 280,
+  },
+  '&:hover': {
+    transform: 'scale(1.03)'
+  }
+}))
+const EditableElement = styled(Box)(({ theme }) => ({
+  width: 'fit-content',
+  padding: '8px 10px',
+  borderRadius: 5,
+  backgroundColor: colorScheme(theme).lightToSecondaryColor,
+  color: colorScheme(theme).TextColor,
 }))
 
 const MenuListItem = styled(MenuItem)(({ theme }) => ({
@@ -36,17 +57,55 @@ const MenuListItem = styled(MenuItem)(({ theme }) => ({
   gap: 10
 }))
 
-type Props = {}
+type Props = {
+  id: string
+}
 
-export default function GroupedSubItem({ }: Props) {
+export default function GroupedSubItem({ id }: Props) {
+  const dispatch = useAppDispatch()
+  const subElement = useSelectedElement(id)
+  const color = useSelectedElement(subElement?.parentElementId ?? '')?.color
+  const isSubEditting = useElementAction({ action: 'edit-sub-element', elementId: id })
+  const subElRef: MutableRefObject<HTMLDivElement | any> = useRef()
+  function handleBlur() {
+    console.log(subElRef.current.innerHTML)
+    dispatch(elementsActions.updateElement({
+      id,
+      update: {
+        key: 'name',
+        value: subElRef.current.innerHTML
+      }
+    }))
+    dispatch(elementsActions.clearElementAction())
+  }
+
+
   return (
     <Container>
-      <SubElementRootLine></SubElementRootLine>
+      <ChildRootLine color={color ?? ''} />
       <PopupState variant='popper'>
         {(popupState) => (<>
-          <SubElement {...bindTrigger(popupState)}>
-            sub element
-          </SubElement>
+
+          {isSubEditting ? (
+            <SubElement sx={{
+              padding: '4px',
+              transition: 'none',
+              '&:hover': {
+                transform: 'none'
+              }
+            }}>
+              <EditableElement ref={subElRef} contentEditable={isSubEditting} onBlur={handleBlur}
+                sx={{ color: color, outline: 'none', border: `1px dashed ${color}` }} >
+                {subElement?.name}
+              </EditableElement>
+            </SubElement>
+
+          ) : (
+            <SubElement sx={{ color: color, userSelect: 'none',  }} {...bindTrigger(popupState)}>
+              {subElement?.name}
+            </SubElement>
+          )}
+
 
           <Menu {...bindMenu(popupState)}
             transformOrigin={{
@@ -66,8 +125,16 @@ export default function GroupedSubItem({ }: Props) {
               }
             }}
           >
-            <StatusAndPriorityPickers />
-            <MenuListItem sx={{mt:1}}>
+            <StatusAndPriorityPickers height={30} />
+            <MenuListItem sx={{ mt: 1 }}
+              onClick={() => {
+                dispatch(elementsActions.setElementAction({
+                  elementId: id,
+                  action: 'edit-sub-element'
+                }))
+                popupState.close()
+              }}
+            >
               <HiPencil size={16} />
               Edit
             </MenuListItem>
@@ -83,6 +150,6 @@ export default function GroupedSubItem({ }: Props) {
         </>
         )}
       </PopupState>
-    </Container>
+    </Container >
   )
 }
