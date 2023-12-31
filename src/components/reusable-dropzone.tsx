@@ -63,7 +63,7 @@ type Props = {
 export default function ReusableDropzone({ browseButton, uploadFile }: Props) {
     const _theme = useTheme()
     const dispatch = useAppDispatch()
-    const { dropzoneList } = useAppSelector((state) => state.DropzoneReducer)
+   
 
     const onDrop = useCallback((acceptedFiles: any) => {
         acceptedFiles.forEach((file: any) => {
@@ -94,12 +94,7 @@ export default function ReusableDropzone({ browseButton, uploadFile }: Props) {
                     {browseButton}
                 </DropzoneContainer>
 
-                {dropzoneList?.length ? (
-                    <MappedUploadedFiles
-                        sx={{ borderColor: isDragActive ? colorScheme(_theme).quaternay : colorScheme(_theme).grayToSecondaryColor }}
-                    >
-                    </MappedUploadedFiles>
-                ) : <></>}
+           
             </Container>
         </Fragment>
     )
