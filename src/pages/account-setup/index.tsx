@@ -4,8 +4,6 @@ import { CSS_PROPERTIES } from '../../reusable'
 import { ContinueWith, ContinueWithOverlayText, FormLogo } from '../../reusable/styles'
 import AuthAPI from '../../api-services/auth'
 import { useRouter } from 'next/router'
-import { useDispatch } from 'react-redux'
-import { authActions } from '../../../reducers/auth-reducer/auth-reducer'
 import { useAppSelector } from '../../../store/hooks'
 import { ThemedText, colorScheme } from '../../theme'
 

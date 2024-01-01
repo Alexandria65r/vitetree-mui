@@ -1,5 +1,6 @@
 import mongoose from "mongoose"
 import { PickerBtn } from "../reusable/interfaces"
+export type ElementType = 'parent' | 'child' | ''
 
 export type SubFeature = {
     parentFeature: string,
@@ -17,7 +18,7 @@ export type Person = {
 export type Element = {
     _id: string;
     projectAccessId: string,
-    elementType: 'parent' | 'child' | '',
+    elementType: ElementType,
     cartegory: 'task' | 'feature' | '',
     parentElementId?: string,
     name: string,
@@ -41,7 +42,7 @@ export type Element = {
 
 
 
-const ElementSchema = new mongoose.Schema<Element>({
+const _ElementSchema = new mongoose.Schema<Element>({
     _id: String,
     projectAccessId: String,
     cartegory: String,
@@ -67,9 +68,15 @@ const ElementSchema = new mongoose.Schema<Element>({
     updatedAt: { type: Date, default: Date.now },
 });
 
-export const ElementModel = mongoose.models?.element || mongoose.model("element", ElementSchema);
+export const ElementModel = mongoose.models?.element || mongoose.model("element", _ElementSchema);
 
-
+export const ElementSchema: Element = {
+    _id: "",
+    projectAccessId: "",
+    elementType: "",
+    cartegory: "",
+    name: ""
+}
 
 export const SubFeatureSchema: SubFeature = {
     parentFeature: '',

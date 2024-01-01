@@ -10,6 +10,8 @@ import { LinearProgress, styled, useMediaQuery, useTheme } from '@mui/material'
 import AsideNavbar from './aside-navbar'
 import { checkAuthThunk } from '../../reducers/auth-reducer/auth-thunks'
 import Toast from './toasts/toast'
+import ReusableModal from './modals/reusable-modal'
+import ElementDetailsModal from './modals/element-details-modal'
 
 const FlexContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -100,6 +102,8 @@ export default function Layout({ children }: Props) {
                 </Box>
             </FlexContainer>
             <SideBar />
+            <ReusableModal />
+            <ElementDetailsModal />
         </Box>
     )
 }

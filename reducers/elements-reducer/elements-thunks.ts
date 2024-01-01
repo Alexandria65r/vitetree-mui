@@ -1,9 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { elementsActions } from ".";
-import { Element } from "../../src/models/element";
+import { Element, ElementType } from "../../src/models/element";
 import { AppState } from "../../store/store";
 import Randomstring from 'randomstring'
 import randomColor from 'randomcolor'
+import { mainActions } from "../main-reducer";
 
 export const AddNewElementThunk = createAsyncThunk<void,
     { elementType: 'parent' | 'child', cartegory: 'task' | 'feature' | '', parentElementId?: string },
@@ -45,6 +46,19 @@ export const AddNewElementThunk = createAsyncThunk<void,
         }
 
 
+    })
+export const DeleteElementThunk = createAsyncThunk<void, undefined, { state: AppState }>
+    ('elementsSlice/DeleteElementThunk', async (_, thunkAPI) => {
+        const dispatch = thunkAPI.dispatch
+        const state = thunkAPI.getState()
+        const elements = state.ElementsReducer.elements
+        const modal = state.MainReducer.modal
+        dispatch(elementsActions.setElemetNetworkStatus('deleting'))
+        const newElementsList = elements.filter((item) => item._id !== modal.itemId)
+        dispatch(elementsActions.setElements(newElementsList))
+        dispatch(elementsActions.setElemetNetworkStatus(''))
+        //close modal
+        dispatch(mainActions.closeModal())
     })
 
 

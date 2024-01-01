@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { HYDRATE } from 'next-redux-wrapper'
 import { Toast } from '../../src/reusable/interfaces';
+import { ElementType } from '../../src/models/element';
 
 
 
@@ -8,13 +9,14 @@ import { Toast } from '../../src/reusable/interfaces';
 type CardMenu = {
     component: 'account-menu' | 'page-more-options-menu' | 'read-only-more-options-menu' | 'send-tip-picker' | '',
     title: string;
-    showClose?:boolean;
-    postId?:string
+    showClose?: boolean;
+    postId?: string
 }
 type Modal = {
-    component: 'page-more-options-menu' | 'read-only-more-options-menu' |'complete-send-tip-action' |'',
+    component: 'delete-element-item' | 'element-details' | '',
     options?: any;
-    postId?: string;
+    itemId?: string;
+    itemType?: ElementType
 }
 
 
@@ -57,7 +59,7 @@ const mainSlice = createSlice({
         closeToast: (state, { payload }: PayloadAction<string>) => {
             state.toasts = state.toasts.filter((toast) => toast.id !== payload)
         },
-      
+
         setShowSelectedImage: (state, { payload }: PayloadAction<boolean>) => {
             state.showSelectedImage = payload
         },
@@ -78,9 +80,9 @@ const mainSlice = createSlice({
         },
         closeCardMenu: (state) => {
             state.cardMenu = {
-                component:'',
-                title:'',
-                postId:''
+                component: '',
+                title: '',
+                postId: ''
             }
         },
         setModal: (state, { payload }: PayloadAction<Modal>) => {
@@ -88,8 +90,8 @@ const mainSlice = createSlice({
         },
         closeModal: (state) => {
             state.modal = {
-                component:'',
-                postId:''
+                component: '',
+                itemId: ''
             }
         },
 

@@ -2,15 +2,7 @@ import { Box, CircularProgress, Typography, colors, styled } from '@mui/material
 import React from 'react'
 import { colorScheme } from '../theme'
 import { CSS_PROPERTIES } from '../reusable'
-import { useAppDispatch } from '../../store/hooks'
 import { StyledButton } from '../reusable/styles'
-
-import { mainActions } from '../../reducers/main-reducer'
-
-
-
-
-
 
 const Container = styled(Box)(({ theme }) => ({
     position: 'absolute',
@@ -26,6 +18,9 @@ const Container = styled(Box)(({ theme }) => ({
         transform: 'translate(-50%, 0%)',
         top: 'unset',
         bottom: 10
+    },
+    [theme.breakpoints.up("xl")]: {
+        width: '20%',
     }
 }))
 

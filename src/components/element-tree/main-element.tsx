@@ -9,6 +9,8 @@ import { TfiAngleDown, TfiAngleUp } from 'react-icons/tfi'
 import { Element } from '../../models/element';
 import { useAppDispatch, useAppSelector, useElementAction, useSelectedElement } from '../../../store/hooks';
 import { elementsActions } from '../../../reducers/elements-reducer';
+import { mainActions } from '../../../reducers/main-reducer';
+import { useRouter } from 'next/router';
 const IconButton = styled(ButtonIcon)(({ theme }) => ({
     width: 30,
     height: 30,
@@ -44,6 +46,7 @@ type Props = {
 }
 
 export default function MainElement({ id }: Props) {
+    const router = useRouter()
     const element = useSelectedElement(id)
     const isEditting = useElementAction({ elementId: id, action: 'edit-element' })
     const dispatch = useAppDispatch()
@@ -73,6 +76,7 @@ export default function MainElement({ id }: Props) {
             }))}>
                 <MoreVertOutlinedIcon />
             </IconButton>
+
             {isEditting ? (
                 <Input
                     autoFocus
@@ -82,11 +86,13 @@ export default function MainElement({ id }: Props) {
                     placeholder='Name cannot be empty!'
                     sx={{ borderColor: element?.color }}
                 />
-            ) : (
+            ) : (<Box onClick={() => router.push(`${router.asPath}?view=${element?._id}`)}>
                 <ThemedText sx={{ whiteSpace: 'nowrap', color: element?.color }}>
                     {element?.name}
                 </ThemedText>
+            </Box>
             )}
+
         </Container>
     )
 }

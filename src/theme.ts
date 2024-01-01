@@ -8,7 +8,7 @@ export const isDarkMode = (theme: Theme) => theme.palette.mode === 'dark';
 
 export const colorScheme = (theme: Theme) => ({
     // BASIC COLORSCHEME
-    primaryColor: isDarkMode(theme) ? '#0f0f0f' : '#fff',
+    primaryColor: isDarkMode(theme) ? '#0f0f0f' : '#f4fcff',
     lightToprimaryColor: isDarkMode(theme) ? '#0f0f0f' : '#fff',
     lightToSecondaryColor: isDarkMode(theme) ? '#272727' : '#fff',
     grayToprimaryColor: isDarkMode(theme) ? '#0f0f0f' : '#e2e6ea',

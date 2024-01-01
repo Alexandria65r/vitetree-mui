@@ -10,7 +10,8 @@ import TreeOptions from './tree-options';
 import TreePickers from './tree-pickers';
 import SubItemInput from './sub-item-input';
 import { Element } from '../../models/element';
-import { useAppSelector, useSubElements } from '../../../store/hooks';
+import { useAppDispatch, useAppSelector, useSubElements } from '../../../store/hooks';
+import { mainActions } from '../../../reducers/main-reducer';
 
 const Container = styled(Box)(() => ({
 
@@ -25,7 +26,7 @@ const MainElementWrapper = styled(Box)(() => ({
     display: 'flex',
     alignItems: 'center',
     gap: 10,
-    justifyContent:'flex-start'
+    justifyContent: 'flex-start'
 }))
 
 
@@ -50,11 +51,13 @@ type Props = {
 }
 
 export default function ElementTreeItem({ element }: Props) {
+    const dispatch = useAppDispatch()
     const elementAction = useAppSelector((state) => state.ElementsReducer.elementAction)
     const collapedItems = useAppSelector((state) => state.ElementsReducer.collapedItems)
     const subElements = useSubElements(element._id)
     const isAddNewSubElement = elementAction.action === 'add-sub-element' && element._id === elementAction.elementId
     const showElementDeleteButton = elementAction.action === 'show-element-delete-button' && element._id === elementAction.elementId
+
 
     return (
         <Container>
@@ -63,7 +66,11 @@ export default function ElementTreeItem({ element }: Props) {
                     <UserAvatar avatarStyles={null} />
                     <MainElement id={element._id} />
                     {showElementDeleteButton && (
-                        <DeleteButton>
+                        <DeleteButton
+                            onClick={() => dispatch(mainActions.setModal({
+                                component: 'delete-element-item',
+                                itemId: element._id
+                            }))}>
                             <DeleteOutlineIcon />
                         </DeleteButton>
                     )}

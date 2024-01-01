@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { Element, SubFeature, SubFeatureSchema } from '../../src/models/element'
+import { Element, ElementSchema, SubFeature, SubFeatureSchema } from '../../src/models/element'
+
 
 
 export type ElementAction = {
@@ -7,8 +8,11 @@ export type ElementAction = {
     action: 'sub-element' | 'edit-element' | 'edit-sub-element' | 'add-sub-element' | 'show-element-delete-button' | ''
 }
 
+export type ElementNetworkStatus = 'deleting' | ''
+
 type InitialState = {
     elements: Element[]
+    element: Element
     isAddingFeature: boolean,
     newElementName: string,
     elementTreeDetail: Element[],
@@ -19,12 +23,14 @@ type InitialState = {
     pickerType: string
     searchQuery: string
     elementAction: ElementAction
-    collapedItems: string[]
+    collapedItems: string[],
+    elementNetworkStatus: ElementNetworkStatus
 }
 
 
 const initialState: InitialState = {
     elements: [],
+    element:ElementSchema,
     elementTreeDetail: [],
     isAddingFeature: false,
     newElementName: '',
@@ -38,7 +44,8 @@ const initialState: InitialState = {
         elementId: '',
         action: ''
     },
-    collapedItems: []
+    collapedItems: [],
+    elementNetworkStatus:''
 }
 
 const elementsSlice = createSlice({
@@ -48,7 +55,10 @@ const elementsSlice = createSlice({
         toggleIsAddingNewFeature(state) {
             state.isAddingFeature = !state.isAddingFeature
         },
-
+        
+        setElemetNetworkStatus(state, { payload }: PayloadAction<ElementNetworkStatus>) {
+            state.elementNetworkStatus = payload
+        },
         setElementDetail(state, { payload }: PayloadAction<Element[]>) {
             state.elementTreeDetail = payload
         },
@@ -56,6 +66,9 @@ const elementsSlice = createSlice({
         setElements(state, { payload }: PayloadAction<Element[]>) {
             state.elements = payload
 
+        },
+        setElement(state, { payload }: PayloadAction<Element>) {
+            state.element = payload
         },
         updateElement(state, { payload }: PayloadAction<{ id: string, update: { key: string, value: any } }>) {
             const element = state.elements.find((el) => el._id === payload.id)
@@ -110,7 +123,7 @@ const elementsSlice = createSlice({
                 state.collapedItems.push(payload)
             }
         },
-
+        
     }
 })
 
