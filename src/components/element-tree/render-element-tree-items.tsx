@@ -10,8 +10,11 @@ import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { elementsActions } from '../../../reducers/elements-reducer';
 import { AddNewElementThunk } from '../../../reducers/elements-reducer/elements-thunks';
 
-const Container = styled(Box)(() => ({
-
+const Container = styled(Box)(({ theme }) => ({
+    [theme.breakpoints.up('xl')]: {
+        width: '85%',
+        margin: 'auto'
+    }
 }))
 const MappedElements = styled(Box)(({ theme }) => ({
     display: 'grid', gap: 15,
@@ -22,7 +25,7 @@ const MappedElements = styled(Box)(({ theme }) => ({
         gridTemplateColumns: 'repeat(3,1fr)',
     },
     [theme.breakpoints.up('xl')]: {
-        gridTemplateColumns: 'repeat(5,1fr)',
+        gridTemplateColumns: 'repeat(4,1fr)',
     }
 }))
 const NewElementWrapper = styled(Box)(() => ({
@@ -56,7 +59,7 @@ export default function RenderElementTreeItems({ elements }: Props) {
     const [isAddNewElement, toggleAddNewElement] = useState(false)
     const newElementName = useAppSelector((state) => state.ElementsReducer.newElementName)
     function create() {
-        dispatch(AddNewElementThunk({ elementType: 'parent', cartegory:'task' }))
+        dispatch(AddNewElementThunk({ elementType: 'parent', cartegory: 'task' }))
         toggleAddNewElement(false)
     }
 
@@ -65,7 +68,7 @@ export default function RenderElementTreeItems({ elements }: Props) {
             <ProjectTreeButton />
             <MappedElements>
                 {elements?.map((element) => (
-                    <ElementTreeItem key={element._id} element={element} />
+                    <ElementTreeItem key={element._id} element={element} parent='main-tree' />
                 ))}
             </MappedElements>
             <NewElementWrapper>

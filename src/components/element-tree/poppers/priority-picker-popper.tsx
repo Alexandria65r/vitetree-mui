@@ -27,6 +27,7 @@ export default function PriorityPickerPopper({ height }: Props) {
                     <PickerButton sx={{
                         width: '100%',
                         height,
+                        borderRadius: 19,
                         border: `1px solid ${colors.amber[600]}`,
                         //color:'#000',
                         // fontWeight:600,

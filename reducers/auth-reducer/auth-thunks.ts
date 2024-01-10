@@ -62,11 +62,11 @@ export const SignInThunk = createAsyncThunk<void, Signin, { state: AppState }>
                     dispatch(authActions.setAuhtUser(user))
                     if (signInData.provider === 'google-provider') {
                         localStorage.removeItem('redirectFlag')
-                    } else if (user.role === 'job seeker') {
-                        router.replace('/find-creators/q=nothing')
                     } else {
-                        router.replace(`/page/${user?.pageInfo?.pageId}`)
-                    }
+                        router.replace('/')
+                    } 
+                       
+                    
                 } else {
                     console.log(data)
                     console.log(signInData.provider)

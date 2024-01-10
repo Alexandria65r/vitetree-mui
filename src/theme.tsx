@@ -1,5 +1,5 @@
 
-import { colors, styled, Theme, Typography, useTheme } from "@mui/material";
+import { colors, styled, SxProps, Theme, Typography, useTheme } from "@mui/material";
 import { createContext } from "react";
 export const ColorModeContext = createContext({ toggleColorMode: () => { } })
 export const isDarkMode = (theme: Theme) => theme.palette.mode === 'dark';
@@ -60,3 +60,27 @@ export function useColorScheme() {
 export const ThemedText = styled(Typography)(() => ({
     color: useColorScheme().TextColor
 }))
+
+type ElipsisTextProps = {
+    text: string;
+    color: string
+    lineClamp:number
+    sx: SxProps<Theme> | undefined
+}
+
+export const ElipsisText = ({ text, color, lineClamp,sx}: ElipsisTextProps) => (
+    <ThemedText
+        sx={{
+            ...sx,
+            color: color,
+            fontSize: 14,
+            overflow: 'hidden',
+            display: '-webkit-box',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'normal',
+            WebkitBoxOrient: 'vertical',
+            WebkitLineClamp: lineClamp,
+        }}>
+        {text}
+    </ThemedText>
+)

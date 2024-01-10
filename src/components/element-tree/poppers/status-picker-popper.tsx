@@ -26,6 +26,7 @@ export default function StatusPickerPopper({ height }: Props) {
                 {(popupState) => (<>
                     <PickerButton sx={{
                         height,
+                        borderRadius:19,
                         width: '100%', border: `1px solid ${colors.green[400]}`,
                         // borderTopLeftRadius: 0, borderBottomLeftRadius: 0
                     }}

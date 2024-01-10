@@ -11,7 +11,9 @@ import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import { getElementById } from '../../../reducers/elements-reducer/elements-thunks'
 import { elementsActions } from '../../../reducers/elements-reducer'
 import ChildRootLine from './child-root-line'
-
+import VerticalAlignBottom from '@mui/icons-material/VerticalAlignBottom';
+import { subLimit } from '../../reusable/helpers'
+import { useRouter } from 'next/router'
 
 
 const Container = styled(Box)(({ theme }) => ({
@@ -32,13 +34,15 @@ const Options = styled(Box)(({ theme }) => ({
 
 
 type Props = {
-  id: string
+  parent: 'main-tree' | 'element-detail';
+  id: string;
+  totalSubs: number
 }
 
-export default function TreeOptions({ id }: Props) {
+export default function TreeOptions({ id, totalSubs,parent }: Props) {
   const dispatch = useAppDispatch()
   const element = useAppSelector((state) => getElementById(state, id))
-
+  const router = useRouter()
   function handleColorChange(hex: string) {
     console.log(hex)
     dispatch(elementsActions.updateElement({
@@ -55,24 +59,31 @@ export default function TreeOptions({ id }: Props) {
       <ChildRootLine color={element?.color ?? ''} />
       <Options sx={{ flex: 1 }}>
         <OptionButton>
-          <MdNotes size={16} color={element?.color??''} />
+          <MdNotes size={16} color={element?.color ?? ''} />
         </OptionButton>
-        <DuplicateActionsPopper id={element?._id??''} />
+        <DuplicateActionsPopper id={element?._id ?? ''} />
 
         <OptionButton
           onClick={() => dispatch(elementsActions.setElementAction({
             elementId: id,
             action: 'add-sub-element'
           }))}>
-          <MdAdd size={16} color={element?.color??''} />
+          <MdAdd size={16} color={element?.color ?? ''} />
         </OptionButton>
         <OptionButton onClick={() => dispatch(elementsActions.setElementAction({
           elementId: id,
           action: 'edit-element'
         }))}>
-          <HiPencil size={16} color={element?.color??''} />
+          <HiPencil size={16} color={element?.color ?? ''} />
         </OptionButton>
         <ColorPickerPopper color={element?.color ?? ''} onChange={handleColorChange} />
+        {parent=='main-tree'&& totalSubs > subLimit && (
+          <OptionButton
+            sx={{ color: element?.color ?? '' }}
+            onClick={() => router.push(`${router.asPath}?view=${element?._id}`)}>
+            {totalSubs - subLimit}+
+          </OptionButton>
+        )}
       </Options>
     </Container>
   )

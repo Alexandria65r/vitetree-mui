@@ -24,7 +24,7 @@ const Container = styled(Box)(({ theme }) => ({
     alignItems: 'center',
     height: 40,
     paddingInline: 10,
-    borderRadius: 5,
+    borderRadius: 19,
     backgroundColor: colorScheme(theme).lightToSecondaryColor,
     color: colorScheme(theme).TextColor,
     boxShadow: `0 1px 3px 0 ${colorScheme(theme).darkGreyToSecondary}`
@@ -35,7 +35,7 @@ const Input = styled(StyledInput)(({ theme }) => ({
     color: colorScheme(theme).TextColor,
     height: 37,
     paddingInline: 18,
-    borderRadius: 5,
+    borderRadius: 19,
     border: `1px dashed ${colorScheme(theme).TextColor}`,
     backgroundColor: colorScheme(theme).lightToSecondaryColor,
 
@@ -53,6 +53,7 @@ export default function MainElement({ id }: Props) {
     const collapedItems = useAppSelector((state) => state.ElementsReducer.collapedItems)
     const [name, setName] = useState<string>(element?.name ?? '')
 
+
     function update() {
         dispatch(elementsActions.updateElement({
             id,
@@ -61,14 +62,13 @@ export default function MainElement({ id }: Props) {
                 value: name
             }
         }))
+        setTimeout(() => dispatch(elementsActions.clearElementAction()), 500)
 
-        dispatch(elementsActions.clearElementAction())
     }
     return (
         <Container>
             <IconButton onClick={() => dispatch(elementsActions.collapseItem(id))}>
                 {collapedItems.includes(id) ? <TfiAngleDown size={16} /> : <TfiAngleUp size={16} />}
-
             </IconButton>
             <IconButton onClick={() => dispatch(elementsActions.setElementAction({
                 action: 'show-element-delete-button',
@@ -86,7 +86,7 @@ export default function MainElement({ id }: Props) {
                     placeholder='Name cannot be empty!'
                     sx={{ borderColor: element?.color }}
                 />
-            ) : (<Box onClick={() => router.push(`${router.asPath}?view=${element?._id}`)}>
+            ) : (<Box sx={{ cursor: 'pointer' }} onClick={() => router.push(`${router.asPath}?view=${element?._id}`)}>
                 <ThemedText sx={{ whiteSpace: 'nowrap', color: element?.color }}>
                     {element?.name}
                 </ThemedText>

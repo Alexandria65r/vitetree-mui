@@ -1,17 +1,19 @@
 import { Box, Menu, MenuItem, styled } from '@mui/material'
 import React, { MutableRefObject, useRef } from 'react'
-import { colorScheme } from '../../theme'
+import { ElipsisText, ThemedText, colorScheme } from '../../theme'
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state'
 import { BiTrash } from 'react-icons/bi'
 import { HiPencil } from 'react-icons/hi'
 import { MdNotes } from 'react-icons/md'
 import StatusAndPriorityPickers from './poppers/status-and-priority-pickers'
 import { useAppDispatch, useAppSelector, useElementAction, useSelectedElement } from '../../../store/hooks'
-import { getElementById } from '../../../reducers/elements-reducer/elements-thunks'
+import { DeleteElementThunk, getElementById } from '../../../reducers/elements-reducer/elements-thunks'
 import ChildRootLine from './child-root-line'
 import { elementsActions } from '../../../reducers/elements-reducer'
+import { mainActions } from '../../../reducers/main-reducer'
 
 const Container = styled(Box)(({ theme }) => ({
+
   display: 'flex',
   alignItems: 'center',
 
@@ -25,19 +27,20 @@ const SubElementRootLine = styled(Box)(({ theme }) => ({
   borderRadius: '0 0 1px 20px'
 }))
 const SubElement = styled(Box)(({ theme }) => ({
-  width: 'fit-content',
+  //flex: 1,
+   width: 'fit-content',
   marginTop: 10,
   padding: 10,
-  fontSize: 14,
-  minHeight:40,
-  borderRadius: '4px 9px 9px 4px',
+  minHeight: 40,
+  borderRadius: '19px 19px 19px 19px',
+  //width: 280,
   cursor: 'pointer',
   backgroundColor: colorScheme(theme).lightToSecondaryColor,
   color: colorScheme(theme).TextColor,
   transition: '0.3s all',
   boxShadow: `0 1px 3px 0 ${colorScheme(theme).darkGreyToSecondary}`,
   [theme.breakpoints.up('md')]: {
-    width: 'fit-content',
+    Width: 'fit-content',
     maxWidth: 280,
   },
   '&:hover': {
@@ -47,7 +50,7 @@ const SubElement = styled(Box)(({ theme }) => ({
 const EditableElement = styled(Box)(({ theme }) => ({
   width: 'fit-content',
   padding: '8px 10px',
-  borderRadius: 5,
+  borderRadius: 19,
   backgroundColor: colorScheme(theme).lightToSecondaryColor,
   color: colorScheme(theme).TextColor,
 }))
@@ -58,10 +61,11 @@ const MenuListItem = styled(MenuItem)(({ theme }) => ({
 }))
 
 type Props = {
-  id: string
+  id: string;
+  parent: 'main-tree' | 'element-detail'
 }
 
-export default function GroupedSubItem({ id }: Props) {
+export default function GroupedSubItem({ id, parent }: Props) {
   const dispatch = useAppDispatch()
   const subElement = useSelectedElement(id)
   const color = useSelectedElement(subElement?.parentElementId ?? '')?.color
@@ -73,7 +77,7 @@ export default function GroupedSubItem({ id }: Props) {
       id,
       update: {
         key: 'name',
-        value: subElRef.current.innerHTML
+        value: subElRef.current.innerText
       }
     }))
     dispatch(elementsActions.clearElementAction())
@@ -83,7 +87,7 @@ export default function GroupedSubItem({ id }: Props) {
   return (
     <Container>
       <ChildRootLine color={color ?? ''} />
-      <PopupState variant='popper'>
+      <PopupState variant='popper' >
         {(popupState) => (<>
 
           {isSubEditting ? (
@@ -101,8 +105,8 @@ export default function GroupedSubItem({ id }: Props) {
             </SubElement>
 
           ) : (
-            <SubElement sx={{ color: color, userSelect: 'none',  }} {...bindTrigger(popupState)}>
-              {subElement?.name}
+            <SubElement sx={{ userSelect: 'none', }} {...bindTrigger(popupState)}>
+              <ElipsisText text={subElement.name} lineClamp={parent === 'main-tree' ? 1 : 0} color={color ?? ''} sx={{ fontWeight: 500 }} />
             </SubElement>
           )}
 
@@ -142,7 +146,12 @@ export default function GroupedSubItem({ id }: Props) {
               <MdNotes size={16} />
               Item Update
             </MenuListItem>
-            <MenuListItem>
+            <MenuListItem
+              onClick={() => dispatch(mainActions.setModal({
+                component: 'delete-element-item',
+                itemId: id,
+                itemType: 'child'
+              }))}>
               <BiTrash size={16} />
               Delete</MenuListItem>
           </Menu>

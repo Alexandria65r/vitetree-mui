@@ -2,7 +2,7 @@ import { FormatMoney } from "format-money-js";
 import moment from "moment";
 
 
-
+export const subLimit = 4;
 const fm = new FormatMoney({
     decimals: 2
 })
@@ -122,9 +122,9 @@ export function formatMoney(amount: number) {
 
 
 export const colors = [
-    // "#ffffff",
-    // "#d0d1df",
-    // "#f44336",
+     "#ffffff",
+    "#d0d1df",
+    "#f44336",
     "#e91e63",
     "#9c27b0",
     "#c5a5ff",

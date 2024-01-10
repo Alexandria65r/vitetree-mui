@@ -22,8 +22,6 @@ const Container = styled(Box)(({ theme }) => ({
     backgroundColor: colorScheme(theme).primaryColor,
     [theme.breakpoints.down("sm")]: {
         width: '100%',
-        top: 'unset',
-        bottom: 0
     },
     [theme.breakpoints.up("xl")]: {
         width: '60%',
@@ -39,7 +37,10 @@ const Header = styled(Box)(({ theme }) => ({
     backgroundColor: colorScheme(theme).lightToSecondaryColor,
 }))
 const InnerWrapper = styled(Box)(({ theme }) => ({
-    padding: 10
+    padding: 10,
+    [theme.breakpoints.up('xl')]:{
+        width:'30%'
+    }
 }))
 
 
@@ -64,7 +65,7 @@ export default function ElementDetailsModal({ }: Props) {
                     <ThemedText sx={{ fontSize: 18, fontWeight: 600 }}>Task Group Details</ThemedText>
                 </Header>
                 <InnerWrapper>
-                    <ElementTreeItem element={element} />
+                    <ElementTreeItem element={element} parent='element-detail' />
                 </InnerWrapper>
             </Container>
         </Modal>
