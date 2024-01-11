@@ -39,7 +39,7 @@ type Props = {
   totalSubs: number
 }
 
-export default function TreeOptions({ id, totalSubs,parent }: Props) {
+export default function TreeOptions({ id, totalSubs, parent }: Props) {
   const dispatch = useAppDispatch()
   const element = useAppSelector((state) => getElementById(state, id))
   const router = useRouter()
@@ -54,6 +54,18 @@ export default function TreeOptions({ id, totalSubs,parent }: Props) {
     }))
   }
 
+
+  function addSubElement() {
+    dispatch(elementsActions.setElementAction({
+      elementId: id,
+      action: 'add-sub-element'
+    }))
+
+    if (totalSubs > subLimit && parent !== 'element-detail') {
+      router.push(`${router.asPath}?view=${element?._id}`)
+    }
+  }
+
   return (
     <Container>
       <ChildRootLine color={element?.color ?? ''} />
@@ -64,10 +76,7 @@ export default function TreeOptions({ id, totalSubs,parent }: Props) {
         <DuplicateActionsPopper id={element?._id ?? ''} />
 
         <OptionButton
-          onClick={() => dispatch(elementsActions.setElementAction({
-            elementId: id,
-            action: 'add-sub-element'
-          }))}>
+          onClick={addSubElement}>
           <MdAdd size={16} color={element?.color ?? ''} />
         </OptionButton>
         <OptionButton onClick={() => dispatch(elementsActions.setElementAction({
@@ -77,13 +86,7 @@ export default function TreeOptions({ id, totalSubs,parent }: Props) {
           <HiPencil size={16} color={element?.color ?? ''} />
         </OptionButton>
         <ColorPickerPopper color={element?.color ?? ''} onChange={handleColorChange} />
-        {parent=='main-tree'&& totalSubs > subLimit && (
-          <OptionButton
-            sx={{ color: element?.color ?? '' }}
-            onClick={() => router.push(`${router.asPath}?view=${element?._id}`)}>
-            {totalSubs - subLimit}+
-          </OptionButton>
-        )}
+  
       </Options>
     </Container>
   )

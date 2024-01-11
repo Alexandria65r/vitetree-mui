@@ -1,5 +1,5 @@
 import { Modal, Box, styled } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useAppSelector, useSelectedElement } from '../../../store/hooks'
 import { useDispatch } from 'react-redux'
 import { useRouter } from 'next/router'
@@ -9,6 +9,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import ElementTreeItem from '../element-tree/element-tree-item'
 import { mainActions } from '../../../reducers/main-reducer'
 import WestIcon from '@mui/icons-material/West';
+import { elementsActions } from '../../../reducers/elements-reducer'
 
 
 
@@ -38,8 +39,8 @@ const Header = styled(Box)(({ theme }) => ({
 }))
 const InnerWrapper = styled(Box)(({ theme }) => ({
     padding: 10,
-    [theme.breakpoints.up('xl')]:{
-        width:'30%'
+    [theme.breakpoints.up('xl')]: {
+        width: '30%'
     }
 }))
 
@@ -55,11 +56,18 @@ export default function ElementDetailsModal({ }: Props) {
     const element = useSelectedElement(id ?? '')
 
 
+    
+    function back() {
+        router.push(`/tasks/vitetree/some-id`)
+        dispatch(elementsActions.clearElementAction())
+    }
+
+
     return (
         <Modal open={open} >
             <Container className='trans-from-right'>
                 <Header>
-                    <ButtonIcon onClick={() => router.push(`/tasks/vitetree/some-id`)}>
+                    <ButtonIcon onClick={back}>
                         <WestIcon sx={{ fontSize: 26 }} />
                     </ButtonIcon>
                     <ThemedText sx={{ fontSize: 18, fontWeight: 600 }}>Task Group Details</ThemedText>

@@ -42,10 +42,11 @@ const Input = styled(StyledInput)(({ theme }) => ({
 }))
 
 type Props = {
-    id: string
+    id: string;
+    parent: 'main-tree' | 'element-detail'
 }
 
-export default function MainElement({ id }: Props) {
+export default function MainElement({ id, parent }: Props) {
     const router = useRouter()
     const element = useSelectedElement(id)
     const isEditting = useElementAction({ elementId: id, action: 'edit-element' })
@@ -86,7 +87,16 @@ export default function MainElement({ id }: Props) {
                     placeholder='Name cannot be empty!'
                     sx={{ borderColor: element?.color }}
                 />
-            ) : (<Box sx={{ cursor: 'pointer' }} onClick={() => router.push(`${router.asPath}?view=${element?._id}`)}>
+            ) : (<Box sx={{ cursor: 'pointer' }} onClick={() => {
+                if (parent === 'main-tree') {
+                    router.push(`${router.asPath}?view=${element?._id}`)
+                } else {
+                    dispatch(elementsActions.setElementAction({
+                        elementId: id,
+                        action: 'edit-element'
+                    }))
+                }
+            }}>
                 <ThemedText sx={{ whiteSpace: 'nowrap', color: element?.color }}>
                     {element?.name}
                 </ThemedText>

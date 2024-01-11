@@ -6,14 +6,16 @@ import { BiTrash } from 'react-icons/bi'
 import { HiPencil } from 'react-icons/hi'
 import { MdNotes } from 'react-icons/md'
 import StatusAndPriorityPickers from './poppers/status-and-priority-pickers'
-import { useAppDispatch, useAppSelector, useElementAction, useSelectedElement } from '../../../store/hooks'
-import { DeleteElementThunk, getElementById } from '../../../reducers/elements-reducer/elements-thunks'
+import { useAppDispatch, useElementAction, useSelectedElementIndex, useSelectedElement, useSubElements } from '../../../store/hooks'
 import ChildRootLine from './child-root-line'
 import { elementsActions } from '../../../reducers/elements-reducer'
 import { mainActions } from '../../../reducers/main-reducer'
+import { OptionButton } from '../../reusable/styles'
+import { subLimit } from '../../reusable/helpers'
+import { useRouter } from 'next/router'
 
 const Container = styled(Box)(({ theme }) => ({
-
+  position: 'relative',
   display: 'flex',
   alignItems: 'center',
 
@@ -28,7 +30,7 @@ const SubElementRootLine = styled(Box)(({ theme }) => ({
 }))
 const SubElement = styled(Box)(({ theme }) => ({
   //flex: 1,
-   width: 'fit-content',
+  width: 'fit-content',
   marginTop: 10,
   padding: 10,
   minHeight: 40,
@@ -66,8 +68,11 @@ type Props = {
 }
 
 export default function GroupedSubItem({ id, parent }: Props) {
+  const router = useRouter()
   const dispatch = useAppDispatch()
   const subElement = useSelectedElement(id)
+  const elementPos = useSelectedElementIndex(id)
+  const totalSubs = useSubElements(subElement.parentElementId ?? "")?.length;
   const color = useSelectedElement(subElement?.parentElementId ?? '')?.color
   const isSubEditting = useElementAction({ action: 'edit-sub-element', elementId: id })
   const subElRef: MutableRefObject<HTMLDivElement | any> = useRef()
@@ -105,10 +110,21 @@ export default function GroupedSubItem({ id, parent }: Props) {
             </SubElement>
 
           ) : (
-            <SubElement sx={{ userSelect: 'none', }} {...bindTrigger(popupState)}>
+            <SubElement sx={{ userSelect: 'none', position: 'relative' }} {...bindTrigger(popupState)}>
               <ElipsisText text={subElement.name} lineClamp={parent === 'main-tree' ? 1 : 0} color={color ?? ''} sx={{ fontWeight: 500 }} />
             </SubElement>
           )}
+     
+          {/* {parent == 'main-tree' && totalSubs > subLimit && elementPos.index === 8  && (
+            <OptionButton
+              sx={{ color: color ?? '', position: 'absolute', right: 0, bottom: 0 }}
+              onClick={() => {
+                router.push(`${router.asPath}?view=${subElement?.parentElementId}`)
+                popupState.close()
+              }}>
+              {totalSubs - subLimit}+
+            </OptionButton>
+          )} */}
 
 
           <Menu {...bindMenu(popupState)}
