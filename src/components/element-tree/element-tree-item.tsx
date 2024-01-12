@@ -84,6 +84,7 @@ export default function ElementTreeItem({ element, parent }: Props) {
     const dispatch = useAppDispatch()
     const collapedItems = useAppSelector((state) => state.ElementsReducer.collapedItems)
     const subElements = useSubElements(element._id);
+   
     const slicedSubElements = subElements.slice(0, parent === 'main-tree' ? subLimit : 999)
     const isAddNewSubElement = useElementAction({ action: 'add-sub-element', elementId: element._id })
     const showElementDeleteButton = useElementAction({ action: 'show-element-delete-button', elementId: element._id })

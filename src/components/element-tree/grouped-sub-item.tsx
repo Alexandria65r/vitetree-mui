@@ -104,7 +104,7 @@ export default function GroupedSubItem({ id, parent }: Props) {
               }
             }}>
               <EditableElement ref={subElRef} contentEditable={isSubEditting} onBlur={handleBlur}
-                sx={{ color: color, outline: 'none', border: `1px dashed ${color}` }} >
+                sx={{ color: color, outline: 'none',fontSize:14, border: `1px dashed ${color}` }} >
                 {subElement?.name}
               </EditableElement>
             </SubElement>
@@ -115,16 +115,16 @@ export default function GroupedSubItem({ id, parent }: Props) {
             </SubElement>
           )}
      
-          {/* {parent == 'main-tree' && totalSubs > subLimit && elementPos.index === 8  && (
+          {parent == 'main-tree' && totalSubs > subLimit && elementPos.index === 8  && (
             <OptionButton
-              sx={{ color: color ?? '', position: 'absolute', right: 0, bottom: 0 }}
+              sx={{ color: color ?? '', position: 'absolute', right: -10, bottom: 0 }}
               onClick={() => {
                 router.push(`${router.asPath}?view=${subElement?.parentElementId}`)
                 popupState.close()
               }}>
               {totalSubs - subLimit}+
             </OptionButton>
-          )} */}
+          )}
 
 
           <Menu {...bindMenu(popupState)}
