@@ -2,49 +2,40 @@ import { Box, Menu, MenuItem, colors, styled } from '@mui/material'
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state'
 import React from 'react'
 import { PickerButton } from '../../../reusable/styles'
-import { BiDuplicate } from 'react-icons/bi'
-import { MdContentCopy } from 'react-icons/md'
-import { ImMoveUp } from 'react-icons/im'
 import { _pickerButtons } from '../../../reusable/helpers'
-import { useAppDispatch, useAppSelector } from '../../../../store/hooks'
+import { useAppDispatch, useAppSelector, useParentAndSubElementsFromSubElementId } from '../../../../store/hooks'
 import { getElementById, statusAndPriorityThunk } from '../../../../reducers/elements-reducer/elements-thunks'
+import UserAvatar from '../../user/user-avatar'
 
 
 const Container = styled(Box)(({ theme }) => ({
-    flex: 1
+
 }))
 const MenuListItem = styled(MenuItem)(({ theme }) => ({
     fontSize: 14,
     gap: 10,
     borderRadius: 10,
+    borderLeft: `2px solid transparent`
 }))
 
 type Props = {
     height?: number;
-    id: string;
+    id: string
 }
 
-export default function PriorityPickerPopper({ height, id }: Props) {
+export default function PersonPickerPopper({ height, id }: Props) {
+    const statusButtons = _pickerButtons('tasks')
     const dispatch = useAppDispatch()
-    const priorityButtons = _pickerButtons('tasks')
-    const element = useAppSelector((state) => getElementById(state, id))
+    const { subElement, parentElement } = useParentAndSubElementsFromSubElementId(id)
+
+
     return (
         <Container>
             <PopupState variant='popper'>
                 {(popupState) => (<>
-                    <PickerButton sx={{
-                        width: '100%',
-                        height,
-                        borderRadius: 19,
-                        bgcolor: colors.amber[600],
-                        border: `1px solid ${colors.amber[600]}`,
-                        //color:'#000',
-                        // fontWeight:600,
-                        // borderTopRightRadius: 0, borderBottomRightRadius: 0
-                    }}
-                        {...bindTrigger(popupState)}>
-                        {element?.priority?.value || 'priority'}
-                    </PickerButton>
+                    <Box {...bindTrigger(popupState)}>
+                        <UserAvatar avatarStyles={{ width: 25, height: 25 }} />
+                    </Box>
                     <Menu {...bindMenu(popupState)}
                         transformOrigin={{
                             horizontal: 'center',
@@ -63,17 +54,10 @@ export default function PriorityPickerPopper({ height, id }: Props) {
                             }
                         }}
                     >
-
-                        {priorityButtons['priority'].map((button) => (
-                            <MenuListItem key={button.value}
-                                onClick={() => dispatch(statusAndPriorityThunk({
-                                    elementId: id,
-                                    picker: button,
-                                    key: 'priority'
-                                }))}
-                            >
-                                {/* <button.icon /> */}
-                                {button.value}
+                        {statusButtons['status'].map((button) => (
+                            <MenuListItem sx={{ '&:hover': { borderColor: parentElement.color } }}>
+                                <UserAvatar avatarStyles={{ width: 35, height: 35 }} />
+                                Robert Ching'ambu
                             </MenuListItem>
                         ))}
                     </Menu>

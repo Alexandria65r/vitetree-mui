@@ -14,6 +14,7 @@ import { OptionButton } from '../../reusable/styles'
 import { subLimit } from '../../reusable/helpers'
 import { useRouter } from 'next/router'
 import UserAvatar from '../user/user-avatar'
+import PersonPickerPopper from './poppers/person-picker-popper'
 
 const Container = styled(Box)(({ theme }) => ({
   position: 'relative',
@@ -59,19 +60,20 @@ const EditableElement = styled(Box)(({ theme }) => ({
 }))
 
 const SubHead = styled(Box)(({ theme }) => ({
-  display:'flex',
-  gap:10,
-  alignItems:'center',
-  borderRadius:0,
-  marginInline:4,
+  display: 'flex',
+  gap: 10,
+  alignItems: 'center',
+  borderRadius: 0,
+  marginInline: 4,
   height: 35,
-  paddingInline:5,
- // boxShadow:`0 1px 3px 0 ${colorScheme(theme).greyToTertiary}`,
+  paddingInline: 5,
+  // boxShadow:`0 1px 3px 0 ${colorScheme(theme).greyToTertiary}`,
   //borderBottom: `1px solid ${colorScheme(theme).greyToTertiary}!important`
 }))
 const MenuListItem = styled(MenuItem)(({ theme }) => ({
   fontSize: 14,
-  gap: 10
+  gap: 10,
+  borderRadius: 10,
 }))
 
 type Props = {
@@ -116,10 +118,10 @@ export default function GroupedSubItem({ id, parent }: Props) {
             }}>
               <SubHead sx={{ borderColor: color }}>
                 <StatusAndPriorityPickers id={subElement._id} height={25} />
-                <UserAvatar avatarStyles={{ width: 25, height: 20 }} />
+                <PersonPickerPopper id={id} />
               </SubHead>
               <EditableElement ref={subElRef} contentEditable={isSubEditting} onBlur={handleBlur}
-                sx={{width:'100%', color: color, outline: 'none', fontSize: 14, border: `1px dashed ${color}` }} >
+                sx={{ width: '100%', color: color, outline: 'none', fontSize: 14, border: `1px dashed ${color}` }} >
                 {subElement?.name}
               </EditableElement>
             </SubElement>
@@ -127,10 +129,10 @@ export default function GroupedSubItem({ id, parent }: Props) {
           ) : (
             <SubElement sx={{ userSelect: 'none', position: 'relative' }} >
               <SubHead sx={{ borderColor: color }}>
-                  <StatusAndPriorityPickers id={subElement._id} height={20}/>
-                  <UserAvatar avatarStyles={{width:25,height:25}} />
+                <StatusAndPriorityPickers id={subElement._id} height={20} />
+                <PersonPickerPopper id={id} />
               </SubHead>
-                <Box sx={{ padding: '0px 10px 10px 10px' }} {...bindTrigger(popupState)}>
+              <Box sx={{ padding: '0px 10px 10px 10px' }} {...bindTrigger(popupState)}>
                 <ElipsisText text={subElement.name} lineClamp={parent === 'main-tree' ? 2 : 0} color={color ?? ''} sx={{ fontWeight: 500 }} />
               </Box>
             </SubElement>
@@ -167,7 +169,7 @@ export default function GroupedSubItem({ id, parent }: Props) {
             }}
           >
 
-            <MenuListItem sx={{ mt: 1 }}
+            <MenuListItem
               onClick={() => {
                 dispatch(elementsActions.setElementAction({
                   elementId: id,

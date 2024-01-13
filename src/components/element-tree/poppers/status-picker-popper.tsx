@@ -2,9 +2,6 @@ import { Box, Menu, MenuItem, colors, styled } from '@mui/material'
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state'
 import React from 'react'
 import { PickerButton } from '../../../reusable/styles'
-import { BiDuplicate } from 'react-icons/bi'
-import { MdContentCopy } from 'react-icons/md'
-import { ImMoveUp } from 'react-icons/im'
 import { _pickerButtons } from '../../../reusable/helpers'
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks'
 import { getElementById, statusAndPriorityThunk } from '../../../../reducers/elements-reducer/elements-thunks'
@@ -15,7 +12,8 @@ const Container = styled(Box)(({ theme }) => ({
 }))
 const MenuListItem = styled(MenuItem)(({ theme }) => ({
     fontSize: 14,
-    gap: 10
+    gap: 10,
+    borderRadius: 10,
 }))
 
 type Props = {

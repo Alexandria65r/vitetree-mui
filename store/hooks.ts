@@ -14,11 +14,19 @@ export const useAppSelector: TypedUseSelectorHook<AppState> = useSelector
 export const useSelectedElement = (id: string) => {
     return useAppSelector((state) => getElementById(state, id)) || ElementSchema
 }
+export const useParentAndSubElementsFromSubElementId = (id: string) => {
+    const subElement = useAppSelector((state) => getElementById(state, id)) ?? ElementSchema
+    const parentElement = useAppSelector((state) => getElementById(state, subElement?.parentElementId ?? ''))
+    return {
+        subElement,
+        parentElement
+    }
+}
 export const useSelectedElementIndex = (id: string) => {
     const element = useAppSelector((state) => getElementById(state, id)) || ElementSchema
     const elements = useAppSelector((state) => state.ElementsReducer.elements)
     return {
-        id:element._id,
+        id: element._id,
         index: elements.indexOf(element)
     }
 }
