@@ -8,13 +8,11 @@ import ElementTreeItem from './element-tree-item';
 import { Element } from '../../models/element';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { AddNewElementThunk } from '../../../reducers/elements-reducer/elements-thunks';
-import NewItemInput from './new-item-input';
 import VerticalAlignTopIcon from '@mui/icons-material/VerticalAlignTop';
 import styles from './styles/element-tree.module.css'
-import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutlined';
 import { BsChevronLeft } from "react-icons/bs";
-import { CiCircleChevLeft } from "react-icons/ci";
 import { BsChevronRight } from "react-icons/bs";
+import NewItemInput from './new-item-input';
 
 const Container = styled(Box)(({ theme }) => ({
     position: 'relative',

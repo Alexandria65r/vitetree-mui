@@ -1,0 +1,8 @@
+.renderElementTreeItems::-webkit-scrollbar {
+    border-radius: 10px;
+    background-color: transparent;
+}
+.renderElementTreeItems::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    width: 20px;
+}
