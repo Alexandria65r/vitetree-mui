@@ -62,12 +62,12 @@ const SubHead = styled(Box)(({ theme }) => ({
   display:'flex',
   gap:10,
   alignItems:'center',
-  borderRadius:15,
-  margin:4,
+  borderRadius:0,
+  marginInline:4,
   height: 40,
-  paddingInline:10,
-  boxShadow:`0 1px 3px 0 ${colorScheme(theme).greyToTertiary}`,
-  //borderBottom: `1px solid ${colorScheme(theme).borderColor}`
+  paddingInline:5,
+ // boxShadow:`0 1px 3px 0 ${colorScheme(theme).greyToTertiary}`,
+  //borderBottom: `1px solid ${colorScheme(theme).greyToTertiary}!important`
 }))
 const MenuListItem = styled(MenuItem)(({ theme }) => ({
   fontSize: 14,
