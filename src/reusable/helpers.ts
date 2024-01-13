@@ -1,6 +1,8 @@
 import { FormatMoney } from "format-money-js";
 import moment from "moment";
-
+import { FaBug } from 'react-icons/fa'
+import { MdOutlineWarning, MdOutlineReviews, MdOutlineAutoFixHigh } from 'react-icons/md'
+import { BsFillCheckCircleFill } from 'react-icons/bs'
 
 export const subLimit = 4;
 const fm = new FormatMoney({
@@ -148,3 +150,37 @@ export const colors = [
     "#464646",
     "#111111",
 ];
+
+
+export function _pickerButtons(mode: string) {
+    if (mode === 'tasks') {
+        return {
+            priority: [
+                { value: 'High', accent: 'orange', type: 'priority', icon: '' },
+                { value: 'Medium', accent: '', type: 'priority', icon: '' },
+                { value: 'Low', accent: '', type: 'priority', icon: '' },
+                { value: 'Urgent', accent: '', type: 'priority', icon: '' },
+            ],
+            status: [
+                { value: 'Done', accent: '', type: 'status', icon: BsFillCheckCircleFill },
+                { value: 'Working on it', accent: '', type: 'status', icon: MdOutlineAutoFixHigh },
+                { value: 'Waiting Review', accent: '', type: 'status', icon: MdOutlineReviews },
+                { value: 'Open for bugs', accent: '', type: 'status', icon: FaBug },
+                { value: `Can't Reproduce`, accent: '', type: 'status', icon: MdOutlineWarning }
+            ]
+        }
+    } else {
+        return {
+            priority: [
+                { value: 'Must have', accent: '', type: 'priority', icon: "" },
+                { value: 'Nice to have', accent: '', type: 'priority', icon: "" }
+            ],
+            status: [
+                { value: 'Done', accent: '', type: 'status', icon: "" },
+                { value: 'Development', accent: '', type: 'status', icon: "" },
+                { value: 'Production', accent: '', type: 'status', icon: "" },
+            ]
+        }
+    }
+
+}

@@ -19,14 +19,15 @@ const PickersWrapper = styled(Box)(({ theme }) => ({
 }))
 
 type Props = {
-    height?:number
+    height?:number;
+    id:string
 }
 
-export default function StatusAndPriorityPickers({height }: Props) {
+export default function StatusAndPriorityPickers({height,id }: Props) {
     return (
         <PickersWrapper>
-            <PriorityPickerPopper height={height} />
-            <StatusPickerPopper height={height} />
+            <PriorityPickerPopper id={id} height={height} />
+            <StatusPickerPopper id={id} height={height} />
         </PickersWrapper>
     )
 }

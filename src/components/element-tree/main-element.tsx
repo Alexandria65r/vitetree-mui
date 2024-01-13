@@ -2,7 +2,7 @@
 import { Box, colors, styled } from '@mui/material'
 import React, { useState } from 'react'
 import { ButtonIcon, StyledInput } from '../../reusable/styles'
-import { colorScheme, ThemedText } from '../../theme'
+import { colorScheme, ElipsisText, ThemedText } from '../../theme'
 import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined';
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 import { TfiAngleDown, TfiAngleUp } from 'react-icons/tfi'
@@ -24,7 +24,10 @@ const IconButton = styled(ButtonIcon)(({ theme }) => ({
 
 const Container = styled(Box)(({ theme }) => ({
     display: 'flex',
-    flex: 1,
+    userSelect:'none',
+    // flex: 1,
+    minWidth: 330,
+    maxWidth: 330,
     alignItems: 'center',
     height: 40,
     paddingInline: 10,
@@ -103,9 +106,8 @@ export default function MainElement({ id, parent }: Props) {
                     }))
                 }
             }}>
-                <ThemedText sx={{ whiteSpace: 'nowrap', color: element?.color }}>
-                    {element?.name}
-                </ThemedText>
+                    <ElipsisText text={element?.name} color={element?.color??''} lineClamp={1} sx={{fontWeight:600}} />
+                
             </Box>
             )}
 

@@ -5,6 +5,9 @@ import { PickerButton } from '../../../reusable/styles'
 import { BiDuplicate } from 'react-icons/bi'
 import { MdContentCopy } from 'react-icons/md'
 import { ImMoveUp } from 'react-icons/im'
+import { _pickerButtons } from '../../../reusable/helpers'
+import { useAppDispatch, useAppSelector } from '../../../../store/hooks'
+import { getElementById, statusAndPriorityThunk } from '../../../../reducers/elements-reducer/elements-thunks'
 
 
 const Container = styled(Box)(({ theme }) => ({
@@ -16,10 +19,14 @@ const MenuListItem = styled(MenuItem)(({ theme }) => ({
 }))
 
 type Props = {
-    height?: number
+    height?: number;
+    id: string;
 }
 
-export default function PriorityPickerPopper({ height }: Props) {
+export default function PriorityPickerPopper({ height, id }: Props) {
+    const dispatch = useAppDispatch()
+    const priorityButtons = _pickerButtons('tasks')
+    const element = useAppSelector((state) => getElementById(state, id))
     return (
         <Container>
             <PopupState variant='popper'>
@@ -34,7 +41,9 @@ export default function PriorityPickerPopper({ height }: Props) {
                         // fontWeight:600,
                         // borderTopRightRadius: 0, borderBottomRightRadius: 0
                     }}
-                        {...bindTrigger(popupState)}>Priority</PickerButton>
+                        {...bindTrigger(popupState)}>
+                        {element?.priority?.value || 'priority'}
+                    </PickerButton>
                     <Menu {...bindMenu(popupState)}
                         transformOrigin={{
                             horizontal: 'center',
@@ -54,19 +63,18 @@ export default function PriorityPickerPopper({ height }: Props) {
                         }}
                     >
 
-                        <MenuListItem>
-                            <BiDuplicate size={16} />
-                            Duplicate
-                        </MenuListItem>
-                        <MenuListItem>
-                            <ImMoveUp size={16} />
-                            Move to
-                        </MenuListItem>
-                        <MenuListItem>
-                            <MdContentCopy size={16} />
-                            Copy from
-                        </MenuListItem>
-
+                        {priorityButtons['priority'].map((button) => (
+                            <MenuListItem key={button.value}
+                                onClick={() => dispatch(statusAndPriorityThunk({
+                                    elementId: id,
+                                    picker: button,
+                                    key: 'priority'
+                                }))}
+                            >
+                                {/* <button.icon /> */}
+                                {button.value}
+                            </MenuListItem>
+                        ))}
                     </Menu>
                 </>
                 )}

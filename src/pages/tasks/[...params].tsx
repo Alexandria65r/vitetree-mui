@@ -17,7 +17,7 @@ import ElementTreeItem from '../../components/element-tree/element-tree-item';
 import RenderElementTreeItems from '../../components/element-tree/render-element-tree-items';
 
 const Container = styled(Box)(({ theme }) => ({
-    padding: 10
+    padding: 10,
 }))
 const NewElementWrapper = styled(Box)(({ theme }) => ({
     padding: '10px 0 10px 30px'
@@ -69,13 +69,13 @@ const DeleteButton = styled(ButtonIcon)(({ theme }) => ({
 type Props = {}
 
 export default function Tasks({ }: Props) {
-    const elements = useParentElements()
+    const elements = useParentElements().reverse()
     const [isAddNewElement, toggleAddNewElement] = useState(false)
 
     return (
         <Layout>
             <Container>
-                <RenderElementTreeItems elements={elements}/>
+                <RenderElementTreeItems elements={elements} />
             </Container>
         </Layout>
     )

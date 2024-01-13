@@ -1,10 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { elementsActions } from ".";
-import { Element, ElementType } from "../../src/models/element";
+import { Element, ElementSchema, ElementType } from "../../src/models/element";
 import { AppState } from "../../store/store";
 import Randomstring from 'randomstring'
 import randomColor from 'randomcolor'
 import { mainActions } from "../main-reducer";
+import { PickerBtn } from "../../src/reusable/interfaces";
 
 export const AddNewElementThunk = createAsyncThunk<void,
     { elementType: 'parent' | 'child', cartegory: 'task' | 'feature' | '', parentElementId?: string },
@@ -47,6 +48,23 @@ export const AddNewElementThunk = createAsyncThunk<void,
 
 
     })
+export const statusAndPriorityThunk = createAsyncThunk<void,
+    { elementId: string, picker: PickerBtn, key: 'status' | 'priority' },
+    { state: AppState }>
+    ('elementsSlice/statusAndPriorityThunk', async (params, thunkAPI) => {
+        const dispatch = thunkAPI.dispatch
+        const state = thunkAPI.getState()
+        console.log(params)
+        dispatch(elementsActions.updateElement({
+            id: params.elementId,
+            update: {
+                key: params.key,
+                value: params.picker
+            }
+        }))
+    })
+
+
 export const DeleteElementThunk = createAsyncThunk<void, undefined, { state: AppState }>
     ('elementsSlice/DeleteElementThunk', async (_, thunkAPI) => {
         const dispatch = thunkAPI.dispatch
@@ -61,7 +79,6 @@ export const DeleteElementThunk = createAsyncThunk<void, undefined, { state: App
         dispatch(mainActions.closeModal())
     })
 
-
 export function getElementById(state: AppState, id: string) {
-    return state.ElementsReducer.elements.find((el) => el._id === id)
+    return state.ElementsReducer.elements.find((el) => el._id === id) ?? ElementSchema
 }

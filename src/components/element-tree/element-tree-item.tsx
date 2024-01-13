@@ -17,12 +17,12 @@ import { subLimit } from '../../reusable/helpers';
 
 
 const Container = styled(Box)(() => ({
-
+    width: 'fit-content',  
 }))
 
 
 const ElementItemWrapper = styled(Box)(() => ({
-    //  width: 'fit-content',
+      width: 'fit-content',
     marginTop: 10,
 }))
 const MainElementWrapper = styled(Box)(() => ({

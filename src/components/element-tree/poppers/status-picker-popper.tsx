@@ -5,6 +5,9 @@ import { PickerButton } from '../../../reusable/styles'
 import { BiDuplicate } from 'react-icons/bi'
 import { MdContentCopy } from 'react-icons/md'
 import { ImMoveUp } from 'react-icons/im'
+import { _pickerButtons } from '../../../reusable/helpers'
+import { useAppDispatch, useAppSelector } from '../../../../store/hooks'
+import { getElementById, statusAndPriorityThunk } from '../../../../reducers/elements-reducer/elements-thunks'
 
 
 const Container = styled(Box)(({ theme }) => ({
@@ -16,10 +19,17 @@ const MenuListItem = styled(MenuItem)(({ theme }) => ({
 }))
 
 type Props = {
-    height?: number
+    height?: number;
+    id: string
 }
 
-export default function StatusPickerPopper({ height }: Props) {
+export default function StatusPickerPopper({ height, id }: Props) {
+    const statusButtons = _pickerButtons('tasks')
+    const dispatch = useAppDispatch()
+    const element = useAppSelector((state) => getElementById(state, id))
+
+
+
     return (
         <Container>
             <PopupState variant='popper'>
@@ -32,7 +42,9 @@ export default function StatusPickerPopper({ height }: Props) {
                         border: `1px solid ${colors.green[400]}`,
                         // borderTopLeftRadius: 0, borderBottomLeftRadius: 0
                     }}
-                        {...bindTrigger(popupState)}>Status</PickerButton>
+                        {...bindTrigger(popupState)}>
+                        {element.status?.value || 'status'}
+                    </PickerButton>
                     <Menu {...bindMenu(popupState)}
                         transformOrigin={{
                             horizontal: 'center',
@@ -51,20 +63,18 @@ export default function StatusPickerPopper({ height }: Props) {
                             }
                         }}
                     >
+                        {statusButtons['status'].map((button) => (
+                            <MenuListItem
+                                onClick={() => dispatch(statusAndPriorityThunk({
+                                    elementId: id,
+                                    picker: button,
+                                    key: 'status'
+                                }))}>
+                                <button.icon size={16} />
+                                {button.value}
+                            </MenuListItem>
 
-                        <MenuListItem>
-                            <BiDuplicate size={16} />
-                            Duplicate
-                        </MenuListItem>
-                        <MenuListItem>
-                            <ImMoveUp size={16} />
-                            Move to
-                        </MenuListItem>
-                        <MenuListItem>
-                            <MdContentCopy size={16} />
-                            Copy from
-                        </MenuListItem>
-
+                        ))}
                     </Menu>
                 </>
                 )}

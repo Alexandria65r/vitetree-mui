@@ -14,8 +14,9 @@ import ReusableModal from './modals/reusable-modal'
 import ElementDetailsModal from './modals/element-details-modal'
 
 const FlexContainer = styled(Box)(({ theme }) => ({
-    display: 'flex',
-    height: 'calc(100vh - 66px)',
+    display: 'grid',
+    width: '100%',
+    gridTemplateColumns:'repeat(2,1fr)',
     [theme.breakpoints.down('sm')]: {
         display: 'block'
     }
@@ -82,7 +83,6 @@ export default function Layout({ children }: Props) {
                 <Box
                     sx={{
                         transition: '0.3s all',
-                        flexBasis: isSidebarOpen ? '5%' : '20%',
                         [theme.breakpoints.down('sm')]: {
                             display: 'none'
                         },
@@ -90,16 +90,13 @@ export default function Layout({ children }: Props) {
                             flexBasis: isSidebarOpen ? '5%' : '15%',
                         }
                     }}>
-
                     <AsideNavbar />
-
                 </Box>
-
-                <Box
+                 <Box
                     sx={{ flexBasis: isSidebarOpen ? '95%' : '90%', transition: '0.3s all' }}
                     className="sideBarAnimated">
                     {children}
-                </Box>
+                </Box> 
             </FlexContainer>
             <SideBar />
             <ReusableModal />
