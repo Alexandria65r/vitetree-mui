@@ -28,6 +28,7 @@ export default function PriorityPickerPopper({ height }: Props) {
                         width: '100%',
                         height,
                         borderRadius: 19,
+                        bgcolor: colors.amber[600],
                         border: `1px solid ${colors.amber[600]}`,
                         //color:'#000',
                         // fontWeight:600,

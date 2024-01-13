@@ -10,6 +10,10 @@ import { Element } from '../../models/element';
 import { useAppDispatch, useAppSelector, useElementAction, useSelectedElement } from '../../../store/hooks';
 import { elementsActions } from '../../../reducers/elements-reducer';
 import { mainActions } from '../../../reducers/main-reducer';
+
+
+
+
 import { useRouter } from 'next/router';
 const IconButton = styled(ButtonIcon)(({ theme }) => ({
     width: 30,
@@ -25,6 +29,8 @@ const Container = styled(Box)(({ theme }) => ({
     height: 40,
     paddingInline: 10,
     borderRadius: 19,
+    borderBottomLeftRadius: 0,
+    borderLeft: `6px solid ${colors.grey[400]}`,
     backgroundColor: colorScheme(theme).lightToSecondaryColor,
     color: colorScheme(theme).TextColor,
     boxShadow: `0 1px 3px 0 ${colorScheme(theme).darkGreyToSecondary}`
@@ -67,7 +73,7 @@ export default function MainElement({ id, parent }: Props) {
 
     }
     return (
-        <Container>
+        <Container sx={{ borderColor: element?.color ?? '' }}>
             <IconButton onClick={() => dispatch(elementsActions.collapseItem(id))}>
                 {collapedItems.includes(id) ? <TfiAngleDown size={16} /> : <TfiAngleUp size={16} />}
             </IconButton>

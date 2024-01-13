@@ -293,7 +293,7 @@ export const PickerButton = styled(StyledButton)(({ theme }) => ({
     gap: 10,
     fontSize: 14,
     borderRadius: 5,
-    color:colorScheme(theme).TextColor,
+    //color:colorScheme(theme).TextColor,
     backgroundColor:colorScheme(theme).lightToSecondaryColor
 
 }))

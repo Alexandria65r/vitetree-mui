@@ -19,7 +19,7 @@ import { useRouter } from 'next/router'
 const Container = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
-  marginTop: 10,
+  marginTop: 0,
 
 }))
 
@@ -69,7 +69,7 @@ export default function TreeOptions({ id, totalSubs, parent }: Props) {
   return (
     <Container>
       <ChildRootLine color={element?.color ?? ''} />
-      <Options sx={{ flex: 1 }}>
+      <Options sx={{ flex: 1,my:1 }}>
         <OptionButton>
           <MdNotes size={16} color={element?.color ?? ''} />
         </OptionButton>

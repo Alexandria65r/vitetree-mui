@@ -35,7 +35,7 @@ const MainElementWrapper = styled(Box)(() => ({
 
 
 const SubElementWrapper = styled(Box)(() => ({
-    marginLeft: 15,
+    marginLeft: 0,
     borderBottomLeftRadius: 6,
     borderLeft: `6px solid ${colors.grey[400]}`
 }))
@@ -99,7 +99,7 @@ export default function ElementTreeItem({ element, parent }: Props) {
         <Container >
             <ElementItemWrapper>
                 <MainElementWrapper>
-                    <UserAvatar avatarStyles={null} />
+                    {/* <UserAvatar avatarStyles={null} /> */}
                     <MainElement parent={parent} id={element._id} />
                     {showElementDeleteButton && (
                         <DeleteButton
@@ -112,7 +112,7 @@ export default function ElementTreeItem({ element, parent }: Props) {
                     )}
                 </MainElementWrapper>
                 <SubElementWrapper sx={{ borderColor: element?.color }}>
-                    <TreePickers id={element._id} />
+                    {/* <TreePickers id={element._id} /> */}
                     {!collapedItems.includes(element._id) && (
                         <MappedSubElements ref={ref}
                             sx={{

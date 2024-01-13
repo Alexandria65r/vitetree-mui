@@ -13,6 +13,7 @@ import { mainActions } from '../../../reducers/main-reducer'
 import { OptionButton } from '../../reusable/styles'
 import { subLimit } from '../../reusable/helpers'
 import { useRouter } from 'next/router'
+import UserAvatar from '../user/user-avatar'
 
 const Container = styled(Box)(({ theme }) => ({
   position: 'relative',
@@ -32,7 +33,7 @@ const SubElement = styled(Box)(({ theme }) => ({
   //flex: 1,
   width: 'fit-content',
   marginTop: 10,
-  padding: 10,
+  //padding: 10,
   minHeight: 40,
   borderRadius: '19px 19px 19px 19px',
   //width: 280,
@@ -57,6 +58,17 @@ const EditableElement = styled(Box)(({ theme }) => ({
   color: colorScheme(theme).TextColor,
 }))
 
+const SubHead = styled(Box)(({ theme }) => ({
+  display:'flex',
+  gap:10,
+  alignItems:'center',
+  borderRadius:15,
+  margin:4,
+  height: 40,
+  paddingInline:10,
+  boxShadow:`0 1px 3px 0 ${colorScheme(theme).greyToTertiary}`,
+  //borderBottom: `1px solid ${colorScheme(theme).borderColor}`
+}))
 const MenuListItem = styled(MenuItem)(({ theme }) => ({
   fontSize: 14,
   gap: 10
@@ -104,18 +116,24 @@ export default function GroupedSubItem({ id, parent }: Props) {
               }
             }}>
               <EditableElement ref={subElRef} contentEditable={isSubEditting} onBlur={handleBlur}
-                sx={{ color: color, outline: 'none',fontSize:14, border: `1px dashed ${color}` }} >
+                sx={{ color: color, outline: 'none', fontSize: 14, border: `1px dashed ${color}` }} >
                 {subElement?.name}
               </EditableElement>
             </SubElement>
 
           ) : (
-            <SubElement sx={{ userSelect: 'none', position: 'relative' }} {...bindTrigger(popupState)}>
-              <ElipsisText text={subElement.name} lineClamp={parent === 'main-tree' ? 1 : 0} color={color ?? ''} sx={{ fontWeight: 500 }} />
+            <SubElement sx={{ userSelect: 'none', position: 'relative' }} >
+              <SubHead sx={{ borderColor: color }}>
+                  <StatusAndPriorityPickers height={25}/>
+                  <UserAvatar avatarStyles={{width:25,height:25}} />
+              </SubHead>
+                <Box sx={{ padding: '0px 10px 10px 10px' }} {...bindTrigger(popupState)}>
+                <ElipsisText text={subElement.name} lineClamp={parent === 'main-tree' ? 2 : 0} color={color ?? ''} sx={{ fontWeight: 500 }} />
+              </Box>
             </SubElement>
           )}
-     
-          {parent == 'main-tree' && totalSubs > subLimit && elementPos.index === 8  && (
+
+          {/* {parent == 'main-tree' && totalSubs > subLimit && elementPos.index === 8  && (
             <OptionButton
               sx={{ color: color ?? '', position: 'absolute', right: -10, bottom: 0 }}
               onClick={() => {
@@ -124,7 +142,7 @@ export default function GroupedSubItem({ id, parent }: Props) {
               }}>
               {totalSubs - subLimit}+
             </OptionButton>
-          )}
+          )} */}
 
 
           <Menu {...bindMenu(popupState)}

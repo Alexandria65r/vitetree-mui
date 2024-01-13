@@ -15,7 +15,7 @@ import { AddNewElementThunk } from '../../../reducers/elements-reducer/elements-
 const Container = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
-  marginTop: 10,
+  marginTop: 0,
 
 }))
 
@@ -71,7 +71,7 @@ export default function SubItemInput({ id }: Props) {
   return (
     <Container>
       <ChildRootLine color={color ?? ''} />
-      <Options sx={{ flex: 1 }}>
+      <Options sx={{ flex: 1,my:1 }}>
         <Input
           onChange={({ target }) => dispatch(elementsActions.setNewElementName(target.value))}
           //onBlur={handleBlur}

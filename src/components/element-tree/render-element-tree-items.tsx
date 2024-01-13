@@ -25,7 +25,7 @@ const MappedElements = styled(Box)(({ theme }) => ({
         gridTemplateColumns: 'repeat(3,1fr)',
     },
     [theme.breakpoints.up('xl')]: {
-        gridTemplateColumns: 'repeat(4,1fr)',
+        gridTemplateColumns: 'repeat(5,1fr)',
     }
 }))
 const NewElementWrapper = styled(Box)(() => ({
