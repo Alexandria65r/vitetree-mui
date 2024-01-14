@@ -1,13 +1,13 @@
 import { Box, styled } from '@mui/material'
-import React, { ReactNode } from 'react'
+import React, { MutableRefObject, ReactNode, useRef } from 'react'
 import { colorScheme } from '../../theme'
 import { ButtonIcon, Textarea } from '../../reusable/styles'
-import { useAppDispatch } from '../../../store/hooks'
+import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import { elementsActions } from '../../../reducers/elements-reducer'
 
 
 const Container = styled(Box)(({ theme }) => ({
-  flex:1,
+  flex: 1,
   display: 'flex',
   // alignItems: 'center',
   marginTop: 0,
@@ -33,7 +33,7 @@ const CreateButton = styled(ButtonIcon)(({ theme }) => ({
 const Input = styled(Textarea)(({ theme }) => ({
   flex: 1,
   height: 40,
- // paddingBlock: 10,
+  // paddingBlock: 10,
   paddingInline: 18,
   borderRadius: 12,
   border: 0,
@@ -51,27 +51,37 @@ type Props = {
   create: () => void
 }
 
-export default function NewItemInput({  create,color, placeholder, createIcon }: Props) {
+export default function NewItemInput({ create, color, placeholder, createIcon }: Props) {
   const dispatch = useAppDispatch()
+  const newElementName = useAppSelector((state) => state.ElementsReducer.newElementName)
+  const inputRef: MutableRefObject<HTMLTextAreaElement> | any = useRef()
+
 
   function handleBlur() {
     create()
     setTimeout(() => {
-      dispatch(elementsActions.clearElementAction())
+      // dispatch(elementsActions.clearElementAction())
     }, 100)
+    inputRef.current?.focus()
   }
+
+
   function handleKeyUp(e: any) {
     console.log(e)
     if (e.key === 'Enter') {
       create()
     }
   }
+
+
   return (
     <Container>
-      <Options sx={{ flex:1,my: 1 }}>
+      <Options sx={{ flex: 1, my: 1 }}>
         <Input
+          ref={inputRef}
+          value={newElementName}
           onChange={({ target }) => dispatch(elementsActions.setNewElementName(target.value))}
-          onBlur={handleBlur}
+          // onBlur={handleBlur}
           placeholder={placeholder}
           onInput={handleKeyUp}
           autoFocus

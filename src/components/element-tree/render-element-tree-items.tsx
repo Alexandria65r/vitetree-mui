@@ -16,7 +16,7 @@ import NewItemInput from './new-item-input';
 
 const Container = styled(Box)(({ theme }) => ({
     position: 'relative',
-    height: 'calc(100vh - 180px)',
+    height: 'calc(100vh - 150px)',
     //width: '100vw',
     overflowX: 'auto',
     scrollBehavior: 'smooth',
@@ -64,13 +64,18 @@ const NewElementButton = styled(StyledButton)(({ theme }) => ({
 
 
 const CustomScrollContainer = styled(Box)(({ theme }) => ({
-    width: '60%',
+    width: '100%',
     display: 'flex',
+    height: 60,
     gap: 10,
     justifyContent: 'center',
+    alignItems: 'center',
     position: 'fixed',
-    bottom: 20,
+    bottom: 0,
     left: '50%',
+    borderTopLeftRadius:19,
+    borderTopRightRadius:19,
+    backgroundColor: colorScheme(theme).greyToTertiary,
     transform: 'translateX(-50%)',
     [theme.breakpoints.up('sm')]: {
         display: 'none'

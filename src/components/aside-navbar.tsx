@@ -22,6 +22,7 @@ const AsideNav = styled(Box)(({ theme }) => ({
   flexWrap: 'wrap',
   alignItems: 'flex-start',
   height: 'calc(100vh - 65px)',
+  backgroundColor: colorScheme(theme).lightToprimaryColor,
    borderRight: `1px solid ${colorScheme(theme).borderColor}`,
   padding: 10,
   flexBasis: '100%',
@@ -99,7 +100,7 @@ export default function AsideNavbar({ }: Props) {
             startIcon={<NotificationsNoneIcon sx={{ mr: isSidebarOpen && !isMobile ? 0 : 1, fontSize: 28 }} />}
             isActive={router.asPath.includes('/notifications')}
           />
-          <NavItem route={user.interaction === 'job seeker' ? '/find-creators/q=nothing' : `/page/${user?.pageInfo?.pageId}`}
+          <NavItem route={'/'}
             name={isSidebarOpen && !isMobile ? '' : 'Home'}
             startIcon={<BiHomeAlt size={25} style={{ marginRight: isSidebarOpen && !isMobile ? 0 : 10 }} />}
             isActive={router.asPath === '/dashboard'}

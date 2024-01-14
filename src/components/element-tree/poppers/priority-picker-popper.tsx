@@ -8,6 +8,8 @@ import { ImMoveUp } from 'react-icons/im'
 import { _pickerButtons } from '../../../reusable/helpers'
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks'
 import { getElementById, statusAndPriorityThunk } from '../../../../reducers/elements-reducer/elements-thunks'
+import RadioButtonCheckedOutlinedIcon from '@mui/icons-material/RadioButtonCheckedOutlined';
+import RadioButtonUncheckedOutlinedIcon from '@mui/icons-material/RadioButtonUncheckedOutlined';
 
 
 const Container = styled(Box)(({ theme }) => ({
@@ -72,7 +74,10 @@ export default function PriorityPickerPopper({ height, id }: Props) {
                                     key: 'priority'
                                 }))}
                             >
-                                {/* <button.icon /> */}
+
+                                {element.priority?.value === button.value ?
+                                <RadioButtonCheckedOutlinedIcon />: <RadioButtonUncheckedOutlinedIcon />
+                                }
                                 {button.value}
                             </MenuListItem>
                         ))}

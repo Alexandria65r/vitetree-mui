@@ -1,4 +1,4 @@
-import { Box, Menu, MenuItem, styled } from '@mui/material'
+import { Box, Checkbox, Menu, MenuItem, styled } from '@mui/material'
 import React, { MutableRefObject, useRef } from 'react'
 import { ElipsisText, ThemedText, colorScheme } from '../../theme'
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state'
@@ -15,6 +15,7 @@ import { subLimit } from '../../reusable/helpers'
 import { useRouter } from 'next/router'
 import UserAvatar from '../user/user-avatar'
 import PersonPickerPopper from './poppers/person-picker-popper'
+
 
 const Container = styled(Box)(({ theme }) => ({
   position: 'relative',
@@ -102,6 +103,22 @@ export default function GroupedSubItem({ id, parent }: Props) {
     dispatch(elementsActions.clearElementAction())
   }
 
+  function RenderHeader() {
+    return (
+      <SubHead sx={{ borderColor: color }}>
+        <Checkbox checked={false} sx={{
+          m: 0, p: 0, color,
+          '&.Mui-checked': {
+            color,
+          },
+          '&.MuiSvgIcon-root': { fontSize: 23, }
+        }} />
+        <StatusAndPriorityPickers id={subElement._id} height={20} />
+        <PersonPickerPopper id={id} />
+      </SubHead>
+    )
+  }
+
 
   return (
     <Container>
@@ -116,10 +133,7 @@ export default function GroupedSubItem({ id, parent }: Props) {
                 transform: 'none'
               }
             }}>
-              <SubHead sx={{ borderColor: color }}>
-                <StatusAndPriorityPickers id={subElement._id} height={25} />
-                <PersonPickerPopper id={id} />
-              </SubHead>
+              <RenderHeader />
               <EditableElement ref={subElRef} contentEditable={isSubEditting} onBlur={handleBlur}
                 sx={{ width: '100%', color: color, outline: 'none', fontSize: 14, border: `1px dashed ${color}` }} >
                 {subElement?.name}
@@ -128,10 +142,7 @@ export default function GroupedSubItem({ id, parent }: Props) {
 
           ) : (
             <SubElement sx={{ userSelect: 'none', position: 'relative' }} >
-              <SubHead sx={{ borderColor: color }}>
-                <StatusAndPriorityPickers id={subElement._id} height={20} />
-                <PersonPickerPopper id={id} />
-              </SubHead>
+              <RenderHeader />
               <Box sx={{ padding: '0px 10px 10px 10px' }} {...bindTrigger(popupState)}>
                 <ElipsisText text={subElement.name} lineClamp={parent === 'main-tree' ? 2 : 0} color={color ?? ''} sx={{ fontWeight: 500 }} />
               </Box>

@@ -158,8 +158,8 @@ export function _pickerButtons(mode: string) {
             priority: [
                 { value: 'High', accent: 'orange', type: 'priority', icon: '' },
                 { value: 'Medium', accent: '', type: 'priority', icon: '' },
-                { value: 'Low', accent: '', type: 'priority', icon: '' },
                 { value: 'Urgent', accent: '', type: 'priority', icon: '' },
+                { value: 'Low', accent: '', type: 'priority', icon: '' },
             ],
             status: [
                 { value: 'Done', accent: '', type: 'status', icon: BsFillCheckCircleFill },

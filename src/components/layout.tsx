@@ -14,7 +14,7 @@ import ReusableModal from './modals/reusable-modal'
 import ElementDetailsModal from './modals/element-details-modal'
 
 const FlexContainer = styled(Box)(({ theme }) => ({
-    display: 'grid',
+    display: 'flex',
     width: '100%',
     gridTemplateColumns:'repeat(2,1fr)',
     [theme.breakpoints.down('sm')]: {

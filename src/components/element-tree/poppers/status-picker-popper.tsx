@@ -5,7 +5,7 @@ import { PickerButton } from '../../../reusable/styles'
 import { _pickerButtons } from '../../../reusable/helpers'
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks'
 import { getElementById, statusAndPriorityThunk } from '../../../../reducers/elements-reducer/elements-thunks'
-
+import DriveFileRenameOutlineOutlinedIcon from '@mui/icons-material/DriveFileRenameOutlineOutlined';
 
 const Container = styled(Box)(({ theme }) => ({
     flex: 1
@@ -73,6 +73,17 @@ export default function StatusPickerPopper({ height, id }: Props) {
                             </MenuListItem>
 
                         ))}
+                        <MenuListItem sx={{
+                            mt: 1,
+                            color: '#fff',
+                            backgroundColor: colors.teal[500],
+                            '&:hover': {
+                                backgroundColor: colors.teal[500],
+                            }
+                        }}>
+                            <DriveFileRenameOutlineOutlinedIcon />
+                            Custom labels
+                        </MenuListItem>
                     </Menu>
                 </>
                 )}

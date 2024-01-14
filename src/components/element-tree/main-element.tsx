@@ -1,5 +1,5 @@
 
-import { Box, colors, styled } from '@mui/material'
+import { Box, Checkbox, colors, styled } from '@mui/material'
 import React, { useState } from 'react'
 import { ButtonIcon, StyledInput } from '../../reusable/styles'
 import { colorScheme, ElipsisText, ThemedText } from '../../theme'
@@ -10,7 +10,7 @@ import { Element } from '../../models/element';
 import { useAppDispatch, useAppSelector, useElementAction, useSelectedElement } from '../../../store/hooks';
 import { elementsActions } from '../../../reducers/elements-reducer';
 import { mainActions } from '../../../reducers/main-reducer';
-
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 
 
@@ -24,7 +24,7 @@ const IconButton = styled(ButtonIcon)(({ theme }) => ({
 
 const Container = styled(Box)(({ theme }) => ({
     display: 'flex',
-    userSelect:'none',
+    userSelect: 'none',
     // flex: 1,
     minWidth: 330,
     maxWidth: 330,
@@ -42,12 +42,21 @@ const Container = styled(Box)(({ theme }) => ({
 const Input = styled(StyledInput)(({ theme }) => ({
     width: '100%',
     color: colorScheme(theme).TextColor,
-    height: 37,
+    height: 30,
     paddingInline: 18,
-    borderRadius: 19,
+    borderRadius: 10,
     border: `1px dashed ${colorScheme(theme).TextColor}`,
     backgroundColor: colorScheme(theme).lightToSecondaryColor,
 
+}))
+
+const DeleteButton = styled(ButtonIcon)(({ theme }) => ({
+    width: 35,
+    height: 33,
+    borderRadius: 10,
+    backgroundColor: colorScheme(theme).lightToSecondaryColor,
+    color: colorScheme(theme).TextColor,
+    //boxShadow: `0 1px 3px 0 ${colorScheme(theme).grayToprimaryColor}`
 }))
 
 type Props = {
@@ -62,7 +71,7 @@ export default function MainElement({ id, parent }: Props) {
     const dispatch = useAppDispatch()
     const collapedItems = useAppSelector((state) => state.ElementsReducer.collapedItems)
     const [name, setName] = useState<string>(element?.name ?? '')
-
+    const showElementDeleteButton = useElementAction({ action: 'show-element-delete-button', elementId: element._id })
 
     function update() {
         dispatch(elementsActions.updateElement({
@@ -91,12 +100,12 @@ export default function MainElement({ id, parent }: Props) {
                 <Input
                     autoFocus
                     value={name}
-                    onBlur={update}
+                    //onBlur={update}
                     onChange={({ target }) => setName(target.value)}
                     placeholder='Name cannot be empty!'
                     sx={{ borderColor: element?.color }}
                 />
-            ) : (<Box sx={{ cursor: 'pointer' }} onClick={() => {
+            ) : (<Box sx={{flex:1, cursor: 'pointer' }} onClick={() => {
                 if (parent === 'main-tree') {
                     router.push(`${router.asPath}?view=${element?._id}`)
                 } else {
@@ -106,11 +115,25 @@ export default function MainElement({ id, parent }: Props) {
                     }))
                 }
             }}>
-                    <ElipsisText text={element?.name} color={element?.color??''} lineClamp={1} sx={{fontWeight:600}} />
-                
+                <ElipsisText text={element?.name} color={element?.color ?? ''} lineClamp={1} sx={{ fontWeight: 600 }} />
             </Box>
             )}
-
+            <Checkbox checked={false} sx={{
+                ml: .5, p: 0, color: element?.color ?? '',
+                '&.Mui-checked': {
+                    color: element?.color ?? '',
+                },
+                '& .MuiSvgIcon-root': { fontSize: 23, }
+            }} />
+            {showElementDeleteButton && (
+                <DeleteButton
+                    onClick={() => dispatch(mainActions.setModal({
+                        component: 'delete-element-item',
+                        itemId: element._id
+                    }))}>
+                    <DeleteOutlineIcon />
+                </DeleteButton>
+            )}
         </Container>
     )
 }

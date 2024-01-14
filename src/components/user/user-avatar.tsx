@@ -62,7 +62,7 @@ export default function UserAvatar({ userId, imageURL, changeImagePreview, avata
 
 
     useEffect(() => {
-        loadAvatarData()
+       // loadAvatarData()
     }, [dispatch])
 
     const fileRef: any = useRef()

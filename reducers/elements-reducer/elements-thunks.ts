@@ -16,35 +16,39 @@ export const AddNewElementThunk = createAsyncThunk<void,
         const elements = state.ElementsReducer.elements
         const newElementName = state.ElementsReducer.newElementName
         const clonedElements = [...elements]
-        if (!newElementName.trim().length) return
         const newId = Randomstring.generate(12)
         const color = randomColor()
+        if (!newElementName.trim().length) {
+            dispatch(elementsActions.clearElementAction())
+            return
+        } else {
+            try {
+                const newElement: Element = {
+                    _id: newId,
+                    name: newElementName,
+                    cartegory: params.cartegory,
+                    elementType: params.elementType,
+                    parentElementId: params.parentElementId,
+                    projectAccessId: '',
+                    color,
+                    loading: true
+                }
 
-        try {
-            const newElement: Element = {
-                _id: newId,
-                name: newElementName,
-                cartegory: params.cartegory,
-                elementType: params.elementType,
-                parentElementId: params.parentElementId,
-                projectAccessId: '',
-                color,
-                loading: true
+                console.log(newElement)
+
+                dispatch(elementsActions.setElements([...elements, { ...newElement, loading: false }]))
+                dispatch(elementsActions.setNewElementName(''))
+
+                // const { data } = await ApiService.createNewElement(newElement)
+                // if (data.success) {
+                //     const filterred = clonedElements.filter((item) => item._id !== data.newElement._id)
+                //     dispatch(elementsActions.setElements([...filterred, { ...newElement, loading: false }]))
+                // }  
+            } catch (error) {
+                console.log(error)
             }
-
-            console.log(newElement)
-
-            dispatch(elementsActions.setElements([...elements, { ...newElement, loading: false }]))
-            dispatch(elementsActions.setNewElementName(''))
-
-            // const { data } = await ApiService.createNewElement(newElement)
-            // if (data.success) {
-            //     const filterred = clonedElements.filter((item) => item._id !== data.newElement._id)
-            //     dispatch(elementsActions.setElements([...filterred, { ...newElement, loading: false }]))
-            // }  
-        } catch (error) {
-            console.log(error)
         }
+
 
 
     })

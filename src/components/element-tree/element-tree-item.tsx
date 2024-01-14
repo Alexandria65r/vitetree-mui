@@ -4,7 +4,7 @@ import { ButtonIcon, } from '../../reusable/styles';
 import { colorScheme } from '../../theme';
 import MainElement from './main-element';
 import UserAvatar from '../user/user-avatar';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+
 import GroupedSubItem from './grouped-sub-item';
 import TreeOptions from './tree-options';
 import TreePickers from './tree-pickers';
@@ -45,14 +45,7 @@ const MappedSubElements = styled(Box)(() => ({
     //padding:10,
 }))
 
-const DeleteButton = styled(ButtonIcon)(({ theme }) => ({
-    width: 40,
-    height: 40,
-    borderRadius: 15,
-    backgroundColor: colorScheme(theme).lightToSecondaryColor,
-    color: colorScheme(theme).TextColor,
-    boxShadow: `0 1px 3px 0 ${colorScheme(theme).grayToprimaryColor}`
-}))
+
 
 
 
@@ -87,7 +80,7 @@ export default function ElementTreeItem({ element, parent }: Props) {
    
     const slicedSubElements = subElements.slice(0, parent === 'main-tree' ? subLimit : 999)
     const isAddNewSubElement = useElementAction({ action: 'add-sub-element', elementId: element._id })
-    const showElementDeleteButton = useElementAction({ action: 'show-element-delete-button', elementId: element._id })
+
 
 
 
@@ -101,15 +94,7 @@ export default function ElementTreeItem({ element, parent }: Props) {
                 <MainElementWrapper>
                     {/* <UserAvatar avatarStyles={null} /> */}
                     <MainElement parent={parent} id={element._id} />
-                    {showElementDeleteButton && (
-                        <DeleteButton
-                            onClick={() => dispatch(mainActions.setModal({
-                                component: 'delete-element-item',
-                                itemId: element._id
-                            }))}>
-                            <DeleteOutlineIcon />
-                        </DeleteButton>
-                    )}
+                   
                 </MainElementWrapper>
                 <SubElementWrapper sx={{ borderColor: element?.color }}>
                     {/* <TreePickers id={element._id} /> */}
@@ -117,15 +102,13 @@ export default function ElementTreeItem({ element, parent }: Props) {
                         <MappedSubElements ref={ref}
                             sx={{
                                 //minHeight: 'auto',
-                                //maxHeight: parent === 'main-tree' ? 279 : 'auto',
-                                //overflowY: parent === 'element-detail' ? 'auto' : 'hidden'
+                                maxHeight: parent === 'main-tree' ? 'calc(100vh - 300px)': 'auto',
+                                overflowY: parent === 'element-detail' ? 'auto' : 'auto'
                             }}>
-                            {slicedSubElements?.map((subElement) => (
+                            {subElements?.map((subElement) => (
                                 <GroupedSubItem key={subElement._id} parent={parent} id={subElement._id} />
                             ))}
-                            {/* {subElements.length > subLimit && (
-                                <OverflowItem>{subElements.length}</OverflowItem>
-                            )} */}
+                          
                         </MappedSubElements>)}
                     {isAddNewSubElement && (
                         <SubItemInput id={element._id} />
