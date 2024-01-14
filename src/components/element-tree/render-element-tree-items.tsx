@@ -66,16 +66,16 @@ const NewElementButton = styled(StyledButton)(({ theme }) => ({
 const CustomScrollContainer = styled(Box)(({ theme }) => ({
     width: '100%',
     display: 'flex',
-    height: 60,
-    gap: 10,
+    height: 55,
+    gap: 18,
     justifyContent: 'center',
     alignItems: 'center',
     position: 'fixed',
     bottom: 0,
     left: '50%',
-    borderTopLeftRadius:19,
-    borderTopRightRadius:19,
-    backgroundColor: colorScheme(theme).greyToTertiary,
+    // borderTopLeftRadius:19,
+    //borderTopRightRadius:19,
+    borderTop: `1px solid ${colorScheme(theme).borderColor}`,
     transform: 'translateX(-50%)',
     [theme.breakpoints.up('sm')]: {
         display: 'none'
@@ -137,10 +137,10 @@ export default function RenderElementTreeItems({ elements }: Props) {
                 ))}
             </MappedElements>
             <CustomScrollContainer>
-                <OptionButton onClick={() => scrollOnNewGroup('left')} sx={{ width: 50, height: 50, borderRadius: '50%' }}>
+                <OptionButton onClick={() => scrollOnNewGroup('left')} sx={{ width: 45, height: 45, borderRadius: '50%' }}>
                     <BsChevronLeft size={20} />
                 </OptionButton>
-                <OptionButton onClick={() => scrollOnNewGroup('right')} sx={{ width: 50, height: 50, borderRadius: '50%' }}>
+                <OptionButton onClick={() => scrollOnNewGroup('right')} sx={{ width: 45, height: 45, borderRadius: '50%' }}>
                     <BsChevronRight size={20} />
                 </OptionButton>
             </CustomScrollContainer>

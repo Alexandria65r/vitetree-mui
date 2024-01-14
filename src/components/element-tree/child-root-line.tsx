@@ -3,7 +3,7 @@ import React from 'react'
 import { useSelectedElement } from '../../../store/hooks'
 
 const OptionsRootLine = styled(Box)(({ theme }) => ({
-    width: 36,
+    width: 30,
     height: 20,
     marginTop: -8,
     marginLeft: -2, 

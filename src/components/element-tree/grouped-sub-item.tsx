@@ -37,7 +37,7 @@ const SubElement = styled(Box)(({ theme }) => ({
   marginTop: 10,
   //padding: 10,
   minHeight: 40,
-  borderRadius: '19px 19px 19px 19px',
+  borderRadius: '13px 13px 13px 13px',
   //width: 280,
   cursor: 'pointer',
   backgroundColor: colorScheme(theme).lightToSecondaryColor,
