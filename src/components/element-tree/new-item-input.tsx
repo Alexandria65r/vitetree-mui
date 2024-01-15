@@ -56,13 +56,9 @@ export default function NewItemInput({ create, color, placeholder, createIcon }:
   const newElementName = useAppSelector((state) => state.ElementsReducer.newElementName)
   const inputRef: MutableRefObject<HTMLTextAreaElement> | any = useRef()
 
-
   function handleBlur() {
     create()
-    setTimeout(() => {
-      // dispatch(elementsActions.clearElementAction())
-    }, 100)
-    inputRef.current?.focus()
+    inputRef.current.focus()
   }
 
 
@@ -81,13 +77,12 @@ export default function NewItemInput({ create, color, placeholder, createIcon }:
           ref={inputRef}
           value={newElementName}
           onChange={({ target }) => dispatch(elementsActions.setNewElementName(target.value))}
-          // onBlur={handleBlur}
           placeholder={placeholder}
           onInput={handleKeyUp}
           autoFocus
           sx={{ '&:focus': { borderBottomColor: `${color}!important` } }}
         />
-        <CreateButton onClick={create}>
+        <CreateButton onClick={handleBlur}>
           {createIcon}
         </CreateButton>
       </Options>

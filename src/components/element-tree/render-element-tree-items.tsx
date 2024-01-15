@@ -76,6 +76,7 @@ const CustomScrollContainer = styled(Box)(({ theme }) => ({
     // borderTopLeftRadius:19,
     //borderTopRightRadius:19,
     borderTop: `1px solid ${colorScheme(theme).borderColor}`,
+    backgroundColor: colorScheme(theme).lightToSecondaryColor,
     transform: 'translateX(-50%)',
     [theme.breakpoints.up('sm')]: {
         display: 'none'
@@ -125,7 +126,7 @@ export default function RenderElementTreeItems({ elements }: Props) {
                         (<NewItemInput
                             create={create} placeholder='New group'
                             createIcon={<VerticalAlignTopIcon
-                                sx={{ transform: 'rotate(90deg)' }}
+                                sx={{ transform: 'rotate(90deg)', color: colors.teal[400] }}
                             />} />) : (
                             <NewElementButton onClick={() => toggleAddNewElement(!isAddNewElement)}>
                                 <Add sx={{ mt: 0 }} /> New list group

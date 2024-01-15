@@ -40,5 +40,9 @@ export const useSubElements = (parentElementId: string) => {
 }
 export const useElementAction = (target: ElementAction) => {
     const elementAction = useAppSelector((state) => state.ElementsReducer.elementAction)
-    return elementAction.action === target.action && elementAction.elementId === target.elementId
+    if (!target.elementId) {
+        return target.action === elementAction.action
+    } else {
+        return elementAction.action === target.action && elementAction.elementId === target.elementId
+    }
 }

@@ -55,7 +55,6 @@ const DeleteButton = styled(ButtonIcon)(({ theme }) => ({
     height: 33,
     borderRadius: 10,
     backgroundColor: colorScheme(theme).lightToSecondaryColor,
-    color: colorScheme(theme).TextColor,
     //boxShadow: `0 1px 3px 0 ${colorScheme(theme).grayToprimaryColor}`
 }))
 
@@ -72,6 +71,8 @@ export default function MainElement({ id, parent }: Props) {
     const collapedItems = useAppSelector((state) => state.ElementsReducer.collapedItems)
     const [name, setName] = useState<string>(element?.name ?? '')
     const showElementDeleteButton = useElementAction({ action: 'show-element-delete-button', elementId: element._id })
+    const isMarkParentsEnabled = useElementAction({ action: 'mark-parents' })
+
 
     function update() {
         dispatch(elementsActions.updateElement({
@@ -105,7 +106,7 @@ export default function MainElement({ id, parent }: Props) {
                     placeholder='Name cannot be empty!'
                     sx={{ borderColor: element?.color }}
                 />
-            ) : (<Box sx={{flex:1, cursor: 'pointer' }} onClick={() => {
+            ) : (<Box sx={{ flex: 1, cursor: 'pointer' }} onClick={() => {
                 if (parent === 'main-tree') {
                     router.push(`${router.asPath}?view=${element?._id}`)
                 } else {
@@ -118,15 +119,17 @@ export default function MainElement({ id, parent }: Props) {
                 <ElipsisText text={element?.name} color={element?.color ?? ''} lineClamp={1} sx={{ fontWeight: 600 }} />
             </Box>
             )}
-            <Checkbox checked={false} sx={{
-                ml: .5, p: 0, color: element?.color ?? '',
-                '&.Mui-checked': {
-                    color: element?.color ?? '',
-                },
-                '& .MuiSvgIcon-root': { fontSize: 23, }
-            }} />
+            {isMarkParentsEnabled && (
+                <Checkbox checked={false} sx={{
+                    ml: .5, p: 0, color: element?.color ?? '',
+                    '&.Mui-checked': {
+                        color: element?.color ?? '',
+                    },
+                    '& .MuiSvgIcon-root': { fontSize: 23, }
+                }} />
+            )}
             {showElementDeleteButton && (
-                <DeleteButton
+                <DeleteButton sx={{ color: element?.color }}
                     onClick={() => dispatch(mainActions.setModal({
                         component: 'delete-element-item',
                         itemId: element._id

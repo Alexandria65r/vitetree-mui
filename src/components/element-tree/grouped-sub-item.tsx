@@ -1,6 +1,6 @@
 import { Box, Checkbox, Menu, MenuItem, styled } from '@mui/material'
 import React, { MutableRefObject, useRef } from 'react'
-import { ElipsisText, ThemedText, colorScheme } from '../../theme'
+import { ElipsisText, colorScheme } from '../../theme'
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state'
 import { BiTrash } from 'react-icons/bi'
 import { HiPencil } from 'react-icons/hi'
@@ -10,26 +10,15 @@ import { useAppDispatch, useElementAction, useSelectedElementIndex, useSelectedE
 import ChildRootLine from './child-root-line'
 import { elementsActions } from '../../../reducers/elements-reducer'
 import { mainActions } from '../../../reducers/main-reducer'
-import { OptionButton } from '../../reusable/styles'
-import { subLimit } from '../../reusable/helpers'
 import { useRouter } from 'next/router'
-import UserAvatar from '../user/user-avatar'
 import PersonPickerPopper from './poppers/person-picker-popper'
 
 
-const Container = styled(Box)(({ theme }) => ({
+const Container = styled(Box)(() => ({
   position: 'relative',
   display: 'flex',
   alignItems: 'center',
 
-}))
-const SubElementRootLine = styled(Box)(({ theme }) => ({
-  width: 36,
-  height: 20,
-  marginLeft: -2,
-  borderLeft: '1px solid #000',
-  borderBottom: '1px solid #000',
-  borderRadius: '0 0 1px 20px'
 }))
 const SubElement = styled(Box)(({ theme }) => ({
   flex: 1,
@@ -60,7 +49,7 @@ const EditableElement = styled(Box)(({ theme }) => ({
   color: colorScheme(theme).TextColor,
 }))
 
-const SubHead = styled(Box)(({ theme }) => ({
+const SubHead = styled(Box)(() => ({
   display: 'flex',
   gap: 10,
   alignItems: 'center',
@@ -71,7 +60,7 @@ const SubHead = styled(Box)(({ theme }) => ({
   // boxShadow:`0 1px 3px 0 ${colorScheme(theme).greyToTertiary}`,
   //borderBottom: `1px solid ${colorScheme(theme).greyToTertiary}!important`
 }))
-const MenuListItem = styled(MenuItem)(({ theme }) => ({
+const MenuListItem = styled(MenuItem)(() => ({
   fontSize: 14,
   gap: 10,
   borderRadius: 10,
@@ -83,13 +72,12 @@ type Props = {
 }
 
 export default function GroupedSubItem({ id, parent }: Props) {
-  const router = useRouter()
   const dispatch = useAppDispatch()
   const subElement = useSelectedElement(id)
-  const elementPos = useSelectedElementIndex(id)
-  const totalSubs = useSubElements(subElement.parentElementId ?? "")?.length;
   const color = useSelectedElement(subElement?.parentElementId ?? '')?.color
   const isSubEditting = useElementAction({ action: 'edit-sub-element', elementId: id })
+  const isMarkEnabled = useElementAction({ action: 'mark-children' })
+
   const subElRef: MutableRefObject<HTMLDivElement | any> = useRef()
   function handleBlur() {
     console.log(subElRef.current.innerHTML)
@@ -106,13 +94,15 @@ export default function GroupedSubItem({ id, parent }: Props) {
   function RenderHeader() {
     return (
       <SubHead sx={{ borderColor: color }}>
-        <Checkbox checked={false} sx={{
-          m: 0, p: 0, color,
-          '&.Mui-checked': {
-            color,
-          },
-          '&.MuiSvgIcon-root': { fontSize: 23, }
-        }} />
+        {isMarkEnabled && (
+          <Checkbox checked={false} sx={{
+            m: 0, p: 0, color,
+            '&.Mui-checked': {
+              color,
+            },
+            '&.MuiSvgIcon-root': { fontSize: 23, }
+          }} />
+        )}
         <StatusAndPriorityPickers id={subElement._id} height={20} />
         <PersonPickerPopper id={id} />
       </SubHead>

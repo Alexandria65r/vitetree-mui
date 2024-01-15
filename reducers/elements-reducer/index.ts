@@ -4,8 +4,8 @@ import { Element, ElementSchema, SubFeature, SubFeatureSchema } from '../../src/
 
 
 export type ElementAction = {
-    elementId: string
-    action: 'sub-element' | 'edit-element' | 'edit-sub-element' | 'add-sub-element' | 'show-element-delete-button' | ''
+    elementId?: string
+    action: 'sub-element' | 'edit-element' | 'edit-sub-element' | 'add-sub-element' | 'show-element-delete-button' | 'mark-parents' | 'mark-children' | ''
 }
 
 export type ElementNetworkStatus = 'deleting' | ''
@@ -30,7 +30,7 @@ type InitialState = {
 
 const initialState: InitialState = {
     elements: [],
-    element:ElementSchema,
+    element: ElementSchema,
     elementTreeDetail: [],
     isAddingFeature: false,
     newElementName: '',
@@ -45,7 +45,7 @@ const initialState: InitialState = {
         action: ''
     },
     collapedItems: [],
-    elementNetworkStatus:''
+    elementNetworkStatus: ''
 }
 
 const elementsSlice = createSlice({
@@ -55,7 +55,7 @@ const elementsSlice = createSlice({
         toggleIsAddingNewFeature(state) {
             state.isAddingFeature = !state.isAddingFeature
         },
-        
+
         setElemetNetworkStatus(state, { payload }: PayloadAction<ElementNetworkStatus>) {
             state.elementNetworkStatus = payload
         },
@@ -123,7 +123,7 @@ const elementsSlice = createSlice({
                 state.collapedItems.push(payload)
             }
         },
-        
+
     }
 })
 

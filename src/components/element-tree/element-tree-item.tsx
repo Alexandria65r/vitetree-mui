@@ -1,17 +1,12 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Box, colors, styled } from '@mui/material'
-import { ButtonIcon, } from '../../reusable/styles';
 import { colorScheme } from '../../theme';
 import MainElement from './main-element';
-import UserAvatar from '../user/user-avatar';
-
 import GroupedSubItem from './grouped-sub-item';
 import TreeOptions from './tree-options';
-import TreePickers from './tree-pickers';
 import SubItemInput from './sub-item-input';
 import { Element } from '../../models/element';
 import { useAppDispatch, useAppSelector, useElementAction, useSubElements } from '../../../store/hooks';
-import { mainActions } from '../../../reducers/main-reducer';
 import { useMeasure } from "react-use";
 import { subLimit } from '../../reusable/helpers';
 
@@ -47,27 +42,6 @@ const MappedSubElements = styled(Box)(() => ({
 
 
 
-
-
-
-const OverflowItem = styled(Box)(({ theme }) => ({
-    width: 'fit-content',
-    marginTop: 10,
-    padding: 10,
-    fontSize: 14,
-    minHeight: 40,
-    borderRadius: '4px 9px 9px 4px',
-    cursor: 'pointer',
-    backgroundColor: colorScheme(theme).lightToSecondaryColor,
-    color: colorScheme(theme).TextColor,
-    transition: '0.3s all',
-    boxShadow: `0 1px 3px 0 ${colorScheme(theme).darkGreyToSecondary}`,
-
-}))
-
-
-
-
 type Props = {
     element: Element
     parent: 'main-tree' | 'element-detail'
@@ -92,23 +66,19 @@ export default function ElementTreeItem({ element, parent }: Props) {
         <Container >
             <ElementItemWrapper>
                 <MainElementWrapper>
-                    {/* <UserAvatar avatarStyles={null} /> */}
                     <MainElement parent={parent} id={element._id} />
-                   
                 </MainElementWrapper>
                 <SubElementWrapper sx={{ borderColor: element?.color }}>
-                    {/* <TreePickers id={element._id} /> */}
+                   
                     {!collapedItems.includes(element._id) && (
                         <MappedSubElements ref={ref}
                             sx={{
-                                //minHeight: 'auto',
                                 maxHeight: parent === 'main-tree' ? 'calc(100vh - 300px)': 'auto',
                                 overflowY: parent === 'element-detail' ? 'auto' : 'auto'
                             }}>
                             {subElements?.map((subElement) => (
                                 <GroupedSubItem key={subElement._id} parent={parent} id={subElement._id} />
                             ))}
-                          
                         </MappedSubElements>)}
                     {isAddNewSubElement && (
                         <SubItemInput id={element._id} />
