@@ -189,6 +189,7 @@ export const StyledButton = styled(ButtonBase)(({ theme }) => ({
     alignItems: 'center',
     borderRadius: CSS_PROPERTIES.radius5,
     backgroundColor: colors.teal[400],
+    //'&:hover': { backgroundColor: colors.teal[500] }
 }))
 export const StyledButtonOutlined = styled(StyledButton)(({ theme }) => ({
     fontSize: 15,
@@ -293,9 +294,9 @@ export const PickerButton = styled(StyledButton)(({ theme }) => ({
     gap: 10,
     fontSize: 12,
     borderRadius: 5,
-    fontWeight:600,
-    whiteSpace:'nowrap',
+    fontWeight: 600,
+    whiteSpace: 'nowrap',
     //color:colorScheme(theme).TextColor,
-    backgroundColor:colorScheme(theme).lightToSecondaryColor
+    backgroundColor: colorScheme(theme).lightToSecondaryColor
 
 }))

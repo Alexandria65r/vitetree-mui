@@ -128,7 +128,7 @@ export default function BoardMenuPopper({ }: Props) {
                             </MenuItemsCol>
                         </Menu>
                         <MenuFooter>
-                            <MenuListItem
+                            <StyledButton
                                 onClick={() => {
                                     dispatch(boardActions.setIsFormOpen(true))
                                     popupState.close()
@@ -136,14 +136,16 @@ export default function BoardMenuPopper({ }: Props) {
                                 sx={{
                                     flex: 1,
                                     gap: '5px',
+                                    height:35,
+                                    fontSize:14,
                                     justifyContent: 'center',
                                     bgcolor: colors.teal[500],
-                                    borderRadius: 5,
+                                    borderRadius: 1.5,
                                     color: '#fff', '&:hover': { bgcolor: colors.teal[500] }
                                 }}>
                                 <AddOutlinedIcon />
                                 Create A Board
-                            </MenuListItem>
+                            </StyledButton>
                         </MenuFooter>
                     </PopperMenu>
                 </>

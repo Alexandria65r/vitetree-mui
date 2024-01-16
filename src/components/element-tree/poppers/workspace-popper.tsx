@@ -58,6 +58,11 @@ const MenuFooter = styled(Box)(({ theme }) => ({
     marginTop: 4,
     borderTop: `1px solid ${colorScheme(theme).greyToTertiary}`
 }))
+const MenuButton = styled(StyledButton)(({ theme }) => ({
+    fontSize: 14,
+    height: 35,
+    whiteSpace: 'nowrap'
+}))
 
 
 type Props = {
@@ -145,28 +150,31 @@ export default function WorkspacePopper({ }: Props) {
                         ))}
 
                         <MenuFooter>
-                            <MenuListItem
+                            <MenuButton
                                 onClick={() => {
                                     dispatch(workspaceActions.setIsFormOpen(true))
                                     popupState.close()
                                 }}
                                 sx={{
                                     flex: 1,
-                                    bgcolor: colors.teal[500],
-                                    borderRadius: 5,
-                                    color: '#fff', '&:hover': { bgcolor: colors.teal[500] }
+                                    color: '#fff', 
                                 }}>
                                 <AddOutlinedIcon />
                                 New Workspace
-                            </MenuListItem>
-                            <MenuListItem
+                            </MenuButton>
+                            <MenuButton
                                 onClick={() => {
                                     router.push('/workspaces')
                                     popupState.close()
                                 }}
-                                sx={{ flex: 1, borderRadius: 10, '&:hover': { bgcolor: colorScheme(_theme).greyToTertiary, } }}>
+                                sx={{
+                                    flex: 1,
+                                    color:colorScheme(_theme).TextColor,
+                                    bgcolor: colorScheme(_theme).greyToTertiary,
+                                    '&:hover': { bgcolor: colorScheme(_theme).greyToTertiary, }
+                                }}>
                                 View Workspaces
-                            </MenuListItem>
+                            </MenuButton>
                         </MenuFooter>
                     </PopperMenu>
                 </>
