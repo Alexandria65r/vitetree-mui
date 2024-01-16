@@ -17,7 +17,7 @@ const SideBarContainer = styled(Box)(({ theme }) => ({
     transformOrigin: 'left',
     borderRight: `1px solid ${colorScheme(theme).borderColor}`,
     backgroundColor: colorScheme(theme).sideBarColor,
-    height: 'calc(100vh - 0px)',
+   // height: 'calc(100vh - 0px)',
     display: 'flex',
     alignItems: 'start',
     flexWrap: 'wrap',
@@ -42,7 +42,7 @@ const ReusableButton = styled(StyledButton)(({ theme }) => ({
 const SideBarHeader = styled(Box)(({ theme }) => ({
     position: 'relative',
     flexBasis: '100%',
-    height: 66,
+    height: 56,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',

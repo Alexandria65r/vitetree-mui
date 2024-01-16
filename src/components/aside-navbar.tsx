@@ -21,7 +21,7 @@ const Container = styled(Box)(({ theme }) => ({
   borderRight: `1px solid ${colorScheme(theme).borderColor}`,
   [theme.breakpoints.down('sm')]: {
     flexBasis: '100%',
-    height: 'calc(100% - 60px)',
+    height: 'calc(100vh - 60px)',
     overflowY: 'auto',
   }
 }))
@@ -33,7 +33,7 @@ const AsideNav = styled(Box)(({ theme }) => ({
   backgroundColor: colorScheme(theme).lightToprimaryColor,
   padding: 10,
   flexBasis: '100%',
-  height: 'calc(100vh - 120px)',
+  height: 'calc(100dvh - 120px)',
 }))
 const NavButton = styled(StyledButton)(({ theme }) => ({
   justifyContent: 'flex-start',
