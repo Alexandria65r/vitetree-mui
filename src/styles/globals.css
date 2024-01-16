@@ -5,16 +5,16 @@ body {
   padding: 0;
   margin: 0;
   font-family: "Lato", sans-serif !important;
- /* overflow-x: hidden!important;  */
+  /* overflow-x: hidden!important;  */
 }
 
 a {
   color: inherit;
   text-decoration: none;
 }
-ul{
-  padding: 0!important;
-  margin: 0!important;
+ul {
+  padding: 0 !important;
+  margin: 0 !important;
 }
 * {
   box-sizing: border-box;
@@ -48,7 +48,6 @@ ul{
 .dark {
   background-color: #0f0f0f;
   color: #eeeeee;
-  
 }
 
 .light ::-webkit-scrollbar {
@@ -126,12 +125,12 @@ ul{
     transform: translateX(0px);
   }
 }
-.PageModal {
-  animation: PageModal 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
-  transform-origin: right;
+.workspaceModalIn {
+  animation: workspaceModalIn 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transform-origin: left;
 }
 
-@keyframes PageModal {
+@keyframes workspaceModalIn {
   0% {
     transform: translateX(-200px);
   }
@@ -139,6 +138,23 @@ ul{
     transform: translateX(0px);
   }
 }
+
+
+.workspaceModalOut {
+  display: none;
+  animation: workspaceModalOut 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+@keyframes workspaceModalOut {
+  0% {
+    transform: translateX(-200px);
+  }
+  100% {
+    transform: translateX(500px);
+  }
+}
+
+
 .toast {
   animation: toast 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
   transform-origin: top;
@@ -179,7 +195,6 @@ ul{
   }
 }
 
-
 .trans-from-bottom {
   animation: trans-from-bottom 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
@@ -217,7 +232,6 @@ ul{
   }
 }
 
-
-.MuiTabs-flexContainer{
-  background-color: transparent!important;
+.MuiTabs-flexContainer {
+  background-color: transparent !important;
 }

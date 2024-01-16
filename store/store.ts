@@ -6,6 +6,7 @@ import NotificationsReducer from '../reducers/notification-reducer'
 import PostReducer from '../reducers/post-reducer'
 import ProjectReducer from '../reducers/project-reducer'
 import ElementsReducer from '../reducers/elements-reducer'
+import WorkspaceReducer from '../reducers/workspace-reducer'
 
 const rootReducer = combineReducers({
   AuthReducer,
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
   NotificationsReducer,
   PostReducer,
   ProjectReducer,
-  ElementsReducer
+  ElementsReducer,
+  WorkspaceReducer
 })
 
 

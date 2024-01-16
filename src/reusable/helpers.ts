@@ -8,7 +8,7 @@ export const subLimit = 4;
 const fm = new FormatMoney({
     decimals: 2
 })
-export const cartegories = ["sports", "programming", "health", "business"];
+export const workspaceCartegories = ["sports", "programming", "health", "business"];
 export const questionChoices: any = {
     a: {
         choice: 'a',

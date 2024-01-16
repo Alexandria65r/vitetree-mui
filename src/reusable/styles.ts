@@ -139,7 +139,7 @@ export const Textarea = styled(TextareaAutosize)(({ theme }) => ({
     backgroundColor: colorScheme(theme).secondaryColor,
     //borderColor: theme.palette.grey[400],
     transition: '0.3s all',
-    borderBottom: `3px solid transparent!important`,
+    //borderBottom: `3px solid transparent!important`,
     '&:focus': {
         borderBottomColor: `${colors.teal[400]}!important`
     },

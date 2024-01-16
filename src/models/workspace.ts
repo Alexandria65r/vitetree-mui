@@ -1,10 +1,12 @@
 import mongoose from "mongoose"
 
-export type WorkSpace = {
+export type Workspace = {
     _id: string;
     cartegory: 'task' | 'feature' | '',
-    parentWorkSpaceId?: string,
     name: string,
+    author: {
+        id: string
+    },
     createdAt?: string
     updatedAt?: string
     __v?: number
@@ -12,19 +14,21 @@ export type WorkSpace = {
 
 
 
-const _WorkSpaceSchema = new mongoose.Schema<WorkSpace>({
+const _WorkspaceSchema = new mongoose.Schema<Workspace>({
     _id: String,
     cartegory: String,
-    parentWorkSpaceId: { type: String, required: false },
     name: String,
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
 });
 
-export const WorkSpaceModel = mongoose.models?.workSpace || mongoose.model("workSpace", _WorkSpaceSchema);
+export const WorkspaceModel = mongoose.models?.workspace || mongoose.model("workspace", _WorkspaceSchema);
 
-export const WorkSpaceSchema: WorkSpace = {
+export const WorkspaceSchema: Workspace = {
     _id: "",
     cartegory: "",
-    name: ""
+    name: "",
+    author: {
+        id: ""
+    }
 }

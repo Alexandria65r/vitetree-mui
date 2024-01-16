@@ -2,40 +2,41 @@ import path from "path/posix";
 
 import axios from 'axios'
 import { setAxiosDefaults } from "./helpers";
-import { Page } from "../models/page/page.model";
+import { Workspace } from "../models/workspace";
 
-export type PagesQueryPath = 'studentInfo.id' | 'tutorInfo.id'
 
-export default class PageAPI {
+export type WorkspacesQueryPath = 'studentInfo.id' | 'tutorInfo.id'
 
-    static async create(newPage: Page) {
-        const { data } = await axios.post('/api/page/create', newPage)
+export default class WorkspaceAPI {
+
+    static async create(newWorkspace: Workspace) {
+        const { data } = await axios.post('/api/workspace/create', newWorkspace)
         if (data.success) {
-            return data.newPage as Page
+            return data.newWorkspace as Workspace
         }
     }
-    static async fetchPage(pageId: string) {
-        const { data } = await axios.get(`/api/page/fetch-page/${pageId}`)
+    static async fetchWorkspace(workspaceId: string) {
+        const { data } = await axios.get(`/api/workspace/fetch-workspace/${workspaceId}`)
         if (data.success) {
-            return data.page as Page
+            return data.workspace as Workspace
         }
     }
 
-    static update(id: string, update: Page | any) {
-        return axios.put(`/api/page/update/${id}`, update)
+    static update(id: string, update: Workspace | any) {
+        return axios.put(`/api/workspace/update/${id}`, update)
     }
 
     static delete(id: string) {
-        return axios.delete(`/api/page/delete/${id}`)
+        return axios.delete(`/api/workspace/delete/${id}`)
     }
 
 
 
-    static async fetchPages() {
+    static async fetchWorkspaces() {
         setAxiosDefaults()
-        const { data } = await axios.get(`/api/page/fetch-pages/limit`)
+        const { data } = await axios.get(`/api/workspace/fetch-workspaces/limit`)
         if (data.success) {
-            return data.pages as Page[]
+            return data.workspaces as Workspace[]
         }
     }
 

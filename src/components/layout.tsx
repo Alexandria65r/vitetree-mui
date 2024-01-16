@@ -12,11 +12,12 @@ import { checkAuthThunk } from '../../reducers/auth-reducer/auth-thunks'
 import Toast from './toasts/toast'
 import ReusableModal from './modals/reusable-modal'
 import ElementDetailsModal from './modals/element-details-modal'
+import WorkSpaceForm from '../pages/workspace/workspace-form'
 
 const FlexContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
     width: '100%',
-    gridTemplateColumns:'repeat(2,1fr)',
+    gridTemplateColumns: 'repeat(2,1fr)',
     [theme.breakpoints.down('sm')]: {
         display: 'block'
     }
@@ -79,6 +80,7 @@ export default function Layout({ children }: Props) {
             </Box>
             <NavBar />
             <Toast />
+            <WorkSpaceForm />
             <FlexContainer>
                 <Box
                     sx={{
@@ -92,11 +94,11 @@ export default function Layout({ children }: Props) {
                     }}>
                     <AsideNavbar />
                 </Box>
-                 <Box
+                <Box
                     sx={{ flexBasis: isSidebarOpen ? '95%' : '90%', transition: '0.3s all' }}
                     className="sideBarAnimated">
                     {children}
-                </Box> 
+                </Box>
             </FlexContainer>
             <SideBar />
             <ReusableModal />

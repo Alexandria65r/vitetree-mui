@@ -15,6 +15,7 @@ import { FaFolder, FaRegFolder } from "react-icons/fa";
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import { Router, useRouter } from 'next/router'
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
+import { workspaceActions } from '../../../../reducers/workspace-reducer'
 
 const Container = styled(Box)(() => ({
     display: 'flex'
@@ -64,6 +65,7 @@ type Props = {
 }
 
 export default function WorkspacePopper({ }: Props) {
+    const dispatch = useAppDispatch()
     const router = useRouter()
     const _theme = useTheme()
     const isSidebarOpen = useAppSelector((state) => state.MainReducer.isSidebarOpen)
@@ -143,18 +145,25 @@ export default function WorkspacePopper({ }: Props) {
                         ))}
 
                         <MenuFooter>
-                            <MenuListItem sx={{
-                                flex: 1, bgcolor: colors.teal[500],
-                                borderRadius: 5,
-                                color: '#fff', '&:hover': { bgcolor: colors.teal[500] }
-                            }}>
+                            <MenuListItem
+                                onClick={() => {
+                                    dispatch(workspaceActions.setIsFormOpen(true))
+                                    popupState.close()
+                                }}
+                                sx={{
+                                    flex: 1, bgcolor: colors.teal[500],
+                                    borderRadius: 5,
+                                    color: '#fff', '&:hover': { bgcolor: colors.teal[500] }
+                                }}>
                                 <AddOutlinedIcon />
                                 New Workspace
                             </MenuListItem>
                             <MenuListItem
-                                onClick={() => router.push('/workspaces')}
+                                onClick={() => { 
+                                    router.push('/workspaces') 
+                                  popupState.close() }}
                                 sx={{ flex: 1, borderRadius: 10, '&:hover': { bgcolor: colorScheme(_theme).greyToTertiary, } }}>
-                                View All Workspaces
+                                View Workspaces
                             </MenuListItem>
                         </MenuFooter>
                     </PopperMenu>
