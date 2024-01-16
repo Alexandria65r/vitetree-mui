@@ -27,7 +27,8 @@ const TreeButton = styled(StyledButton)(({ theme }) => ({
 
 const Menu = styled(Box)(({ theme }) => ({
     width: '100%',
-    display: 'flex'
+    display: 'flex',
+
 }))
 const BoardsCol = styled(Box)(({ theme }) => ({
     flex: 1,
@@ -70,15 +71,17 @@ export default function BoardMenuPopper({ }: Props) {
                             horizontal: 'center',
                             vertical: 'bottom'
                         }}
-
                         slotProps={{
+
                             paper: {
                                 style: {
                                     width: '20rem',
                                     margin: 0,
                                     padding: 0,
-                                    borderRadius: 10
+                                    borderRadius: 10,
+                                    
                                 }
+
                             }
                         }}
                     >

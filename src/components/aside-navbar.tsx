@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import React from 'react'
 import { BiHomeAlt } from 'react-icons/bi'
 import { StyledButton } from '../reusable/styles'
-import { colorScheme, useColorScheme } from '../theme'
+import { ElipsisText, colorScheme, useColorScheme } from '../theme'
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import Link from 'next/link'
 import { useAppSelector } from '../../store/hooks'
@@ -14,23 +14,26 @@ import * as types from '../reusable'
 import LoginIcon from '@mui/icons-material/Login';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import InteractionPopper from './account/interaction-popper/interaction-popper'
+import WorkspacePopper from './element-tree/poppers/workspace-popper'
 
-
-
-const AsideNav = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexWrap: 'wrap',
-  alignItems: 'flex-start',
+const Container = styled(Box)(({ theme }) => ({
   height: 'calc(100vh - 65px)',
-  backgroundColor: colorScheme(theme).lightToprimaryColor,
-   borderRight: `1px solid ${colorScheme(theme).borderColor}`,
-  padding: 10,
-  flexBasis: '100%',
+  borderRight: `1px solid ${colorScheme(theme).borderColor}`,
   [theme.breakpoints.down('sm')]: {
     flexBasis: '100%',
     height: 'calc(100% - 60px)',
     overflowY: 'auto',
   }
+}))
+
+const AsideNav = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexWrap: 'wrap',
+  alignItems: 'flex-start',
+  backgroundColor: colorScheme(theme).lightToprimaryColor,
+  padding: 10,
+  flexBasis: '100%',
+  height: 'calc(100vh - 120px)',
 }))
 const NavButton = styled(StyledButton)(({ theme }) => ({
   justifyContent: 'flex-start',
@@ -89,17 +92,13 @@ export default function AsideNavbar({ }: Props) {
 
 
 
-  return (
-    <AsideNav 
+  return (<Container>
+    <WorkspacePopper />
+
+    <AsideNav
       className="sideBarAnimated">
       {user._id ? (<>
         <Box sx={{ width: '100%' }}>
-          <NavItem
-            route='/notifications/all'
-            name={isSidebarOpen && !isMobile ? '' : 'Notifications'}
-            startIcon={<NotificationsNoneIcon sx={{ mr: isSidebarOpen && !isMobile ? 0 : 1, fontSize: 28 }} />}
-            isActive={router.asPath.includes('/notifications')}
-          />
           <NavItem route={'/'}
             name={isSidebarOpen && !isMobile ? '' : 'Home'}
             startIcon={<BiHomeAlt size={25} style={{ marginRight: isSidebarOpen && !isMobile ? 0 : 10 }} />}
@@ -115,7 +114,6 @@ export default function AsideNavbar({ }: Props) {
             {isSidebarOpen && !isMobile ? '' : 'Log Out'}
           </LogoutButton>
         </Box>
-
       </>) : <>
         <NavItem
           name={isSidebarOpen && !isMobile ? "" : "Sign In"}
@@ -125,24 +123,28 @@ export default function AsideNavbar({ }: Props) {
         />
       </>}
     </AsideNav>
+  </Container>
   )
 }
 
 
 type NavItemProps = {
   name: string
-  route: string
+  route?: string
   isActive: boolean
-  startIcon: any
+  startIcon?: any
+  endIcon?: any
+  onClick?: () => void
 }
 
-function NavItem({ name, route, isActive, startIcon }: NavItemProps) {
+function NavItem({ name, route, isActive, startIcon, endIcon, onClick }: NavItemProps) {
   const isSidebarOpen = useAppSelector((state) => state.MainReducer.isSidebarOpen)
   const isMobile = useMediaQuery('(max-width:600px)')
   const colorScheme = useColorScheme()
   return (
-    <Link href={route} style={{ flexBasis: '100%' }}>
+    <Link href={route ?? ''} style={{ flexBasis: '100%' }}>
       <NavButton
+        onClick={onClick}
         sx={(theme) => ({
           width: '100%',
           justifyContent: isSidebarOpen && !isMobile ? 'center' : 'flex-start',
@@ -158,6 +160,7 @@ function NavItem({ name, route, isActive, startIcon }: NavItemProps) {
 
         {startIcon}
         {name}
+        {endIcon}
       </NavButton>
     </Link>
 

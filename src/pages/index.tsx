@@ -7,12 +7,15 @@ import { NextRouter, useRouter } from 'next/router'
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { StyledButton } from '../reusable/styles'
 import Link from 'next/link'
+import RenderBoardsAndWorkSpaces from '../components/render-boards-and-workspaces'
+import { ThemedText } from '../theme'
 
 const Container = styled(Box)(({ theme }) => ({
-
-  [theme.breakpoints.down('sm')]: {
-    flexWrap: 'wrap'
-  },
+  padding: 15,
+  [theme.breakpoints.up('xl')]: {
+    width: '80%',
+    margin: 'auto'
+  }
 }))
 
 
@@ -25,9 +28,8 @@ const IndexPage: NextPage = () => {
   return (
     <Layout>
       <Container>
-        <Link href='/tasks/vitetree/some-id'>
-          <StyledButton>Tasks</StyledButton>
-        </Link>
+        <ThemedText sx={{ fontSize: 18, mb: 2, fontWeight: 600 }}>Workspace History</ThemedText>
+        <RenderBoardsAndWorkSpaces />
       </Container>
     </Layout>
   )

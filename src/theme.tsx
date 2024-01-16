@@ -11,6 +11,7 @@ export const colorScheme = (theme: Theme) => ({
     primaryColor: isDarkMode(theme) ? '#0f0f0f' : '#f4fcff',
     lightToprimaryColor: isDarkMode(theme) ? '#0f0f0f' : '#fff',
     lightToSecondaryColor: isDarkMode(theme) ? '#272727' : '#fff',
+    lightGreyToSecondaryColor: isDarkMode(theme) ? '#272727' : '#f5f5f5',
     grayToprimaryColor: isDarkMode(theme) ? '#0f0f0f' : '#e2e6ea',
     secondaryColor: isDarkMode(theme) ? '#272727' : '#fff',
     grayToSecondaryColor: isDarkMode(theme) ? '#272727' : '#e2e6ea',
@@ -25,6 +26,7 @@ export const colorScheme = (theme: Theme) => ({
     chatAvatarColor: isDarkMode(theme) ? '#FFFFFF' : '#33385d',
     chatBoarderColor: isDarkMode(theme) ? '#0f0f0f' : '#ccc',
     lightToTertiary: isDarkMode(theme) ? '#393939' : '#FFF',
+    lightGreyToTertiary: isDarkMode(theme) ? '#393939' : '#f5f5f5',
     greyToTertiary: isDarkMode(theme) ? '#393939' : '#e2e6ea',
     darkGreyToTertiary: isDarkMode(theme) ? '#393939' : '#c3c5c7',
     darkGreyToSecondary: isDarkMode(theme) ? '#000' : '#c3c5c7',
@@ -63,17 +65,16 @@ export const ThemedText = styled(Typography)(() => ({
 
 type ElipsisTextProps = {
     text: string;
-    color: string
-    lineClamp:number
+    color?: string
+    lineClamp: number
     sx: SxProps<Theme> | undefined
 }
 
-export const ElipsisText = ({ text, color, lineClamp,sx}: ElipsisTextProps) => (
+export const ElipsisText = ({ text, color, lineClamp, sx }: ElipsisTextProps) => (
     <ThemedText
         sx={{
             ...sx,
-            color: color,
-            fontSize: 14,
+            color: color ?? "",
             overflow: 'hidden',
             display: '-webkit-box',
             textOverflow: 'ellipsis',
