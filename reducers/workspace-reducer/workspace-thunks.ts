@@ -3,7 +3,7 @@ import { AppState } from "../../store/store";
 import router from "next/router";
 import { workspaceActions } from ".";
 import { Workspace } from "../../src/models/workspace";
-import WorkspaceAPI from "../../src/api-services/page";
+import WorkspaceAPI from "../../src/api-services/workspace";
 
 export const createWorkspaceThunk = createAsyncThunk<void, undefined, { state: AppState }>
     ('cartSlice/createWorkspaceThunk', async (_, thunkAPI) => {

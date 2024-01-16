@@ -13,6 +13,7 @@ import Toast from './toasts/toast'
 import ReusableModal from './modals/reusable-modal'
 import ElementDetailsModal from './modals/element-details-modal'
 import WorkSpaceForm from '../pages/workspace/workspace-form'
+import BoardForm from '../pages/board/board-form'
 
 const FlexContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -81,6 +82,7 @@ export default function Layout({ children }: Props) {
             <NavBar />
             <Toast />
             <WorkSpaceForm />
+            <BoardForm />
             <FlexContainer>
                 <Box
                     sx={{

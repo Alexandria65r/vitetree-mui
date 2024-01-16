@@ -7,6 +7,7 @@ import PostReducer from '../reducers/post-reducer'
 import ProjectReducer from '../reducers/project-reducer'
 import ElementsReducer from '../reducers/elements-reducer'
 import WorkspaceReducer from '../reducers/workspace-reducer'
+import BoardReducer from '../reducers/boards-reducer'
 
 const rootReducer = combineReducers({
   AuthReducer,
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
   PostReducer,
   ProjectReducer,
   ElementsReducer,
-  WorkspaceReducer
+  WorkspaceReducer,
+  BoardReducer
 })
 
 
