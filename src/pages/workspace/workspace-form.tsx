@@ -19,26 +19,28 @@ const WorkspaceModal = styled(Box)(({ theme }) => ({
     display: 'flex',
     left: 0,
     top: 0,
-    zIndex: 200,
+    zIndex: 300,
     backgroundColor: '#0000000f'
 }))
 const Header = styled(Box)(({ theme }) => ({
     flex: 2,
     flexBasis: '100%',
     display: 'flex',
+    alignItems:'center',
     height: 65,
     paddingBlock: 10,
     paddingInline: 10,
     borderBottom: `1px solid ${colorScheme(theme).greyToTertiary}`,
     [theme.breakpoints.down('sm')]: {
         paddingBlock: 10,
+        height: 56,
     }
 }))
 const FormContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
     flexWrap: 'wrap',
     width: '20%',
-    height: '100vh',
+   // height: '100vh',
     backgroundColor: colorScheme(theme).lightToSecondaryColor,
     boxShadow: `0px 1px 3px 0 ${colorScheme(theme).quaternay}`,
     [theme.breakpoints.down('sm')]: {

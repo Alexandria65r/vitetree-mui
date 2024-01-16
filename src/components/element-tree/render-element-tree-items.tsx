@@ -76,7 +76,7 @@ const CustomScrollContainer = styled(Box)(({ theme }) => ({
     // borderTopLeftRadius:19,
     //borderTopRightRadius:19,
     borderTop: `1px solid ${colorScheme(theme).borderColor}`,
-    backgroundColor: colorScheme(theme).lightToSecondaryColor,
+    backgroundColor: colorScheme(theme).lightToprimaryColor,
     transform: 'translateX(-50%)',
     [theme.breakpoints.up('sm')]: {
         display: 'none'

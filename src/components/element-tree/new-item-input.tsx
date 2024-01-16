@@ -21,7 +21,7 @@ const Options = styled(Box)(({ theme }) => ({
   alignItems: 'center',
 }))
 const CreateButton = styled(ButtonIcon)(({ theme }) => ({
-  height: 39,
+  height: 40,
   borderRadius: 0,
   margin: 0,
   borderTopRightRadius: 12,
@@ -32,11 +32,12 @@ const CreateButton = styled(ButtonIcon)(({ theme }) => ({
 
 const Input = styled(Textarea)(({ theme }) => ({
   flex: 1,
-  height: 40,
-  // paddingBlock: 10,
+  //height: 45,
+   paddingBlock: 11,
   paddingInline: 18,
   borderRadius: 12,
-  border: 0,
+  border:0,
+  borderBottom: '2px solid transparent',
   borderTopRightRadius: 0,
   borderBottomRightRadius: 0,
   zIndex: 200,

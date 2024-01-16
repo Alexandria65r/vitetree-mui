@@ -151,7 +151,8 @@ export default function WorkspacePopper({ }: Props) {
                                     popupState.close()
                                 }}
                                 sx={{
-                                    flex: 1, bgcolor: colors.teal[500],
+                                    flex: 1,
+                                    bgcolor: colors.teal[500],
                                     borderRadius: 5,
                                     color: '#fff', '&:hover': { bgcolor: colors.teal[500] }
                                 }}>
@@ -159,9 +160,10 @@ export default function WorkspacePopper({ }: Props) {
                                 New Workspace
                             </MenuListItem>
                             <MenuListItem
-                                onClick={() => { 
-                                    router.push('/workspaces') 
-                                  popupState.close() }}
+                                onClick={() => {
+                                    router.push('/workspaces')
+                                    popupState.close()
+                                }}
                                 sx={{ flex: 1, borderRadius: 10, '&:hover': { bgcolor: colorScheme(_theme).greyToTertiary, } }}>
                                 View Workspaces
                             </MenuListItem>
