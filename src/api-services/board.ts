@@ -32,9 +32,9 @@ export default class BoardAPI {
 
 
 
-    static async fetchBoards() {
+    static async fetchBoards(workspaceId:string) {
         setAxiosDefaults()
-        const { data } = await axios.get(`/api/board/fetch-boards/limit`)
+        const { data } = await axios.get(`/api/board/fetch-boards/${workspaceId}/limit`)
         if (data.success) {
             return data.boards as Board[]
         }

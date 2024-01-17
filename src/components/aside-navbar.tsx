@@ -1,12 +1,12 @@
 import { Box, colors, styled, useMediaQuery } from '@mui/material'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { BiHomeAlt } from 'react-icons/bi'
 import { StyledButton } from '../reusable/styles'
 import { ElipsisText, colorScheme, useColorScheme } from '../theme'
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import Link from 'next/link'
-import { useAppSelector } from '../../store/hooks'
+import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import { getAuth, signOut } from 'firebase/auth'
 import Cookies from 'js-cookie'
@@ -15,10 +15,16 @@ import LoginIcon from '@mui/icons-material/Login';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import InteractionPopper from './account/interaction-popper/interaction-popper'
 import WorkspacePopper from './element-tree/poppers/workspace-popper'
+import { fetchBoardsThunk } from '../../reducers/boards-reducer/boards-thunks'
+import { boardActions } from '../../reducers/boards-reducer'
+import { Board } from '../models/board'
+import { getNameInitials } from '../reusable/helpers'
+import { mainActions } from '../../reducers/main-reducer'
 
 const Container = styled(Box)(({ theme }) => ({
   height: 'calc(100vh - 65px)',
   borderRight: `1px solid ${colorScheme(theme).borderColor}`,
+  backgroundColor: colorScheme(theme).lightToprimaryColor,
   [theme.breakpoints.down('sm')]: {
     flexBasis: '100%',
     height: 'calc(100vh - 60px)',
@@ -30,7 +36,6 @@ const AsideNav = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexWrap: 'wrap',
   alignItems: 'flex-start',
-  backgroundColor: colorScheme(theme).lightToprimaryColor,
   padding: 10,
   flexBasis: '100%',
   height: 'calc(100dvh - 120px)',
@@ -71,10 +76,26 @@ const LogoutButton = styled(StyledButton)(({ theme }) => ({
 type Props = {}
 
 export default function AsideNavbar({ }: Props) {
+  const dispatch = useAppDispatch()
   const router = useRouter()
   const user = useAppSelector((state) => state.AuthReducer.user)
   const isSidebarOpen = useAppSelector((state) => state.MainReducer.isSidebarOpen)
+  const selectedWorkspace = useAppSelector((state) => state.WorkspaceReducer.selectedWorkspace)
+  const selectedBoard = useAppSelector((state) => state.BoardReducer.selectedBoard)
+  const boards = useAppSelector((state) => state.BoardReducer.boards)
   const isMobile = useMediaQuery('(max-width:600px)')
+
+
+
+  const loadBoards = useCallback(() => dispatch(fetchBoardsThunk()), [selectedWorkspace])
+
+  useEffect(() => {
+    loadBoards()
+  }, [selectedWorkspace])
+
+
+
+
 
   async function logout() {
     const auth = getAuth()
@@ -99,11 +120,14 @@ export default function AsideNavbar({ }: Props) {
       className="sideBarAnimated">
       {user._id ? (<>
         <Box sx={{ width: '100%' }}>
-          <NavItem route={'/'}
-            name={isSidebarOpen && !isMobile ? '' : 'Home'}
-            startIcon={<BiHomeAlt size={25} style={{ marginRight: isSidebarOpen && !isMobile ? 0 : 10 }} />}
-            isActive={router.asPath === '/dashboard'}
-          />
+          {boards.map((board) => (
+            <BoardItem key={board._id}
+              color={board.color}
+              board={board}
+              isActive={selectedBoard._id === board._id}
+            />
+
+          ))}
         </Box>
         <Box sx={{ alignSelf: 'flex-end', width: '100%' }}>
           <InteractionPopper />
@@ -134,6 +158,7 @@ type NavItemProps = {
   isActive: boolean
   startIcon?: any
   endIcon?: any
+  color?: string
   onClick?: () => void
 }
 
@@ -166,3 +191,51 @@ function NavItem({ name, route, isActive, startIcon, endIcon, onClick }: NavItem
 
   )
 }
+
+
+type BoardItemProps = {
+  board: Board
+  isActive: boolean
+  color?: string
+  onClick?: () => void
+}
+
+
+
+function BoardItem({ board, isActive, color }: BoardItemProps) {
+  const dispatch = useAppDispatch()
+  const isSidebarOpen = useAppSelector((state) => state.MainReducer.isSidebarOpen)
+  const isMobile = useMediaQuery('(max-width:600px)')
+  const colorScheme = useColorScheme()
+
+
+
+  return (
+    <NavButton
+      onClick={() => {
+        dispatch(boardActions.setSelectedBoard(board))
+        dispatch(mainActions.setIsSideBarOpen(isMobile ? false : true))
+      }}
+      sx={(theme) => ({
+        width: '100%',
+        justifyContent: isSidebarOpen && !isMobile ? 'center' : 'flex-start',
+        backgroundColor: isActive ? colorScheme.lightToprimaryColor : isSidebarOpen
+          && !isMobile ? theme.palette.mode === 'light' ? color :
+          color : 'transparent',
+        color: theme.palette.mode === 'light' && isActive ? color : isActive || isSidebarOpen ? '#fff' : '',
+        border: isActive ? `3px solid ${color}` : 0,
+        fontWeight: isSidebarOpen ? 600 : 500,
+        '&:hover': {
+          backgroundColor: isActive ? color : isSidebarOpen ? color : '',
+          color: isActive ? '#fff' : '',
+        }
+      })}
+    >
+      {isSidebarOpen && !isMobile ? getNameInitials(board.name) : board.name}
+    </NavButton>
+
+  )
+}
+
+
+

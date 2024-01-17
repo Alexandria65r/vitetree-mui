@@ -2,6 +2,9 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Workspace, WorkspaceSchema } from '../../src/models/workspace';
 
 export type WorkspaceNetworkStatus =
+    'creating' |
+    'creating-error' |
+    'creating-success' |
     'fetching' |
     'fetching-error' |
     'fetching-success' |
@@ -15,6 +18,7 @@ export type WorkspaceNetworkStatus =
 
 
 type WorkspaceState = {
+    selectedWorkspace: Workspace;
     workspace: Workspace;
     workspaces:Workspace[];
     isFormOpen: boolean;
@@ -23,6 +27,7 @@ type WorkspaceState = {
 
 
 const initialState: WorkspaceState = {
+    selectedWorkspace: WorkspaceSchema,
    workspace: WorkspaceSchema,
    workspaces: [],
     isFormOpen: false,
@@ -41,6 +46,9 @@ const workspaceSlice = createSlice({
         },
         setWorkspaceData: (state, { payload }: PayloadAction<Workspace>) => {
             state.workspace = payload
+        },
+        setSelectedWorkspace: (state, { payload }: PayloadAction<Workspace>) => {
+            state.selectedWorkspace = payload
         },
         setWorkspaces: (state, { payload }: PayloadAction<Workspace[]>) => {
             state.workspaces = payload

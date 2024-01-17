@@ -2,9 +2,15 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Board, BoardSchema } from '../../src/models/board';
 
 export type BoardNetworkStatus =
-    'fetching' |
-    'fetching-error' |
-    'fetching-success' |
+    'creating' |
+    'creating-error' |
+    'creating-success' |
+    'fetching-board' |
+    'fetching-board-error' |
+    'fetching-board-success' |
+    'fetching-boards' |
+    'fetching-boards-error' |
+    'fetching-boards-success' |
     'updating' |
     'updating-error' |
     'updating-success' |
@@ -15,6 +21,7 @@ export type BoardNetworkStatus =
 
 
 type BoardState = {
+    selectedBoard: Board;
     board: Board;
     boards: Board[];
     isFormOpen: boolean;
@@ -23,6 +30,7 @@ type BoardState = {
 
 
 const initialState: BoardState = {
+    selectedBoard: BoardSchema,
     board: BoardSchema,
     boards: [],
     isFormOpen: false,
@@ -41,6 +49,9 @@ const boardSlice = createSlice({
         },
         setBoardData: (state, { payload }: PayloadAction<Board>) => {
             state.board = payload
+        },
+        setSelectedBoard: (state, { payload }: PayloadAction<Board>) => {
+            state.selectedBoard = payload
         },
         setBoards: (state, { payload }: PayloadAction<Board[]>) => {
             state.boards = payload

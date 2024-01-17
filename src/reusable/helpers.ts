@@ -184,3 +184,12 @@ export function _pickerButtons(mode: string) {
     }
 
 }
+
+export function getNameInitials(name: string) {
+    const splited = name.split(" ");
+    if (splited.length > 1) {
+        return `${splited[0].slice(0, 1)}${splited[1].slice(0, 1)}`
+    } else {
+        return `${name.slice(0, 1)}`
+    }
+}

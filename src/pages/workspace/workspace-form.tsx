@@ -9,6 +9,7 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { updateWorkspaceThunk, createWorkspaceThunk } from '../../../reducers/workspace-reducer/workspace-thunks'
 import { workspaceCartegories } from '../../reusable/helpers'
+import { AppSpinner } from '../../components/activity-indicators'
 
 
 
@@ -26,7 +27,7 @@ const Header = styled(Box)(({ theme }) => ({
     flex: 2,
     flexBasis: '100%',
     display: 'flex',
-    alignItems:'center',
+    alignItems: 'center',
     height: 65,
     paddingBlock: 10,
     paddingInline: 10,
@@ -40,7 +41,7 @@ const FormContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
     flexWrap: 'wrap',
     width: '20%',
-   // height: '100vh',
+    // height: '100vh',
     backgroundColor: colorScheme(theme).lightToSecondaryColor,
     boxShadow: `0px 1px 3px 0 ${colorScheme(theme).quaternay}`,
     [theme.breakpoints.down('sm')]: {
@@ -82,6 +83,7 @@ export default function WorkSpaceForm({ }: Props) {
     const dispatch = useAppDispatch()
     const user = useAppSelector((state) => state.AuthReducer.user)
     const workspace = useAppSelector((state) => state.WorkspaceReducer.workspace)
+    const workspaceNetworkStatus = useAppSelector((state) => state.WorkspaceReducer.workspaceNetworkStatus)
     const isFormOpen = useAppSelector((state) => state.WorkspaceReducer.isFormOpen)
     const [workspaceId, ...params]: any = router.query.params || []
     const isUpdate = params.includes('update')
@@ -161,14 +163,10 @@ export default function WorkSpaceForm({ }: Props) {
                             Enter a category that best describes you.
                         </ThemedText>
                     </FormControl>
+
                     <FormControl>
-                        <Textarea name="bio" onChange={handleInputChange} sx={{ width: '100%', borderRadius: 1 }} minRows={3} maxLength={60} placeholder='Bio' />
-                        <ThemedText sx={{ fontSize: 13, my: 1, lineHeight: 1.2 }}>
-                            Tell people a little about what you do.
-                        </ThemedText>
-                    </FormControl>
-                    <FormControl>
-                        <Textarea name="about" onChange={handleInputChange} sx={{ width: '100%', borderRadius: 1 }} minRows={5} placeholder='About Workspace' />
+                        <Textarea name="description" onChange={handleInputChange} sx={{ width: '100%', borderRadius: 1 }} minRows={5}
+                            placeholder='Description of the Workspace' />
                         <ThemedText sx={{ fontSize: 13, my: 1, lineHeight: 1.2 }}>
                             What is this workspace all about.
                         </ThemedText>
@@ -176,7 +174,8 @@ export default function WorkSpaceForm({ }: Props) {
                 </Box>
                 <Footer>
                     <StyledButton onClick={handleOnClick} sx={{ flex: 1, fontWeight: 600 }}>
-                        {isUpdate ? 'Update Workspace' : '  Create Workspace'}
+                        {isUpdate ? 'Update Workspace' : workspaceNetworkStatus === 'creating' ? 'Creating Workspace...' : ' Create Workspace'}
+                        {workspaceNetworkStatus === 'creating' && <AppSpinner visible={true} size={20} />}
                     </StyledButton>
                 </Footer>
             </FormContainer>

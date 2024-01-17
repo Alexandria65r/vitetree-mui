@@ -8,6 +8,7 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { boardActions } from '../../../reducers/boards-reducer'
 import { createBoardThunk, updateBoardThunk } from '../../../reducers/boards-reducer/boards-thunks'
+import { AppSpinner } from '../../components/activity-indicators'
 
 
 
@@ -82,7 +83,11 @@ export default function BoardForm({ }: Props) {
     const router = useRouter()
     const dispatch = useAppDispatch()
     const user = useAppSelector((state) => state.AuthReducer.user)
+    const workspace = useAppSelector((state) => state.WorkspaceReducer.workspace)
+    const workspaces = useAppSelector((state) => state.WorkspaceReducer.workspaces)
+    const selectedWorkspace = useAppSelector((state) => state.WorkspaceReducer.selectedWorkspace)
     const board = useAppSelector((state) => state.BoardReducer.board)
+    const boardNetworkStatus = useAppSelector((state) => state.BoardReducer.boardNetworkStatus)
     const isFormOpen = useAppSelector((state) => state.BoardReducer.isFormOpen)
     const [boardId, ...params]: any = router.query.params || []
     const isUpdate = params.includes('update')
@@ -123,7 +128,7 @@ export default function BoardForm({ }: Props) {
                     >
                         <CloseOutlinedIcon />
                     </ButtonIcon>
-                    <Link href={`/board/${boardId}`}>
+                    <Link href={`/`}>
                         <ThemedText
                             sx={{
                                 ml: 2,
@@ -136,7 +141,7 @@ export default function BoardForm({ }: Props) {
 
                     </Link>
                 </Header>
-                <Box sx={{ height: 'calc(100% - 160px)', padding: 2 }}>
+                <Box sx={{ width: '100%', height: 'calc(100% - 160px)', padding: 2 }}>
                     <ThemedText
                         sx={{
                             fontSize: 20,
@@ -145,31 +150,29 @@ export default function BoardForm({ }: Props) {
                         Create a Board
                     </ThemedText>
                     <FormControl>
-                        <TextInput name="name" onChange={handleInputChange} placeholder='Board name' label='Board name' />
+                        <TextInput value={board.name} name="name" onChange={handleInputChange} placeholder='Board name' label='Board name' />
                         <ThemedText sx={{ fontSize: 13, my: 1, lineHeight: 1.2 }}>
                             Give it a name that describes the goal or purpose of this board.
                         </ThemedText>
                     </FormControl>
-                    {/* <FormControl>
-                        <Select fullWidth onChange={handleInputChange}
-                            name='cartegory' defaultValue='Select cartegory' >
-                            <MenuItem value="Select cartegory">Select cartegory</MenuItem>
-                            {boardCartegories.map((cartegory) => (
-                                <MenuItem key={cartegory} sx={{ textTransform: 'capitalize' }} value={cartegory}>{cartegory}</MenuItem>
+                    <FormControl>
+                        <Select value={board.workspaceId} fullWidth onChange={handleInputChange}
+                            name='workspaceId' >
+                            <MenuItem value="Choose Workspace">Choose Workspace</MenuItem>
+                            {workspaces.map((workspace) => (
+                                <MenuItem selected={workspace?._id === selectedWorkspace._id} key={workspace?._id}
+                                    sx={{ textTransform: 'capitalize' }} value={workspace._id}>
+                                    {workspace.name}
+                                </MenuItem>
                             ))}
                         </Select>
                         <ThemedText sx={{ fontSize: 13, my: 1, lineHeight: 1.2 }}>
-                            Enter a category that best describes you.
+                           Choose a workspace.
                         </ThemedText>
-                    </FormControl> */}
-                    {/* <FormControl>
-                        <Textarea name="bio" onChange={handleInputChange} sx={{ width: '100%', borderRadius: 1 }} minRows={3} maxLength={60} placeholder='Bio' />
-                        <ThemedText sx={{ fontSize: 13, my: 1, lineHeight: 1.2 }}>
-                            Tell people a little about what you do.
-                        </ThemedText>
-                    </FormControl> */}
+                    </FormControl>
                     <FormControl>
-                        <Textarea name="about" onChange={handleInputChange} sx={{ width: '100%', borderRadius: 1 }} minRows={5} placeholder='Description of the Board' />
+                        <Textarea value={board.description} name="description" onChange={handleInputChange}
+                            sx={{ width: '100%', borderRadius: 1 }} minRows={5} placeholder='Description of the Board' />
                         <ThemedText sx={{ fontSize: 13, my: 1, lineHeight: 1.2 }}>
                             What is this board all about.
                         </ThemedText>
@@ -177,7 +180,8 @@ export default function BoardForm({ }: Props) {
                 </Box>
                 <Footer>
                     <StyledButton onClick={handleOnClick} sx={{ flex: 1, fontWeight: 600 }}>
-                        {isUpdate ? 'Update Board' : '  Create Board'}
+                        {isUpdate ? 'Update Board' : boardNetworkStatus === 'creating' ? 'Creating Board...' : '  Create Board'}
+                        {boardNetworkStatus === 'creating' && <AppSpinner visible={true} size={20} />}
                     </StyledButton>
                 </Footer>
             </FormContainer>

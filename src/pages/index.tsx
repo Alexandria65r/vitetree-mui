@@ -37,7 +37,7 @@ const IndexPage: NextPage = () => {
     <Layout>
       <Container>
         <Head>
-          <ThemedText sx={{ flex: 1, fontSize: 18, fontWeight: 600 }}>Workspaces</ThemedText>
+          <ThemedText sx={{ flex: 1, fontSize: 18, fontWeight: 600 }}>Workspaces History</ThemedText>
           <ButtonIcon
             sx={{ backgroundColor: colorScheme(_theme).grayToSecondaryColor }}>
             <SearchOutlinedIcon />

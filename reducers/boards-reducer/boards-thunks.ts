@@ -4,27 +4,36 @@ import router from "next/router";
 import { boardActions } from ".";
 import { Board } from "../../src/models/board";
 import BoardAPI from "../../src/api-services/board";
+import randomColor from "randomcolor";
+import Randomstring from "randomstring";
+
+
 
 export const createBoardThunk = createAsyncThunk<void, undefined, { state: AppState }>
     ('cartSlice/createBoardThunk', async (_, thunkAPI) => {
         const dispatch = thunkAPI.dispatch
-        const { AuthReducer: { user: { _id: owner } }, BoardReducer: { board } } = thunkAPI.getState()
-        const boardId = board.name.replace(' ', '').toLowerCase()
-
+        const { AuthReducer: { user: { _id: owner } }, BoardReducer: { board, boards } } = thunkAPI.getState()
+        const color = randomColor()
+        const id = Randomstring.generate(22)
         try {
+            dispatch(boardActions.setBoardNetworkStatus('creating'))
             const newBoardPayload: Board = {
+                _id: id,
                 ...board,
+                color: color,
                 author: {
                     id: owner ?? ''
                 }
             }
+            console.log(newBoardPayload)
             const newBoard = await BoardAPI.create(newBoardPayload)
             if (newBoard) {
-                //router.replace(`/board/${newBoard.boardId}`)
+                dispatch(boardActions.setBoards([...boards, newBoard]))
+                dispatch(boardActions.setSelectedBoard(newBoard))
                 dispatch(boardActions.setIsFormOpen(false))
             }
         } catch (error) {
-
+            dispatch(boardActions.setBoardNetworkStatus('creating-error'))
         }
     })
 
@@ -34,24 +43,30 @@ export const fetchBoardThunk = createAsyncThunk<void, string, { state: AppState 
         const dispatch = thunkAPI.dispatch
         const { AuthReducer: { user: { _id: owner } }, BoardReducer: { board } } = thunkAPI.getState()
         try {
+            dispatch(boardActions.setBoardNetworkStatus('fetching-board'))
             const boardData = await BoardAPI.fetchBoard(boardId)
             if (boardData) {
                 dispatch(boardActions.setBoardData(boardData))
             }
         } catch (error) {
-            dispatch(boardActions.setBoardNetworkStatus('fetching-error'))
+            dispatch(boardActions.setBoardNetworkStatus('fetching-board-error'))
         }
     })
+
+
 export const fetchBoardsThunk = createAsyncThunk<void, undefined, { state: AppState }>
-    ('cartSlice/fetchBoardsThunk', async (boardId, thunkAPI) => {
+    ('cartSlice/fetchBoardsThunk', async (_, thunkAPI) => {
         const dispatch = thunkAPI.dispatch
+        const state = thunkAPI.getState()
+        const workspaceId = state.WorkspaceReducer.selectedWorkspace._id
         try {
-            const board = await BoardAPI.fetchBoards()
-            if (board) {
-                dispatch(boardActions.setBoards(board))
+            dispatch(boardActions.setBoardNetworkStatus('fetching-boards'))
+            const boards = await BoardAPI.fetchBoards(workspaceId ?? '')
+            if (boards) {
+                dispatch(boardActions.setBoards(boards))
             }
         } catch (error) {
-            dispatch(boardActions.setBoardNetworkStatus('fetching-error'))
+            dispatch(boardActions.setBoardNetworkStatus('fetching-boards-error'))
         }
     })
 

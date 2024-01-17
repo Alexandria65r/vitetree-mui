@@ -60,6 +60,10 @@ export default function BoardMenuPopper({ }: Props) {
     const _theme = useTheme()
     const borderBottom = `1px solid ${colorScheme(_theme).greyToTertiary}`
     const elementsAction = useAppSelector((state) => state.ElementsReducer.elementAction)
+    const selected_workspace = useAppSelector((state) => state.WorkspaceReducer.selectedWorkspace)
+    const board = useAppSelector((state) => state.BoardReducer.board)
+    const boards = useAppSelector((state) => state.BoardReducer.boards)
+    const selectedBoard = useAppSelector((state) => state.BoardReducer.selectedBoard)
     const isMarkParentsEnabled = useElementAction({ action: 'mark-parents' })
     const isMarkChildrenEnabled = useElementAction({ action: 'mark-children' })
 
@@ -68,7 +72,7 @@ export default function BoardMenuPopper({ }: Props) {
             <PopupState variant='popper'>
                 {(popupState) => (<>
                     <TreeButton {...bindTrigger(popupState)} sx={{ borderRight: 0, borderTopRightRadius: 0, borderBottomRightRadius: 0 }}>
-                        <ListOutlinedIcon />
+                        <ListOutlinedIcon sx={{ color: selectedBoard.color }}/>
                     </TreeButton>
 
                     <PopperMenu {...bindMenu(popupState)}
@@ -97,10 +101,16 @@ export default function BoardMenuPopper({ }: Props) {
                         <Menu>
                             <BoardsCol>
                                 <MenuListItem sx={{ borderBottom, justifyContent: 'center', fontWeight: 600 }}>Boards</MenuListItem>
-                                {[1, 2, 3, 4].map((board) => (
-                                    <MenuListItem key={board}>
-                                        {true ? <RadioButtonUncheckedOutlinedIcon /> : <RadioButtonCheckedOutlinedIcon />}
-                                        Board name {board}
+                                {boards.map((board) => (
+                                    <MenuListItem
+                                        onClick={() => {
+                                            dispatch(boardActions.setSelectedBoard(board))
+                                            popupState.close()
+                                        }}
+                                        key={board._id}>
+                                        {board._id === selectedBoard._id ? <RadioButtonCheckedOutlinedIcon sx={{ color: board.color }} /> :
+                                            <RadioButtonUncheckedOutlinedIcon sx={{ color: board.color }} />}
+                                        {board.name}
                                     </MenuListItem>
                                 ))}
                             </BoardsCol>
@@ -130,14 +140,15 @@ export default function BoardMenuPopper({ }: Props) {
                         <MenuFooter>
                             <StyledButton
                                 onClick={() => {
+                                    dispatch(boardActions.setBoardData({ ...board, workspaceId: selected_workspace?._id ?? '' }))
                                     dispatch(boardActions.setIsFormOpen(true))
                                     popupState.close()
                                 }}
                                 sx={{
                                     flex: 1,
                                     gap: '5px',
-                                    height:35,
-                                    fontSize:14,
+                                    height: 35,
+                                    fontSize: 14,
                                     justifyContent: 'center',
                                     bgcolor: colors.teal[500],
                                     borderRadius: 1.5,

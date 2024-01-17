@@ -1,6 +1,6 @@
 import { Box, Menu as PopperMenu, MenuItem, styled, useTheme, colors, useMediaQuery } from '@mui/material'
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state'
-import React from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { ButtonIcon, StyledButton, StyledInput } from '../../../reusable/styles'
 import { ElipsisText, ThemedText, colorScheme } from '../../../theme'
 import ListOutlinedIcon from '@mui/icons-material/ListOutlined';
@@ -16,6 +16,8 @@ import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import { Router, useRouter } from 'next/router'
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import { workspaceActions } from '../../../../reducers/workspace-reducer'
+import { fetchWorkspacesThunk } from '../../../../reducers/workspace-reducer/workspace-thunks'
+import { getNameInitials } from '../../../reusable/helpers'
 
 const Container = styled(Box)(() => ({
     display: 'flex'
@@ -74,8 +76,16 @@ export default function WorkspacePopper({ }: Props) {
     const router = useRouter()
     const _theme = useTheme()
     const isSidebarOpen = useAppSelector((state) => state.MainReducer.isSidebarOpen)
+    const workspaces = useAppSelector((state) => state.WorkspaceReducer.workspaces)
+    const selected_workspace = useAppSelector((state) => state.WorkspaceReducer.selectedWorkspace)
     const isMobile = useMediaQuery('(max-width:600px)')
 
+
+    const loadWorkspaces = useCallback(() => dispatch(fetchWorkspacesThunk()), [])
+
+    useEffect(() => {
+        loadWorkspaces()
+    }, [])
 
 
     return (
@@ -89,6 +99,7 @@ export default function WorkspacePopper({ }: Props) {
                             borderRadius: isSidebarOpen ? 2 : 0,
                             margin: isSidebarOpen ? .5 : 0,
                             color: isSidebarOpen ? '#fff' : '',
+                           
                             backgroundColor: isSidebarOpen ? colors.teal[500] : '',
                             justifyContent: isSidebarOpen && !isMobile ? 'center' : 'flex-start',
                             borderBottom: `1px solid ${!isSidebarOpen ? colorScheme(theme).greyToTertiary : 'transparent'}`,
@@ -99,14 +110,14 @@ export default function WorkspacePopper({ }: Props) {
                     >
                         {!isSidebarOpen ? (<>
                             <FaRegFolder size={20} />
-                            <ElipsisText text='Workspaces' color={''} lineClamp={1} sx={{ textAlign: 'left', ml: 1.5, flex: 1 }} />
+                            <ElipsisText text={selected_workspace.name ?? 'Workspaces'} color={''} lineClamp={1} sx={{ fontWeight:500, textAlign: 'left', ml: 1.5, flex: 1 }} />
                         </>
                         ) : (<>
                             {isMobile && <FaRegFolder size={20} />}
                             <ElipsisText
-                                text={isMobile ? 'Workspace' : 'RC'}
+                                text={isMobile ? selected_workspace.name ?? 'Workspace' : getNameInitials(selected_workspace.name) }
                                 color={'#fff'} lineClamp={1}
-                                sx={{
+                                sx={{ 
                                     flex: 1, textAlign: isMobile ? 'left' : 'center',
                                     ml: isMobile ? 1.5 : 0, color: '#fff', fontWeight: 600
                                 }} />
@@ -142,10 +153,15 @@ export default function WorkspacePopper({ }: Props) {
                                 <SearchOutlinedIcon />
                             </ButtonIcon>
                         </MenuHead>
-                        {[1, 2, 3, 4].map((board) => (
-                            <MenuListItem key={board}>
-                                {true ? <RadioButtonUncheckedOutlinedIcon /> : <RadioButtonCheckedOutlinedIcon />}
-                                workspace name {board}
+                        {workspaces.map((workspace) => (
+                            <MenuListItem key={workspace?._id}
+                                onClick={() => {
+                                    dispatch(workspaceActions.setSelectedWorkspace(workspace))
+                                    popupState.close()
+                                }}
+                            >
+                                {workspace.name === selected_workspace.name ? < RadioButtonCheckedOutlinedIcon sx={{ color: colors.teal[500] }} /> : <RadioButtonUncheckedOutlinedIcon />}
+                                {workspace.name}
                             </MenuListItem>
                         ))}
 
@@ -157,7 +173,7 @@ export default function WorkspacePopper({ }: Props) {
                                 }}
                                 sx={{
                                     flex: 1,
-                                    color: '#fff', 
+                                    color: '#fff',
                                 }}>
                                 <AddOutlinedIcon />
                                 New Workspace
@@ -169,7 +185,7 @@ export default function WorkspacePopper({ }: Props) {
                                 }}
                                 sx={{
                                     flex: 1,
-                                    color:colorScheme(_theme).TextColor,
+                                    color: colorScheme(_theme).TextColor,
                                     bgcolor: colorScheme(_theme).greyToTertiary,
                                     '&:hover': { bgcolor: colorScheme(_theme).greyToTertiary, }
                                 }}>
