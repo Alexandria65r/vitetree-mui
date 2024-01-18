@@ -33,14 +33,14 @@ const IndexPage: NextPage = () => {
   const dispatch = useAppDispatch()
   const user = useAppSelector((state) => state.AuthReducer.user)
 
-  useEffect(() => {
-    const workspaceId = localStorage.getItem('workspaceId');
-    if (workspaceId) {
-      router.push(`/workspace/${workspaceId}`)
-    } else {
-      router.push(`/workspaces`)
-    }
-  }, [])
+  // useEffect(() => {
+  //   const workspaceId = localStorage.getItem('workspaceId');
+  //   if (workspaceId) {
+  //     router.push(`/workspace/${workspaceId}`)
+  //   } else {
+  //     router.push(`/workspaces`)
+  //   }
+  // }, [])
 
   return (
     <Layout>

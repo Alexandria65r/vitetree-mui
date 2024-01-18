@@ -274,7 +274,7 @@ export const StyledBox = styled(Box)(({ theme }) => ({
 
 export const OptionButton = styled(ButtonIcon)(({ theme }) => ({
    width:'100%',
-    height: 36,
+    height: 30,
     margin: 0,
     borderRadius: 0,
     borderLeft: `1px solid ${colorScheme(theme).greyToTertiary}`,

@@ -12,7 +12,7 @@ import * as types from '../reusable'
 import LoginIcon from '@mui/icons-material/Login';
 import InteractionPopper from './account/interaction-popper/interaction-popper'
 import WorkspacePopper from './element-tree/poppers/workspace-popper'
-import { fetchBoardsThunk } from '../../reducers/boards-reducer/boards-thunks'
+import { fetchActiveWorkspaceBoardAndBoardData, fetchBoardsThunk } from '../../reducers/boards-reducer/boards-thunks'
 import { boardActions } from '../../reducers/boards-reducer'
 import { Board } from '../models/board'
 import { getNameInitials } from '../reusable/helpers'
@@ -100,10 +100,19 @@ export default function AsideNavbar({ }: Props) {
   const selectedBoard = useAppSelector((state) => state.BoardReducer.selectedBoard)
   const boards = useAppSelector((state) => state.BoardReducer.boards)
   const boardNetworkStatus = useAppSelector((state) => state.BoardReducer.boardNetworkStatus)
-
   const isMobile = useMediaQuery('(max-width:600px)')
+  const [workspaceId, boardIdParam, boardId]: any = router.query.params || []
+  console.log(router.query.params)
+
+  const loadData = useCallback(() => {
+    console.log(workspaceId)
+    dispatch(fetchActiveWorkspaceBoardAndBoardData(router.asPath))
+  }, [boardId, workspaceId])
 
 
+  useEffect(() => {
+    loadData()
+  }, [router.pathname, workspaceId, boardId, loadData, dispatch])
 
   const loadBoards = useCallback(() => dispatch(fetchBoardsThunk()), [selectedWorkspace])
 
@@ -157,37 +166,47 @@ export default function AsideNavbar({ }: Props) {
                 </Box>
               </>
             ) : (<>
-              {boards.length || isSidebarOpen ? (<>
-                {!isSidebarOpen && <ThemedText sx={{ flex: 1, fontSize: 14, fontWeight: 600 }}>Boards</ThemedText>}
+              {!boards.length && !isSidebarOpen ? (
+                <>
+                  {!isSidebarOpen && <ThemedText sx={{ flexBasis: '100%', mb: 1, fontSize: 13, textAlign: 'center', fontWeight: 600 }}>
+                    There are not boards in this workspace, create a board now.
+                  </ThemedText>}
+                  <StyledButton
+                    onClick={() => {dispatch(boardActions.setIsFormOpen(true))}}
+                    sx={{ fontSize: 14, height: 35, }}>
+                    <Add /> Create Board
+                  </StyledButton>
+                </>
+              ) : (<>
+                {isMobile ? <ThemedText sx={{ flex: 1, fontSize: 14, fontWeight: 600 }}>Boards</ThemedText>
+                  : !isMobile && !isSidebarOpen ? <ThemedText sx={{ flex: 1, fontSize: 14, fontWeight: 600 }}>Boards</ThemedText> : <></>}
                 <ButtonIcon
-                  onClick={() => dispatch(boardActions.setIsFormOpen(true))}
+                  onClick={() => {
+                    dispatch(boardActions.setIsFormOpen(true))
+                    dispatch(mainActions.setIsSideBarOpen(isMobile ? false : true))
+                  }}
                   sx={{
-                    width: isSidebarOpen ? 45 : 35, height: isSidebarOpen ? 45 : 35,
+                    width: isSidebarOpen && !isMobile ? 45 : 35, height: isSidebarOpen && !isMobile ? 45 : 35,
                     color: isSidebarOpen ? '#fff' : '', bgcolor: isSidebarOpen ? colors.teal[500] : '',
                   }}>
                   <Add />
                 </ButtonIcon>
-              </>) : (<>
-                {!isSidebarOpen && <ThemedText sx={{ flexBasis: '100%', mb: 1, fontSize: 13, textAlign: 'center', fontWeight: 600 }}>
-                  There are not boards in this workspace, create a board now.
-                </ThemedText>}
-                <StyledButton
-                  onClick={() => dispatch(boardActions.setIsFormOpen(true))}
-                  sx={{ fontSize: 14, height: 35, }}>
-                  <Add /> Create Board
-                </StyledButton>
-              </>)}
+              </>)
+
+              }
             </>)}
           </BoardsHead>
-          <MappedBoards >
-            {boards.map((board) => (
-              <BoardItem key={board._id}
-                color={board.color}
-                board={board}
-                isActive={selectedBoard?._id === board?._id}
-              />
-            ))}
-          </MappedBoards>
+          {boardNetworkStatus !== 'fetching-boards' && (
+            <MappedBoards >
+              {boards.map((board) => (
+                <BoardItem key={board._id}
+                  color={board.color}
+                  board={board}
+                  isActive={selectedBoard?._id === board?._id}
+                />
+              ))}
+            </MappedBoards>
+          )}
         </Boards>
 
         <Box sx={{ alignSelf: 'flex-end', width: '100%' }}>
@@ -208,7 +227,7 @@ export default function AsideNavbar({ }: Props) {
         />
       </>}
     </AsideNav>
-  </Container>
+  </Container >
   )
 }
 

@@ -14,6 +14,7 @@ import ReusableModal from './modals/reusable-modal'
 import ElementDetailsModal from './modals/element-details-modal'
 import WorkSpaceForm from '../pages/workspace/workspace-form'
 import BoardForm from '../pages/w/board-form'
+import InvitePeopleModal from './modals/invite-people-modal'
 
 const FlexContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -109,6 +110,7 @@ export default function Layout({ children }: Props) {
             <SideBar />
             <ReusableModal />
             <ElementDetailsModal />
+            <InvitePeopleModal />
         </Box>
     )
 }

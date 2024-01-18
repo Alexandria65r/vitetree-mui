@@ -31,7 +31,6 @@ const CreateButton = styled(ButtonIcon)(({ theme }) => ({
 
 const Input = styled(Textarea)(({ theme }) => ({
   flex: 1,
-  //height: 45,
   paddingBlock: 11,
   paddingInline: 18,
   borderRadius: 12,
@@ -52,9 +51,11 @@ type Props = {
   onChange: (target: any) => void
   create: () => void
   sx?: SxProps<Theme>
+  btnSx?: SxProps<Theme>
+  
 }
 
-export default function NewItemInput({ onChange, value,sx, create, color, placeholder, createIcon }: Props) {
+export default function NewItemInput({ onChange, value,sx,btnSx, create, color, placeholder, createIcon }: Props) {
   const dispatch = useAppDispatch()
   const newElementName = useAppSelector((state) => state.ElementsReducer.newElementName)
   const inputRef: MutableRefObject<HTMLTextAreaElement> | any = useRef()
@@ -85,7 +86,7 @@ export default function NewItemInput({ onChange, value,sx, create, color, placeh
           autoFocus
           sx={{'&:focus': { borderBottomColor: `${color}`}, ...sx,  }}
         />
-        <CreateButton onClick={handleBlur}>
+        <CreateButton sx={btnSx} onClick={handleBlur}>
           {createIcon}
         </CreateButton>
       </Options>

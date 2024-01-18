@@ -156,9 +156,9 @@ export default function WorkspacePopper({ }: Props) {
                             <MenuListItem key={workspace?._id}
                                 onClick={() => {
                                     dispatch(workspaceActions.setSelectedWorkspace(workspace))
-                                    dispatch(boardActions.setSelectedBoard(BoardSchema))
-                                    dispatch(listGroupActions.setListGroups([]))
-                                    dispatch(elementsActions.setElements([]))
+                                    // dispatch(boardActions.setSelectedBoard(BoardSchema))
+                                    // dispatch(listGroupActions.setListGroups([]))
+                                    // dispatch(elementsActions.setElements([]))
                                     localStorage.setItem('workspaceId', workspace?._id ?? '')
                                     router.replace(`/w/${workspace._id}`)
                                     popupState.close()

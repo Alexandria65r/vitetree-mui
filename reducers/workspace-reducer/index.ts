@@ -22,16 +22,18 @@ type WorkspaceState = {
     workspace: Workspace;
     workspaces:Workspace[];
     isFormOpen: boolean;
+    isInvitePeopleModalOpen: boolean;
     workspaceNetworkStatus: WorkspaceNetworkStatus
 }
 
 
 const initialState: WorkspaceState = {
     selectedWorkspace: WorkspaceSchema,
-   workspace: WorkspaceSchema,
-   workspaces: [],
+    workspace: WorkspaceSchema,
+    workspaces: [],
     isFormOpen: false,
-   workspaceNetworkStatus: ''
+    workspaceNetworkStatus: '',
+    isInvitePeopleModalOpen: false
 }
 
 
@@ -52,6 +54,9 @@ const workspaceSlice = createSlice({
         },
         setWorkspaces: (state, { payload }: PayloadAction<Workspace[]>) => {
             state.workspaces = payload
+        },
+        toggleInvitePeopleModal: (state, { payload }: PayloadAction<boolean>) => {
+            state.isInvitePeopleModalOpen = payload
         },
         setWorkspaceNetworkStatus: (state, { payload }: PayloadAction<WorkspaceNetworkStatus>) => {
             state.workspaceNetworkStatus = payload

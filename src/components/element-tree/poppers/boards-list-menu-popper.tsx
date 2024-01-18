@@ -121,7 +121,6 @@ export default function BoardsListMenuPopper({ }: Props) {
                         <MenuFooter>
                             <StyledButton
                                 onClick={() => {
-                                    dispatch(boardActions.setBoardData({ ...board, workspaceId: selected_workspace?._id ?? '' }))
                                     dispatch(boardActions.setIsFormOpen(true))
                                     popupState.close()
                                 }}

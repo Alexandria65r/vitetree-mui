@@ -7,6 +7,7 @@ import randomColor from 'randomcolor'
 import { mainActions } from "../main-reducer";
 import { PickerBtn } from "../../src/reusable/interfaces";
 import ListGroupElementAPI from "../../src/api-services/list-group-element";
+import { listGroupActions } from "../list-group-reducer";
 
 export const AddNewElementThunk = createAsyncThunk<void,
     { elementType: ElementType, groupId?: string },
@@ -21,7 +22,8 @@ export const AddNewElementThunk = createAsyncThunk<void,
         const newId = Randomstring.generate(12)
         const color = randomColor()
         if (!newElementName.trim().length) {
-            dispatch(elementsActions.clearElementAction())
+            dispatch(listGroupActions.clearGroupAction())
+            
             return
         } else {
             try {

@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import connection from '../../../../database/connection'
-import { BoardModel } from '../../../../models/board'
+import { BoardModel, BoardSchema } from '../../../../models/board'
 import { WorkspaceModel } from '../../../../models/workspace'
 import { ListGroupModel } from '../../../../models/list-group'
 import { ElementModel } from '../../../../models/element'
@@ -9,12 +9,14 @@ import { ElementModel } from '../../../../models/element'
 
 async function fetchActiveWorkspaceBoardAndBoardData(req: NextApiRequest, res: NextApiResponse) {
     await connection()
-    const boardId = req.query.id
+    const [workspaceId, _, boardId]: any = req.query.params || []
     try {
-        const board = await BoardModel.findById({ _id: boardId })
-        if (board) {
-            const workspace = await WorkspaceModel.findById({ _id: board.workspaceId })
-            const listGroups = await ListGroupModel.find().where({ boardId: board._id }).sort({createdAt:-1}).exec()
+        const workspace = await WorkspaceModel.findById({ _id: workspaceId })
+        if (workspace && !boardId) {
+            return res.json({ success: true, workspace, board: BoardSchema, listGroups: [], elements: [] })
+        } else {
+            const board = await BoardModel.findById({ _id: boardId })
+            const listGroups = await ListGroupModel.find().where({ boardId: board._id }).sort({ createdAt: -1 }).exec()
             const elements = await ElementModel.find().where({ boardId: board._id }).exec()
             return res.json({ success: true, board, workspace, listGroups, elements })
         }

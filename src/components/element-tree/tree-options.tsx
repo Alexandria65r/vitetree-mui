@@ -22,7 +22,7 @@ const Container = styled(Box)(({ theme }) => ({
 }))
 
 const Options = styled(Box)(({ theme }) => ({
-  height: 35,
+  height: 30,
   display: 'flex',
   justifyContent:'space-around',
   //gap: 10,

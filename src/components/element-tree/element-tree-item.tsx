@@ -46,20 +46,20 @@ const MappedSubElements = styled(Box)(() => ({
 const GroupFooter = styled(Box)(({ theme }) => ({
     display: 'flex',
     userSelect: 'none',
-    // flex: 1,
-    minWidth: 330,
-    maxWidth: 330,
+     flex: 1,
+   // minWidth: 330,
+    //maxWidth: 330,
     alignItems: 'center',
     height: 40,
     paddingInline: 10,
     borderRadius: 19,
      //borderTopLeftRadius: 0,
     // borderTopRightRadius: 0,
-    borderLeft: `0px solid ${colors.grey[400]}`,
-    borderRight: `0px solid ${colors.grey[400]}`,
+    border: `1px solid ${colors.grey[400]}`,
+    //borderRight: `0px solid ${colors.grey[400]}`,
     backgroundColor: colorScheme(theme).lightToSecondaryColor,
     color: colorScheme(theme).TextColor,
-    boxShadow: `0 1px 3px 0 ${colorScheme(theme).darkGreyToSecondary}`
+   // boxShadow: `0 -1px 13px 0 ${colorScheme(theme).darkGreyToSecondary}`
 }))
 
 

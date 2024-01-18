@@ -18,8 +18,9 @@ export default class BoardAPI {
             return data.newBoard as Board
         }
     }
-    static async fetchActiveWorkspaceBoardAndBoardData(boardId: string) {
-        const { data } = await axios.get(`/api/board/fetch-active-workspace-board-and-board-data/${boardId}`)
+    static async fetchActiveWorkspaceBoardAndBoardData(path:string) {
+        //const path = workspaceId && !boardId ? `w/${workspaceId}` : `w/${workspaceId}/boardId/${boardId}`
+        const { data } = await axios.get(`/api/board${path}`)
         if (data.success) {
             return {
                 board: data.board as Board,

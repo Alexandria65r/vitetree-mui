@@ -1,5 +1,5 @@
 import { Box, MenuItem, Select, TextField, colors, styled } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import { ThemedText, colorScheme } from '../../theme'
 import { ButtonIcon, StyledButton, Textarea } from '../../reusable/styles'
@@ -98,7 +98,9 @@ export default function BoardForm({ }: Props) {
         dispatch(boardActions.setBoardData({ ...board, [target.name]: target.value }))
         console.log(target.value)
     }
-
+    useEffect(() => {
+        dispatch(boardActions.setBoardData({ ...board, workspaceId: selectedWorkspace?._id ?? '' })) 
+    }, [selectedWorkspace])
 
     function handleClose() {
         if (boardId === 'create') {
@@ -116,6 +118,8 @@ export default function BoardForm({ }: Props) {
         } else {
             dispatch(createBoardThunk())
         }
+
+        
     }
 
     if (!isFormOpen) return null
@@ -167,7 +171,7 @@ export default function BoardForm({ }: Props) {
                             ))}
                         </Select>
                         <ThemedText sx={{ fontSize: 13, my: 1, lineHeight: 1.2 }}>
-                           Choose a workspace.
+                            Choose a workspace.
                         </ThemedText>
                     </FormControl>
                     <FormControl>

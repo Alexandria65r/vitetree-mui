@@ -21,12 +21,13 @@ const Container = styled(Box)(({ theme }) => ({
     right: 0,
     width: '100%',
     height: '100vh',
+    borderLeft: `1px solid ${colorScheme(theme).lightToTertiary}`,
     backgroundColor: colorScheme(theme).primaryColor,
     [theme.breakpoints.down("sm")]: {
         width: '100%',
     },
     [theme.breakpoints.up("md")]: {
-        width: '30%',
+        width: '33%',
     },
     [theme.breakpoints.up("xl")]: {
         width: '20%',

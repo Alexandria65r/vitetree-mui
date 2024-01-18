@@ -87,10 +87,10 @@ export default function GroupHead({ id, parent }: Props) {
     }
     return (
         <Container sx={{ borderColor: group?.color ?? '' }}>
-            <IconButton onClick={() => dispatch(elementsActions.collapseItem(id))}>
+            <IconButton sx={{ color: group?.color ?? '' }} onClick={() => dispatch(elementsActions.collapseItem(id))}>
                 {collapedItems.includes(id) ? <TfiAngleDown size={16} /> : <TfiAngleUp size={16} />}
             </IconButton>
-            <IconButton onClick={() => dispatch(elementsActions.setElementAction({
+            <IconButton sx={{ color: group?.color ?? '' }} onClick={() => dispatch(elementsActions.setElementAction({
                 action: 'show-element-delete-button',
                 elementId: id
             }))}>

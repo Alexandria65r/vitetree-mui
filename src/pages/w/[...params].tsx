@@ -16,9 +16,12 @@ import ProjectTreeButton from '../../components/element-tree/project-tree-button
 import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined';
 import BoardInfoModal from '../../components/modals/board-info-modal'
 import { boardActions } from '../../../reducers/boards-reducer'
+import GroupAddOutlinedIcon from '@mui/icons-material/GroupAddOutlined';
+import { workspaceActions } from '../../../reducers/workspace-reducer'
+
 
 const Container = styled(Box)(() => ({
-  padding: 10,
+  paddingInline: 10,
 }))
 const Header = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -64,6 +67,10 @@ export default function WorkspaceSettings({ }: Props) {
   const newListGroupName = useAppSelector((state) => state.ListGroupReducer.newListGroupName)
   const isSidebarOpen = useAppSelector((state) => state.MainReducer.isSidebarOpen)
   const isMobile = useMediaQuery('(max-width:600px)')
+  console.log(router)
+
+
+
 
   function create() {
     dispatch(createListGroupThunk())
@@ -81,14 +88,7 @@ export default function WorkspaceSettings({ }: Props) {
     })
   }
 
-  const loadData = useCallback(() => {
-    dispatch(fetchActiveWorkspaceBoardAndBoardData({ boardId }))
-  }, [boardId])
 
-
-  useEffect(() => {
-    loadData()
-  }, [router.pathname, boardId,])
 
 
   function AddNewListGroup() {
@@ -98,7 +98,7 @@ export default function WorkspaceSettings({ }: Props) {
   return (
     <Layout>
       <Header ref={headerRef}>
-        <Box sx={{flex:1, display:'flex',alignItems:'center', gap:'8px'}}>
+        <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', gap: '8px' }}>
           {boards.length ? <ProjectTreeButton /> : <></>}
           <NewElementWrapper>
             {isAddNewElement ?
@@ -107,10 +107,11 @@ export default function WorkspaceSettings({ }: Props) {
                 create={create}
                 onChange={(target: any) => dispatch(listGroupActions.setListGroupName(target.value))}
                 placeholder='New group'
-                sx={{ borderBottomColor: `${board.color}`, '&:focus': { borderBottomColor: `${board.color}!important` } }}
+                sx={{ paddingBlock: '9px', borderBottomColor: `${board.color}`, '&:focus': { borderBottomColor: `${board.color}!important` } }}
+                btnSx={{ height: 36 }}
                 createIcon={<VerticalAlignTopIcon
                   sx={{ transform: 'rotate(90deg)', color: board.color ?? colors.teal[400], }}
-                />} />) : boards.length && board?._id? (
+                />} />) : boards.length && board?._id ? (
                   <NewElementButton
                     sx={{ bgcolor: board.color }}
                     onClick={AddNewListGroup}>
@@ -119,6 +120,12 @@ export default function WorkspaceSettings({ }: Props) {
                 ) : <></>}
           </NewElementWrapper>
         </Box>
+        <NewElementButton
+          sx={{ gap: .5 }}
+          onClick={() => dispatch(workspaceActions.toggleInvitePeopleModal(true))}>
+          <GroupAddOutlinedIcon sx={{ mt: 0 }} /> {!isMobile ? 'Invite People' : ''}
+        </NewElementButton>
+
         <ButtonIcon onClick={() => dispatch(boardActions.toggleBoardInfoModal(true))} sx={{ width: 35, height: 35 }}>
           <MoreVertOutlinedIcon />
         </ButtonIcon>
