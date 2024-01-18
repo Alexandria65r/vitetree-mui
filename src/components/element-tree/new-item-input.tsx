@@ -1,9 +1,8 @@
-import { Box, styled } from '@mui/material'
+import { Box, SxProps, Theme, styled } from '@mui/material'
 import React, { MutableRefObject, ReactNode, useRef } from 'react'
 import { colorScheme } from '../../theme'
 import { ButtonIcon, Textarea } from '../../reusable/styles'
 import { useAppDispatch, useAppSelector } from '../../../store/hooks'
-import { elementsActions } from '../../../reducers/elements-reducer'
 
 
 const Container = styled(Box)(({ theme }) => ({
@@ -33,10 +32,10 @@ const CreateButton = styled(ButtonIcon)(({ theme }) => ({
 const Input = styled(Textarea)(({ theme }) => ({
   flex: 1,
   //height: 45,
-   paddingBlock: 11,
+  paddingBlock: 11,
   paddingInline: 18,
   borderRadius: 12,
-  border:0,
+  border: 0,
   borderBottom: '2px solid transparent',
   borderTopRightRadius: 0,
   borderBottomRightRadius: 0,
@@ -49,10 +48,13 @@ type Props = {
   placeholder: string;
   createIcon: ReactNode;
   color?: string;
+  value: string
+  onChange: (target: any) => void
   create: () => void
+  sx?: SxProps<Theme>
 }
 
-export default function NewItemInput({ create, color, placeholder, createIcon }: Props) {
+export default function NewItemInput({ onChange, value,sx, create, color, placeholder, createIcon }: Props) {
   const dispatch = useAppDispatch()
   const newElementName = useAppSelector((state) => state.ElementsReducer.newElementName)
   const inputRef: MutableRefObject<HTMLTextAreaElement> | any = useRef()
@@ -76,12 +78,12 @@ export default function NewItemInput({ create, color, placeholder, createIcon }:
       <Options sx={{ flex: 1, my: 1 }}>
         <Input
           ref={inputRef}
-          value={newElementName}
-          onChange={({ target }) => dispatch(elementsActions.setNewElementName(target.value))}
+          value={value}
+          onChange={({ target }) => onChange(target)}
           placeholder={placeholder}
           onInput={handleKeyUp}
           autoFocus
-          sx={{ '&:focus': { borderBottomColor: `${color}!important` } }}
+          sx={{'&:focus': { borderBottomColor: `${color}`}, ...sx,  }}
         />
         <CreateButton onClick={handleBlur}>
           {createIcon}

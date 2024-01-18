@@ -2,8 +2,7 @@ import { Box, styled } from '@mui/material'
 import React from 'react'
 import StatusAndPriorityPickers from './poppers/status-and-priority-pickers'
 import ChildRootLine from './child-root-line'
-import { useSelectedElement } from '../../../store/hooks'
-import { colorScheme } from '../../theme'
+import { useGroupColorByElementId, useSelectedElement } from '../../../store/hooks'
 
 const Container = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -18,7 +17,7 @@ type Props = {
 }
 
 export default function TreePickers({ id }: Props) {
-  const color = useSelectedElement(id)?.color
+  const color = useGroupColorByElementId(id)
   return (
     <Container>
       <ChildRootLine color={color ?? ''} />

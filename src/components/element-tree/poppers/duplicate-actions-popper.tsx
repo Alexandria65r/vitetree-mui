@@ -7,7 +7,7 @@ import { colors } from '../../../reusable/helpers'
 import { BiColorFill, BiDuplicate } from 'react-icons/bi'
 import { MdContentCopy } from 'react-icons/md'
 import { ImMoveUp } from 'react-icons/im'
-import { useSelectedElement } from '../../../../store/hooks'
+import {  useSelectedGroup } from '../../../../store/hooks'
 
 
 const Container = styled(Box)(({ theme }) => ({
@@ -23,7 +23,7 @@ type Props = {
 }
 
 export default function DuplicateActionsPopper({id }: Props) {
-    const color = useSelectedElement(id)?.color
+    const color = useSelectedGroup(id)?.color
     return (
         <Container>
             <PopupState variant='popper'>

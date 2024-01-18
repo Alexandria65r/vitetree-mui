@@ -1,6 +1,6 @@
 import { Modal, Box, styled } from '@mui/material'
 import React, { useEffect } from 'react'
-import { useAppSelector, useSelectedElement } from '../../../store/hooks'
+import { useAppSelector, useSelectedBoard, useSelectedElement, useSelectedGroup } from '../../../store/hooks'
 import { useDispatch } from 'react-redux'
 import { useRouter } from 'next/router'
 import { ThemedText, colorScheme } from '../../theme'
@@ -53,12 +53,13 @@ export default function ElementDetailsModal({ }: Props) {
     const open = Boolean(router.query.view)
     const dispatch = useDispatch()
     const id: any = router.query.view;
-    const element = useSelectedElement(id ?? '')
+    const group = useSelectedGroup(id ?? '')
+    const board = useSelectedBoard()
 
 
     
     function back() {
-        router.push(`/tasks/vitetree/some-id`)
+        router.replace(`/board/${board._id}`)
         dispatch(elementsActions.clearElementAction())
     }
 
@@ -73,7 +74,7 @@ export default function ElementDetailsModal({ }: Props) {
                     <ThemedText sx={{ fontSize: 18, fontWeight: 600 }}>Task Group Details</ThemedText>
                 </Header>
                 <InnerWrapper>
-                    <ElementTreeItem element={element} parent='element-detail' />
+                    <ElementTreeItem group={group}  parent='element-detail' />
                 </InnerWrapper>
             </Container>
         </Modal>

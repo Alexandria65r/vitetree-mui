@@ -1,10 +1,8 @@
-import { Box, Menu, MenuItem, colors, styled } from '@mui/material'
+import { Box, Menu, MenuItem, styled } from '@mui/material'
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state'
 import React from 'react'
-import { PickerButton } from '../../../reusable/styles'
 import { _pickerButtons } from '../../../reusable/helpers'
-import { useAppDispatch, useAppSelector, useParentAndSubElementsFromSubElementId } from '../../../../store/hooks'
-import { getElementById, statusAndPriorityThunk } from '../../../../reducers/elements-reducer/elements-thunks'
+import { useAppDispatch, useSelectedElement } from '../../../../store/hooks'
 import UserAvatar from '../../user/user-avatar'
 
 
@@ -21,12 +19,13 @@ const MenuListItem = styled(MenuItem)(({ theme }) => ({
 type Props = {
     height?: number;
     id: string
+    color:string
 }
 
-export default function PersonPickerPopper({ height, id }: Props) {
+export default function PersonPickerPopper({ height, id,color }: Props) {
     const statusButtons = _pickerButtons('tasks')
     const dispatch = useAppDispatch()
-    const { subElement, parentElement } = useParentAndSubElementsFromSubElementId(id)
+    const element = useSelectedElement(id)
 
 
     return (
@@ -55,7 +54,7 @@ export default function PersonPickerPopper({ height, id }: Props) {
                         }}
                     >
                         {statusButtons['status'].map((button) => (
-                            <MenuListItem sx={{ '&:hover': { borderColor: parentElement.color } }}>
+                            <MenuListItem key={button.value} sx={{ '&:hover': { borderColor:color } }}>
                                 <UserAvatar avatarStyles={{ width: 35, height: 35 }} />
                                 Robert Ching'ambu
                             </MenuListItem>

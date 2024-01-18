@@ -1,6 +1,6 @@
 
 import { styled, Box, useTheme } from '@mui/material'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { NextPage } from 'next'
 import Layout from '../components/layout'
 import { NextRouter, useRouter } from 'next/router'
@@ -32,6 +32,15 @@ const IndexPage: NextPage = () => {
   const [URL, setCode] = useState<string>('')
   const dispatch = useAppDispatch()
   const user = useAppSelector((state) => state.AuthReducer.user)
+
+  useEffect(() => {
+    const workspaceId = localStorage.getItem('workspaceId');
+    if (workspaceId) {
+      router.push(`/workspace/${workspaceId}`)
+    } else {
+      router.push(`/workspaces`)
+    }
+  }, [])
 
   return (
     <Layout>

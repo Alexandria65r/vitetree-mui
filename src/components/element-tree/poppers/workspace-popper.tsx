@@ -1,23 +1,23 @@
 import { Box, Menu as PopperMenu, MenuItem, styled, useTheme, colors, useMediaQuery } from '@mui/material'
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state'
 import React, { useCallback, useEffect } from 'react'
-import { ButtonIcon, StyledButton, StyledInput } from '../../../reusable/styles'
+import { ButtonIcon, StyledButton } from '../../../reusable/styles'
 import { ElipsisText, ThemedText, colorScheme } from '../../../theme'
-import ListOutlinedIcon from '@mui/icons-material/ListOutlined';
 import RadioButtonUncheckedOutlinedIcon from '@mui/icons-material/RadioButtonUncheckedOutlined';
 import RadioButtonCheckedOutlinedIcon from '@mui/icons-material/RadioButtonCheckedOutlined';
-import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
-import { useAppDispatch, useAppSelector, useElementAction } from '../../../../store/hooks'
-import { elementsActions } from '../../../../reducers/elements-reducer'
-import CheckBoxOutlineBlankOutlinedIcon from '@mui/icons-material/CheckBoxOutlineBlankOutlined';
+import { useAppDispatch, useAppSelector } from '../../../../store/hooks'
 import { HiOutlineChevronDown } from "react-icons/hi2";
-import { FaFolder, FaRegFolder } from "react-icons/fa";
+import { FaRegFolder } from "react-icons/fa";
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
-import { Router, useRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import { workspaceActions } from '../../../../reducers/workspace-reducer'
 import { fetchWorkspacesThunk } from '../../../../reducers/workspace-reducer/workspace-thunks'
 import { getNameInitials } from '../../../reusable/helpers'
+import { boardActions } from '../../../../reducers/boards-reducer'
+import { BoardSchema } from '../../../models/board'
+import { listGroupActions } from '../../../../reducers/list-group-reducer'
+import { elementsActions } from '../../../../reducers/elements-reducer'
 
 const Container = styled(Box)(() => ({
     display: 'flex'
@@ -99,7 +99,6 @@ export default function WorkspacePopper({ }: Props) {
                             borderRadius: isSidebarOpen ? 2 : 0,
                             margin: isSidebarOpen ? .5 : 0,
                             color: isSidebarOpen ? '#fff' : '',
-                           
                             backgroundColor: isSidebarOpen ? colors.teal[500] : '',
                             justifyContent: isSidebarOpen && !isMobile ? 'center' : 'flex-start',
                             borderBottom: `1px solid ${!isSidebarOpen ? colorScheme(theme).greyToTertiary : 'transparent'}`,
@@ -110,14 +109,14 @@ export default function WorkspacePopper({ }: Props) {
                     >
                         {!isSidebarOpen ? (<>
                             <FaRegFolder size={20} />
-                            <ElipsisText text={selected_workspace.name ?? 'Workspaces'} color={''} lineClamp={1} sx={{ fontWeight:500, textAlign: 'left', ml: 1.5, flex: 1 }} />
+                            <ElipsisText text={selected_workspace?.name ?? 'Workspaces'} color={''} lineClamp={1} sx={{ fontWeight: 500, textAlign: 'left', ml: 1.5, flex: 1 }} />
                         </>
                         ) : (<>
                             {isMobile && <FaRegFolder size={20} />}
                             <ElipsisText
-                                text={isMobile ? selected_workspace.name ?? 'Workspace' : getNameInitials(selected_workspace.name) }
+                                text={isMobile ? selected_workspace?.name ?? 'Workspace' : getNameInitials(selected_workspace?.name)}
                                 color={'#fff'} lineClamp={1}
-                                sx={{ 
+                                sx={{
                                     flex: 1, textAlign: isMobile ? 'left' : 'center',
                                     ml: isMobile ? 1.5 : 0, color: '#fff', fontWeight: 600
                                 }} />
@@ -157,11 +156,16 @@ export default function WorkspacePopper({ }: Props) {
                             <MenuListItem key={workspace?._id}
                                 onClick={() => {
                                     dispatch(workspaceActions.setSelectedWorkspace(workspace))
+                                    dispatch(boardActions.setSelectedBoard(BoardSchema))
+                                    dispatch(listGroupActions.setListGroups([]))
+                                    dispatch(elementsActions.setElements([]))
+                                    localStorage.setItem('workspaceId', workspace?._id ?? '')
+                                    router.replace(`/w/${workspace._id}`)
                                     popupState.close()
                                 }}
                             >
-                                {workspace.name === selected_workspace.name ? < RadioButtonCheckedOutlinedIcon sx={{ color: colors.teal[500] }} /> : <RadioButtonUncheckedOutlinedIcon />}
-                                {workspace.name}
+                                {workspace?.name === selected_workspace?.name ? < RadioButtonCheckedOutlinedIcon sx={{ color: colors.teal[500] }} /> : <RadioButtonUncheckedOutlinedIcon />}
+                                {workspace?.name}
                             </MenuListItem>
                         ))}
 

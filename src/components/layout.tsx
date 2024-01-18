@@ -13,7 +13,7 @@ import Toast from './toasts/toast'
 import ReusableModal from './modals/reusable-modal'
 import ElementDetailsModal from './modals/element-details-modal'
 import WorkSpaceForm from '../pages/workspace/workspace-form'
-import BoardForm from '../pages/board/board-form'
+import BoardForm from '../pages/w/board-form'
 
 const FlexContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -89,6 +89,10 @@ export default function Layout({ children }: Props) {
                         transition: '0.3s all',
                         [theme.breakpoints.down('sm')]: {
                             display: 'none'
+                        },
+                        //flexBasis:'1%',
+                        [theme.breakpoints.up('md')]: {
+                            flexBasis: isSidebarOpen ? '5%' : '28%',
                         },
                         [theme.breakpoints.up('xl')]: {
                             flexBasis: isSidebarOpen ? '5%' : '15%',

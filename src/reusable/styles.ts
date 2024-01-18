@@ -33,7 +33,6 @@ export const Hero = styled(Box)(({ theme }) => ({
 export const ButtonIcon = styled(ButtonBase)(({ theme }) => ({
     width: 45,
     height: 45,
-    margin: '0 5px',
     borderRadius: '50%',
     color: colorScheme(theme).TextColor,
     transition: '0.3s all',

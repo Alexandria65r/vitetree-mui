@@ -1,10 +1,8 @@
 import { Box, colors, styled, useMediaQuery } from '@mui/material'
 import { useRouter } from 'next/router'
 import React, { useCallback, useEffect } from 'react'
-import { BiHomeAlt } from 'react-icons/bi'
-import { StyledButton } from '../reusable/styles'
-import { ElipsisText, colorScheme, useColorScheme } from '../theme'
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import { ButtonIcon, StyledButton } from '../reusable/styles'
+import { ThemedText, colorScheme, useColorScheme } from '../theme'
 import Link from 'next/link'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
@@ -12,7 +10,6 @@ import { getAuth, signOut } from 'firebase/auth'
 import Cookies from 'js-cookie'
 import * as types from '../reusable'
 import LoginIcon from '@mui/icons-material/Login';
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import InteractionPopper from './account/interaction-popper/interaction-popper'
 import WorkspacePopper from './element-tree/poppers/workspace-popper'
 import { fetchBoardsThunk } from '../../reducers/boards-reducer/boards-thunks'
@@ -20,6 +17,10 @@ import { boardActions } from '../../reducers/boards-reducer'
 import { Board } from '../models/board'
 import { getNameInitials } from '../reusable/helpers'
 import { mainActions } from '../../reducers/main-reducer'
+import { Add } from '@mui/icons-material'
+
+
+
 
 const Container = styled(Box)(({ theme }) => ({
   height: 'calc(100vh - 65px)',
@@ -68,9 +69,23 @@ const LogoutButton = styled(StyledButton)(({ theme }) => ({
   [theme.breakpoints.down("sm")]: {
     flexBasis: '90%',
     marginBottom: 10,
-
   }
 }))
+
+const Boards = styled(Box)(({ theme }) => ({
+  width: '100%'
+}))
+const MappedBoards = styled(Box)(({ theme }) => ({
+
+}))
+const BoardsHead = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  flexWrap: 'wrap',
+  padding: '8px 6px',
+}))
+
 
 
 type Props = {}
@@ -119,16 +134,40 @@ export default function AsideNavbar({ }: Props) {
     <AsideNav
       className="sideBarAnimated">
       {user._id ? (<>
-        <Box sx={{ width: '100%' }}>
-          {boards.map((board) => (
-            <BoardItem key={board._id}
-              color={board.color}
-              board={board}
-              isActive={selectedBoard._id === board._id}
-            />
+        <Boards>
+          <BoardsHead>
+            {boards.length || isSidebarOpen ? (<>
+              {!isSidebarOpen && <ThemedText sx={{ flex: 1, fontSize: 14, fontWeight: 600 }}>Boards</ThemedText>}
+              <ButtonIcon
+                onClick={() => dispatch(boardActions.setIsFormOpen(true))}
+                sx={{
+                  width: isSidebarOpen ? 45 : 35, height: isSidebarOpen ? 45 : 35,
+                  color: isSidebarOpen ? '#fff' : '', bgcolor: isSidebarOpen ? colors.teal[500] : '',
+                }}>
+                <Add />
+              </ButtonIcon>
+            </>) : (<>
+              {!isSidebarOpen && <ThemedText sx={{ flexBasis: '100%', mb: 1, fontSize: 13, textAlign: 'center', fontWeight: 600 }}>
+                There are not boards in this workspace, create a board now.
+              </ThemedText>}
+              <StyledButton
+                onClick={() => dispatch(boardActions.setIsFormOpen(true))}
+                sx={{ fontSize: 14, height: 35, }}>
+                <Add /> Create Board
+              </StyledButton>
+            </>)}
+          </BoardsHead>
+          <MappedBoards >
+            {boards.map((board) => (
+              <BoardItem key={board._id}
+                color={board.color}
+                board={board}
+                isActive={selectedBoard?._id === board?._id}
+              />
+            ))}
+          </MappedBoards>
+        </Boards>
 
-          ))}
-        </Box>
         <Box sx={{ alignSelf: 'flex-end', width: '100%' }}>
           <InteractionPopper />
           <LogoutButton
@@ -207,32 +246,36 @@ function BoardItem({ board, isActive, color }: BoardItemProps) {
   const isSidebarOpen = useAppSelector((state) => state.MainReducer.isSidebarOpen)
   const isMobile = useMediaQuery('(max-width:600px)')
   const colorScheme = useColorScheme()
-
+  const workspace = useAppSelector((state) => state.WorkspaceReducer.selectedWorkspace)
 
 
   return (
-    <NavButton
-      onClick={() => {
-        dispatch(boardActions.setSelectedBoard(board))
-        dispatch(mainActions.setIsSideBarOpen(isMobile ? false : true))
-      }}
-      sx={(theme) => ({
-        width: '100%',
-        justifyContent: isSidebarOpen && !isMobile ? 'center' : 'flex-start',
-        backgroundColor: isActive ? colorScheme.lightToprimaryColor : isSidebarOpen
-          && !isMobile ? theme.palette.mode === 'light' ? color :
-          color : 'transparent',
-        color: theme.palette.mode === 'light' && isActive ? color : isActive || isSidebarOpen ? '#fff' : '',
-        border: isActive ? `3px solid ${color}` : 0,
-        fontWeight: isSidebarOpen ? 600 : 500,
-        '&:hover': {
-          backgroundColor: isActive ? color : isSidebarOpen ? color : '',
-          color: isActive ? '#fff' : '',
-        }
-      })}
-    >
-      {isSidebarOpen && !isMobile ? getNameInitials(board.name) : board.name}
-    </NavButton>
+    <Link href={`/w/${workspace._id}/boardId/${board?._id ?? ''}`}
+      style={{ flexBasis: '100%' }}>
+      <NavButton
+        onClick={() => {
+          dispatch(boardActions.setSelectedBoard(board))
+          dispatch(mainActions.setIsSideBarOpen(isMobile ? false : true))
+        }}
+        sx={(theme) => ({
+          width: '100%',
+          justifyContent: isSidebarOpen && !isMobile ? 'center' : 'flex-start',
+          backgroundColor: isActive ? colorScheme.lightToprimaryColor : isSidebarOpen
+            && !isMobile ? theme.palette.mode === 'light' ? color :
+            color : color,
+          color: theme.palette.mode === 'light' && isActive ? color : theme.palette.mode === 'dark' && isActive ? color : isActive || isSidebarOpen ? '#fff' : '#fff',
+          border: isActive ? `1px solid ${color}` : 0,
+          fontWeight: isSidebarOpen ? 600 : 500,
+          '&:hover': {
+            backgroundColor: isActive ? color : isSidebarOpen ? color : '',
+            color: isActive ? '#fff' : '',
+          }
+        })}
+      >
+        {isSidebarOpen && !isMobile ? getNameInitials(board.name) : board.name}
+      </NavButton>
+
+    </Link>
 
   )
 }

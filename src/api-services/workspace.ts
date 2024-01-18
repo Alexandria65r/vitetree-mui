@@ -21,6 +21,12 @@ export default class WorkspaceAPI {
             return data.workspace as Workspace
         }
     }
+    static async fetchWorkspaceBoards(workspaceId: string) {
+        const { data } = await axios.get(`/api/workspace/fetch-workspace-boards/${workspaceId}`)
+        if (data.success) {
+            return data.workspace as Workspace
+        }
+    }
 
     static update(id: string, update: Workspace | any) {
         return axios.put(`/api/workspace/update/${id}`, update)

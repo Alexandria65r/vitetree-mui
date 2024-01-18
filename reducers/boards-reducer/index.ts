@@ -25,6 +25,7 @@ type BoardState = {
     board: Board;
     boards: Board[];
     isFormOpen: boolean;
+    isBoardInfoModalOpen: boolean;
     boardNetworkStatus: BoardNetworkStatus
 }
 
@@ -34,7 +35,8 @@ const initialState: BoardState = {
     board: BoardSchema,
     boards: [],
     isFormOpen: false,
-    boardNetworkStatus: ''
+    boardNetworkStatus: '',
+    isBoardInfoModalOpen: false
 }
 
 
@@ -55,6 +57,9 @@ const boardSlice = createSlice({
         },
         setBoards: (state, { payload }: PayloadAction<Board[]>) => {
             state.boards = payload
+        },
+        toggleBoardInfoModal: (state, { payload }: PayloadAction<boolean>) => {
+            state.isBoardInfoModalOpen = payload
         },
         setBoardNetworkStatus: (state, { payload }: PayloadAction<BoardNetworkStatus>) => {
             state.boardNetworkStatus = payload

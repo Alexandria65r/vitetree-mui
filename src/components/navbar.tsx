@@ -36,13 +36,14 @@ const Button = styled(ButtonBase)(({ theme }) => ({
 }))
 
 const AppBar = styled(AppNavigationBar)(({ theme }) => ({
-   
-     //boxShadow: `0 1px 3px 0 ${isDarkMode(theme) ? colors.grey[800] :'transparent'}`,
+    height:55,
+    justifyContent:'center',
+    //boxShadow: `0 1px 3px 0 ${isDarkMode(theme) ? colors.grey[800] :'transparent'}`,
     borderBottom: `1px solid ${colorScheme(theme).grayToSecondaryColor}`,
-     backgroundColor: colorScheme(theme).lightToprimaryColor,
+    backgroundColor: colorScheme(theme).lightToprimaryColor,
 
-    [theme.breakpoints.down('sm')]:{
-       
+    [theme.breakpoints.down('sm')]: {
+
     }
 }))
 
@@ -66,18 +67,18 @@ export default function NavBar() {
         <Box sx={{ flexGrow: 1, position: 'relative' }}>
             <AppBar position="static" color='default' elevation={0}>
                 <Toolbar >
-             
-                        <IconButton
-                            onClick={toggleSideBar}
-                            size="large"
-                            edge="start"
-                            color="inherit"
-                            aria-label="menu"
-                            sx={{ mr: 2 }}
-                        >
-                            {!isSidebarOpen ? <MenuOpenIcon /> : <MenuIcon />}
-                        </IconButton>
-                    
+
+                    <IconButton
+                        onClick={toggleSideBar}
+                        size="large"
+                        edge="start"
+                        color="inherit"
+                        aria-label="menu"
+                        sx={{ mr: 2 }}
+                    >
+                        {!isSidebarOpen ? <MenuOpenIcon /> : <MenuIcon />}
+                    </IconButton>
+
 
                     <Typography
                         sx={{
@@ -90,7 +91,7 @@ export default function NavBar() {
                             Vitetree
                         </Link>
                     </Typography>
-            
+
                     {!isMobile && user?._id && (<>
                         <ButtonIcon onClick={() => router.push('/conversations/conv-list')} sx={{ position: 'relative' }}>
                             <ChatOutlinedIcon />

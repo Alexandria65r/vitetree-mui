@@ -1,19 +1,14 @@
 import { Box, styled } from '@mui/material'
 import React from 'react'
-import { colorScheme } from '../../theme'
-import { ButtonIcon, OptionButton } from '../../reusable/styles'
-import { BiColorFill, BiDuplicate } from 'react-icons/bi'
+import { OptionButton } from '../../reusable/styles'
 import { HiPencil } from 'react-icons/hi'
 import { MdNotes, MdAdd } from 'react-icons/md'
 import ColorPickerPopper from './poppers/color-picker-popper'
 import DuplicateActionsPopper from './poppers/duplicate-actions-popper'
-import { useAppDispatch, useAppSelector } from '../../../store/hooks'
-import { getElementById } from '../../../reducers/elements-reducer/elements-thunks'
-import { elementsActions } from '../../../reducers/elements-reducer'
-import ChildRootLine from './child-root-line'
-import VerticalAlignBottom from '@mui/icons-material/VerticalAlignBottom';
+import { useAppDispatch, useSelectedGroup } from '../../../store/hooks'
 import { subLimit } from '../../reusable/helpers'
 import { useRouter } from 'next/router'
+import { listGroupActions } from '../../../reducers/list-group-reducer'
 
 
 const Container = styled(Box)(({ theme }) => ({
@@ -41,11 +36,13 @@ type Props = {
 
 export default function TreeOptions({ id, totalSubs, parent }: Props) {
   const dispatch = useAppDispatch()
-  const element = useAppSelector((state) => getElementById(state, id))
+  const group = useSelectedGroup(id)
   const router = useRouter()
+
+
   function handleColorChange(hex: string) {
     console.log(hex)
-    dispatch(elementsActions.updateElement({
+    dispatch(listGroupActions.updateGroup({
       id,
       update: {
         key: 'color',
@@ -56,37 +53,37 @@ export default function TreeOptions({ id, totalSubs, parent }: Props) {
 
 
   function addSubElement() {
-    dispatch(elementsActions.setElementAction({
-      elementId: id,
+    dispatch(listGroupActions.setGroupAction({
+      groupId: id,
       action: 'add-sub-element'
     }))
 
     if (totalSubs > subLimit && parent !== 'element-detail') {
-      router.push(`${router.asPath}?view=${element?._id}`)
+      router.push(`${router.asPath}?view=${group?._id}`)
     }
   }
 
   return (
     <Container>
-      <ChildRootLine color={element?.color ?? ''} />
-      <Options sx={{ flex: 1,my:1 }}>
+      {/* <ChildRootLine color={group?.color ?? ''} /> */}
+      <Options sx={{ flex: 1, my: 1 }}>
         <OptionButton>
-          <MdNotes size={16} color={element?.color ?? ''} />
+          <MdNotes size={16} color={group?.color ?? ''} />
         </OptionButton>
-        <DuplicateActionsPopper id={element?._id ?? ''} />
+        <DuplicateActionsPopper id={group?._id ?? ''} />
 
         <OptionButton
           onClick={addSubElement}>
-          <MdAdd size={16} color={element?.color ?? ''} />
+          <MdAdd size={16} color={group?.color ?? ''} />
         </OptionButton>
-        <OptionButton onClick={() => dispatch(elementsActions.setElementAction({
-          elementId: id,
-          action: 'edit-element'
+        <OptionButton onClick={() => dispatch(listGroupActions.setGroupAction({
+          groupId: id,
+          action: 'edit-group-name'
         }))}>
-          <HiPencil size={16} color={element?.color ?? ''} />
+          <HiPencil size={16} color={group?.color ?? ''} />
         </OptionButton>
-        <ColorPickerPopper color={element?.color ?? ''} onChange={handleColorChange} />
-  
+        <ColorPickerPopper color={group?.color ?? ''} onChange={handleColorChange} />
+
       </Options>
     </Container>
   )

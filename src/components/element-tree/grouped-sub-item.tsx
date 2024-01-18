@@ -6,22 +6,22 @@ import { BiTrash } from 'react-icons/bi'
 import { HiPencil } from 'react-icons/hi'
 import { MdNotes } from 'react-icons/md'
 import StatusAndPriorityPickers from './poppers/status-and-priority-pickers'
-import { useAppDispatch, useElementAction, useSelectedElementIndex, useSelectedElement, useSubElements } from '../../../store/hooks'
+import { useAppDispatch, useElementAction, useSelectedElement, useGroupColorByElementId } from '../../../store/hooks'
 import ChildRootLine from './child-root-line'
 import { elementsActions } from '../../../reducers/elements-reducer'
 import { mainActions } from '../../../reducers/main-reducer'
-import { useRouter } from 'next/router'
 import PersonPickerPopper from './poppers/person-picker-popper'
 
 
 const Container = styled(Box)(() => ({
+  width:'100%',
   position: 'relative',
   display: 'flex',
   alignItems: 'center',
 
 }))
-const SubElement = styled(Box)(({ theme }) => ({
-  flex: 1,
+const Element = styled(Box)(({ theme }) => ({
+  flexBasis: '100%',
   //width: 'fit-content',
   marginTop: 10,
   //padding: 10,
@@ -35,10 +35,10 @@ const SubElement = styled(Box)(({ theme }) => ({
   boxShadow: `0 1px 3px 0 ${colorScheme(theme).darkGreyToSecondary}`,
   [theme.breakpoints.up('md')]: {
     Width: 'fit-content',
-    maxWidth: 280,
+   // maxWidth: 280,
   },
   '&:hover': {
-    transform: 'scale(1.03)'
+    transform: 'scale(1.01)'
   }
 }))
 const EditableElement = styled(Box)(({ theme }) => ({
@@ -73,8 +73,8 @@ type Props = {
 
 export default function GroupedSubItem({ id, parent }: Props) {
   const dispatch = useAppDispatch()
-  const subElement = useSelectedElement(id)
-  const color = useSelectedElement(subElement?.parentElementId ?? '')?.color
+  const element = useSelectedElement(id)
+  const color = useGroupColorByElementId(id)
   const isSubEditting = useElementAction({ action: 'edit-sub-element', elementId: id })
   const isMarkEnabled = useElementAction({ action: 'mark-children' })
 
@@ -103,8 +103,8 @@ export default function GroupedSubItem({ id, parent }: Props) {
             '&.MuiSvgIcon-root': { fontSize: 23, }
           }} />
         )}
-        <StatusAndPriorityPickers id={subElement._id} height={20} />
-        <PersonPickerPopper id={id} />
+        <StatusAndPriorityPickers id={element._id} height={20} />
+        <PersonPickerPopper id={id}  color={color} />
       </SubHead>
     )
   }
@@ -112,11 +112,11 @@ export default function GroupedSubItem({ id, parent }: Props) {
 
   return (
     <Container>
-      <ChildRootLine color={color ?? ''} />
+      {/* <ChildRootLine color={color ?? ''} /> */}
       <PopupState variant='popper' >
         {(popupState) => (<>
           {isSubEditting ? (
-            <SubElement sx={{
+            <Element sx={{
               padding: '4px',
               transition: 'none',
               '&:hover': {
@@ -126,24 +126,24 @@ export default function GroupedSubItem({ id, parent }: Props) {
               <RenderHeader />
               <EditableElement ref={subElRef} contentEditable={isSubEditting} onBlur={handleBlur}
                 sx={{ width: '100%', color: color, outline: 'none', fontSize: 14, border: `1px dashed ${color}` }} >
-                {subElement?.name}
+                {element?.name}
               </EditableElement>
-            </SubElement>
+            </Element>
 
           ) : (
-            <SubElement sx={{ userSelect: 'none', position: 'relative' }} >
+            <Element sx={{ userSelect: 'none', position: 'relative' }} >
               <RenderHeader />
               <Box sx={{ padding: '0px 10px 10px 10px' }} {...bindTrigger(popupState)}>
-                <ElipsisText text={subElement.name} lineClamp={parent === 'main-tree' ? 2 : 0} color={color ?? ''} sx={{ fontWeight: 500 }} />
+                <ElipsisText text={element.name} lineClamp={parent === 'main-tree' ? 2 : 0} color={color ?? ''} sx={{ fontWeight: 500 }} />
               </Box>
-            </SubElement>
+            </Element>
           )}
 
           {/* {parent == 'main-tree' && totalSubs > subLimit && elementPos.index === 8  && (
             <OptionButton
               sx={{ color: color ?? '', position: 'absolute', right: -10, bottom: 0 }}
               onClick={() => {
-                router.push(`${router.asPath}?view=${subElement?.parentElementId}`)
+                router.push(`${router.asPath}?view=${element?.parentElementId}`)
                 popupState.close()
               }}>
               {totalSubs - subLimit}+
@@ -190,7 +190,7 @@ export default function GroupedSubItem({ id, parent }: Props) {
               onClick={() => dispatch(mainActions.setModal({
                 component: 'delete-element-item',
                 itemId: id,
-                itemType: 'child'
+                itemType: 'list-group-element'
               }))}>
               <BiTrash size={16} />
               Delete</MenuListItem>

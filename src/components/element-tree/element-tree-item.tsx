@@ -1,26 +1,27 @@
 import React from 'react'
 import { Box, colors, styled } from '@mui/material'
 import { colorScheme } from '../../theme';
-import MainElement from './main-element';
+import GroupHead from './group-head';
 import GroupedSubItem from './grouped-sub-item';
 import TreeOptions from './tree-options';
 import SubItemInput from './sub-item-input';
 import { Element } from '../../models/element';
-import { useAppDispatch, useAppSelector, useElementAction, useSubElements } from '../../../store/hooks';
+import { useAppDispatch, useAppSelector, useElementAction, useGroupAction, useGroupListElements } from '../../../store/hooks';
 import { useMeasure } from "react-use";
 import { subLimit } from '../../reusable/helpers';
+import { ListGroup } from '../../models/list-group';
 
 
 const Container = styled(Box)(() => ({
-    width: 'fit-content',  
+    width: 'fit-content',
 }))
 
 
-const ElementItemWrapper = styled(Box)(() => ({
-      width: 'fit-content',
+const ListGroup = styled(Box)(() => ({
+    width: 'fit-content',
     marginTop: 10,
 }))
-const MainElementWrapper = styled(Box)(() => ({
+const GroupHeadWrapper = styled(Box)(() => ({
     display: 'flex',
     alignItems: 'center',
     gap: 10,
@@ -29,10 +30,12 @@ const MainElementWrapper = styled(Box)(() => ({
 
 
 
-const SubElementWrapper = styled(Box)(() => ({
+const SubElementWrapper = styled(Box)(({theme}) => ({
     marginLeft: 0,
-    borderBottomLeftRadius: 6,
-    borderLeft: `6px solid ${colors.grey[400]}`
+    borderBottomLeftRadius: 0,
+    borderLeft: `0px solid ${colors.grey[400]}`,
+    borderRight: `0px solid ${colors.grey[400]}`,
+    //backgroundColor:colorScheme(theme).lightToprimaryColor
 }))
 const MappedSubElements = styled(Box)(() => ({
     //overflowX: 'hidden',
@@ -40,52 +43,68 @@ const MappedSubElements = styled(Box)(() => ({
     //padding:10,
 }))
 
+const GroupFooter = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    userSelect: 'none',
+    // flex: 1,
+    minWidth: 330,
+    maxWidth: 330,
+    alignItems: 'center',
+    height: 40,
+    paddingInline: 10,
+    borderRadius: 19,
+   // borderTopLeftRadius: 0,
+   // borderTopRightRadius: 0,
+    borderLeft: `0px solid ${colors.grey[400]}`,
+    borderRight: `0px solid ${colors.grey[400]}`,
+    backgroundColor: colorScheme(theme).lightToSecondaryColor,
+    color: colorScheme(theme).TextColor,
+    boxShadow: `0 1px 3px 0 ${colorScheme(theme).darkGreyToSecondary}`
+}))
+
 
 
 type Props = {
-    element: Element
+    group: ListGroup
     parent: 'main-tree' | 'element-detail'
 }
 
-export default function ElementTreeItem({ element, parent }: Props) {
+export default function ElementTreeItem({ group, parent }: Props) {
     const dispatch = useAppDispatch()
     const collapedItems = useAppSelector((state) => state.ElementsReducer.collapedItems)
-    const subElements = useSubElements(element._id);
-   
-    const slicedSubElements = subElements.slice(0, parent === 'main-tree' ? subLimit : 999)
-    const isAddNewSubElement = useElementAction({ action: 'add-sub-element', elementId: element._id })
-
-
-
+    const groupListElements = useGroupListElements(group?._id ?? '');
+    const isAddNewSubElement = useGroupAction({ action: 'add-sub-element', groupId: group?._id ?? '' })
 
     const [ref, { x, y, width, height, top, right, bottom, left }] = useMeasure();
 
     console.log(`item-height: ${height}`)
 
     return (
-        <Container >
-            <ElementItemWrapper>
-                <MainElementWrapper>
-                    <MainElement parent={parent} id={element._id} />
-                </MainElementWrapper>
-                <SubElementWrapper sx={{ borderColor: element?.color }}>
-                   
-                    {!collapedItems.includes(element._id) && (
-                        <MappedSubElements ref={ref}
-                            sx={{
-                                maxHeight: parent === 'main-tree' ? 'calc(100vh - 300px)': 'auto',
-                                overflowY: parent === 'element-detail' ? 'auto' : 'auto'
-                            }}>
-                            {subElements?.map((subElement) => (
+        <Container>
+            <ListGroup>
+                <GroupHeadWrapper>
+                    <GroupHead parent={parent} id={group?._id ?? ''} />
+                </GroupHeadWrapper>
+                <SubElementWrapper sx={{
+                    padding:1,
+                    maxHeight: parent === 'main-tree' ? 'calc(100vh - 280px)' : 'auto',
+                    overflowY: parent === 'element-detail' ? 'auto' : 'auto',
+                    //overflowX: 'hidden',
+                    borderColor: group?.color
+                }}>
+                    {!collapedItems.includes(group?._id ?? '') && (
+                        <>
+                            {groupListElements?.map((subElement) => (
                                 <GroupedSubItem key={subElement._id} parent={parent} id={subElement._id} />
                             ))}
-                        </MappedSubElements>)}
+                        </>)}
                     {isAddNewSubElement && (
-                        <SubItemInput id={element._id} />
+                        <SubItemInput id={group?._id ?? ''} />
                     )}
-                    <TreeOptions parent={parent} id={element._id} totalSubs={subElements.length}  />
+                    <TreeOptions parent={parent} id={group?._id ?? ''} totalSubs={groupListElements.length} />
                 </SubElementWrapper>
-            </ElementItemWrapper>
+                <GroupFooter sx={{borderColor:group?.color}}></GroupFooter>
+            </ListGroup>
         </Container>
     )
 }

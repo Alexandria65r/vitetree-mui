@@ -63,6 +63,7 @@ export default function StatusPickerPopper({ height, id }: Props) {
                     >
                         {statusButtons['status'].map((button) => (
                             <MenuListItem
+                                key={button.value}
                                 onClick={() => dispatch(statusAndPriorityThunk({
                                     elementId: id,
                                     picker: button,

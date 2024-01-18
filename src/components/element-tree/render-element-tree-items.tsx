@@ -1,22 +1,18 @@
-import React, { MutableRefObject, useRef, useState } from 'react'
+import React, { MutableRefObject, useRef } from 'react'
 import { Box, colors, styled } from '@mui/material'
-import ProjectTreeButton from './project-tree-button';
 import { OptionButton, StyledButton, StyledInput } from '../../reusable/styles';
-import { Add } from '@mui/icons-material';
 import { colorScheme } from '../../theme';
 import ElementTreeItem from './element-tree-item';
 import { Element } from '../../models/element';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { AddNewElementThunk } from '../../../reducers/elements-reducer/elements-thunks';
-import VerticalAlignTopIcon from '@mui/icons-material/VerticalAlignTop';
 import styles from './styles/element-tree.module.css'
 import { BsChevronLeft } from "react-icons/bs";
 import { BsChevronRight } from "react-icons/bs";
-import NewItemInput from './new-item-input';
+import { ListGroup } from '../../models/list-group';
 
 const Container = styled(Box)(({ theme }) => ({
     position: 'relative',
-    height: 'calc(100vh - 150px)',
+    height: 'calc(100vh - 160px)',
     //width: '100vw',
     overflowX: 'auto',
     scrollBehavior: 'smooth',
@@ -39,28 +35,7 @@ const MappedElements = styled(Box)(({ theme }) => ({
         gridTemplateColumns: '',
     }
 }))
-const NewElementWrapper = styled(Box)(() => ({
 
-}))
-const Input = styled(StyledInput)(({ theme }) => ({
-    color: colorScheme(theme).TextColor,
-    paddingInline: 18,
-    borderRadius: 29,
-    backgroundColor: colorScheme(theme).lightToSecondaryColor,
-    boxShadow: `0 1px 3px 0 ${colorScheme(theme).darkGreyToSecondary}`
-}))
-
-const NewElementButton = styled(StyledButton)(({ theme }) => ({
-    color: '#fff',
-    fontSize: 14,
-    borderRadius: 25,
-    paddingInline: 15,
-    marginTop: 10,
-    whiteSpace: 'nowrap',
-    fontWeight: 500,
-    backgroundColor: colors.teal[500],
-    boxShadow: `0 1px 3px 0 ${colorScheme(theme).darkGreyToSecondary}`
-}))
 
 
 const CustomScrollContainer = styled(Box)(({ theme }) => ({
@@ -84,19 +59,16 @@ const CustomScrollContainer = styled(Box)(({ theme }) => ({
 }))
 
 type Props = {
+    listGroups: ListGroup[]
     elements: Element[]
 }
 
-export default function RenderElementTreeItems({ elements }: Props) {
-    const dispatch = useAppDispatch()
+export default function RenderElementTreeItems({ listGroups }: Props) {
     const isSidebarOpen = useAppSelector((state) => state.MainReducer.isSidebarOpen)
-    const [isAddNewElement, toggleAddNewElement] = useState(false)
-    const newElementName = useAppSelector((state) => state.ElementsReducer.newElementName)
+
     const containerRef: MutableRefObject<HTMLDivElement> | any = useRef()
-    function create() {
-        dispatch(AddNewElementThunk({ elementType: 'parent', cartegory: 'task' }))
-        toggleAddNewElement(false)
-    }
+
+
 
     function scrollOnNewGroup(target: 'right' | 'left') {
         let scrollWidth = containerRef.current.scrollWidth;
@@ -112,7 +84,7 @@ export default function RenderElementTreeItems({ elements }: Props) {
     }
 
     return (<Box sx={{}}>
-        <ProjectTreeButton />
+        {/* <ProjectTreeButton /> */}
         <Container ref={containerRef} sx={(theme) => ({
             [theme.breakpoints.up('xl')]: {
                 width: isSidebarOpen ? 'calc(100vw - 120px)' : 'calc(100vw - 320px)',
@@ -121,20 +93,9 @@ export default function RenderElementTreeItems({ elements }: Props) {
         })}
             className={styles.renderElementTreeItems}>
             <MappedElements>
-                <NewElementWrapper>
-                    {isAddNewElement ?
-                        (<NewItemInput
-                            create={create} placeholder='New group'
-                            createIcon={<VerticalAlignTopIcon
-                                sx={{ transform: 'rotate(90deg)', color: colors.teal[400] }}
-                            />} />) : (
-                            <NewElementButton onClick={() => toggleAddNewElement(!isAddNewElement)}>
-                                <Add sx={{ mt: 0 }} /> New list group
-                            </NewElementButton>
-                        )}
-                </NewElementWrapper>
-                {elements?.map((element) => (
-                    <ElementTreeItem key={element._id} element={element} parent='main-tree' />
+           
+                {listGroups?.map((group) => (
+                    <ElementTreeItem key={group._id} group={group} parent='main-tree' />
                 ))}
             </MappedElements>
             <CustomScrollContainer>

@@ -3,6 +3,9 @@ import path from "path/posix";
 import axios from 'axios'
 import { setAxiosDefaults } from "./helpers";
 import { Board } from "../models/board";
+import { Workspace } from "../models/workspace";
+import { ListGroup } from "../models/list-group";
+import { Element } from "../models/element";
 
 
 export type BoardsQueryPath = 'studentInfo.id' | 'tutorInfo.id'
@@ -15,10 +18,24 @@ export default class BoardAPI {
             return data.newBoard as Board
         }
     }
+    static async fetchActiveWorkspaceBoardAndBoardData(boardId: string) {
+        const { data } = await axios.get(`/api/board/fetch-active-workspace-board-and-board-data/${boardId}`)
+        if (data.success) {
+            return {
+                board: data.board as Board,
+                workspace: data.workspace as Workspace,
+                listGroups: data.listGroups as ListGroup[],
+                elements: data.elements as Element[]
+            }
+        }
+    }
     static async fetchBoard(boardId: string) {
         const { data } = await axios.get(`/api/board/fetch-board/${boardId}`)
         if (data.success) {
-            return data.board as Board
+            return {
+                board: data.board as Board,
+                workspace: data.workspace as Workspace
+            }
         }
     }
 
@@ -32,7 +49,7 @@ export default class BoardAPI {
 
 
 
-    static async fetchBoards(workspaceId:string) {
+    static async fetchBoards(workspaceId: string) {
         setAxiosDefaults()
         const { data } = await axios.get(`/api/board/fetch-boards/${workspaceId}/limit`)
         if (data.success) {

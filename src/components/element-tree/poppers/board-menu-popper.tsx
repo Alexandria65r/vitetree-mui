@@ -1,17 +1,13 @@
-import { Box, Menu as PopperMenu, MenuItem, styled, useTheme, colors } from '@mui/material'
+import { Box, Menu as PopperMenu, MenuItem, styled, useTheme } from '@mui/material'
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state'
 import React from 'react'
 import { StyledButton } from '../../../reusable/styles'
 import { colorScheme } from '../../../theme'
 import ListOutlinedIcon from '@mui/icons-material/ListOutlined';
-import RadioButtonUncheckedOutlinedIcon from '@mui/icons-material/RadioButtonUncheckedOutlined';
-import RadioButtonCheckedOutlinedIcon from '@mui/icons-material/RadioButtonCheckedOutlined';
 import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
 import { useAppDispatch, useAppSelector, useElementAction } from '../../../../store/hooks'
 import { elementsActions } from '../../../../reducers/elements-reducer'
 import CheckBoxOutlineBlankOutlinedIcon from '@mui/icons-material/CheckBoxOutlineBlankOutlined';
-import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
-import { boardActions } from '../../../../reducers/boards-reducer'
 
 const Container = styled(Box)(({ theme }) => ({
 
@@ -19,7 +15,7 @@ const Container = styled(Box)(({ theme }) => ({
 
 
 const TreeButton = styled(StyledButton)(({ theme }) => ({
-    height: 60,
+    height: 35,
     borderRadius: 29,
     color: colorScheme(theme).TextColor,
     backgroundColor: colorScheme(theme).lightToSecondaryColor,
@@ -28,8 +24,6 @@ const TreeButton = styled(StyledButton)(({ theme }) => ({
 
 const Menu = styled(Box)(({ theme }) => ({
     width: '100%',
-    display: 'flex',
-
 }))
 const BoardsCol = styled(Box)(({ theme }) => ({
     flex: 1,
@@ -72,7 +66,7 @@ export default function BoardMenuPopper({ }: Props) {
             <PopupState variant='popper'>
                 {(popupState) => (<>
                     <TreeButton {...bindTrigger(popupState)} sx={{ borderRight: 0, borderTopRightRadius: 0, borderBottomRightRadius: 0 }}>
-                        <ListOutlinedIcon sx={{ color: selectedBoard.color }}/>
+                        <ListOutlinedIcon sx={{ color: selectedBoard?.color }}/>
                     </TreeButton>
 
                     <PopperMenu {...bindMenu(popupState)}
@@ -99,23 +93,9 @@ export default function BoardMenuPopper({ }: Props) {
                         }}
                     >
                         <Menu>
-                            <BoardsCol>
-                                <MenuListItem sx={{ borderBottom, justifyContent: 'center', fontWeight: 600 }}>Boards</MenuListItem>
-                                {boards.map((board) => (
-                                    <MenuListItem
-                                        onClick={() => {
-                                            dispatch(boardActions.setSelectedBoard(board))
-                                            popupState.close()
-                                        }}
-                                        key={board._id}>
-                                        {board._id === selectedBoard._id ? <RadioButtonCheckedOutlinedIcon sx={{ color: board.color }} /> :
-                                            <RadioButtonUncheckedOutlinedIcon sx={{ color: board.color }} />}
-                                        {board.name}
-                                    </MenuListItem>
-                                ))}
-                            </BoardsCol>
-                            <MenuItemsCol>
-                                <MenuListItem sx={{ borderBottom, justifyContent: 'center', fontWeight: 600 }}>Menu</MenuListItem>
+                            
+                           
+                                <MenuListItem sx={{ borderBottom, justifyContent: '', fontWeight: 600 }}>Menu</MenuListItem>
                                 <MenuListItem onClick={() => {
                                     dispatch(elementsActions.setElementAction({
                                         action: 'mark-parents'
@@ -135,9 +115,9 @@ export default function BoardMenuPopper({ }: Props) {
                                     {isMarkChildrenEnabled && elementsAction.action === 'mark-children' ? <CheckBoxOutlinedIcon /> : <CheckBoxOutlineBlankOutlinedIcon />}
                                     Mark children
                                 </MenuListItem>
-                            </MenuItemsCol>
+                            
                         </Menu>
-                        <MenuFooter>
+                        {/* <MenuFooter>
                             <StyledButton
                                 onClick={() => {
                                     dispatch(boardActions.setBoardData({ ...board, workspaceId: selected_workspace?._id ?? '' }))
@@ -157,7 +137,7 @@ export default function BoardMenuPopper({ }: Props) {
                                 <AddOutlinedIcon />
                                 Create A Board
                             </StyledButton>
-                        </MenuFooter>
+                        </MenuFooter> */}
                     </PopperMenu>
                 </>
                 )}

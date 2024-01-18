@@ -6,15 +6,17 @@ import Randomstring from 'randomstring'
 import randomColor from 'randomcolor'
 import { mainActions } from "../main-reducer";
 import { PickerBtn } from "../../src/reusable/interfaces";
+import ListGroupElementAPI from "../../src/api-services/list-group-element";
 
 export const AddNewElementThunk = createAsyncThunk<void,
-    { elementType: 'parent' | 'child', cartegory: 'task' | 'feature' | '', parentElementId?: string },
+    { elementType: ElementType, groupId?: string },
     { state: AppState }>
     ('elementsSlice/AddNewElementThunk', async (params, thunkAPI) => {
         const dispatch = thunkAPI.dispatch
         const state = thunkAPI.getState()
         const elements = state.ElementsReducer.elements
         const newElementName = state.ElementsReducer.newElementName
+        const selectedBoard = state.BoardReducer.selectedBoard
         const clonedElements = [...elements]
         const newId = Randomstring.generate(12)
         const color = randomColor()
@@ -23,27 +25,26 @@ export const AddNewElementThunk = createAsyncThunk<void,
             return
         } else {
             try {
-                const newElement: Element = {
+                const newElementPayload: Element = {
                     _id: newId,
                     name: newElementName,
-                    cartegory: params.cartegory,
                     elementType: params.elementType,
-                    parentElementId: params.parentElementId,
-                    projectAccessId: '',
-                    color,
-                    loading: true
+                    groupId: params?.groupId ?? '',
+                    loading: true,
+                    workspaceId: selectedBoard.workspaceId,
+                    boardId: selectedBoard?._id ?? ''
                 }
 
-                console.log(newElement)
+                console.log(newElementPayload)
 
-                dispatch(elementsActions.setElements([...elements, { ...newElement, loading: false }]))
+                dispatch(elementsActions.setElements([...elements, { ...newElementPayload, loading: false }]))
                 dispatch(elementsActions.setNewElementName(''))
 
-                // const { data } = await ApiService.createNewElement(newElement)
-                // if (data.success) {
-                //     const filterred = clonedElements.filter((item) => item._id !== data.newElement._id)
-                //     dispatch(elementsActions.setElements([...filterred, { ...newElement, loading: false }]))
-                // }  
+                const newElement = await ListGroupElementAPI.create(newElementPayload)
+                if (newElement) {
+                    const filterred = clonedElements.filter((item) => item._id !== newElement._id)
+                    dispatch(elementsActions.setElements([...filterred, { ...newElement, loading: false }]))
+                }  
             } catch (error) {
                 console.log(error)
             }

@@ -1,6 +1,6 @@
 import mongoose from "mongoose"
 import { PickerBtn } from "../reusable/interfaces"
-export type ElementType = 'parent' | 'child' | ''
+export type ElementType = 'list-group-element' | ''
 
 export type SubFeature = {
     parentFeature: string,
@@ -17,15 +17,14 @@ export type Person = {
 }
 export type Element = {
     _id: string;
-    projectAccessId: string,
     elementType: ElementType,
-    cartegory: 'task' | 'feature' | '',
-    parentElementId?: string,
+    workspaceId: string,
+    boardId: string,
+    groupId?: string,
     name: string,
     isAddingSubFeature?: boolean
     isAddingNote?: boolean
     isShowOptions?: boolean
-    color?: string
     isCollapsed?: boolean,
     showActionBtns?: boolean
     isNameEdditing?: boolean
@@ -44,10 +43,10 @@ export type Element = {
 
 const _ElementSchema = new mongoose.Schema<Element>({
     _id: String,
-    projectAccessId: String,
-    cartegory: String,
     elementType: String,
-    parentElementId: { type: String, required: false },
+    boardId: String,
+    groupId: String,
+    workspaceId: String,
     name: String,
     priority: {
         value: String,
@@ -63,7 +62,6 @@ const _ElementSchema = new mongoose.Schema<Element>({
         publicId: String,
         initials: String,
     },
-    color: String,
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
 });
@@ -72,30 +70,14 @@ export const ElementModel = mongoose.models?.element || mongoose.model("element"
 
 export const ElementSchema: Element = {
     _id: "",
-    projectAccessId: "",
     elementType: "",
-    cartegory: "",
-    name: ""
+    name: "",
+    workspaceId: "",
+    boardId: ""
 }
 
 export const SubFeatureSchema: SubFeature = {
     parentFeature: '',
     name: "",
     description: "",
-}
-export const FeatureSchema: Element = {
-    projectAccessId: "",
-    cartegory: "",
-    elementType: "",
-    parentElementId: "",
-    name: "",
-    priority: {
-        value: "",
-        accent: "",
-    },
-    status: {
-        value: "",
-        accent: "",
-    },
-    _id: ""
 }

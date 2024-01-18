@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { AppState } from "../../store/store"
 import { postActions } from "."
-import PostAPI from "../../src/api-services/post"
+import PostAPI from "../../src/api-services/list-group-element"
 import { JobSchema } from "../../src/models/post"
 import { createToastThunk } from "../main-reducer/main-thunks"
 import Randomstring from "randomstring"
