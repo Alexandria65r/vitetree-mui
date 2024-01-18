@@ -6,7 +6,7 @@ import { BiColorFill } from 'react-icons/bi'
 import { CirclePicker } from 'react-color'
 import { colors } from '../../../reusable/helpers'
 const Container = styled(Box)(({ theme }) => ({
-
+  flex:1
 }))
 
 type Props = {
@@ -43,7 +43,7 @@ export default function ColorPickerPopper({ color, onChange }: Props) {
                         <CirclePicker
                             color={color}
                             colors={colors}
-                            onChange={({hex}: any) => {
+                            onChange={({ hex }: any) => {
                                 onChange(hex)
                                 popupState.close()
                             }}

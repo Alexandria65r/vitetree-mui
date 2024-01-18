@@ -86,6 +86,10 @@ export default function RenderElementTreeItems({ listGroups }: Props) {
     return (<Box sx={{}}>
         {/* <ProjectTreeButton /> */}
         <Container ref={containerRef} sx={(theme) => ({
+            [theme.breakpoints.up('md')]: {
+                width: isSidebarOpen ? 'calc(100vw - 120px)' : 'calc(100vw - 320px)',
+                //border:'1px solid red'
+            },
             [theme.breakpoints.up('xl')]: {
                 width: isSidebarOpen ? 'calc(100vw - 120px)' : 'calc(100vw - 320px)',
                 //border:'1px solid red'

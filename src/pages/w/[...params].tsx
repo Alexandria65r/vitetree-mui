@@ -4,7 +4,7 @@ import RenderElementTreeItems from '../../components/element-tree/render-element
 import { useAppDispatch, useAppSelector, useListGroups, useParentElements, useSelectedBoard } from '../../../store/hooks'
 import { fetchActiveWorkspaceBoardAndBoardData } from '../../../reducers/boards-reducer/boards-thunks'
 import { useRouter } from 'next/router'
-import { Box, colors, styled } from '@mui/material'
+import { Box, colors, styled, useMediaQuery } from '@mui/material'
 import { createListGroupThunk } from '../../../reducers/list-group-reducer/list-group-thunks'
 import { colorScheme } from '../../theme'
 import NewItemInput from '../../components/element-tree/new-item-input'
@@ -34,7 +34,7 @@ const Header = styled(Box)(({ theme }) => ({
 }))
 
 const NewElementWrapper = styled(Box)(() => ({
-  flex: 1,
+
 }))
 const NewElementButton = styled(StyledButton)(({ theme }) => ({
   color: '#fff',
@@ -62,6 +62,8 @@ export default function WorkspaceSettings({ }: Props) {
   const headerRef: MutableRefObject<HTMLDivElement> | any = useRef()
   const [isAddNewElement, toggleAddNewElement] = useState(false)
   const newListGroupName = useAppSelector((state) => state.ListGroupReducer.newListGroupName)
+  const isSidebarOpen = useAppSelector((state) => state.MainReducer.isSidebarOpen)
+  const isMobile = useMediaQuery('(max-width:600px)')
 
   function create() {
     dispatch(createListGroupThunk())
@@ -96,25 +98,27 @@ export default function WorkspaceSettings({ }: Props) {
   return (
     <Layout>
       <Header ref={headerRef}>
-        {boards.length ? <ProjectTreeButton /> : <></>}
-        <NewElementWrapper>
-          {isAddNewElement ?
-            (<NewItemInput
-              value={newListGroupName}
-              create={create}
-              onChange={(target: any) => dispatch(listGroupActions.setListGroupName(target.value))}
-              placeholder='New group'
-              sx={{ borderBottomColor: `${board.color}`, '&:focus': { borderBottomColor: `${board.color}!important` } }}
-              createIcon={<VerticalAlignTopIcon
-                sx={{ transform: 'rotate(90deg)', color: board.color ?? colors.teal[400], }}
-              />} />) : boards.length ? (
-                <NewElementButton
-                  sx={{ bgcolor: board.color }}
-                  onClick={AddNewListGroup}>
-                  <Add sx={{ mt: 0 }} /> New list group
-                </NewElementButton>
-              ) : <></>}
-        </NewElementWrapper>
+        <Box sx={{flex:1, display:'flex',alignItems:'center', gap:'8px'}}>
+          {boards.length ? <ProjectTreeButton /> : <></>}
+          <NewElementWrapper>
+            {isAddNewElement ?
+              (<NewItemInput
+                value={newListGroupName}
+                create={create}
+                onChange={(target: any) => dispatch(listGroupActions.setListGroupName(target.value))}
+                placeholder='New group'
+                sx={{ borderBottomColor: `${board.color}`, '&:focus': { borderBottomColor: `${board.color}!important` } }}
+                createIcon={<VerticalAlignTopIcon
+                  sx={{ transform: 'rotate(90deg)', color: board.color ?? colors.teal[400], }}
+                />} />) : boards.length && board?._id? (
+                  <NewElementButton
+                    sx={{ bgcolor: board.color }}
+                    onClick={AddNewListGroup}>
+                    <Add sx={{ mt: 0 }} /> {!isMobile ? 'New list group' : ''}
+                  </NewElementButton>
+                ) : <></>}
+          </NewElementWrapper>
+        </Box>
         <ButtonIcon onClick={() => dispatch(boardActions.toggleBoardInfoModal(true))} sx={{ width: 35, height: 35 }}>
           <MoreVertOutlinedIcon />
         </ButtonIcon>

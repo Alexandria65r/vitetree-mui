@@ -1,4 +1,4 @@
-import { Box, colors, styled, useMediaQuery } from '@mui/material'
+import { Box, Skeleton, colors, styled, useMediaQuery } from '@mui/material'
 import { useRouter } from 'next/router'
 import React, { useCallback, useEffect } from 'react'
 import { ButtonIcon, StyledButton } from '../reusable/styles'
@@ -18,6 +18,7 @@ import { Board } from '../models/board'
 import { getNameInitials } from '../reusable/helpers'
 import { mainActions } from '../../reducers/main-reducer'
 import { Add } from '@mui/icons-material'
+
 
 
 
@@ -98,6 +99,8 @@ export default function AsideNavbar({ }: Props) {
   const selectedWorkspace = useAppSelector((state) => state.WorkspaceReducer.selectedWorkspace)
   const selectedBoard = useAppSelector((state) => state.BoardReducer.selectedBoard)
   const boards = useAppSelector((state) => state.BoardReducer.boards)
+  const boardNetworkStatus = useAppSelector((state) => state.BoardReducer.boardNetworkStatus)
+
   const isMobile = useMediaQuery('(max-width:600px)')
 
 
@@ -136,25 +139,44 @@ export default function AsideNavbar({ }: Props) {
       {user._id ? (<>
         <Boards>
           <BoardsHead>
-            {boards.length || isSidebarOpen ? (<>
-              {!isSidebarOpen && <ThemedText sx={{ flex: 1, fontSize: 14, fontWeight: 600 }}>Boards</ThemedText>}
-              <ButtonIcon
-                onClick={() => dispatch(boardActions.setIsFormOpen(true))}
-                sx={{
-                  width: isSidebarOpen ? 45 : 35, height: isSidebarOpen ? 45 : 35,
-                  color: isSidebarOpen ? '#fff' : '', bgcolor: isSidebarOpen ? colors.teal[500] : '',
-                }}>
-                <Add />
-              </ButtonIcon>
-            </>) : (<>
-              {!isSidebarOpen && <ThemedText sx={{ flexBasis: '100%', mb: 1, fontSize: 13, textAlign: 'center', fontWeight: 600 }}>
-                There are not boards in this workspace, create a board now.
-              </ThemedText>}
-              <StyledButton
-                onClick={() => dispatch(boardActions.setIsFormOpen(true))}
-                sx={{ fontSize: 14, height: 35, }}>
-                <Add /> Create Board
-              </StyledButton>
+            {boardNetworkStatus === 'fetching-boards' ? (
+              <>
+                {!isSidebarOpen && (
+                  <Box sx={{ width: '100%', gap: 1, display: 'flex' }}>
+                    <Box sx={{ flex: 1 }}>
+                      <Skeleton sx={{ width: '50%', height: 35 }} />
+                    </Box>
+                    <Skeleton sx={{ width: 35, height: 35 }} />
+                  </Box>
+                )}
+                <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', width: '100%', mt: .5 }}>
+                  <Skeleton sx={{ flexBasis: '100%', height: 40, borderRadius: 19 }} variant='rounded' />
+                  <Skeleton sx={{ flexBasis: '100%', height: 40, borderRadius: 19 }} variant='rounded' />
+                  <Skeleton sx={{ flexBasis: '100%', height: 40, borderRadius: 19 }} variant='rounded' />
+                  <Skeleton sx={{ flexBasis: '100%', height: 40, borderRadius: 19 }} variant='rounded' />
+                </Box>
+              </>
+            ) : (<>
+              {boards.length || isSidebarOpen ? (<>
+                {!isSidebarOpen && <ThemedText sx={{ flex: 1, fontSize: 14, fontWeight: 600 }}>Boards</ThemedText>}
+                <ButtonIcon
+                  onClick={() => dispatch(boardActions.setIsFormOpen(true))}
+                  sx={{
+                    width: isSidebarOpen ? 45 : 35, height: isSidebarOpen ? 45 : 35,
+                    color: isSidebarOpen ? '#fff' : '', bgcolor: isSidebarOpen ? colors.teal[500] : '',
+                  }}>
+                  <Add />
+                </ButtonIcon>
+              </>) : (<>
+                {!isSidebarOpen && <ThemedText sx={{ flexBasis: '100%', mb: 1, fontSize: 13, textAlign: 'center', fontWeight: 600 }}>
+                  There are not boards in this workspace, create a board now.
+                </ThemedText>}
+                <StyledButton
+                  onClick={() => dispatch(boardActions.setIsFormOpen(true))}
+                  sx={{ fontSize: 14, height: 35, }}>
+                  <Add /> Create Board
+                </StyledButton>
+              </>)}
             </>)}
           </BoardsHead>
           <MappedBoards >

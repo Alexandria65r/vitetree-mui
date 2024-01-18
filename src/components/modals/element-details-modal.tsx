@@ -1,6 +1,6 @@
 import { Modal, Box, styled } from '@mui/material'
 import React, { useEffect } from 'react'
-import { useAppSelector, useSelectedBoard, useSelectedElement, useSelectedGroup } from '../../../store/hooks'
+import { useAppSelector, useSelectedBoard, useSelectedElement, useSelectedGroup, useSelectedWorkspace } from '../../../store/hooks'
 import { useDispatch } from 'react-redux'
 import { useRouter } from 'next/router'
 import { ThemedText, colorScheme } from '../../theme'
@@ -10,6 +10,7 @@ import ElementTreeItem from '../element-tree/element-tree-item'
 import { mainActions } from '../../../reducers/main-reducer'
 import WestIcon from '@mui/icons-material/West';
 import { elementsActions } from '../../../reducers/elements-reducer'
+import { listGroupActions } from '../../../reducers/list-group-reducer'
 
 
 
@@ -55,12 +56,14 @@ export default function ElementDetailsModal({ }: Props) {
     const id: any = router.query.view;
     const group = useSelectedGroup(id ?? '')
     const board = useSelectedBoard()
+    const workspace = useSelectedWorkspace()
 
 
-    
+
     function back() {
-        router.replace(`/board/${board._id}`)
+        router.replace(`/w/${workspace?._id ?? ''}/board/${board._id}`)
         dispatch(elementsActions.clearElementAction())
+        dispatch(listGroupActions.clearGroupAction())
     }
 
 
@@ -71,10 +74,10 @@ export default function ElementDetailsModal({ }: Props) {
                     <ButtonIcon onClick={back}>
                         <WestIcon sx={{ fontSize: 26 }} />
                     </ButtonIcon>
-                    <ThemedText sx={{ fontSize: 18, fontWeight: 600 }}>Task Group Details</ThemedText>
+                    <ThemedText sx={{ fontSize: 16, fontWeight: 500 }}>Task Group Details</ThemedText>
                 </Header>
                 <InnerWrapper>
-                    <ElementTreeItem group={group}  parent='element-detail' />
+                    <ElementTreeItem group={group} parent='element-detail' />
                 </InnerWrapper>
             </Container>
         </Modal>

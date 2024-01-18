@@ -273,13 +273,14 @@ export const StyledBox = styled(Box)(({ theme }) => ({
 
 
 export const OptionButton = styled(ButtonIcon)(({ theme }) => ({
-    width: 40,
-    height: 40,
+   width:'100%',
+    height: 36,
     margin: 0,
-    borderRadius: 15,
+    borderRadius: 0,
+    borderLeft: `1px solid ${colorScheme(theme).greyToTertiary}`,
     backgroundColor: colorScheme(theme).lightToSecondaryColor,
     color: colorScheme(theme).TextColor,
-    boxShadow: `0 1px 3px 0 ${colorScheme(theme).darkGreyToSecondary}`,
+    //boxShadow: `0 1px 3px 0 ${colorScheme(theme).darkGreyToSecondary}`,
     '&:hover': {
         backgroundColor: colorScheme(theme).lightToSecondaryColor
     }

@@ -92,6 +92,7 @@ export const fetchBoardsThunk = createAsyncThunk<void, undefined, { state: AppSt
             dispatch(boardActions.setBoardNetworkStatus('fetching-boards'))
             const boards = await BoardAPI.fetchBoards(workspaceId ?? '')
             if (boards) {
+                dispatch(boardActions.setBoardNetworkStatus('fetching-boards-success'))
                 dispatch(boardActions.setBoards(boards))
             }
         } catch (error) {

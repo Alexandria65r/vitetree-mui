@@ -30,7 +30,7 @@ const GroupHeadWrapper = styled(Box)(() => ({
 
 
 
-const SubElementWrapper = styled(Box)(({theme}) => ({
+const SubElementWrapper = styled(Box)(({ theme }) => ({
     marginLeft: 0,
     borderBottomLeftRadius: 0,
     borderLeft: `0px solid ${colors.grey[400]}`,
@@ -53,8 +53,8 @@ const GroupFooter = styled(Box)(({ theme }) => ({
     height: 40,
     paddingInline: 10,
     borderRadius: 19,
-   // borderTopLeftRadius: 0,
-   // borderTopRightRadius: 0,
+     //borderTopLeftRadius: 0,
+    // borderTopRightRadius: 0,
     borderLeft: `0px solid ${colors.grey[400]}`,
     borderRight: `0px solid ${colors.grey[400]}`,
     backgroundColor: colorScheme(theme).lightToSecondaryColor,
@@ -86,7 +86,8 @@ export default function ElementTreeItem({ group, parent }: Props) {
                     <GroupHead parent={parent} id={group?._id ?? ''} />
                 </GroupHeadWrapper>
                 <SubElementWrapper sx={{
-                    padding:1,
+                    paddingInline: 0.5,
+                    paddingBottom:.5,
                     maxHeight: parent === 'main-tree' ? 'calc(100vh - 280px)' : 'auto',
                     overflowY: parent === 'element-detail' ? 'auto' : 'auto',
                     //overflowX: 'hidden',
@@ -101,10 +102,12 @@ export default function ElementTreeItem({ group, parent }: Props) {
                     {isAddNewSubElement && (
                         <SubItemInput id={group?._id ?? ''} />
                     )}
-                    <TreeOptions parent={parent} id={group?._id ?? ''} totalSubs={groupListElements.length} />
                 </SubElementWrapper>
-                <GroupFooter sx={{borderColor:group?.color}}></GroupFooter>
-            </ListGroup>
+                <GroupFooter sx={{ borderColor: group?.color }}>
+
+                     <TreeOptions parent={parent} id={group?._id ?? ''} totalSubs={groupListElements.length} /> 
+                </GroupFooter>
+            </ListGroup>     
         </Container>
     )
 }

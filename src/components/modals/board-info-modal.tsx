@@ -25,6 +25,9 @@ const Container = styled(Box)(({ theme }) => ({
     [theme.breakpoints.down("sm")]: {
         width: '100%',
     },
+    [theme.breakpoints.up("md")]: {
+        width: '30%',
+    },
     [theme.breakpoints.up("xl")]: {
         width: '20%',
     }
@@ -75,7 +78,7 @@ export default function BoardInfoModal({ }: Props) {
                     </ButtonIcon>
                     <ThemedText sx={{ fontSize: 18, fontWeight: 600 }}>Board Details</ThemedText>
                 </Header>
-             
+
             </Container>
         </Modal>
     )

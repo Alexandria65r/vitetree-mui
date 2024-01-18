@@ -18,6 +18,9 @@ export const useAppSelector: TypedUseSelectorHook<AppState> = useSelector
 export const useSelectBoardById = (id: string) => {
     return useAppSelector((state) => getBoardById(state, id))
 }
+export const useSelectedWorkspace = () => {
+    return useAppSelector((state) => state.WorkspaceReducer.selectedWorkspace)
+}
 export const useSelectedBoard = () => {
     return useAppSelector((state) => state.BoardReducer.selectedBoard)
 }

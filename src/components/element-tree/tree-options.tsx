@@ -12,16 +12,20 @@ import { listGroupActions } from '../../../reducers/list-group-reducer'
 
 
 const Container = styled(Box)(({ theme }) => ({
-  display: 'flex',
+  width:'100%',
+  display: 'grid',
+  gridTemplateColumns:'repeat(5,1fr)',
   alignItems: 'center',
+ // justifyContent:'space-around',
   marginTop: 0,
 
 }))
 
 const Options = styled(Box)(({ theme }) => ({
-  height: 40,
+  height: 35,
   display: 'flex',
-  gap: 10,
+  justifyContent:'space-around',
+  //gap: 10,
   alignItems: 'center',
 }))
 
@@ -65,9 +69,7 @@ export default function TreeOptions({ id, totalSubs, parent }: Props) {
 
   return (
     <Container>
-      {/* <ChildRootLine color={group?.color ?? ''} /> */}
-      <Options sx={{ flex: 1, my: 1 }}>
-        <OptionButton>
+        <OptionButton sx={{borderLeft:0}}>
           <MdNotes size={16} color={group?.color ?? ''} />
         </OptionButton>
         <DuplicateActionsPopper id={group?._id ?? ''} />
@@ -83,8 +85,6 @@ export default function TreeOptions({ id, totalSubs, parent }: Props) {
           <HiPencil size={16} color={group?.color ?? ''} />
         </OptionButton>
         <ColorPickerPopper color={group?.color ?? ''} onChange={handleColorChange} />
-
-      </Options>
     </Container>
   )
 }

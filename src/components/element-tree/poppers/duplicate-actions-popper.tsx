@@ -7,29 +7,29 @@ import { colors } from '../../../reusable/helpers'
 import { BiColorFill, BiDuplicate } from 'react-icons/bi'
 import { MdContentCopy } from 'react-icons/md'
 import { ImMoveUp } from 'react-icons/im'
-import {  useSelectedGroup } from '../../../../store/hooks'
+import { useSelectedGroup } from '../../../../store/hooks'
 
 
 const Container = styled(Box)(({ theme }) => ({
-
+    flex: 1,
 }))
 const MenuListItem = styled(MenuItem)(({ theme }) => ({
-    fontSize:14,
-    gap:10
+    fontSize: 14,
+    gap: 10
 }))
 
 type Props = {
- id:string
+    id: string
 }
 
-export default function DuplicateActionsPopper({id }: Props) {
+export default function DuplicateActionsPopper({ id }: Props) {
     const color = useSelectedGroup(id)?.color
     return (
         <Container>
             <PopupState variant='popper'>
                 {(popupState) => (<>
                     <OptionButton {...bindTrigger(popupState)}>
-                        <BiDuplicate size={16} color={color??''} />
+                        <BiDuplicate size={16} color={color ?? ''} />
                     </OptionButton>
                     <Menu {...bindMenu(popupState)}
                         transformOrigin={{

@@ -23,7 +23,7 @@ const Container = styled(Box)(() => ({
 const Element = styled(Box)(({ theme }) => ({
   flexBasis: '100%',
   //width: 'fit-content',
-  marginTop: 10,
+  marginTop: 4,
   //padding: 10,
   minHeight: 40,
   borderRadius: '13px 13px 13px 13px',
@@ -133,7 +133,7 @@ export default function GroupedSubItem({ id, parent }: Props) {
           ) : (
             <Element sx={{ userSelect: 'none', position: 'relative' }} >
               <RenderHeader />
-              <Box sx={{ padding: '0px 10px 10px 10px' }} {...bindTrigger(popupState)}>
+              <Box sx={{ padding: '0px 10px 5px 10px' }} {...bindTrigger(popupState)}>
                 <ElipsisText text={element.name} lineClamp={parent === 'main-tree' ? 2 : 0} color={color ?? ''} sx={{ fontWeight: 500 }} />
               </Box>
             </Element>
