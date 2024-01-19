@@ -1,4 +1,4 @@
-import { Box, styled } from '@mui/material'
+import { Box, SxProps, Theme, styled } from '@mui/material'
 import React from 'react'
 import PriorityPickerPopper from './priority-picker-popper'
 import StatusPickerPopper from './status-picker-popper'
@@ -19,15 +19,15 @@ const PickersWrapper = styled(Box)(({ theme }) => ({
 }))
 
 type Props = {
-    height?:number;
-    id:string
+    id: string
+    pickerBtnStyles: SxProps<Theme>
 }
 
-export default function StatusAndPriorityPickers({height,id }: Props) {
+export default function StatusAndPriorityPickers({ id, pickerBtnStyles }: Props) {
     return (
         <PickersWrapper>
-            <PriorityPickerPopper id={id} height={height} />
-            <StatusPickerPopper id={id} height={height} />
+            <PriorityPickerPopper id={id}  pickerBtnStyles={pickerBtnStyles}  />
+            <StatusPickerPopper id={id} pickerBtnStyles={pickerBtnStyles} />
         </PickersWrapper>
     )
 }

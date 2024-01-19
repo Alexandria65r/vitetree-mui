@@ -21,7 +21,7 @@ export default function TreePickers({ id }: Props) {
   return (
     <Container>
       <ChildRootLine color={color ?? ''} />
-      <StatusAndPriorityPickers id={id}/>
+    {/* <StatusAndPriorityPickers id={id}/> */}
     </Container>
   )
 }

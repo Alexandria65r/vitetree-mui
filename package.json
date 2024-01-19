@@ -49,9 +49,9 @@
     "react-use": "^17.4.2",
     "react-web-share": "^2.0.2",
     "sass": "^1.62.1",
-    "slate": "^0.90.0",
-    "slate-history": "^0.86.0",
-    "slate-react": "^0.90.0",
+    "slate": "^0.101.5",
+    "slate-history": "^0.100.0",
+    "slate-react": "^0.101.5",
     "video-react": "^0.16.0",
     "wavesurfer-react": "^3.0.1",
     "wavesurfer.js": "^7.4.12"
@@ -68,6 +68,7 @@
     "@types/react-copy-to-clipboard": "^5.0.4",
     "@types/react-dom": "^18.0.5",
     "@types/react-redux": "^7.1.18",
+    "@types/slate": "^0.47.15",
     "ts-node": "^10.2.1",
     "typescript": "^4.3.4"
   },

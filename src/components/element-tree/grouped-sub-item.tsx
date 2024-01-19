@@ -1,4 +1,4 @@
-import { Box, Checkbox, Menu, MenuItem, styled } from '@mui/material'
+import { Box, Checkbox, Menu, MenuItem, SxProps, Theme, styled } from '@mui/material'
 import React, { MutableRefObject, useRef } from 'react'
 import { ElipsisText, colorScheme } from '../../theme'
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state'
@@ -11,6 +11,7 @@ import ChildRootLine from './child-root-line'
 import { elementsActions } from '../../../reducers/elements-reducer'
 import { mainActions } from '../../../reducers/main-reducer'
 import PersonPickerPopper from './poppers/person-picker-popper'
+import ElementCellHeader from './element-cell-header'
 
 
 const Container = styled(Box)(() => ({
@@ -36,7 +37,7 @@ const Element = styled(Box)(({ theme }) => ({
   //borderBottom: `1px solid ${colorScheme(theme).greyToTertiary}`,
   [theme.breakpoints.up('md')]: {
     Width: 'fit-content',
-    maxWidth: 320,
+    //maxWidth: 320,
   },
   '&:hover': {
     transform: 'scale(1.01)'
@@ -50,17 +51,7 @@ const EditableElement = styled(Box)(({ theme }) => ({
   color: colorScheme(theme).TextColor,
 }))
 
-const SubHead = styled(Box)(() => ({
-  display: 'flex',
-  gap: 10,
-  alignItems: 'center',
-  borderRadius: 0,
-  marginInline: 4,
-  height: 35,
-  paddingInline: 5,
-  // boxShadow:`0 1px 3px 0 ${colorScheme(theme).greyToTertiary}`,
-  //borderBottom: `1px solid ${colorScheme(theme).greyToTertiary}!important`
-}))
+
 const MenuListItem = styled(MenuItem)(() => ({
   fontSize: 14,
   gap: 10,
@@ -69,10 +60,11 @@ const MenuListItem = styled(MenuItem)(() => ({
 
 type Props = {
   id: string;
+  elemetStyles?: SxProps<Theme>
   parent: 'main-tree' | 'element-detail'
 }
 
-export default function GroupedSubItem({ id, parent }: Props) {
+export default function GroupedSubItem({ id, parent, elemetStyles }: Props) {
   const dispatch = useAppDispatch()
   const element = useSelectedElement(id)
   const color = useGroupColorByElementId(id)
@@ -92,23 +84,7 @@ export default function GroupedSubItem({ id, parent }: Props) {
     dispatch(elementsActions.clearElementAction())
   }
 
-  function RenderHeader() {
-    return (
-      <SubHead sx={{ borderColor: color }}>
-        {isMarkEnabled && (
-          <Checkbox checked={false} sx={{
-            m: 0, p: 0, color,
-            '&.Mui-checked': {
-              color,
-            },
-            '&.MuiSvgIcon-root': { fontSize: 23, }
-          }} />
-        )}
-        <StatusAndPriorityPickers id={element._id} height={20} />
-        <PersonPickerPopper id={id} color={color} />
-      </SubHead>
-    )
-  }
+
 
 
   return (
@@ -118,13 +94,17 @@ export default function GroupedSubItem({ id, parent }: Props) {
         {(popupState) => (<>
           {isSubEditting ? (
             <Element sx={{
+              maxWidth: parent === 'element-detail' ? 'fit-content' : 320,
               padding: '4px',
               transition: 'none',
               '&:hover': {
                 transform: 'none'
-              }
+              },
+              ...elemetStyles
             }}>
-              <RenderHeader />
+              {parent === 'main-tree' && (
+                <ElementCellHeader id={id} color={color} avataSize={25} pickerBtnStyles={{ height: 20 }} />
+              )}
               <EditableElement ref={subElRef} contentEditable={isSubEditting} onBlur={handleBlur}
                 sx={{ width: '100%', color: color, outline: 'none', fontSize: 14, border: `1px dashed ${color}` }} >
                 {element?.name}
@@ -132,8 +112,10 @@ export default function GroupedSubItem({ id, parent }: Props) {
             </Element>
 
           ) : (
-            <Element sx={{ userSelect: 'none', position: 'relative' }} >
-              <RenderHeader />
+            <Element sx={{ maxWidth: parent === 'element-detail' ? '100%' : 320, userSelect: 'none', position: 'relative', ...elemetStyles }}>
+              {parent === 'main-tree' && (
+                <ElementCellHeader id={id} color={color} avataSize={25} pickerBtnStyles={{ height: 20 }} />
+              )}
               <Box sx={{ padding: '0px 10px 5px 10px' }} onClick={
                 () => dispatch(elementsActions.setSelectedElementId(id))}>
                 <ElipsisText text={element.name} lineClamp={parent === 'main-tree' ? 2 : 0} color={color ?? ''} sx={{ fontSize: 14, lineHeight: '1.3' }} />

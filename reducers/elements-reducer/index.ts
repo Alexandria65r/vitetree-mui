@@ -5,7 +5,10 @@ import { Element, ElementSchema, SubFeature, SubFeatureSchema } from '../../src/
 
 export type ElementAction = {
     elementId?: string
-    action: 'sub-element' | 'edit-element' | 'edit-sub-element' | 'add-sub-element' |'element-detail'| 'show-element-delete-button' | 'mark-parents' | 'mark-children' | ''
+    action: 'sub-element' | 'edit-element' | 'edit-sub-element' |
+    'add-sub-element' | 'element-detail' | 'show-element-update-edittor' |
+    'show-element-delete-button'
+    | 'mark-parents' | 'mark-children' | ''
 }
 
 export type ElementNetworkStatus = 'deleting' | ''
@@ -13,7 +16,7 @@ export type ElementNetworkStatus = 'deleting' | ''
 type InitialState = {
     elements: Element[]
     element: Element
-    selectedElementId:string
+    selectedElementId: string
     isAddingFeature: boolean,
     newElementName: string,
     elementTreeDetail: Element[],

@@ -1,4 +1,4 @@
-import { Box, Menu, MenuItem, colors, styled } from '@mui/material'
+import { Box, Menu, MenuItem, SxProps, Theme, colors, styled } from '@mui/material'
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state'
 import React from 'react'
 import { PickerButton } from '../../../reusable/styles'
@@ -17,11 +17,11 @@ const MenuListItem = styled(MenuItem)(({ theme }) => ({
 }))
 
 type Props = {
-    height?: number;
     id: string
+    pickerBtnStyles: SxProps<Theme>
 }
 
-export default function StatusPickerPopper({ height, id }: Props) {
+export default function StatusPickerPopper({ id, pickerBtnStyles }: Props) {
     const statusButtons = _pickerButtons('tasks')
     const dispatch = useAppDispatch()
     const element = useAppSelector((state) => getElementById(state, id))
@@ -33,12 +33,12 @@ export default function StatusPickerPopper({ height, id }: Props) {
             <PopupState variant='popper'>
                 {(popupState) => (<>
                     <PickerButton sx={{
-                        height,
                         borderRadius: 19,
                         width: '100%',
                         bgcolor: colors.green[400],
                         border: `1px solid ${colors.green[400]}`,
                         // borderTopLeftRadius: 0, borderBottomLeftRadius: 0
+                        ...pickerBtnStyles
                     }}
                         {...bindTrigger(popupState)}>
                         {element.status?.value || 'status'}

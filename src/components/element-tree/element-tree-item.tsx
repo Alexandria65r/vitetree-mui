@@ -46,20 +46,20 @@ const MappedSubElements = styled(Box)(() => ({
 const GroupFooter = styled(Box)(({ theme }) => ({
     display: 'flex',
     userSelect: 'none',
-     flex: 1,
-   // minWidth: 330,
+    flex: 1,
+    // minWidth: 330,
     //maxWidth: 330,
     alignItems: 'center',
     height: 40,
     paddingInline: 10,
     borderRadius: 19,
-     //borderTopLeftRadius: 0,
+    //borderTopLeftRadius: 0,
     // borderTopRightRadius: 0,
     border: `1px solid ${colors.grey[400]}`,
     //borderRight: `0px solid ${colors.grey[400]}`,
     backgroundColor: colorScheme(theme).lightToSecondaryColor,
     color: colorScheme(theme).TextColor,
-   // boxShadow: `0 -1px 13px 0 ${colorScheme(theme).darkGreyToSecondary}`
+    // boxShadow: `0 -1px 13px 0 ${colorScheme(theme).darkGreyToSecondary}`
 }))
 
 
@@ -87,7 +87,7 @@ export default function ElementTreeItem({ group, parent }: Props) {
                 </GroupHeadWrapper>
                 <SubElementWrapper sx={{
                     paddingInline: 0.5,
-                    paddingBottom:.5,
+                    paddingBottom: .5,
                     maxHeight: parent === 'main-tree' ? 'calc(100vh - 280px)' : 'auto',
                     overflowY: parent === 'element-detail' ? 'auto' : 'auto',
                     //overflowX: 'hidden',
@@ -105,9 +105,9 @@ export default function ElementTreeItem({ group, parent }: Props) {
                 </SubElementWrapper>
                 <GroupFooter sx={{ borderColor: group?.color }}>
 
-                     <TreeOptions parent={parent} id={group?._id ?? ''} totalSubs={groupListElements.length} /> 
+                    <TreeOptions parent={parent} id={group?._id ?? ''} totalSubs={groupListElements.length} />
                 </GroupFooter>
-            </ListGroup>     
+            </ListGroup>
         </Container>
     )
 }

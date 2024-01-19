@@ -1,4 +1,4 @@
-import { Box, Menu, MenuItem, colors, styled } from '@mui/material'
+import { Box, Menu, MenuItem, SxProps, Theme, colors, styled } from '@mui/material'
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state'
 import React from 'react'
 import { PickerButton } from '../../../reusable/styles'
@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from '../../../../store/hooks'
 import { getElementById, statusAndPriorityThunk } from '../../../../reducers/elements-reducer/elements-thunks'
 import RadioButtonCheckedOutlinedIcon from '@mui/icons-material/RadioButtonCheckedOutlined';
 import RadioButtonUncheckedOutlinedIcon from '@mui/icons-material/RadioButtonUncheckedOutlined';
+
 
 
 const Container = styled(Box)(({ theme }) => ({
@@ -19,11 +20,12 @@ const MenuListItem = styled(MenuItem)(({ theme }) => ({
 }))
 
 type Props = {
-    height?: number;
+  
     id: string;
+    pickerBtnStyles:SxProps<Theme>
 }
 
-export default function PriorityPickerPopper({ height, id }: Props) {
+export default function PriorityPickerPopper({  id, pickerBtnStyles }: Props) {
     const dispatch = useAppDispatch()
     const priorityButtons = _pickerButtons('tasks')
     const element = useAppSelector((state) => getElementById(state, id))
@@ -33,13 +35,13 @@ export default function PriorityPickerPopper({ height, id }: Props) {
                 {(popupState) => (<>
                     <PickerButton sx={{
                         width: '100%',
-                        height,
                         borderRadius: 19,
                         bgcolor: colors.amber[600],
                         border: `1px solid ${colors.amber[600]}`,
                         //color:'#000',
                         // fontWeight:600,
                         // borderTopRightRadius: 0, borderBottomRightRadius: 0
+                        ...pickerBtnStyles
                     }}
                         {...bindTrigger(popupState)}>
                         {element?.priority?.value || 'priority'}

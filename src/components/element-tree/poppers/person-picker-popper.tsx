@@ -17,12 +17,12 @@ const MenuListItem = styled(MenuItem)(({ theme }) => ({
 }))
 
 type Props = {
-    height?: number;
     id: string
     color:string
+    size:number
 }
 
-export default function PersonPickerPopper({ height, id,color }: Props) {
+export default function PersonPickerPopper({ id,color,size }: Props) {
     const statusButtons = _pickerButtons('tasks')
     const dispatch = useAppDispatch()
     const element = useSelectedElement(id)
@@ -33,7 +33,7 @@ export default function PersonPickerPopper({ height, id,color }: Props) {
             <PopupState variant='popper'>
                 {(popupState) => (<>
                     <Box {...bindTrigger(popupState)}>
-                        <UserAvatar avatarStyles={{ width: 25, height: 25 }} />
+                        <UserAvatar avatarStyles={{ width: size, height: size }} />
                     </Box>
                     <Menu {...bindMenu(popupState)}
                         transformOrigin={{

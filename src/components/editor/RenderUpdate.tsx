@@ -94,7 +94,7 @@ export default function RenderUpdate({ update }: Props): ReactElement {
 
 
   const RenderUpdate = useCallback(() => (
-    <Slate editor={editor} value={update} onChange={(value) => value}>
+    <Slate editor={editor} initialValue={update} onChange={(value) => value}>
       <Editable
         readOnly={true}
         renderElement={renderElement}

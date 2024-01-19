@@ -18,6 +18,10 @@ const AddFilesColumn = styled(Box)(() => ({
 const AsideRight = styled(Box)(() => ({
 
 }))
+const FooterButton = styled(StyledButton)(() => ({
+    fontSize: 14,
+    height: 35
+}))
 
 
 
@@ -60,9 +64,11 @@ export default function EditorFooter({ editor, value, onValueUpdate, onCancel }:
     return (
         <Container>
             <AddFilesColumn>
-                <StyledButtonOutlined onClick={AddFiles} >
+                <StyledButtonOutlined
+                    sx={{height:35}}
+                    onClick={AddFiles} >
                     <Box>
-                        <AttachmentOutlinedIcon style={{transform:'rotate(-45deg)'}} />
+                        <AttachmentOutlinedIcon style={{ transform: 'rotate(-45deg)' }} />
                     </Box>
                     Add files
                 </StyledButtonOutlined>
@@ -76,27 +82,27 @@ export default function EditorFooter({ editor, value, onValueUpdate, onCancel }:
             </AddFilesColumn>
             {value ? (
                 <AsideRight >
-                    <StyledButton
+                    <FooterButton
                         onClick={onCancel}
-                        sx={(theme)=> ({
+                        sx={(theme) => ({
                             backgroundColor: theme.palette.mode === 'light' ? "#e2e6ea" : colorScheme.secondaryColor,
                             color: colorScheme.TextColor,
                             marginRight: 1.5,
                         })}
                     >
                         Cancel
-                    </StyledButton>
-                    <StyledButton
+                    </FooterButton>
+                    <FooterButton
                         onClick={onValueUpdate}
 
                     >
                         Update
-                    </StyledButton>
+                    </FooterButton>
                 </AsideRight>
             ) : (
-                <StyledButton onClick={onValueUpdate} >
+                <FooterButton onClick={onValueUpdate} >
                     Save
-                </StyledButton>
+                </FooterButton>
             )}
 
         </Container>

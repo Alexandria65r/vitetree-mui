@@ -8,6 +8,7 @@ import ElementsReducer from '../reducers/elements-reducer'
 import WorkspaceReducer from '../reducers/workspace-reducer'
 import BoardReducer from '../reducers/boards-reducer'
 import ListGroupReducer from '../reducers/list-group-reducer'
+import TaskUpdatesReducer from '../reducers/task-updates-reducer'
 
 const rootReducer = combineReducers({
   AuthReducer,
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
   ElementsReducer,
   WorkspaceReducer,
   BoardReducer,
-  ListGroupReducer
+  ListGroupReducer,
+  TaskUpdatesReducer
 })
 
 
