@@ -14,7 +14,7 @@ import PersonPickerPopper from './poppers/person-picker-popper'
 
 
 const Container = styled(Box)(() => ({
-  width:'100%',
+  width: '100%',
   position: 'relative',
   display: 'flex',
   alignItems: 'center',
@@ -26,16 +26,17 @@ const Element = styled(Box)(({ theme }) => ({
   marginTop: 4,
   //padding: 10,
   minHeight: 40,
-  borderRadius: '13px 13px 13px 13px',
+  borderRadius: 8,
   //width: 280,
   cursor: 'pointer',
   backgroundColor: colorScheme(theme).lightToSecondaryColor,
   color: colorScheme(theme).TextColor,
   transition: '0.3s all',
-  boxShadow: `0 1px 3px 0 ${colorScheme(theme).darkGreyToSecondary}`,
+  boxShadow: `0 1px 1px 0 ${colorScheme(theme).darkGreyToSecondary}`,
+  //borderBottom: `1px solid ${colorScheme(theme).greyToTertiary}`,
   [theme.breakpoints.up('md')]: {
     Width: 'fit-content',
-   // maxWidth: 280,
+    maxWidth: 320,
   },
   '&:hover': {
     transform: 'scale(1.01)'
@@ -104,7 +105,7 @@ export default function GroupedSubItem({ id, parent }: Props) {
           }} />
         )}
         <StatusAndPriorityPickers id={element._id} height={20} />
-        <PersonPickerPopper id={id}  color={color} />
+        <PersonPickerPopper id={id} color={color} />
       </SubHead>
     )
   }
@@ -133,8 +134,9 @@ export default function GroupedSubItem({ id, parent }: Props) {
           ) : (
             <Element sx={{ userSelect: 'none', position: 'relative' }} >
               <RenderHeader />
-              <Box sx={{ padding: '0px 10px 5px 10px' }} {...bindTrigger(popupState)}>
-                <ElipsisText text={element.name} lineClamp={parent === 'main-tree' ? 2 : 0} color={color ?? ''} sx={{ fontWeight: 500 }} />
+              <Box sx={{ padding: '0px 10px 5px 10px' }} onClick={
+                () => dispatch(elementsActions.setSelectedElementId(id))}>
+                <ElipsisText text={element.name} lineClamp={parent === 'main-tree' ? 2 : 0} color={color ?? ''} sx={{ fontSize: 14, lineHeight: '1.3' }} />
               </Box>
             </Element>
           )}
@@ -163,6 +165,8 @@ export default function GroupedSubItem({ id, parent }: Props) {
             slotProps={{
               paper: {
                 style: {
+                  width: '30%',
+                  height: 400,
                   padding: 10,
                   borderRadius: 10
                 }

@@ -5,7 +5,7 @@ import { Element, ElementSchema, SubFeature, SubFeatureSchema } from '../../src/
 
 export type ElementAction = {
     elementId?: string
-    action: 'sub-element' | 'edit-element' | 'edit-sub-element' | 'add-sub-element' | 'show-element-delete-button' | 'mark-parents' | 'mark-children' | ''
+    action: 'sub-element' | 'edit-element' | 'edit-sub-element' | 'add-sub-element' |'element-detail'| 'show-element-delete-button' | 'mark-parents' | 'mark-children' | ''
 }
 
 export type ElementNetworkStatus = 'deleting' | ''
@@ -13,6 +13,7 @@ export type ElementNetworkStatus = 'deleting' | ''
 type InitialState = {
     elements: Element[]
     element: Element
+    selectedElementId:string
     isAddingFeature: boolean,
     newElementName: string,
     elementTreeDetail: Element[],
@@ -45,7 +46,8 @@ const initialState: InitialState = {
         action: ''
     },
     collapedItems: [],
-    elementNetworkStatus: ''
+    elementNetworkStatus: '',
+    selectedElementId: ''
 }
 
 const elementsSlice = createSlice({
@@ -62,7 +64,9 @@ const elementsSlice = createSlice({
         setElementDetail(state, { payload }: PayloadAction<Element[]>) {
             state.elementTreeDetail = payload
         },
-
+        setSelectedElementId(state, { payload }: PayloadAction<string>) {
+            state.selectedElementId = payload
+        },
         setElements(state, { payload }: PayloadAction<Element[]>) {
             state.elements = payload
 

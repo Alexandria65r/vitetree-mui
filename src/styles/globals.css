@@ -51,23 +51,23 @@ ul {
 }
 
 .light ::-webkit-scrollbar {
-  background-color: #ddd;
+  background-color: #f2f2f2;
   width: 6px;
   border-radius: 10px;
 }
 .light ::-webkit-scrollbar-thumb {
-  background-color: #c9c9c9;
+  background-color: #ddd;
   border-radius: 10px;
 }
 
 .dark ::-webkit-scrollbar {
-  background-color: #181b34;
+  background-color: #373737;
   width: 6px;
   border-radius: 10px;
 }
 
 .dark ::-webkit-scrollbar-thumb {
-  background-color: #393e5b;
+  background-color: #272727;
   border-radius: 10px;
 }
 

@@ -112,7 +112,7 @@ export default function AsideNavbar({ }: Props) {
 
   useEffect(() => {
     loadData()
-  }, [router.pathname, workspaceId, boardId, loadData, dispatch])
+  }, [router.pathname, workspaceId, boardId])
 
   const loadBoards = useCallback(() => dispatch(fetchBoardsThunk()), [selectedWorkspace])
 
@@ -166,7 +166,7 @@ export default function AsideNavbar({ }: Props) {
                 </Box>
               </>
             ) : (<>
-              {!boards.length && !isSidebarOpen ? (
+                {!boards.length && !isSidebarOpen && boardNetworkStatus ==='fetching-boards-success'? (
                 <>
                   {!isSidebarOpen && <ThemedText sx={{ flexBasis: '100%', mb: 1, fontSize: 13, textAlign: 'center', fontWeight: 600 }}>
                     There are not boards in this workspace, create a board now.

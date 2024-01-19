@@ -18,6 +18,7 @@ import BoardInfoModal from '../../components/modals/board-info-modal'
 import { boardActions } from '../../../reducers/boards-reducer'
 import GroupAddOutlinedIcon from '@mui/icons-material/GroupAddOutlined';
 import { workspaceActions } from '../../../reducers/workspace-reducer'
+import ElementDetailModal from '../../components/modals/element-detail-modal'
 
 
 const Container = styled(Box)(() => ({
@@ -133,7 +134,7 @@ export default function WorkspaceSettings({ }: Props) {
       <Container>
         <RenderElementTreeItems listGroups={listGroups} elements={elements} />
       </Container>
-
+      <ElementDetailModal />
       <BoardInfoModal />
     </Layout>
   )
