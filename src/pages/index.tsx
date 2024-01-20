@@ -10,6 +10,8 @@ import Link from 'next/link'
 import RenderBoardsAndWorkSpaces from '../components/render-boards-and-workspaces'
 import { ThemedText, colorScheme } from '../theme'
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
+import { workspaceActions } from '../../reducers/workspace-reducer'
+import { fetchCurrentWorkspaceThunk, selectWorkspaceThunk } from '../../reducers/workspace-reducer/workspace-thunks'
 const Container = styled(Box)(({ theme }) => ({
   padding: 15,
   [theme.breakpoints.up('xl')]: {
@@ -33,14 +35,16 @@ const IndexPage: NextPage = () => {
   const dispatch = useAppDispatch()
   const user = useAppSelector((state) => state.AuthReducer.user)
 
-  // useEffect(() => {
-  //   const workspaceId = localStorage.getItem('workspaceId');
-  //   if (workspaceId) {
-  //     router.push(`/workspace/${workspaceId}`)
-  //   } else {
-  //     router.push(`/workspaces`)
-  //   }
-  // }, [])
+  useEffect(() => {
+    const workspaceId = localStorage.getItem('workspaceId');
+    if (workspaceId) {
+      //   dispatch(fetchCurrentWorkspaceThunk(workspaceId ?? ''))
+      router.replace(`/workspace/${workspaceId}`)
+
+    } else {
+      router.replace(`/workspaces`)
+    }
+  }, [])
 
   return (
     <Layout>
@@ -52,7 +56,7 @@ const IndexPage: NextPage = () => {
             <SearchOutlinedIcon />
           </ButtonIcon>
         </Head>
-        <RenderBoardsAndWorkSpaces />
+        <RenderBoardsAndWorkSpaces workspaces={[]} />
       </Container>
     </Layout>
   )

@@ -24,6 +24,7 @@ export default class BoardAPI {
         if (data.success) {
             return {
                 board: data.board as Board,
+                boards: data.boards as Board[],
                 workspace: data.workspace as Workspace,
                 listGroups: data.listGroups as ListGroup[],
                 elements: data.elements as Element[]

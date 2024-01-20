@@ -5,11 +5,13 @@ import { workspaceActions } from ".";
 import { Workspace } from "../../src/models/workspace";
 import WorkspaceAPI from "../../src/api-services/workspace";
 import Randomstring from "randomstring";
+import { mainActions } from "../main-reducer";
+import { fetchBoardsThunk } from "../boards-reducer/boards-thunks";
 
 export const createWorkspaceThunk = createAsyncThunk<void, undefined, { state: AppState }>
     ('cartSlice/createWorkspaceThunk', async (_, thunkAPI) => {
         const dispatch = thunkAPI.dispatch
-        const { AuthReducer: { user: { _id: owner } }, WorkspaceReducer: { workspace,workspaces } } = thunkAPI.getState()
+        const { AuthReducer: { user: { _id: owner } }, WorkspaceReducer: { workspace, workspaces } } = thunkAPI.getState()
         const id = Randomstring.generate(18)
         try {
             const newWorkspacePayload: Workspace = {
@@ -22,8 +24,8 @@ export const createWorkspaceThunk = createAsyncThunk<void, undefined, { state: A
             dispatch(workspaceActions.setWorkspaceNetworkStatus('creating'))
             const newWorkspace = await WorkspaceAPI.create(newWorkspacePayload)
             if (newWorkspace) {
-                dispatch(workspaceActions.setWorkspaces([...workspaces, newWorkspace ]))
-                dispatch(workspaceActions.setSelectedWorkspace(newWorkspace))
+                dispatch(workspaceActions.setWorkspaces([...workspaces, newWorkspace]))
+                dispatch(selectWorkspaceThunk(newWorkspace))
                 dispatch(workspaceActions.setWorkspaceNetworkStatus('creating-success'))
                 dispatch(workspaceActions.setIsFormOpen(false))
             }
@@ -32,7 +34,31 @@ export const createWorkspaceThunk = createAsyncThunk<void, undefined, { state: A
         }
     })
 
+export const selectWorkspaceThunk = createAsyncThunk<void, Workspace, { state: AppState }>
+    ('cartSlice/selectWorkspaceThunk', async (workspace, thunkAPI) => {
+        const dispatch = thunkAPI.dispatch
+        const state = thunkAPI.getState()
+        dispatch(workspaceActions.setSelectedWorkspace(workspace))
+      //  dispatch(fetchBoardsThunk(workspace?._id ?? ''))
+        dispatch(mainActions.setIsSideBarOpen(false))
+        localStorage.setItem('workspaceId', workspace?._id ?? '')
+        router.replace(`/w/${workspace._id}`)
+    })
 
+
+export const fetchCurrentWorkspaceThunk = createAsyncThunk<void, string, { state: AppState }>
+    ('cartSlice/fetchCurrentWorkspaceThunk', async (workspaceId, thunkAPI) => {
+        const dispatch = thunkAPI.dispatch
+
+        try {
+            const workspaceData = await WorkspaceAPI.fetchWorkspace(workspaceId)
+            if (workspaceData) {
+                dispatch(selectWorkspaceThunk(workspaceData))
+            }
+        } catch (error) {
+            dispatch(workspaceActions.setWorkspaceNetworkStatus('fetching-error'))
+        }
+    })
 export const fetchWorkspaceThunk = createAsyncThunk<void, string, { state: AppState }>
     ('cartSlice/fetchWorkspaceThunk', async (workspaceId, thunkAPI) => {
         const dispatch = thunkAPI.dispatch

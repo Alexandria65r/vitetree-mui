@@ -33,13 +33,25 @@ export const createBoardThunk = createAsyncThunk<void, undefined, { state: AppSt
             if (newBoard) {
                 dispatch(boardActions.setBoards([...boards, newBoard]))
                 dispatch(boardActions.setBoardData(BoardSchema))
-                dispatch(boardActions.setSelectedBoard(newBoard))
+                dispatch(selectBoardThunk(newBoard))
                 dispatch(boardActions.setIsFormOpen(false))
             }
         } catch (error) {
             dispatch(boardActions.setBoardNetworkStatus('creating-error'))
         }
     })
+
+export const selectBoardThunk = createAsyncThunk<void, Board, { state: AppState }>
+    ('cartSlice/selectedBoardAction', async (board, thunkAPI) => {
+        const dispatch = thunkAPI.dispatch
+        const state = thunkAPI.getState()
+        const workspaceId = state.WorkspaceReducer.selectedWorkspace._id
+        dispatch(boardActions.setSelectedBoard(board))
+        router.replace(`/w/${workspaceId}/boardId/${board?._id ?? ''}`)
+    })
+
+
+
 
 
 export const fetchBoardThunk = createAsyncThunk<Board | undefined, string, { state: AppState }>
@@ -67,15 +79,18 @@ export const fetchActiveWorkspaceBoardAndBoardData = createAsyncThunk<Board | un
         const state = thunkAPI.getState()
 
         const selectedWorkspace = state.WorkspaceReducer.selectedWorkspace
-
+        dispatch(boardActions.setBoardNetworkStatus('fetching-board-data'))
         try {
             dispatch(boardActions.setBoardNetworkStatus('fetching-board'))
             const data = await BoardAPI.fetchActiveWorkspaceBoardAndBoardData(path)
             //const workspaceId = localStorage.getItem('workspaceId')
             if (data) {
+                dispatch(boardActions.setBoardNetworkStatus('fetching-board-data-success'))
                 dispatch(boardActions.setSelectedBoard(data?.board))
+                dispatch(boardActions.setBoards(data?.boards))
                 if (selectedWorkspace._id !== data.workspace._id) {
                     dispatch(workspaceActions.setSelectedWorkspace(data?.workspace))
+                    // dispatch(fetchBoardsThunk(data.workspace?._id ?? ''))
                 }
                 dispatch(listGroupActions.setListGroups(data?.listGroups))
                 dispatch(elementsActions.setElements(data.elements))
@@ -83,16 +98,16 @@ export const fetchActiveWorkspaceBoardAndBoardData = createAsyncThunk<Board | un
                 return data.board
             }
         } catch (error) {
-            dispatch(boardActions.setBoardNetworkStatus('fetching-board-error'))
+            dispatch(boardActions.setBoardNetworkStatus('fetching-board-data-error'))
         }
     })
 
 
-export const fetchBoardsThunk = createAsyncThunk<void, undefined, { state: AppState }>
-    ('cartSlice/fetchBoardsThunk', async (_, thunkAPI) => {
+export const fetchBoardsThunk = createAsyncThunk<void, string, { state: AppState }>
+    ('cartSlice/fetchBoardsThunk', async (workspaceId, thunkAPI) => {
         const dispatch = thunkAPI.dispatch
         const state = thunkAPI.getState()
-        const workspaceId = state.WorkspaceReducer.selectedWorkspace._id
+        
         try {
             dispatch(boardActions.setBoardNetworkStatus('fetching-boards'))
             const boards = await BoardAPI.fetchBoards(workspaceId ?? '')

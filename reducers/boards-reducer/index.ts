@@ -8,6 +8,9 @@ export type BoardNetworkStatus =
     'fetching-board' |
     'fetching-board-error' |
     'fetching-board-success' |
+    'fetching-board-data' |
+    'fetching-board-data-error' |
+    'fetching-board-data-success' |
     'fetching-boards' |
     'fetching-boards-error' |
     'fetching-boards-success' |

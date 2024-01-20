@@ -1,10 +1,10 @@
-import { Box, Skeleton, colors, styled, useMediaQuery } from '@mui/material'
+import { Box, colors, styled, useMediaQuery } from '@mui/material'
 import { useRouter } from 'next/router'
-import React, { useCallback, useEffect } from 'react'
-import { ButtonIcon, StyledButton } from '../reusable/styles'
-import { ThemedText, colorScheme, useColorScheme } from '../theme'
+import React, {  } from 'react'
+import { StyledButton } from '../reusable/styles'
+import { colorScheme, useColorScheme } from '../theme'
 import Link from 'next/link'
-import { useAppDispatch, useAppSelector } from '../../store/hooks'
+import { useAppSelector } from '../../store/hooks'
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import { getAuth, signOut } from 'firebase/auth'
 import Cookies from 'js-cookie'
@@ -12,12 +12,7 @@ import * as types from '../reusable'
 import LoginIcon from '@mui/icons-material/Login';
 import InteractionPopper from './account/interaction-popper/interaction-popper'
 import WorkspacePopper from './element-tree/poppers/workspace-popper'
-import { fetchActiveWorkspaceBoardAndBoardData, fetchBoardsThunk } from '../../reducers/boards-reducer/boards-thunks'
-import { boardActions } from '../../reducers/boards-reducer'
-import { Board } from '../models/board'
-import { getNameInitials } from '../reusable/helpers'
-import { mainActions } from '../../reducers/main-reducer'
-import { Add } from '@mui/icons-material'
+import RenderBoardPanel from './render-board-panel'
 
 
 
@@ -34,7 +29,7 @@ const Container = styled(Box)(({ theme }) => ({
   }
 }))
 
-const AsideNav = styled(Box)(({ theme }) => ({
+const AsideNav = styled(Box)(() => ({
   display: 'flex',
   flexWrap: 'wrap',
   alignItems: 'flex-start',
@@ -73,52 +68,19 @@ const LogoutButton = styled(StyledButton)(({ theme }) => ({
   }
 }))
 
-const Boards = styled(Box)(({ theme }) => ({
-  width: '100%'
-}))
-const MappedBoards = styled(Box)(({ theme }) => ({
-
-}))
-const BoardsHead = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  flexWrap: 'wrap',
-  padding: '8px 6px',
-}))
 
 
 
 type Props = {}
 
 export default function AsideNavbar({ }: Props) {
-  const dispatch = useAppDispatch()
   const router = useRouter()
   const user = useAppSelector((state) => state.AuthReducer.user)
   const isSidebarOpen = useAppSelector((state) => state.MainReducer.isSidebarOpen)
-  const selectedWorkspace = useAppSelector((state) => state.WorkspaceReducer.selectedWorkspace)
-  const selectedBoard = useAppSelector((state) => state.BoardReducer.selectedBoard)
-  const boards = useAppSelector((state) => state.BoardReducer.boards)
-  const boardNetworkStatus = useAppSelector((state) => state.BoardReducer.boardNetworkStatus)
+
   const isMobile = useMediaQuery('(max-width:600px)')
-  const [workspaceId, boardIdParam, boardId]: any = router.query.params || []
+
   console.log(router.query.params)
-
-  const loadData = useCallback(() => {
-    console.log(workspaceId)
-    dispatch(fetchActiveWorkspaceBoardAndBoardData(router.asPath))
-  }, [boardId, workspaceId])
-
-
-  useEffect(() => {
-    loadData()
-  }, [router.pathname, workspaceId, boardId])
-
-  const loadBoards = useCallback(() => dispatch(fetchBoardsThunk()), [selectedWorkspace])
-
-  useEffect(() => {
-    loadBoards()
-  }, [selectedWorkspace])
 
 
 
@@ -142,73 +104,10 @@ export default function AsideNavbar({ }: Props) {
 
   return (<Container>
     <WorkspacePopper />
-
     <AsideNav
       className="sideBarAnimated">
       {user._id ? (<>
-        <Boards>
-          <BoardsHead>
-            {boardNetworkStatus === 'fetching-boards' ? (
-              <>
-                {!isSidebarOpen && (
-                  <Box sx={{ width: '100%', gap: 1, display: 'flex' }}>
-                    <Box sx={{ flex: 1 }}>
-                      <Skeleton sx={{ width: '50%', height: 35 }} />
-                    </Box>
-                    <Skeleton sx={{ width: 35, height: 35 }} />
-                  </Box>
-                )}
-                <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', width: '100%', mt: .5 }}>
-                  <Skeleton sx={{ flexBasis: '100%', height: 40, borderRadius: 19 }} variant='rounded' />
-                  <Skeleton sx={{ flexBasis: '100%', height: 40, borderRadius: 19 }} variant='rounded' />
-                  <Skeleton sx={{ flexBasis: '100%', height: 40, borderRadius: 19 }} variant='rounded' />
-                  <Skeleton sx={{ flexBasis: '100%', height: 40, borderRadius: 19 }} variant='rounded' />
-                </Box>
-              </>
-            ) : (<>
-                {!boards.length && !isSidebarOpen && boardNetworkStatus ==='fetching-boards-success'? (
-                <>
-                  {!isSidebarOpen && <ThemedText sx={{ flexBasis: '100%', mb: 1, fontSize: 13, textAlign: 'center', fontWeight: 600 }}>
-                    There are not boards in this workspace, create a board now.
-                  </ThemedText>}
-                  <StyledButton
-                    onClick={() => {dispatch(boardActions.setIsFormOpen(true))}}
-                    sx={{ fontSize: 14, height: 35, }}>
-                    <Add /> Create Board
-                  </StyledButton>
-                </>
-              ) : (<>
-                {isMobile ? <ThemedText sx={{ flex: 1, fontSize: 14, fontWeight: 600 }}>Boards</ThemedText>
-                  : !isMobile && !isSidebarOpen ? <ThemedText sx={{ flex: 1, fontSize: 14, fontWeight: 600 }}>Boards</ThemedText> : <></>}
-                <ButtonIcon
-                  onClick={() => {
-                    dispatch(boardActions.setIsFormOpen(true))
-                    dispatch(mainActions.setIsSideBarOpen(isMobile ? false : true))
-                  }}
-                  sx={{
-                    width: isSidebarOpen && !isMobile ? 45 : 35, height: isSidebarOpen && !isMobile ? 45 : 35,
-                    color: isSidebarOpen ? '#fff' : '', bgcolor: isSidebarOpen ? colors.teal[500] : '',
-                  }}>
-                  <Add />
-                </ButtonIcon>
-              </>)
-
-              }
-            </>)}
-          </BoardsHead>
-          {boardNetworkStatus !== 'fetching-boards' && (
-            <MappedBoards >
-              {boards.map((board) => (
-                <BoardItem key={board._id}
-                  color={board.color}
-                  board={board}
-                  isActive={selectedBoard?._id === board?._id}
-                />
-              ))}
-            </MappedBoards>
-          )}
-        </Boards>
-
+        <RenderBoardPanel />
         <Box sx={{ alignSelf: 'flex-end', width: '100%' }}>
           <InteractionPopper />
           <LogoutButton
@@ -273,53 +172,10 @@ function NavItem({ name, route, isActive, startIcon, endIcon, onClick }: NavItem
 }
 
 
-type BoardItemProps = {
-  board: Board
-  isActive: boolean
-  color?: string
-  onClick?: () => void
-}
 
 
 
-function BoardItem({ board, isActive, color }: BoardItemProps) {
-  const dispatch = useAppDispatch()
-  const isSidebarOpen = useAppSelector((state) => state.MainReducer.isSidebarOpen)
-  const isMobile = useMediaQuery('(max-width:600px)')
-  const colorScheme = useColorScheme()
-  const workspace = useAppSelector((state) => state.WorkspaceReducer.selectedWorkspace)
 
-
-  return (
-    <Link href={`/w/${workspace._id}/boardId/${board?._id ?? ''}`}
-      style={{ flexBasis: '100%' }}>
-      <NavButton
-        onClick={() => {
-          dispatch(boardActions.setSelectedBoard(board))
-          dispatch(mainActions.setIsSideBarOpen(isMobile ? false : true))
-        }}
-        sx={(theme) => ({
-          width: '100%',
-          justifyContent: isSidebarOpen && !isMobile ? 'center' : 'flex-start',
-          backgroundColor: isActive ? colorScheme.lightToprimaryColor : isSidebarOpen
-            && !isMobile ? theme.palette.mode === 'light' ? color :
-            color : color,
-          color: theme.palette.mode === 'light' && isActive ? color : theme.palette.mode === 'dark' && isActive ? color : isActive || isSidebarOpen ? '#fff' : '#fff',
-          border: isActive ? `1px solid ${color}` : 0,
-          fontWeight: isSidebarOpen ? 600 : 500,
-          '&:hover': {
-            backgroundColor: isActive ? color : isSidebarOpen ? color : '',
-            color: isActive ? '#fff' : '',
-          }
-        })}
-      >
-        {isSidebarOpen && !isMobile ? getNameInitials(board.name) : board.name}
-      </NavButton>
-
-    </Link>
-
-  )
-}
 
 
 

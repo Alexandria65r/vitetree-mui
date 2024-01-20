@@ -4,6 +4,7 @@ import { ElipsisText, colorScheme } from '../theme'
 import Link from 'next/link'
 import FolderOutlinedIcon from '@mui/icons-material/FolderOutlined';
 import Groups2OutlinedIcon from '@mui/icons-material/Groups2Outlined';
+import { Workspace } from '../models/workspace';
 
 
 const Container = styled(Box)(({ theme }) => ({
@@ -43,7 +44,7 @@ const CardBody = styled(Box)(({ theme }) => ({
 }))
 const CardBodyItem = styled(MenuItem)(({ theme }) => ({
     fontSize: 13,
-    padding:5,
+    padding: 5,
     '&:hover': {
         backgroundColor: 'transparent'
     }
@@ -51,16 +52,18 @@ const CardBodyItem = styled(MenuItem)(({ theme }) => ({
 
 
 
-type Props = {}
+type Props = {
+    workspaces: Workspace[]
+}
 
-export default function RenderBoardsAndWorkSpaces({ }: Props) {
+export default function RenderBoardsAndWorkSpaces({ workspaces }: Props) {
     return (
         <Container>
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((board) => (
-                <Link href='/tasks/vitetree/some-id'>
+            {workspaces?.map((workspace) => (
+                <Link href={`/workspace/${workspace?._id ?? ''}`}>
                     <Card>
                         <CardHead>
-                            <ElipsisText text={'Cool Workspace'} lineClamp={1} sx={{ fontSize: 16, fontWeight: 500 }} />
+                            <ElipsisText text={workspace.name} lineClamp={1} sx={{textTransform:'capitalize', fontSize: 16, fontWeight: 500 }} />
                         </CardHead>
                         <CardBody>
                             <CardBodyItem> <FolderOutlinedIcon sx={{ mr: 1 }} /> 20 Boards</CardBodyItem>

@@ -19,9 +19,11 @@ import { boardActions } from '../../../reducers/boards-reducer'
 import GroupAddOutlinedIcon from '@mui/icons-material/GroupAddOutlined';
 import { workspaceActions } from '../../../reducers/workspace-reducer'
 import ElementDetailModal from '../../components/modals/element-detail-modal'
+import { AppSpinner } from '../../components/activity-indicators'
 
 
 const Container = styled(Box)(() => ({
+  //position:'relative',
   paddingInline: 10,
 }))
 const Header = styled(Box)(({ theme }) => ({
@@ -63,6 +65,7 @@ export default function WorkspaceSettings({ }: Props) {
   const [workspaceId, boardIdParam, boardId]: any = router.query.params || []
   const board = useSelectedBoard()
   const boards = useAppSelector((state) => state.BoardReducer.boards)
+  const boardNetworkStatus = useAppSelector((state) => state.BoardReducer.boardNetworkStatus)
   const headerRef: MutableRefObject<HTMLDivElement> | any = useRef()
   const [isAddNewElement, toggleAddNewElement] = useState(false)
   const newListGroupName = useAppSelector((state) => state.ListGroupReducer.newListGroupName)
@@ -100,7 +103,15 @@ export default function WorkspaceSettings({ }: Props) {
     <Layout>
       <Header ref={headerRef}>
         <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', gap: '8px' }}>
-          {boards.length ? <ProjectTreeButton /> : <></>}
+          {boardNetworkStatus !== 'fetching-board-data' && (<>
+            {boards.length ? <ProjectTreeButton /> : (
+              <StyledButton
+                onClick={() => { dispatch(boardActions.setIsFormOpen(true)) }}
+                sx={{ fontSize: 14, height: 35, }}>
+                <Add /> Create A Board
+              </StyledButton>
+            )}
+          </>)}
           <NewElementWrapper>
             {isAddNewElement ?
               (<NewItemInput
@@ -132,7 +143,18 @@ export default function WorkspaceSettings({ }: Props) {
         </ButtonIcon>
       </Header>
       <Container>
-        <RenderElementTreeItems listGroups={listGroups} elements={elements} />
+        {boardNetworkStatus === 'fetching-board-data' ? (<Box
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            color: colors.teal[500],
+            left: '50%', transform: 'translate(-50%,-50%)'
+          }}>
+          <AppSpinner visible={true} size={50} />
+        </Box>
+        ) : (
+          <RenderElementTreeItems listGroups={listGroups} elements={elements} />
+        )}
       </Container>
       <ElementDetailModal />
       <BoardInfoModal />

@@ -6,7 +6,7 @@ import { Box, styled, useTheme } from '@mui/material'
 import { ButtonIcon, StyledButton } from '../reusable/styles'
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
-import { useAppDispatch } from '../../store/hooks'
+import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { workspaceActions } from '../../reducers/workspace-reducer'
 
 
@@ -20,6 +20,7 @@ const Container = styled(Box)(({ theme }) => ({
 const Head = styled(Box)(({ theme }) => ({
     display: 'flex',
     padding: 15,
+    gap:10,
     alignItems: 'center',
     [theme.breakpoints.up('xl')]: {
 
@@ -32,6 +33,7 @@ type Props = {}
 export default function Workspaces({ }: Props) {
     const dispatch = useAppDispatch()
     const _theme = useTheme()
+    const workspaces = useAppSelector((state)=>state.WorkspaceReducer.workspaces)
     return (<Layout>
         <Container>
             <Head>
@@ -46,7 +48,7 @@ export default function Workspaces({ }: Props) {
                     <SearchOutlinedIcon />
                 </ButtonIcon>
             </Head>
-            <RenderBoardsAndWorkSpaces />
+            <RenderBoardsAndWorkSpaces workspaces={workspaces} />
         </Container>
     </Layout>
     )

@@ -1,8 +1,8 @@
 import { Box } from '@mui/joy'
-import React from 'react'
+import React, { useCallback, useEffect } from 'react'
 import NavBar from './navbar'
 import _app from '../pages/_app'
-import { useAppDispatch, useAppSelector } from '../../store/hooks'
+import { useAppDispatch, useAppSelector, useSelectedWorkspace } from '../../store/hooks'
 import { useRouter } from 'next/router'
 import SideBar from './side-bar'
 import { mainActions } from '../../reducers/main-reducer'
@@ -15,6 +15,8 @@ import ElementDetailsModal from './modals/element-details-modal'
 import WorkSpaceForm from '../pages/workspace/workspace-form'
 import BoardForm from '../pages/w/board-form'
 import InvitePeopleModal from './modals/invite-people-modal'
+import { fetchActiveWorkspaceBoardAndBoardData, fetchBoardsThunk } from '../../reducers/boards-reducer/boards-thunks'
+import { fetchWorkspacesThunk } from '../../reducers/workspace-reducer/workspace-thunks'
 
 const FlexContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -37,6 +39,9 @@ export default function Layout({ children }: Props) {
     const [isRouteChange, setRouteChange] = React.useState<boolean>(false)
     const theme = useTheme()
     const isMobile = useMediaQuery('(max-width:600px)')
+    const [workspaceId, boardIdParam, boardId]: any = router.query.params || []
+    const selectedWorkspace = useSelectedWorkspace()
+
     const checkAuth = React.useCallback(async () =>
         dispatch(checkAuthThunk()),
         [router.pathname])
@@ -49,6 +54,41 @@ export default function Layout({ children }: Props) {
             dispatch(mainActions.setIsSideBarOpen(false))
         }
     }, [router.pathname])
+
+    console.log(router)
+
+
+    const loadData = useCallback(() => {
+        if (router.pathname === '/w/[...params]') {
+            console.log(workspaceId)
+            dispatch(fetchActiveWorkspaceBoardAndBoardData(router.asPath))
+        }
+    }, [router.asPath])
+
+
+    useEffect(() => {
+        loadData()
+    }, [router.asPath])
+
+
+    const loadWorkspaces = useCallback(() => dispatch(fetchWorkspacesThunk()), [])
+
+    useEffect(() => {
+        loadWorkspaces()
+    }, [])
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     React.useEffect(() => {

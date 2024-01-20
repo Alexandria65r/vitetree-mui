@@ -20,12 +20,12 @@ const MenuListItem = styled(MenuItem)(({ theme }) => ({
 }))
 
 type Props = {
-  
+
     id: string;
-    pickerBtnStyles:SxProps<Theme>
+    pickerBtnStyles: SxProps<Theme>
 }
 
-export default function PriorityPickerPopper({  id, pickerBtnStyles }: Props) {
+export default function PriorityPickerPopper({ id, pickerBtnStyles }: Props) {
     const dispatch = useAppDispatch()
     const priorityButtons = _pickerButtons('tasks')
     const element = useAppSelector((state) => getElementById(state, id))
@@ -67,15 +67,18 @@ export default function PriorityPickerPopper({  id, pickerBtnStyles }: Props) {
 
                         {priorityButtons['priority'].map((button) => (
                             <MenuListItem key={button.value}
-                                onClick={() => dispatch(statusAndPriorityThunk({
-                                    elementId: id,
-                                    picker: button,
-                                    key: 'priority'
-                                }))}
+                                onClick={() => {
+                                    dispatch(statusAndPriorityThunk({
+                                        elementId: id,
+                                        picker: button,
+                                        key: 'priority'
+                                    }))
+                                    popupState.close()
+                                }}
                             >
 
                                 {element.priority?.value === button.value ?
-                                <RadioButtonCheckedOutlinedIcon />: <RadioButtonUncheckedOutlinedIcon />
+                                    <RadioButtonCheckedOutlinedIcon /> : <RadioButtonUncheckedOutlinedIcon />
                                 }
                                 {button.value}
                             </MenuListItem>

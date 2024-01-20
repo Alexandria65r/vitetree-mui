@@ -12,7 +12,7 @@ import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import { useRouter } from 'next/router'
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import { workspaceActions } from '../../../../reducers/workspace-reducer'
-import { fetchWorkspacesThunk } from '../../../../reducers/workspace-reducer/workspace-thunks'
+import { fetchWorkspacesThunk, selectWorkspaceThunk } from '../../../../reducers/workspace-reducer/workspace-thunks'
 import { getNameInitials } from '../../../reusable/helpers'
 import { boardActions } from '../../../../reducers/boards-reducer'
 import { BoardSchema } from '../../../models/board'
@@ -80,19 +80,14 @@ export default function WorkspacePopper({ }: Props) {
     const selected_workspace = useAppSelector((state) => state.WorkspaceReducer.selectedWorkspace)
     const isMobile = useMediaQuery('(max-width:600px)')
 
-
-    const loadWorkspaces = useCallback(() => dispatch(fetchWorkspacesThunk()), [])
-
-    useEffect(() => {
-        loadWorkspaces()
-    }, [])
-
+    if (router.pathname !== '/w/[...params]') return null
 
     return (
         <Container>
             <PopupState variant='popper'>
                 {(popupState) => (<>
                     <NavButton
+                        key={selected_workspace._id}
                         {...bindTrigger(popupState)}
                         sx={(theme) => ({
                             flex: 1,
@@ -152,15 +147,11 @@ export default function WorkspacePopper({ }: Props) {
                                 <SearchOutlinedIcon />
                             </ButtonIcon>
                         </MenuHead>
-                        {workspaces.map((workspace) => (
-                            <MenuListItem key={workspace?._id}
+                        {workspaces.map((workspace, index) => (
+                            <MenuListItem key={`${workspace?._id}-index`}
                                 onClick={() => {
-                                    dispatch(workspaceActions.setSelectedWorkspace(workspace))
-                                    // dispatch(boardActions.setSelectedBoard(BoardSchema))
-                                    // dispatch(listGroupActions.setListGroups([]))
-                                    // dispatch(elementsActions.setElements([]))
-                                    localStorage.setItem('workspaceId', workspace?._id ?? '')
-                                    router.replace(`/w/${workspace._id}`)
+                                    dispatch(selectWorkspaceThunk(workspace))
+                                    console.log(workspace)
                                     popupState.close()
                                 }}
                             >

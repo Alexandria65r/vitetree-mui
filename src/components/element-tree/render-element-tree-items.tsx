@@ -1,6 +1,6 @@
 import React, { MutableRefObject, useRef } from 'react'
 import { Box, colors, styled } from '@mui/material'
-import { OptionButton, StyledButton, StyledInput } from '../../reusable/styles';
+import { ButtonIcon} from '../../reusable/styles';
 import { colorScheme } from '../../theme';
 import ElementTreeItem from './element-tree-item';
 import { Element } from '../../models/element';
@@ -36,8 +36,6 @@ const MappedElements = styled(Box)(({ theme }) => ({
     }
 }))
 
-
-
 const CustomScrollContainer = styled(Box)(({ theme }) => ({
     width: '100%',
     display: 'flex',
@@ -56,6 +54,14 @@ const CustomScrollContainer = styled(Box)(({ theme }) => ({
     [theme.breakpoints.up('sm')]: {
         display: 'none'
     }
+}))
+
+
+const ScrollButton = styled(ButtonIcon)(({theme}) => ({
+    width: 45,
+    height: 45,
+    borderRadius: '50%',
+    border:`1px solid  ${colorScheme(theme).greyToTertiary}`
 }))
 
 type Props = {
@@ -97,18 +103,17 @@ export default function RenderElementTreeItems({ listGroups }: Props) {
         })}
             className={styles.renderElementTreeItems}>
             <MappedElements>
-           
                 {listGroups?.map((group) => (
                     <ElementTreeItem key={group._id} group={group} parent='main-tree' />
                 ))}
             </MappedElements>
             <CustomScrollContainer>
-                <OptionButton onClick={() => scrollOnNewGroup('left')} sx={{ width: 45, height: 45, borderRadius: '50%' }}>
+                <ScrollButton onClick={() => scrollOnNewGroup('left')}>
                     <BsChevronLeft size={20} />
-                </OptionButton>
-                <OptionButton onClick={() => scrollOnNewGroup('right')} sx={{ width: 45, height: 45, borderRadius: '50%' }}>
+                </ScrollButton>
+                <ScrollButton onClick={() => scrollOnNewGroup('right')} >
                     <BsChevronRight size={20} />
-                </OptionButton>
+                </ScrollButton>
             </CustomScrollContainer>
         </Container>
     </Box>

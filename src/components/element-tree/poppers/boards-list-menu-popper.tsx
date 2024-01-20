@@ -5,10 +5,12 @@ import { StyledButton } from '../../../reusable/styles'
 import { colorScheme } from '../../../theme'
 import RadioButtonUncheckedOutlinedIcon from '@mui/icons-material/RadioButtonUncheckedOutlined';
 import RadioButtonCheckedOutlinedIcon from '@mui/icons-material/RadioButtonCheckedOutlined';
-import { useAppDispatch, useAppSelector, useElementAction } from '../../../../store/hooks'
+import { useAppDispatch, useAppSelector, useElementAction, useSelectedWorkspace } from '../../../../store/hooks'
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import { boardActions } from '../../../../reducers/boards-reducer'
 import { HiOutlineChevronDown } from "react-icons/hi2";
+import { useRouter } from 'next/router'
+import { selectBoardThunk } from '../../../../reducers/boards-reducer/boards-thunks'
 
 
 const Container = styled(Box)(({ theme }) => ({
@@ -17,7 +19,7 @@ const Container = styled(Box)(({ theme }) => ({
 
 
 const TreeButton = styled(StyledButton)(({ theme }) => ({
-    whiteSpace:'nowrap',
+    whiteSpace: 'nowrap',
     height: 35,
     borderRadius: 29,
     color: colorScheme(theme).TextColor,
@@ -27,7 +29,7 @@ const TreeButton = styled(StyledButton)(({ theme }) => ({
 
 const Menu = styled(Box)(({ theme }) => ({
     width: '100%',
-   // display: 'flex',
+    // display: 'flex',
 
 }))
 const BoardsCol = styled(Box)(({ theme }) => ({
@@ -57,10 +59,11 @@ type Props = {
 
 export default function BoardsListMenuPopper({ }: Props) {
     const dispatch = useAppDispatch()
+    const router = useRouter()
     const _theme = useTheme()
     const borderBottom = `1px solid ${colorScheme(_theme).greyToTertiary}`
     const elementsAction = useAppSelector((state) => state.ElementsReducer.elementAction)
-    const selected_workspace = useAppSelector((state) => state.WorkspaceReducer.selectedWorkspace)
+    const selected_workspace = useSelectedWorkspace()
     const board = useAppSelector((state) => state.BoardReducer.board)
     const boards = useAppSelector((state) => state.BoardReducer.boards)
     const selectedBoard = useAppSelector((state) => state.BoardReducer.selectedBoard)
@@ -107,7 +110,7 @@ export default function BoardsListMenuPopper({ }: Props) {
                             {boards.map((board) => (
                                 <MenuListItem
                                     onClick={() => {
-                                        dispatch(boardActions.setSelectedBoard(board))
+                                        dispatch(selectBoardThunk(board))
                                         popupState.close()
                                     }}
                                     key={board._id}>
