@@ -33,10 +33,11 @@ const Container = styled(Box)(({ theme }) => ({
     paddingInline: 10,
     borderRadius: 19,
     //borderBottomLeftRadius: 0,
-    borderLeft: `0px solid ${colors.grey[400]}`,
+    //borderLeft: `0px solid ${colors.grey[400]}`,
+    border: `1px solid ${colorScheme(theme).greyToTertiary}`,
     backgroundColor: colorScheme(theme).lightToSecondaryColor,
     color: colorScheme(theme).TextColor,
-    boxShadow: `0 1px 3px 0 ${colorScheme(theme).darkGreyToSecondary}`
+    //boxShadow: `0 1px 3px 0 ${colorScheme(theme).darkGreyToSecondary}`
 }))
 
 const Input = styled(StyledInput)(({ theme }) => ({
@@ -86,7 +87,7 @@ export default function GroupHead({ id, parent }: Props) {
 
     }
     return (
-        <Container sx={{ borderColor: group?.color ?? '' }}>
+        <Container sx={{ borderColor:  '' }}>
             <IconButton sx={{ color: group?.color ?? '' }} onClick={() => dispatch(elementsActions.collapseItem(id))}>
                 {collapedItems.includes(id) ? <TfiAngleDown size={16} /> : <TfiAngleUp size={16} />}
             </IconButton>

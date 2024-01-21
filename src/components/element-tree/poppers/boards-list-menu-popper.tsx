@@ -2,7 +2,7 @@ import { Box, Menu as PopperMenu, MenuItem, styled, useTheme, colors } from '@mu
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state'
 import React from 'react'
 import { StyledButton } from '../../../reusable/styles'
-import { colorScheme } from '../../../theme'
+import { ThemedText, colorScheme } from '../../../theme'
 import RadioButtonUncheckedOutlinedIcon from '@mui/icons-material/RadioButtonUncheckedOutlined';
 import RadioButtonCheckedOutlinedIcon from '@mui/icons-material/RadioButtonCheckedOutlined';
 import { useAppDispatch, useAppSelector, useElementAction, useSelectedWorkspace } from '../../../../store/hooks'
@@ -78,7 +78,7 @@ export default function BoardsListMenuPopper({ }: Props) {
                     <TreeButton
                         {...bindTrigger(popupState)}
                         sx={{ color: selectedBoard?.color ?? '', borderTopLeftRadius: 0, borderBottomLeftRadius: 0, pr: 2 }}>
-                        {selectedBoard?.name}
+                        {selectedBoard?.name || <ThemedText sx={{fontSize:13,fontWeight:500}}>Select a board</ThemedText>}
                         <HiOutlineChevronDown size={20} style={{ marginLeft: 6 }} />
                     </TreeButton>
                     <PopperMenu {...bindMenu(popupState)}

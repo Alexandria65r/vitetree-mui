@@ -30,6 +30,7 @@ type InitialState = {
     searchQuery: string
     elementAction: ElementAction
     collapedItems: string[],
+    checkedItems: string[],
     elementNetworkStatus: ElementNetworkStatus
 }
 
@@ -52,7 +53,8 @@ const initialState: InitialState = {
     },
     collapedItems: [],
     elementNetworkStatus: '',
-    selectedElementId: ''
+    selectedElementId: '',
+    checkedItems: []
 }
 
 const elementsSlice = createSlice({
@@ -132,6 +134,18 @@ const elementsSlice = createSlice({
                 state.collapedItems.push(payload)
             }
         },
+        checkItem(state, { payload }: PayloadAction<string>) {
+            const isExist = state.checkedItems.find((id) => id === payload)
+            if (isExist) {
+                state.checkedItems.splice(state.checkedItems.indexOf(isExist), 1)
+            } else {
+                state.checkedItems.push(payload)
+            }
+        },
+        clearCheckedItems(state) {
+            state.checkedItems = []
+        },
+
 
     }
 })

@@ -2,7 +2,11 @@ import { Box, Checkbox, SxProps, Theme, styled } from "@mui/material"
 import element from "slate-react/dist/components/element"
 import PersonPickerPopper from "./poppers/person-picker-popper"
 import StatusAndPriorityPickers from "./poppers/status-and-priority-pickers"
-import { useElementAction } from "../../../store/hooks"
+import { useAppDispatch, useAppSelector, useElementAction } from "../../../store/hooks"
+import RadioButtonUncheckedOutlinedIcon from '@mui/icons-material/RadioButtonUncheckedOutlined';
+import RadioButtonCheckedOutlinedIcon from '@mui/icons-material/RadioButtonCheckedOutlined';
+import { elementsActions } from "../../../reducers/elements-reducer"
+
 
 const SubHead = styled(Box)(() => ({
     display: 'flex',
@@ -18,27 +22,31 @@ const SubHead = styled(Box)(() => ({
 
 
 type Props = {
-    id:string
-    color:string
+    id: string
+    color: string
     pickerBtnStyles: SxProps<Theme>
-    avataSize:number
+    avataSize: number
 }
 
 
-export default function ElementCellHeader({ color, id, avataSize, pickerBtnStyles }:Props) {
+export default function ElementCellHeader({ color, id, avataSize, pickerBtnStyles }: Props) {
+    const dispatch = useAppDispatch()
     const isMarkEnabled = useElementAction({ action: 'mark-children' })
+    const checkItems = useAppSelector((state) => state.ElementsReducer.checkedItems)
     return (
         <SubHead sx={{ borderColor: color }}>
             {isMarkEnabled && (
-                <Checkbox checked={false} sx={{
-                    m: 0, p: 0, color,
-                    '&.Mui-checked': {
-                        color,
-                    },
-                    '&.MuiSvgIcon-root': { fontSize: 23, }
-                }} />
+                <Checkbox checked={checkItems.includes(id)}
+                    onChange={() => dispatch(elementsActions.checkItem(id))}
+                    sx={{
+                        m: 0, p: 0, color,
+                        '&.Mui-checked': {
+                            color,
+                        },
+                        '&.MuiSvgIcon-root': { fontSize: 23, }
+                    }} />
             )}
-            <StatusAndPriorityPickers pickerBtnStyles={pickerBtnStyles} id={id}  />
+            <StatusAndPriorityPickers pickerBtnStyles={pickerBtnStyles} id={id} />
             <PersonPickerPopper size={avataSize} id={id} color={color} />
         </SubHead>
     )

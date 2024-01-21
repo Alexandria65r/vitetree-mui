@@ -1,18 +1,14 @@
-import { Box, Checkbox, Menu, MenuItem, SxProps, Theme, styled } from '@mui/material'
-import React, { MutableRefObject, useEffect, useRef } from 'react'
+import { Box, Menu, MenuItem, SxProps, Theme, styled } from '@mui/material'
+import React, { MutableRefObject } from 'react'
 import { ElipsisText, colorScheme } from '../../theme'
-import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state'
+import PopupState, { bindMenu } from 'material-ui-popup-state'
 import { BiTrash } from 'react-icons/bi'
 import { HiPencil } from 'react-icons/hi'
 import { MdNotes } from 'react-icons/md'
-import StatusAndPriorityPickers from './poppers/status-and-priority-pickers'
 import { useAppDispatch, useElementAction, useSelectedElement, useGroupColorByElementId } from '../../../store/hooks'
-import ChildRootLine from './child-root-line'
 import { elementsActions } from '../../../reducers/elements-reducer'
 import { mainActions } from '../../../reducers/main-reducer'
-import PersonPickerPopper from './poppers/person-picker-popper'
 import ElementCellHeader from './element-cell-header'
-import { updateElementThunk } from '../../../reducers/elements-reducer/elements-thunks'
 
 
 const Container = styled(Box)(() => ({
@@ -34,14 +30,15 @@ const Element = styled(Box)(({ theme }) => ({
   backgroundColor: colorScheme(theme).lightToSecondaryColor,
   color: colorScheme(theme).TextColor,
   transition: '0.3s all',
-  boxShadow: `0 1px 1px 0 ${colorScheme(theme).darkGreyToSecondary}`,
+  border: `1px solid ${colorScheme(theme).greyToTertiary}`,
+  //boxShadow: `0 1px 1px 0 ${colorScheme(theme).darkGreyToSecondary}`,
   //borderBottom: `1px solid ${colorScheme(theme).greyToTertiary}`,
   [theme.breakpoints.up('md')]: {
     Width: 'fit-content',
     //maxWidth: 320,
   },
   '&:hover': {
-    transform: 'scale(1.01)'
+    transform: 'translate(5px)'
   }
 }))
 const EditableElement = styled(Box)(({ theme }) => ({

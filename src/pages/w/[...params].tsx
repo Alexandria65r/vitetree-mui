@@ -1,8 +1,7 @@
-import React, { MutableRefObject, useCallback, useEffect, useRef, useState } from 'react'
+import React, { MutableRefObject, useEffect, useRef, useState } from 'react'
 import Layout from '../../components/layout'
 import RenderElementTreeItems from '../../components/element-tree/render-element-tree-items'
 import { useAppDispatch, useAppSelector, useListGroups, useParentElements, useSelectedBoard } from '../../../store/hooks'
-import { fetchActiveWorkspaceBoardAndBoardData } from '../../../reducers/boards-reducer/boards-thunks'
 import { useRouter } from 'next/router'
 import { Box, colors, styled, useMediaQuery } from '@mui/material'
 import { createListGroupThunk } from '../../../reducers/list-group-reducer/list-group-thunks'
@@ -20,6 +19,7 @@ import GroupAddOutlinedIcon from '@mui/icons-material/GroupAddOutlined';
 import { workspaceActions } from '../../../reducers/workspace-reducer'
 import ElementDetailModal from '../../components/modals/element-detail-modal'
 import { AppSpinner } from '../../components/activity-indicators'
+import BulkActionsMenu from '../../components/element-tree/bulk-actions-menu'
 
 
 const Container = styled(Box)(() => ({
@@ -32,6 +32,7 @@ const Header = styled(Box)(({ theme }) => ({
   height: 50,
   gap: 8,
   paddingInline: 10,
+  backgroundColor: colorScheme(theme).lightToprimaryColor,
   borderBottom: `1px solid ${colorScheme(theme).grayToSecondaryColor}`,
   [theme.breakpoints.down('sm')]: {
     width: '100vw',
@@ -69,7 +70,6 @@ export default function WorkspaceSettings({ }: Props) {
   const headerRef: MutableRefObject<HTMLDivElement> | any = useRef()
   const [isAddNewElement, toggleAddNewElement] = useState(false)
   const newListGroupName = useAppSelector((state) => state.ListGroupReducer.newListGroupName)
-  const isSidebarOpen = useAppSelector((state) => state.MainReducer.isSidebarOpen)
   const isMobile = useMediaQuery('(max-width:600px)')
   console.log(router)
 
@@ -158,6 +158,7 @@ export default function WorkspaceSettings({ }: Props) {
       </Container>
       <ElementDetailModal />
       <BoardInfoModal />
+      <BulkActionsMenu  />
     </Layout>
   )
 }
