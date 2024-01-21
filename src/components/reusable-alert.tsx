@@ -3,6 +3,7 @@ import React from 'react'
 import { colorScheme } from '../theme'
 import { CSS_PROPERTIES } from '../reusable'
 import { StyledButton } from '../reusable/styles'
+import { AppSpinner } from './activity-indicators'
 
 const Container = styled(Box)(({ theme }) => ({
     position: 'absolute',
@@ -65,7 +66,7 @@ export default function ReusableAlert({ title, message, type, cancelHandler, pro
                     }}>
                     {proccedIcon}
                     {type}
-                    {loading && <CircularProgress size={20} sx={{ ml: 1, color: '#fff' }} />}
+                    {loading && <AppSpinner visible={loading} size={20} />}
                 </StyledButton>
             </Box>
         </Container>

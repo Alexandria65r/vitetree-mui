@@ -10,8 +10,11 @@ import Link from 'next/link'
 import RenderBoardsAndWorkSpaces from '../components/render-boards-and-workspaces'
 import { ThemedText, colorScheme } from '../theme'
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
-import { workspaceActions } from '../../reducers/workspace-reducer'
 import { fetchCurrentWorkspaceThunk, selectWorkspaceThunk } from '../../reducers/workspace-reducer/workspace-thunks'
+
+
+
+
 const Container = styled(Box)(({ theme }) => ({
   padding: 15,
   [theme.breakpoints.up('xl')]: {
@@ -38,8 +41,7 @@ const IndexPage: NextPage = () => {
   useEffect(() => {
     const workspaceId = localStorage.getItem('workspaceId');
     if (workspaceId) {
-      //   dispatch(fetchCurrentWorkspaceThunk(workspaceId ?? ''))
-      router.replace(`/workspace/${workspaceId}`)
+      router.replace(`/w/${workspaceId}`)
 
     } else {
       router.replace(`/workspaces`)

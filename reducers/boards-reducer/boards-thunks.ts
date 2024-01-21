@@ -81,7 +81,6 @@ export const fetchActiveWorkspaceBoardAndBoardData = createAsyncThunk<Board | un
         const selectedWorkspace = state.WorkspaceReducer.selectedWorkspace
         dispatch(boardActions.setBoardNetworkStatus('fetching-board-data'))
         try {
-            dispatch(boardActions.setBoardNetworkStatus('fetching-board'))
             const data = await BoardAPI.fetchActiveWorkspaceBoardAndBoardData(path)
             //const workspaceId = localStorage.getItem('workspaceId')
             if (data) {

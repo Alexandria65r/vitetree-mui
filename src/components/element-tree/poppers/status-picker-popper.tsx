@@ -4,7 +4,7 @@ import React from 'react'
 import { PickerButton } from '../../../reusable/styles'
 import { _pickerButtons } from '../../../reusable/helpers'
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks'
-import { getElementById, statusAndPriorityThunk } from '../../../../reducers/elements-reducer/elements-thunks'
+import { getElementById, updateElementThunk } from '../../../../reducers/elements-reducer/elements-thunks'
 import DriveFileRenameOutlineOutlinedIcon from '@mui/icons-material/DriveFileRenameOutlineOutlined';
 
 const Container = styled(Box)(({ theme }) => ({
@@ -65,11 +65,14 @@ export default function StatusPickerPopper({ id, pickerBtnStyles }: Props) {
                             <MenuListItem
                                 key={button.value}
                                 onClick={() => {
-                                    dispatch(statusAndPriorityThunk({
+                                    dispatch(updateElementThunk({
                                         elementId: id,
-                                        picker: button,
-                                        key: 'status'
+                                        update: {
+                                            key: 'status',
+                                            value: button
+                                        }
                                     }))
+
                                     popupState.close()
                                 }}>
                                 <button.icon size={16} />

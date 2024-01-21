@@ -1,5 +1,5 @@
 import { Box, Checkbox, Menu, MenuItem, SxProps, Theme, styled } from '@mui/material'
-import React, { MutableRefObject, useRef } from 'react'
+import React, { MutableRefObject, useEffect, useRef } from 'react'
 import { ElipsisText, colorScheme } from '../../theme'
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state'
 import { BiTrash } from 'react-icons/bi'
@@ -12,6 +12,7 @@ import { elementsActions } from '../../../reducers/elements-reducer'
 import { mainActions } from '../../../reducers/main-reducer'
 import PersonPickerPopper from './poppers/person-picker-popper'
 import ElementCellHeader from './element-cell-header'
+import { updateElementThunk } from '../../../reducers/elements-reducer/elements-thunks'
 
 
 const Container = styled(Box)(() => ({
@@ -46,7 +47,7 @@ const Element = styled(Box)(({ theme }) => ({
 const EditableElement = styled(Box)(({ theme }) => ({
   width: 'fit-content',
   padding: '6px 10px',
-  borderRadius: 10,
+  borderRadius: 5,
   backgroundColor: colorScheme(theme).lightToSecondaryColor,
   color: colorScheme(theme).TextColor,
 }))
@@ -61,30 +62,17 @@ const MenuListItem = styled(MenuItem)(() => ({
 type Props = {
   id: string;
   elemetStyles?: SxProps<Theme>
+  subElRef?: MutableRefObject<HTMLDivElement | any>
   parent: 'main-tree' | 'element-detail'
 }
 
-export default function GroupedSubItem({ id, parent, elemetStyles }: Props) {
+export default function GroupedSubItem({ id, parent, subElRef, elemetStyles }: Props) {
   const dispatch = useAppDispatch()
   const element = useSelectedElement(id)
   const color = useGroupColorByElementId(id)
   const isSubEditting = useElementAction({ action: 'edit-sub-element', elementId: id })
   const isMarkEnabled = useElementAction({ action: 'mark-children' })
-
-  const subElRef: MutableRefObject<HTMLDivElement | any> = useRef()
-  function handleBlur() {
-    console.log(subElRef.current.innerHTML)
-    dispatch(elementsActions.updateElement({
-      id,
-      update: {
-        key: 'name',
-        value: subElRef.current.innerText
-      }
-    }))
-    dispatch(elementsActions.clearElementAction())
-  }
-
-
+ 
 
 
   return (
@@ -92,9 +80,9 @@ export default function GroupedSubItem({ id, parent, elemetStyles }: Props) {
       {/* <ChildRootLine color={color ?? ''} /> */}
       <PopupState variant='popper' >
         {(popupState) => (<>
-          {isSubEditting ? (
+          {isSubEditting && parent==='element-detail' ? (
             <Element sx={{
-              maxWidth: parent === 'element-detail' ? 'fit-content' : 320,
+              // maxWidth: parent === 'element-detail' ? 'fit-content' : 320,
               padding: '4px',
               transition: 'none',
               '&:hover': {
@@ -102,10 +90,7 @@ export default function GroupedSubItem({ id, parent, elemetStyles }: Props) {
               },
               ...elemetStyles
             }}>
-              {parent === 'main-tree' && (
-                <ElementCellHeader id={id} color={color} avataSize={25} pickerBtnStyles={{ height: 20 }} />
-              )}
-              <EditableElement ref={subElRef} contentEditable={isSubEditting} onBlur={handleBlur}
+              <EditableElement ref={subElRef} contentEditable={isSubEditting}
                 sx={{ width: '100%', color: color, outline: 'none', fontSize: 14, border: `1px dashed ${color}` }} >
                 {element?.name}
               </EditableElement>

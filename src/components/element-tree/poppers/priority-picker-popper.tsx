@@ -4,7 +4,7 @@ import React from 'react'
 import { PickerButton } from '../../../reusable/styles'
 import { _pickerButtons } from '../../../reusable/helpers'
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks'
-import { getElementById, statusAndPriorityThunk } from '../../../../reducers/elements-reducer/elements-thunks'
+import { getElementById, updateElementThunk } from '../../../../reducers/elements-reducer/elements-thunks'
 import RadioButtonCheckedOutlinedIcon from '@mui/icons-material/RadioButtonCheckedOutlined';
 import RadioButtonUncheckedOutlinedIcon from '@mui/icons-material/RadioButtonUncheckedOutlined';
 
@@ -68,10 +68,12 @@ export default function PriorityPickerPopper({ id, pickerBtnStyles }: Props) {
                         {priorityButtons['priority'].map((button) => (
                             <MenuListItem key={button.value}
                                 onClick={() => {
-                                    dispatch(statusAndPriorityThunk({
+                                    dispatch(updateElementThunk({
                                         elementId: id,
-                                        picker: button,
-                                        key: 'priority'
+                                        update: {
+                                            key: 'priority',
+                                            value: button
+                                        }
                                     }))
                                     popupState.close()
                                 }}

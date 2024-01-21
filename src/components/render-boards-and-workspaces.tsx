@@ -60,7 +60,7 @@ export default function RenderBoardsAndWorkSpaces({ workspaces }: Props) {
     return (
         <Container>
             {workspaces?.map((workspace) => (
-                <Link href={`/workspace/${workspace?._id ?? ''}`}>
+                <Link href={`/w/${workspace?._id ?? ''}`}>
                     <Card>
                         <CardHead>
                             <ElipsisText text={workspace.name} lineClamp={1} sx={{textTransform:'capitalize', fontSize: 16, fontWeight: 500 }} />

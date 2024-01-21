@@ -11,7 +11,9 @@ export type ElementAction = {
     | 'mark-parents' | 'mark-children' | ''
 }
 
-export type ElementNetworkStatus = 'deleting' | ''
+export type ElementNetworkStatus = 'updating' |
+    'updating-success' | 'updating-error' | 'deleting-element' |
+    'deleting-element-success' | 'deleting-element-error' | ''
 
 type InitialState = {
     elements: Element[]

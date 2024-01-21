@@ -62,9 +62,9 @@ export default function TreeOptions({ id, totalSubs, parent }: Props) {
       action: 'add-sub-element'
     }))
 
-    if (totalSubs > subLimit && parent !== 'element-detail') {
-      router.push(`${router.asPath}?view=${group?._id}`)
-    }
+    // if (totalSubs > subLimit && parent !== 'element-detail') {
+    //   router.push(`${router.asPath}?view=${group?._id}`)
+    // }
   }
 
   return (

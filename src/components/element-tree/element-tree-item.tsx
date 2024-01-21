@@ -88,7 +88,7 @@ export default function ElementTreeItem({ group, parent }: Props) {
                 <SubElementWrapper sx={{
                     paddingInline: 0.5,
                     paddingBottom: .5,
-                    maxHeight: parent === 'main-tree' ? 'calc(100dvh - 280px)' : 'auto',
+                    maxHeight: parent === 'main-tree' ? 'calc(100dvh - 260px)' : 'auto',
                     overflowY: parent === 'element-detail' ? 'auto' : 'auto',
                     //overflowX: 'hidden',
                     borderColor: group?.color

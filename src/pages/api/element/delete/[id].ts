@@ -1,16 +1,16 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { ListGroupModel } from '../../../models/list-group';
+import { ElementModel } from '../../../../models/element';
 
 
 
-async function deletePage(req: NextApiRequest, res: NextApiResponse) {
+async function DeleteElement(req: NextApiRequest, res: NextApiResponse) {
     try {
-        const deleted = await ListGroupModel.findByIdAndRemove(req.query.id);
+        const deleted = await ElementModel.findByIdAndRemove(req.query.id);
         if (deleted) {
             return res.json({
                 success: true,
                 deleted,
-                message: 'Your list group was deleted successfully'
+                message: 'Item was deleted successfully.'
             })
         }
 
@@ -20,4 +20,4 @@ async function deletePage(req: NextApiRequest, res: NextApiResponse) {
 }
 
 
-export default deletePage
+export default DeleteElement

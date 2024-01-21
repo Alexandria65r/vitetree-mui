@@ -8,6 +8,7 @@ import { mainActions } from "../main-reducer";
 import { PickerBtn } from "../../src/reusable/interfaces";
 import ListGroupElementAPI from "../../src/api-services/list-group-element";
 import { listGroupActions } from "../list-group-reducer";
+import { createToastThunk } from "../main-reducer/main-thunks";
 
 export const AddNewElementThunk = createAsyncThunk<void,
     { elementType: ElementType, groupId?: string },
@@ -23,7 +24,7 @@ export const AddNewElementThunk = createAsyncThunk<void,
         const color = randomColor()
         if (!newElementName.trim().length) {
             dispatch(listGroupActions.clearGroupAction())
-            
+
             return
         } else {
             try {
@@ -46,7 +47,7 @@ export const AddNewElementThunk = createAsyncThunk<void,
                 if (newElement) {
                     const filterred = clonedElements.filter((item) => item._id !== newElement._id)
                     dispatch(elementsActions.setElements([...filterred, { ...newElement, loading: false }]))
-                }  
+                }
             } catch (error) {
                 console.log(error)
             }
@@ -55,20 +56,36 @@ export const AddNewElementThunk = createAsyncThunk<void,
 
 
     })
-export const statusAndPriorityThunk = createAsyncThunk<void,
-    { elementId: string, picker: PickerBtn, key: 'status' | 'priority' },
+
+
+
+export const updateElementThunk = createAsyncThunk<void, { elementId: string, update: { key: string, value: any } },
     { state: AppState }>
-    ('elementsSlice/statusAndPriorityThunk', async (params, thunkAPI) => {
+    ('elementsSlice/updateElementThunk', async (params, thunkAPI) => {
         const dispatch = thunkAPI.dispatch
         const state = thunkAPI.getState()
         console.log(params)
+
         dispatch(elementsActions.updateElement({
             id: params.elementId,
-            update: {
-                key: params.key,
-                value: params.picker
-            }
+            update: params.update
         }))
+
+        dispatch(elementsActions.setElemetNetworkStatus('updating'))
+        try {
+            const { data } = await ListGroupElementAPI.update(
+                params.elementId,
+                {
+                    update: { [params.update.key]: params.update.value }
+                })
+
+            if (data.success) {
+                dispatch(elementsActions.setElemetNetworkStatus('updating-success'))
+            }
+
+        } catch (error) {
+            dispatch(elementsActions.setElemetNetworkStatus('updating-error'))
+        }
     })
 
 
@@ -78,12 +95,24 @@ export const DeleteElementThunk = createAsyncThunk<void, undefined, { state: App
         const state = thunkAPI.getState()
         const elements = state.ElementsReducer.elements
         const modal = state.MainReducer.modal
-        dispatch(elementsActions.setElemetNetworkStatus('deleting'))
+        dispatch(elementsActions.setElemetNetworkStatus('deleting-element'))
         const newElementsList = elements.filter((item) => item._id !== modal.itemId)
         dispatch(elementsActions.setElements(newElementsList))
         dispatch(elementsActions.setElemetNetworkStatus(''))
-        //close modal
-        dispatch(mainActions.closeModal())
+        try {
+            const { data } = await ListGroupElementAPI.delete(modal.itemId ?? '')
+            if (data.success) {
+                dispatch(elementsActions.setElemetNetworkStatus('deleting-element-success'))
+                dispatch(createToastThunk(data.message))
+                //close modal
+                dispatch(mainActions.closeModal())
+                dispatch(elementsActions.setSelectedElementId(''))
+            }
+
+        } catch (error) {
+            dispatch(elementsActions.setElemetNetworkStatus('deleting-element-error'))
+            dispatch(createToastThunk('An error occured, while trying to delete the item.'))
+        }
     })
 
 export function getElementById(state: AppState, id: string) {

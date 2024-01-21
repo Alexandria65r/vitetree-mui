@@ -28,7 +28,7 @@ export default function ReusableModal({ }: Props) {
                     <ReusableAlert
                         title='Item will be deleted'
                         type='delete'
-                        loading={elementNetworkStatus === 'deleting'}
+                        loading={elementNetworkStatus === 'deleting-element'}
                         cancelHandler={() => {
                             dispatch(mainActions.closeModal())
                             dispatch(elementsActions.clearElementAction())

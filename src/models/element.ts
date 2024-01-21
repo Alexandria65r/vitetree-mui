@@ -13,7 +13,6 @@ export type Person = {
     id: string,
     username: string,
     publicId: string,
-    initials: string
 }
 export type Element = {
     _id: string;
@@ -60,7 +59,6 @@ const _ElementSchema = new mongoose.Schema<Element>({
         id: String,
         username: String,
         publicId: String,
-        initials: String,
     },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
