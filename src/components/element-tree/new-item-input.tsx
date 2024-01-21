@@ -52,10 +52,10 @@ type Props = {
   create: () => void
   sx?: SxProps<Theme>
   btnSx?: SxProps<Theme>
-  
+
 }
 
-export default function NewItemInput({ onChange, value,sx,btnSx, create, color, placeholder, createIcon }: Props) {
+export default function NewItemInput({ onChange, value, sx, btnSx, create, color, placeholder, createIcon }: Props) {
   const dispatch = useAppDispatch()
   const newElementName = useAppSelector((state) => state.ElementsReducer.newElementName)
   const inputRef: MutableRefObject<HTMLTextAreaElement> | any = useRef()
@@ -67,7 +67,7 @@ export default function NewItemInput({ onChange, value,sx,btnSx, create, color, 
 
 
   function handleKeyUp(e: any) {
-    console.log(e)
+    e.preventDefault()
     if (e.key === 'Enter') {
       create()
     }
@@ -80,11 +80,12 @@ export default function NewItemInput({ onChange, value,sx,btnSx, create, color, 
         <Input
           ref={inputRef}
           value={value}
-          onChange={({ target }) => onChange(target)}
+          onChange={({ target }) => { onChange(target) }}
           placeholder={placeholder}
-          onInput={handleKeyUp}
+          onKeyUp={handleKeyUp}
           autoFocus
-          sx={{'&:focus': { borderBottomColor: `${color}`}, ...sx,  }}
+          onBlur={handleBlur}
+          sx={{ '&:focus': { borderBottomColor: `${color}` }, ...sx, }}
         />
         <CreateButton sx={btnSx} onClick={handleBlur}>
           {createIcon}

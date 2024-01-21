@@ -13,7 +13,7 @@ type CardMenu = {
     postId?: string
 }
 type Modal = {
-    component: 'delete-element-item' | 'element-details' | '',
+    component: 'delete-list-group' |'delete-element-item' | 'delete-bulk-elements'| 'element-details' | '',
     options?: any;
     itemId?: string;
     itemType?: ElementType

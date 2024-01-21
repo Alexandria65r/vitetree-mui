@@ -8,6 +8,9 @@ import Randomstring from "randomstring";
 import randomColor from "randomcolor";
 import { boardActions } from "../boards-reducer";
 import { fetchBoardThunk } from "../boards-reducer/boards-thunks";
+import { UpdateElementPayload } from "../elements-reducer";
+import { createToastThunk } from "../main-reducer/main-thunks";
+import { mainActions } from "../main-reducer";
 
 
 export const createListGroupThunk = createAsyncThunk<void, undefined, { state: AppState }>
@@ -36,7 +39,7 @@ export const createListGroupThunk = createAsyncThunk<void, undefined, { state: A
                     }
                 }
                 dispatch(listGroupActions.setListGroupNetworkStatus('creating'))
-                dispatch(listGroupActions.setListGroups([ newListGroupPayload,...listGroups]))
+                dispatch(listGroupActions.setListGroups([newListGroupPayload, ...listGroups]))
 
                 const newListGroup = await ListGroupAPI.create(newListGroupPayload)
                 if (newListGroup) {
@@ -49,9 +52,44 @@ export const createListGroupThunk = createAsyncThunk<void, undefined, { state: A
             dispatch(listGroupActions.setListGroupNetworkStatus('creating-error'))
         }
 
-
-
     })
+
+
+
+
+
+export const updateGroupThunk = createAsyncThunk<void, { groupId: string, update: UpdateElementPayload },
+    { state: AppState }>
+    ('elementsSlice/updateElementThunk', async (params, thunkAPI) => {
+        const dispatch = thunkAPI.dispatch
+        const state = thunkAPI.getState()
+        console.log(params)
+
+        dispatch(listGroupActions.updateGroup({
+            id: params.groupId,
+            update: params.update
+        }))
+        dispatch(listGroupActions.clearGroupAction())
+        dispatch(listGroupActions.setListGroupNetworkStatus('updating'))
+
+        try {
+            const { data } = await ListGroupAPI.update(
+                params.groupId,
+                {
+                    update: { [params.update.key]: params.update.value }
+                })
+
+            if (data.success) {
+                dispatch(createToastThunk(data.message))
+                dispatch(listGroupActions.setListGroupNetworkStatus('updating-success'))
+            }
+
+        } catch (error) {
+            dispatch(listGroupActions.setListGroupNetworkStatus('updating-error'))
+        }
+    })
+
+
 
 
 export const fetchListGroupThunk = createAsyncThunk<void, string, { state: AppState }>
@@ -89,6 +127,7 @@ export const fetchBoardAndListGroupsThunk = createAsyncThunk<void, { boardId: st
             const res = await dispatch(fetchBoardThunk(params.boardId))
             console.log(res.payload)
             if (res.payload) {
+
                 await dispatch(fetchListGroupsThunk())
             }
 
@@ -101,20 +140,20 @@ export const fetchBoardAndListGroupsThunk = createAsyncThunk<void, { boardId: st
 
 
 
-type UpdateListGroupTargets = 'profile-image' | 'balance' | 'other'
-export const updateListGroupThunk = createAsyncThunk<any, {
-    listGroupId: string, target: UpdateListGroupTargets, update: any
-},
+
+export const deleteListGroupThunk = createAsyncThunk<any, string,
     { state: AppState }>
-    ('listGrouplice/updateListGroupThunk', async (params, thunkAPI) => {
+    ('listGrouplice/deleteListGroupThunk', async (id, thunkAPI) => {
         const dispatch = thunkAPI.dispatch
-        const { AuthReducer: { user: { _id: owner } }, ListGroupReducer: { listGroup } } = thunkAPI.getState()
+        dispatch(listGroupActions.deleteGroup(id))
+        dispatch(mainActions.closeModal())
         try {
-            const { data } = await ListGroupAPI.update(params.listGroupId, params)
+            const { data } = await ListGroupAPI.delete(id)
             if (data.success) {
-                return { ...data }
+                dispatch(createToastThunk(data.message))
             }
         } catch (error) {
+            dispatch(createToastThunk('Opps,An error occured while deleting a group.'))
             dispatch(listGroupActions.setListGroupNetworkStatus(''))
         }
     })

@@ -105,16 +105,7 @@ export default function GroupedSubItem({ id, parent, subElRef, elemetStyles }: P
             </Element>
           )}
 
-          {/* {parent == 'main-tree' && totalSubs > subLimit && elementPos.index === 8  && (
-            <OptionButton
-              sx={{ color: color ?? '', position: 'absolute', right: -10, bottom: 0 }}
-              onClick={() => {
-                router.push(`${router.asPath}?view=${element?.parentElementId}`)
-                popupState.close()
-              }}>
-              {totalSubs - subLimit}+
-            </OptionButton>
-          )} */}
+   
 
 
           <Menu {...bindMenu(popupState)}

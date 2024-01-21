@@ -1,11 +1,13 @@
-import { Box, Checkbox, SxProps, Theme, styled } from "@mui/material"
+import { Box, Checkbox, SxProps, Theme, colors, styled } from "@mui/material"
 import element from "slate-react/dist/components/element"
 import PersonPickerPopper from "./poppers/person-picker-popper"
 import StatusAndPriorityPickers from "./poppers/status-and-priority-pickers"
-import { useAppDispatch, useAppSelector, useElementAction } from "../../../store/hooks"
+import { useAppDispatch, useAppSelector, useElementAction, useSelectedElement } from "../../../store/hooks"
 import RadioButtonUncheckedOutlinedIcon from '@mui/icons-material/RadioButtonUncheckedOutlined';
 import RadioButtonCheckedOutlinedIcon from '@mui/icons-material/RadioButtonCheckedOutlined';
-import { elementsActions } from "../../../reducers/elements-reducer"
+import { UpdateElementPayload, elementsActions } from "../../../reducers/elements-reducer"
+import { PickerButton } from "../../reusable/styles"
+import { updateElementThunk } from "../../../reducers/elements-reducer/elements-thunks"
 
 
 const SubHead = styled(Box)(() => ({
@@ -28,11 +30,47 @@ type Props = {
     avataSize: number
 }
 
+type StatusPickerButtonProps = {
+    bindTrigger: any
+    bgColor: string
+    picker:'status'|'priority'
+}
+
 
 export default function ElementCellHeader({ color, id, avataSize, pickerBtnStyles }: Props) {
     const dispatch = useAppDispatch()
     const isMarkEnabled = useElementAction({ action: 'mark-children' })
     const checkItems = useAppSelector((state) => state.ElementsReducer.checkedItems)
+    const element = useSelectedElement(id)
+
+
+
+
+
+
+    function pickerButton({ bindTrigger, bgColor,picker }: StatusPickerButtonProps) {
+        return (
+            <PickerButton sx={{
+                borderRadius: 19,
+                width: '100%',
+                bgcolor: bgColor,
+                border: `1px solid ${bgColor}`,
+                ...pickerBtnStyles
+            }}
+                {...bindTrigger}>
+                {element[picker]?.value || picker}
+            </PickerButton>
+        )
+    }
+
+    function onClick(update: UpdateElementPayload) {
+        dispatch(updateElementThunk({
+            elementId: id,
+            update
+        }))
+    }
+
+
     return (
         <SubHead sx={{ borderColor: color }}>
             {isMarkEnabled && (
@@ -46,8 +84,15 @@ export default function ElementCellHeader({ color, id, avataSize, pickerBtnStyle
                         '&.MuiSvgIcon-root': { fontSize: 23, }
                     }} />
             )}
-            <StatusAndPriorityPickers pickerBtnStyles={pickerBtnStyles} id={id} />
+            <StatusAndPriorityPickers pickerBtnStyles={pickerBtnStyles}
+                id={id}
+                pickerButton={pickerButton}
+                onClick={onClick}
+
+            />
             <PersonPickerPopper size={avataSize} id={id} color={color} />
         </SubHead>
     )
 }
+
+

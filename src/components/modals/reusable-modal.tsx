@@ -5,8 +5,9 @@ import ReusableAlert from '../reusable-alert'
 import { useDispatch } from 'react-redux'
 import { mainActions } from '../../../reducers/main-reducer'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import { DeleteElementThunk } from '../../../reducers/elements-reducer/elements-thunks'
+import { DeleteElementThunk, deleteBulkElementsThunk } from '../../../reducers/elements-reducer/elements-thunks'
 import { elementsActions } from '../../../reducers/elements-reducer'
+import { deleteListGroupThunk } from '../../../reducers/list-group-reducer/list-group-thunks'
 
 
 type Props = {}
@@ -16,14 +17,29 @@ export default function ReusableModal({ }: Props) {
     const open = Boolean(modal.component)
 
     const elementNetworkStatus = useAppSelector((state) => state.ElementsReducer.elementNetworkStatus)
+    const checkedItemsCount = useAppSelector((state) => state.ElementsReducer.checkedItems)?.length
 
     const dispatch = useDispatch()
 
-     if (!modal.component) return null
+    if (!modal.component) return null
     return (
         <Modal open={open} >
             <Box>
 
+                {modal.component === 'delete-list-group' && (
+                    <ReusableAlert
+                        title='List Group will be deleted'
+                        type='delete'
+                        loading={elementNetworkStatus === 'deleting-element'}
+                        cancelHandler={() => {
+                            dispatch(mainActions.closeModal())
+                            dispatch(elementsActions.clearElementAction())
+                        }}
+                        proccedIcon={<DeleteOutlineIcon />}
+                        procceedAction={() => dispatch(deleteListGroupThunk(modal?.itemId??''))}
+                        message='Are you sure you want to delete?'
+                    />
+                )}
                 {modal.component === 'delete-element-item' && (
                     <ReusableAlert
                         title='Item will be deleted'
@@ -35,7 +51,22 @@ export default function ReusableModal({ }: Props) {
                         }}
                         proccedIcon={<DeleteOutlineIcon />}
                         procceedAction={() => dispatch(DeleteElementThunk())}
-                        message='Are you sure you want to delete this task group?'
+                        message='Are you sure you want to delete this task?'
+                    />
+                )}
+                {modal.component === 'delete-bulk-elements' && (
+                    <ReusableAlert
+                        title={`Selected Item${checkedItemsCount > 1 ? 's':''} will be deleted`}
+                        type='delete'
+                        loading={elementNetworkStatus === 'deleting-element'}
+                        cancelHandler={() => {
+                            dispatch(mainActions.closeModal())
+                            dispatch(elementsActions.clearElementAction())
+                            dispatch(elementsActions.clearCheckedItems())
+                        }}
+                        proccedIcon={<DeleteOutlineIcon />}
+                        procceedAction={() => dispatch(deleteBulkElementsThunk())}
+                        message='Are you sure you want to delete?'
                     />
                 )}
             </Box>

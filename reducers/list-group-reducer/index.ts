@@ -64,6 +64,9 @@ const listGroupSlice = createSlice({
                 state.listGroups.splice(index, 1, { ...group, [payload.update.key]: payload.update.value })
             }
         },
+        deleteGroup(state, { payload }: PayloadAction<string>) {
+            state.listGroups = state.listGroups.filter((group) => group._id !== payload)
+        },
         setListGroupName: (state, { payload }: PayloadAction<string>) => {
             state.newListGroupName = payload
         },

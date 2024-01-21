@@ -6,6 +6,8 @@ import { _pickerButtons } from '../../../reusable/helpers'
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks'
 import { getElementById, updateElementThunk } from '../../../../reducers/elements-reducer/elements-thunks'
 import DriveFileRenameOutlineOutlinedIcon from '@mui/icons-material/DriveFileRenameOutlineOutlined';
+import { PickerBtn } from '../../../reusable/interfaces'
+import { UpdateElementPayload } from '../../../../reducers/elements-reducer'
 
 const Container = styled(Box)(({ theme }) => ({
     flex: 1
@@ -17,14 +19,15 @@ const MenuListItem = styled(MenuItem)(({ theme }) => ({
 }))
 
 type Props = {
-    id: string
-    pickerBtnStyles: SxProps<Theme>
+    
+    MainButton: any
+    onClick: (update: UpdateElementPayload) => void
 }
 
-export default function StatusPickerPopper({ id, pickerBtnStyles }: Props) {
+export default function StatusPickerPopper({ MainButton, onClick }: Props) {
     const statusButtons = _pickerButtons('tasks')
     const dispatch = useAppDispatch()
-    const element = useAppSelector((state) => getElementById(state, id))
+
 
 
 
@@ -32,17 +35,8 @@ export default function StatusPickerPopper({ id, pickerBtnStyles }: Props) {
         <Container>
             <PopupState variant='popper'>
                 {(popupState) => (<>
-                    <PickerButton sx={{
-                        borderRadius: 19,
-                        width: '100%',
-                        bgcolor: colors.green[400],
-                        border: `1px solid ${colors.green[400]}`,
-                        // borderTopLeftRadius: 0, borderBottomLeftRadius: 0
-                        ...pickerBtnStyles
-                    }}
-                        {...bindTrigger(popupState)}>
-                        {element.status?.value || 'status'}
-                    </PickerButton>
+                    <MainButton bindTrigger={bindTrigger(popupState)} picker='status' bgColor={colors.green[400]} />
+                
                     <Menu {...bindMenu(popupState)}
                         transformOrigin={{
                             horizontal: 'center',
@@ -65,14 +59,7 @@ export default function StatusPickerPopper({ id, pickerBtnStyles }: Props) {
                             <MenuListItem
                                 key={button.value}
                                 onClick={() => {
-                                    dispatch(updateElementThunk({
-                                        elementId: id,
-                                        update: {
-                                            key: 'status',
-                                            value: button
-                                        }
-                                    }))
-
+                                    onClick({key:'status', value:button})
                                     popupState.close()
                                 }}>
                                 <button.icon size={16} />
@@ -95,6 +82,6 @@ export default function StatusPickerPopper({ id, pickerBtnStyles }: Props) {
                 </>
                 )}
             </PopupState>
-        </Container>
+        </Container >
     )
 }

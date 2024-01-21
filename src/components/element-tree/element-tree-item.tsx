@@ -90,7 +90,7 @@ export default function ElementTreeItem({ group, parent }: Props) {
                     paddingBottom: .5,
                     maxHeight: parent === 'main-tree' ? 'calc(100dvh - 260px)' : 'auto',
                     overflowY: parent === 'element-detail' ? 'auto' : 'auto',
-                    //overflowX: 'hidden',
+                    overflowX: 'hidden',
                     borderColor: group?.color
                 }}>
                     {!collapedItems.includes(group?._id ?? '') && (

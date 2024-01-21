@@ -1,7 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Element, ElementSchema, SubFeature, SubFeatureSchema } from '../../src/models/element'
 
-
+export type UpdateElementPayload = {
+    key: string, value: any
+}
 
 export type ElementAction = {
     elementId?: string
@@ -81,7 +83,7 @@ const elementsSlice = createSlice({
         setElement(state, { payload }: PayloadAction<Element>) {
             state.element = payload
         },
-        updateElement(state, { payload }: PayloadAction<{ id: string, update: { key: string, value: any } }>) {
+        updateElement(state, { payload }: PayloadAction<{ id: string, update: UpdateElementPayload }>) {
             const element = state.elements.find((el) => el._id === payload.id)
             if (element) {
                 const index = state.elements.indexOf(element)

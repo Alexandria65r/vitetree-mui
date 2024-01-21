@@ -4,11 +4,15 @@ import { ThemedText, colorScheme } from "../../theme"
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import { BiDuplicate } from 'react-icons/bi'
 import { ImMoveUp } from 'react-icons/im'
-import { ButtonIcon } from "../../reusable/styles";
+import { ButtonIcon, PickerButton } from "../../reusable/styles";
 import DisabledByDefaultOutlinedIcon from '@mui/icons-material/DisabledByDefaultOutlined';
-import { elementsActions } from "../../../reducers/elements-reducer";
+import { UpdateElementPayload, elementsActions } from "../../../reducers/elements-reducer";
 import styles from './styles/element-tree.module.css'
-
+import PriorityPickerPopper from "./poppers/priority-picker-popper";
+import StatusPickerPopper from "./poppers/status-picker-popper";
+import { deleteBulkElementsThunk, updateBulkElementsThunk, updateElementThunk } from "../../../reducers/elements-reducer/elements-thunks";
+import { GoDotFill } from "react-icons/go";
+import { mainActions } from "../../../reducers/main-reducer";
 
 const Container = styled(Box)(({ theme }) => ({
     position: 'absolute',
@@ -97,15 +101,31 @@ const IconButton = styled(ButtonIcon)(({ theme }) => ({
 type Props = {
 
 }
-
+type StatusPickerButtonProps = {
+    bindTrigger: any
+    bgColor: string
+    picker: 'status' | 'priority'
+}
 
 export default function BulkActionsMenu({ }: Props) {
     const dispatch = useAppDispatch()
-    const isMarkEnabled = useElementAction({ action: 'mark-children' })
     const checkItems = useAppSelector((state) => state.ElementsReducer.checkedItems)
     const _theme = useTheme()
 
 
+    function pickerButton({ bindTrigger, bgColor, picker }: StatusPickerButtonProps) {
+        return (
+            <Tooltip title={picker + ' picker'}>
+                <IconButton {...bindTrigger}>
+                    <GoDotFill color={bgColor} size={35} />
+                </IconButton>
+            </Tooltip>
+        )
+    }
+
+    function onClick(update: UpdateElementPayload) {
+        dispatch(updateBulkElementsThunk(update))
+    }
 
     if (!checkItems.length) return null
     return (
@@ -117,7 +137,7 @@ export default function BulkActionsMenu({ }: Props) {
                     whiteSpace: 'nowrap',
                     fontWeight: 600,
                     [_theme.breakpoints.down('sm')]: {
-                        mb:0
+                        mb: 0
                     }
                 }}>
                     {checkItems.length} Item{checkItems.length > 1 && 's'} Selected
@@ -126,7 +146,11 @@ export default function BulkActionsMenu({ }: Props) {
                     {checkItems.map((checkedId) => <RenderCheckedCountItem checkedId={checkedId} />)}
                 </MappedCheckedCountItems>
             </LeftCol>
-            <MoreActions >
+            <MoreActions>
+                <Box sx={{ display: 'flex', gap: '10px' }}>
+                    <PriorityPickerPopper MainButton={pickerButton} onClick={onClick} />
+                    <StatusPickerPopper MainButton={pickerButton} onClick={onClick} />
+                </Box>
                 <Tooltip title='Duplicate'>
                     <IconButton>
                         <BiDuplicate style={{ fontSize: 16 }} />
@@ -139,7 +163,7 @@ export default function BulkActionsMenu({ }: Props) {
                 </Tooltip>
 
                 <Tooltip title='Delete'>
-                    <IconButton>
+                    <IconButton onClick={() => dispatch(mainActions.setModal({ component: 'delete-bulk-elements' }))}>
                         <DeleteOutlinedIcon sx={{ fontSize: 20 }} />
                     </IconButton>
                 </Tooltip>

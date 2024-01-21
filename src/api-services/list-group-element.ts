@@ -11,8 +11,14 @@ export default class ListGroupElementAPI {
         }
     }
 
-    static update(id: string,update:any) {
-        return axios.put(`/api/element/update/${id}`,update)
+    static update(id: string, update: any) {
+        return axios.put(`/api/element/update/${id}`, update)
+    }
+    static updateBulk(update:{ids:string[], update:any}) {
+        return axios.put(`/api/element/update-bulk`, update)
+    }
+    static deleteBulk(ids:string[]) {
+        return axios.put(`/api/element/delete-bulk`, ids)
     }
 
 

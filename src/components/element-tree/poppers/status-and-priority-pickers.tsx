@@ -3,6 +3,8 @@ import React from 'react'
 import PriorityPickerPopper from './priority-picker-popper'
 import StatusPickerPopper from './status-picker-popper'
 import { colorScheme } from '../../../theme'
+import { PickerBtn } from '../../../reusable/interfaces'
+import { UpdateElementPayload } from '../../../../reducers/elements-reducer'
 
 
 const PickersWrapper = styled(Box)(({ theme }) => ({
@@ -21,13 +23,15 @@ const PickersWrapper = styled(Box)(({ theme }) => ({
 type Props = {
     id: string
     pickerBtnStyles: SxProps<Theme>
+    pickerButton: any
+    onClick: (update: UpdateElementPayload) => void
 }
 
-export default function StatusAndPriorityPickers({ id, pickerBtnStyles }: Props) {
+export default function StatusAndPriorityPickers({ id, pickerBtnStyles, onClick, pickerButton }: Props) {
     return (
         <PickersWrapper>
-            <PriorityPickerPopper id={id}  pickerBtnStyles={pickerBtnStyles}  />
-            <StatusPickerPopper id={id} pickerBtnStyles={pickerBtnStyles} />
+            <PriorityPickerPopper id={id} onClick={onClick} MainButton={pickerButton} />
+            <StatusPickerPopper onClick={onClick} MainButton={pickerButton} />
         </PickersWrapper>
     )
 }

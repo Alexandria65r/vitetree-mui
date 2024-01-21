@@ -1,6 +1,6 @@
 
 import { Box, Checkbox, colors, styled } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ButtonIcon, StyledInput } from '../../reusable/styles'
 import { colorScheme, ElipsisText, ThemedText } from '../../theme'
 import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined';
@@ -11,10 +11,14 @@ import { useAppDispatch, useAppSelector, useElementAction, useGroupAction, useSe
 import { elementsActions } from '../../../reducers/elements-reducer';
 import { mainActions } from '../../../reducers/main-reducer';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-
+import VerticalAlignTopIcon from '@mui/icons-material/VerticalAlignTop';
 
 
 import { useRouter } from 'next/router';
+import { listGroupActions } from '../../../reducers/list-group-reducer';
+import { create } from '@mui/material/styles/createTransitions';
+import NewItemInput from './new-item-input';
+import { updateGroupThunk } from '../../../reducers/list-group-reducer/list-group-thunks';
 const IconButton = styled(ButtonIcon)(({ theme }) => ({
     width: 30,
     height: 30,
@@ -70,24 +74,36 @@ export default function GroupHead({ id, parent }: Props) {
     const isEditting = useGroupAction({ groupId: id, action: 'edit-group-name' })
     const dispatch = useAppDispatch()
     const collapedItems = useAppSelector((state) => state.ElementsReducer.collapedItems)
-    const [name, setName] = useState<string>(group?.name ?? '')
+    const newListGroupName = useAppSelector((state) => state.ListGroupReducer.newListGroupName)
     const showElementDeleteButton = useElementAction({ action: 'show-element-delete-button', elementId: group._id })
     const isMarkParentsEnabled = useElementAction({ action: 'mark-parents' })
     console.log(group)
 
-    function update() {
-        dispatch(elementsActions.updateElement({
-            id,
-            update: {
-                key: 'name',
-                value: name
-            }
-        }))
-        setTimeout(() => dispatch(elementsActions.clearElementAction()), 500)
+    useEffect(() => {
+        if (isEditting) {
+            dispatch(listGroupActions.setListGroupName(group?.name ?? ''))
+        }
+    }, [isEditting])
 
+
+    function update() {
+        if (newListGroupName.trim() && group.name !== newListGroupName) {
+            dispatch(updateGroupThunk({
+                groupId: group?._id ?? '',
+                update: {
+                    key: 'name',
+                    value: newListGroupName
+                }
+            }))
+        } else {
+            dispatch(listGroupActions.setListGroupName(''))
+            dispatch(listGroupActions.clearGroupAction())
+        }
     }
+
+
     return (
-        <Container sx={{ borderColor:  '' }}>
+        <Container sx={{ borderColor: '' }}>
             <IconButton sx={{ color: group?.color ?? '' }} onClick={() => dispatch(elementsActions.collapseItem(id))}>
                 {collapedItems.includes(id) ? <TfiAngleDown size={16} /> : <TfiAngleUp size={16} />}
             </IconButton>
@@ -99,23 +115,26 @@ export default function GroupHead({ id, parent }: Props) {
             </IconButton>
 
             {isEditting ? (
-                <Input
-                    autoFocus
-                    value={name}
-                    //onBlur={update}
-                    onChange={({ target }) => setName(target.value)}
-                    placeholder='Name cannot be empty!'
-                    sx={{ borderColor: group?.color }}
+                <NewItemInput
+                    value={newListGroupName}
+                    onChange={(target) => dispatch(listGroupActions.setListGroupName(target.value))}
+                    placeholder='Group name' color={group?.color ?? ''}
+                    createIcon={<VerticalAlignTopIcon sx={{ color: `${group.color ?? ''}!important`, transform: 'rotate(90deg)' }} />}
+                    create={update}
+                    sx={{
+                        paddingBlock: '6px',
+                        borderBottomColor: `${group?.color}!important`,
+                        border: `1px dashed ${group?.color}`,
+                        borderRight: 0,
+                        '&:focus': { borderBottomColor: `${group?.color}!important` }
+                    }}
+                    btnSx={{ height: '30px', border: `1px dashed ${group?.color}`, borderLeft: 0, boxShadow: 'none' }}
                 />
             ) : (<Box sx={{ flex: 1, cursor: 'pointer' }} onClick={() => {
-                if (parent === 'main-tree') {
-                    router.push(`${router.asPath}?view=${group?._id}`)
-                } else {
-                    dispatch(elementsActions.setElementAction({
-                        elementId: id,
-                        action: 'edit-element'
-                    }))
-                }
+                dispatch(listGroupActions.setGroupAction({
+                    groupId: group._id,
+                    action: 'edit-group-name'
+                }))
             }}>
                 <ElipsisText text={group?.name} color={group?.color ?? ''} lineClamp={1} sx={{ fontWeight: 600 }} />
             </Box>
@@ -132,7 +151,7 @@ export default function GroupHead({ id, parent }: Props) {
             {showElementDeleteButton && (
                 <DeleteButton sx={{ color: group?.color }}
                     onClick={() => dispatch(mainActions.setModal({
-                        component: 'delete-element-item',
+                        component: 'delete-list-group',
                         itemId: group._id
                     }))}>
                     <DeleteOutlineIcon />
