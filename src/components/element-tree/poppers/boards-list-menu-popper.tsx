@@ -67,8 +67,7 @@ export default function BoardsListMenuPopper({ }: Props) {
     const board = useAppSelector((state) => state.BoardReducer.board)
     const boards = useAppSelector((state) => state.BoardReducer.boards)
     const selectedBoard = useAppSelector((state) => state.BoardReducer.selectedBoard)
-    const isMarkParentsEnabled = useElementAction({ action: 'mark-parents' })
-    const isMarkChildrenEnabled = useElementAction({ action: 'mark-children' })
+
 
     return (
         <Container>
