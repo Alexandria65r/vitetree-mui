@@ -1,10 +1,10 @@
-import React, { MutableRefObject, useEffect, useRef, useState } from 'react'
+import React, { MutableRefObject, useEffect, useRef } from 'react'
 import Layout from '../../components/layout'
 import RenderElementTreeItems from '../../components/element-tree/render-element-tree-items'
 import { useAppDispatch, useAppSelector, useListGroups, useParentElements, useSelectedBoard } from '../../../store/hooks'
 import { useRouter } from 'next/router'
 import { Box, colors, styled, useMediaQuery } from '@mui/material'
-import { createListGroupThunk } from '../../../reducers/list-group-reducer/list-group-thunks'
+import { createListGroupThunk, createManyListGroupsThunk } from '../../../reducers/list-group-reducer/list-group-thunks'
 import { colorScheme } from '../../theme'
 import NewItemInput from '../../components/element-tree/new-item-input'
 import { Add } from '@mui/icons-material'
@@ -20,6 +20,9 @@ import { workspaceActions } from '../../../reducers/workspace-reducer'
 import ElementDetailModal from '../../components/modals/element-detail-modal'
 import { AppSpinner } from '../../components/activity-indicators'
 import BulkActionsMenu from '../../components/element-tree/bulk-actions-menu'
+import { mainActions } from '../../../reducers/main-reducer'
+import { elementsActions } from '../../../reducers/elements-reducer'
+
 
 
 const Container = styled(Box)(() => ({
@@ -68,21 +71,31 @@ export default function WorkspaceSettings({ }: Props) {
   const boards = useAppSelector((state) => state.BoardReducer.boards)
   const boardNetworkStatus = useAppSelector((state) => state.BoardReducer.boardNetworkStatus)
   const headerRef: MutableRefObject<HTMLDivElement> | any = useRef()
-  const [isAddNewElement, toggleAddNewElement] = useState(false)
+  const isNewGroupInputOpen = useAppSelector((state) => state.ListGroupReducer.isNewGroupInputOpen)
   const newListGroupName = useAppSelector((state) => state.ListGroupReducer.newListGroupName)
   const isMobile = useMediaQuery('(max-width:600px)')
-  console.log(router)
-
-
+  const checkedGroups = useAppSelector((state) => state.ListGroupReducer.checkedGroups)
+  const checkedElements = useAppSelector((state) => state.ElementsReducer.checkedItems)
 
 
   function create() {
     dispatch(createListGroupThunk())
-    toggleAddNewElement(false)
   }
+
+
+  async function createMultipleGroupsOnPaste() {
+    const clipboard = await navigator.clipboard.readText()
+    const elements: string[] = clipboard.split('\n');
+    if (elements) {
+      dispatch(createManyListGroupsThunk(elements))
+    }
+  }
+
+
+
   useEffect(() => {
     autoScroll()
-  }, [isAddNewElement])
+  }, [isNewGroupInputOpen])
 
 
   function autoScroll() {
@@ -95,9 +108,7 @@ export default function WorkspaceSettings({ }: Props) {
 
 
 
-  function AddNewListGroup() {
-    toggleAddNewElement(!isAddNewElement)
-  }
+
 
   return (
     <Layout>
@@ -113,10 +124,11 @@ export default function WorkspaceSettings({ }: Props) {
             )}
           </>)}
           <NewElementWrapper>
-            {isAddNewElement ?
+            {isNewGroupInputOpen ?
               (<NewItemInput
                 value={newListGroupName}
                 create={create}
+                onPaste={createMultipleGroupsOnPaste}
                 onChange={(target: any) => dispatch(listGroupActions.setListGroupName(target.value))}
                 placeholder='New group'
                 sx={{ paddingBlock: '9px', borderBottomColor: `${board.color}`, '&:focus': { borderBottomColor: `${board.color}!important` } }}
@@ -126,7 +138,7 @@ export default function WorkspaceSettings({ }: Props) {
                 />} />) : boards.length && board?._id ? (
                   <NewElementButton
                     sx={{ bgcolor: board.color }}
-                    onClick={AddNewListGroup}>
+                    onClick={() => dispatch(listGroupActions.setIsNewGroupInputOpen(true))}>
                     <Add sx={{ mt: 0 }} /> {!isMobile ? 'New list group' : ''}
                   </NewElementButton>
                 ) : <></>}
@@ -158,7 +170,20 @@ export default function WorkspaceSettings({ }: Props) {
       </Container>
       <ElementDetailModal />
       <BoardInfoModal />
-      <BulkActionsMenu  />
+      <BulkActionsMenu
+        checkItems={checkedGroups}
+        moveTo={() => { }}
+        deleteSelected={() => dispatch(mainActions.setModal({ component: 'delete-bulk-list-groups' }))}
+        clearSelected={() => {
+          dispatch(listGroupActions.clearCheckedGroups())
+          dispatch(listGroupActions.clearGroupAction())
+          dispatch(mainActions.closeModal())
+        }} mode={'mark-groups'} />
+      <BulkActionsMenu
+        checkItems={checkedElements}
+        moveTo={() => { }}
+        deleteSelected={() => dispatch(mainActions.setModal({ component: 'delete-bulk-elements' }))}
+        clearSelected={() => dispatch(elementsActions.clearCheckedItems())} mode={'mark-elements'} />
     </Layout>
   )
 }

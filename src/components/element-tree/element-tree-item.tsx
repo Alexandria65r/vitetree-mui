@@ -77,7 +77,7 @@ export default function ElementTreeItem({ group, parent }: Props) {
 
     const [ref, { x, y, width, height, top, right, bottom, left }] = useMeasure();
 
-    console.log(`item-height: ${height}`)
+   
 
     return (
         <Container>

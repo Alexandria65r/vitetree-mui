@@ -10,14 +10,18 @@ export default class ListGroupElementAPI {
             return data.newElement as Element
         }
     }
+    static async createMany(elements: Element[]) {
+        return await axios.post('/api/element/create-many', elements)
+
+    }
 
     static update(id: string, update: any) {
         return axios.put(`/api/element/update/${id}`, update)
     }
-    static updateBulk(update:{ids:string[], update:any}) {
+    static updateBulk(update: { ids: string[], update: any }) {
         return axios.put(`/api/element/update-bulk`, update)
     }
-    static deleteBulk(ids:string[]) {
+    static deleteBulk(ids: string[]) {
         return axios.put(`/api/element/delete-bulk`, ids)
     }
 

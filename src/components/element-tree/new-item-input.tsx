@@ -18,6 +18,7 @@ const Options = styled(Box)(({ theme }) => ({
   display: 'flex',
   gap: 0,
   alignItems: 'center',
+  transition: '0.3s linear'
 }))
 const CreateButton = styled(ButtonIcon)(({ theme }) => ({
   height: 40,
@@ -52,10 +53,11 @@ type Props = {
   create: () => void
   sx?: SxProps<Theme>
   btnSx?: SxProps<Theme>
+  onPaste?: () => void
 
 }
 
-export default function NewItemInput({ onChange, value, sx, btnSx, create, color, placeholder, createIcon }: Props) {
+export default function NewItemInput({ onChange, onPaste, value, sx, btnSx, create, color, placeholder, createIcon }: Props) {
   const dispatch = useAppDispatch()
   const newElementName = useAppSelector((state) => state.ElementsReducer.newElementName)
   const inputRef: MutableRefObject<HTMLTextAreaElement> | any = useRef()
@@ -85,6 +87,7 @@ export default function NewItemInput({ onChange, value, sx, btnSx, create, color
           onKeyUp={handleKeyUp}
           autoFocus
           onBlur={handleBlur}
+          onPaste={onPaste}
           sx={{ '&:focus': { borderBottomColor: `${color}` }, ...sx, }}
         />
         <CreateButton sx={btnSx} onClick={handleBlur}>

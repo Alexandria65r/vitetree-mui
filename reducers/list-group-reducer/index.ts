@@ -26,7 +26,8 @@ type ListGroupState = {
     newListGroupName: string
     listGroup: ListGroup;
     listGroups: ListGroup[];
-    isFormOpen: boolean;
+    checkedGroups: string[],
+    isNewGroupInputOpen: boolean;
     listGroupNetworkStatus: ListGroupNetworkStatus
     groupAction: GroupAction
 }
@@ -35,13 +36,14 @@ type ListGroupState = {
 const initialState: ListGroupState = {
     listGroup: ListGroupSchema,
     listGroups: [],
-    isFormOpen: false,
+    isNewGroupInputOpen: false,
     listGroupNetworkStatus: '',
     newListGroupName: '',
     groupAction: {
         groupId: undefined,
         action: ''
-    }
+    },
+    checkedGroups: []
 }
 
 
@@ -51,8 +53,8 @@ const listGroupSlice = createSlice({
     name: 'listGroupSlice',
     initialState,
     reducers: {
-        setIsFormOpen: (state, { payload }: PayloadAction<boolean>) => {
-            state.isFormOpen = payload
+        setIsNewGroupInputOpen: (state, { payload }: PayloadAction<boolean>) => {
+            state.isNewGroupInputOpen = payload
         },
         setListGroupData: (state, { payload }: PayloadAction<ListGroup>) => {
             state.listGroup = payload
@@ -85,6 +87,17 @@ const listGroupSlice = createSlice({
                 action: '',
                 groupId: ''
             }
+        },
+        checkGroup(state, { payload }: PayloadAction<string>) {
+            const isExist = state.checkedGroups.find((id) => id === payload)
+            if (isExist) {
+                state.checkedGroups.splice(state.checkedGroups.indexOf(isExist), 1)
+            } else {
+                state.checkedGroups.push(payload)
+            }
+        },
+        clearCheckedGroups(state) {
+            state.checkedGroups = []
         },
         setListGroupNetworkStatus: (state, { payload }: PayloadAction<ListGroupNetworkStatus>) => {
             state.listGroupNetworkStatus = payload

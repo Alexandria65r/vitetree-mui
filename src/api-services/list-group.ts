@@ -15,6 +15,9 @@ export default class ListGroupAPI {
             return data.newListGroup as ListGroup
         }
     }
+    static async createMany(newListGroups: ListGroup[]) {
+        return await axios.post('/api/list-group/create-many', newListGroups)
+    }
     static async fetchListGroup(listGroupId: string) {
         const { data } = await axios.get(`/api/list-group/fetch-listGroup/${listGroupId}`)
         if (data.success) {
@@ -29,7 +32,9 @@ export default class ListGroupAPI {
     static delete(id: string) {
         return axios.delete(`/api/list-group/delete/${id}`)
     }
-
+    static deleteBulk(groupIds: string[]) {
+        return axios.patch(`/api/list-group/delete-bulk`, groupIds)
+    }
 
 
     static async fetchListGroups(boardId: string) {

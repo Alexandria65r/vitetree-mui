@@ -3,7 +3,7 @@ import React from 'react'
 import { useAppDispatch, useAppSelector, useSelectedGroup } from '../../../store/hooks'
 import { elementsActions } from '../../../reducers/elements-reducer'
 import VerticalAlignTopIcon from '@mui/icons-material/VerticalAlignTop';
-import { AddNewElementThunk } from '../../../reducers/elements-reducer/elements-thunks'
+import { AddNewElementThunk, createManyElementsThunk } from '../../../reducers/elements-reducer/elements-thunks'
 import NewItemInput from './new-item-input'
 
 
@@ -26,7 +26,15 @@ export default function SubItemInput({ id }: Props) {
   const color = useSelectedGroup(id)?.color
 
   function create() {
-    dispatch(AddNewElementThunk({ elementType: 'list-group-element', groupId: id }))
+    dispatch(AddNewElementThunk({ elementType: 'list-group-element', newElementName, groupId: id }))
+  }
+
+  async function createMultipleTasksOnPaste() {
+    const clipboard = await navigator.clipboard.readText()
+    const elements: string[] = clipboard.split('\n');
+    if (elements) {
+      dispatch(createManyElementsThunk({ elementType: 'list-group-element', elements, groupId: id }))
+    }
   }
 
   return (
@@ -34,6 +42,7 @@ export default function SubItemInput({ id }: Props) {
       {/* <ChildRootLine color={color ?? ''} /> */}
       <NewItemInput
         value={newElementName}
+        onPaste={createMultipleTasksOnPaste}
         onChange={(target) => dispatch(elementsActions.setNewElementName(target.value))}
         placeholder='New item' color={color ?? ''}
         createIcon={<VerticalAlignTopIcon sx={{ color: `${color ?? ''}!important` }} />}

@@ -74,10 +74,11 @@ export default function GroupHead({ id, parent }: Props) {
     const isEditting = useGroupAction({ groupId: id, action: 'edit-group-name' })
     const dispatch = useAppDispatch()
     const collapedItems = useAppSelector((state) => state.ElementsReducer.collapedItems)
+    const checkedGroups = useAppSelector((state) => state.ListGroupReducer.checkedGroups)
     const newListGroupName = useAppSelector((state) => state.ListGroupReducer.newListGroupName)
     const showElementDeleteButton = useElementAction({ action: 'show-element-delete-button', elementId: group._id })
-    const isMarkParentsEnabled = useElementAction({ action: 'mark-parents' })
-    console.log(group)
+    const isMarkParentsEnabled = useGroupAction({ action: 'mark-parents' })
+
 
     useEffect(() => {
         if (isEditting) {
@@ -140,13 +141,15 @@ export default function GroupHead({ id, parent }: Props) {
             </Box>
             )}
             {isMarkParentsEnabled && (
-                <Checkbox checked={false} sx={{
-                    ml: .5, p: 0, color: group?.color ?? '',
-                    '&.Mui-checked': {
-                        color: group?.color ?? '',
-                    },
-                    '& .MuiSvgIcon-root': { fontSize: 23, }
-                }} />
+                <Checkbox checked={checkedGroups.includes(group?._id ?? '')}
+                    onChange={() => dispatch(listGroupActions.checkGroup(group?._id ??''))}
+                    sx={{
+                        ml: .5, p: 0, color: group?.color ?? '',
+                        '&.Mui-checked': {
+                            color: group?.color ?? '',
+                        },
+                        '& .MuiSvgIcon-root': { fontSize: 23, }
+                    }} />
             )}
             {showElementDeleteButton && (
                 <DeleteButton sx={{ color: group?.color }}

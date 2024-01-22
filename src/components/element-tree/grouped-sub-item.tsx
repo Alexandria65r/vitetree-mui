@@ -9,6 +9,7 @@ import { useAppDispatch, useElementAction, useSelectedElement, useGroupColorByEl
 import { elementsActions } from '../../../reducers/elements-reducer'
 import { mainActions } from '../../../reducers/main-reducer'
 import ElementCellHeader from './element-cell-header'
+import { AppSpinner } from '../activity-indicators'
 
 
 const Container = styled(Box)(() => ({
@@ -69,7 +70,7 @@ export default function GroupedSubItem({ id, parent, subElRef, elemetStyles }: P
   const color = useGroupColorByElementId(id)
   const isSubEditting = useElementAction({ action: 'edit-sub-element', elementId: id })
   const isMarkEnabled = useElementAction({ action: 'mark-children' })
- 
+
 
 
   return (
@@ -77,7 +78,7 @@ export default function GroupedSubItem({ id, parent, subElRef, elemetStyles }: P
       {/* <ChildRootLine color={color ?? ''} /> */}
       <PopupState variant='popper' >
         {(popupState) => (<>
-          {isSubEditting && parent==='element-detail' ? (
+          {isSubEditting && parent === 'element-detail' ? (
             <Element sx={{
               // maxWidth: parent === 'element-detail' ? 'fit-content' : 320,
               padding: '4px',
@@ -101,11 +102,14 @@ export default function GroupedSubItem({ id, parent, subElRef, elemetStyles }: P
               <Box sx={{ padding: '0px 10px 5px 10px' }} onClick={
                 () => dispatch(elementsActions.setSelectedElementId(id))}>
                 <ElipsisText text={element.name} lineClamp={parent === 'main-tree' ? 2 : 0} color={color ?? ''} sx={{ fontSize: 14, lineHeight: '1.3' }} />
+                <Box sx={{ position: 'absolute', right: -5, bottom: 0 }}>
+                  <AppSpinner visible={element.loading ?? false} size={14} />
+                </Box>
               </Box>
             </Element>
           )}
 
-   
+
 
 
           <Menu {...bindMenu(popupState)}

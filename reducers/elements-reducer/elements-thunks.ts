@@ -3,26 +3,23 @@ import { UpdateElementPayload, elementsActions } from ".";
 import { Element, ElementSchema, ElementType } from "../../src/models/element";
 import { AppState } from "../../store/store";
 import Randomstring from 'randomstring'
-import randomColor from 'randomcolor'
 import { mainActions } from "../main-reducer";
-import { PickerBtn } from "../../src/reusable/interfaces";
 import ListGroupElementAPI from "../../src/api-services/list-group-element";
 import { listGroupActions } from "../list-group-reducer";
 import { createToastThunk } from "../main-reducer/main-thunks";
 
 export const AddNewElementThunk = createAsyncThunk<void,
-    { elementType: ElementType, groupId?: string },
+    { elementType: ElementType, newElementName: string, groupId?: string },
     { state: AppState }>
     ('elementsSlice/AddNewElementThunk', async (params, thunkAPI) => {
         const dispatch = thunkAPI.dispatch
         const state = thunkAPI.getState()
         const elements = state.ElementsReducer.elements
-        const newElementName = state.ElementsReducer.newElementName
+        // const newElementName = state.ElementsReducer.newElementName
         const selectedBoard = state.BoardReducer.selectedBoard
         const clonedElements = [...elements]
         const newId = Randomstring.generate(12)
-        const color = randomColor()
-        if (!newElementName.trim().length) {
+        if (!params.newElementName.trim().length) {
             dispatch(listGroupActions.clearGroupAction())
 
             return
@@ -30,7 +27,7 @@ export const AddNewElementThunk = createAsyncThunk<void,
             try {
                 const newElementPayload: Element = {
                     _id: newId,
-                    name: newElementName,
+                    name: params.newElementName,
                     elementType: params.elementType,
                     groupId: params?.groupId ?? '',
                     loading: true,
@@ -38,9 +35,8 @@ export const AddNewElementThunk = createAsyncThunk<void,
                     boardId: selectedBoard?._id ?? ''
                 }
 
-                console.log(newElementPayload)
 
-                dispatch(elementsActions.setElements([...elements, { ...newElementPayload, loading: false }]))
+                dispatch(elementsActions.setElements([...elements, { ...newElementPayload }]))
                 dispatch(elementsActions.setNewElementName(''))
 
                 const newElement = await ListGroupElementAPI.create(newElementPayload)
@@ -52,7 +48,64 @@ export const AddNewElementThunk = createAsyncThunk<void,
                 console.log(error)
             }
         }
+    })
 
+
+export const createManyElementsThunk = createAsyncThunk<void,
+    { elementType: ElementType, elements: string[], groupId?: string },
+    { state: AppState }>
+    ('elementsSlice/createManyElementsThunk', async (params, thunkAPI) => {
+        const dispatch = thunkAPI.dispatch
+        const state = thunkAPI.getState()
+        const elements = state.ElementsReducer.elements
+        const selectedBoard = state.BoardReducer.selectedBoard
+        let newElements: Element[] = []
+
+        if (params.elements.length > 1) {
+            try {
+                for (let elementIndex = 0; elementIndex < params.elements.length; elementIndex++) {
+                    const name = params.elements[elementIndex]
+                    const newId = Randomstring.generate(16)
+                    const newElementPayload: Element = {
+                        _id: newId,
+                        name: name,
+                        elementType: params.elementType,
+                        groupId: params?.groupId ?? '',
+                        loading: true,
+                        workspaceId: selectedBoard.workspaceId,
+                        boardId: selectedBoard?._id ?? ''
+                    }
+
+                    newElements.push(newElementPayload)
+                }
+
+                dispatch(elementsActions.setElements([...elements, ...newElements]))
+                console.log(newElements)
+                dispatch(listGroupActions.clearGroupAction())
+                dispatch(elementsActions.setNewElementName(''))
+                const clonedElements = [...elements, ...newElements]
+
+                const { data } = await ListGroupElementAPI.createMany(newElements)
+                if (data.success) {
+                    const filterredLoading = clonedElements.filter((element) => element.groupId === params.groupId && element.loading === true)
+                    if (filterredLoading) {
+                        filterredLoading.forEach((el) => {
+                            const targetElement = clonedElements.find((element) => element._id === el._id)
+                            if (targetElement) {
+                                clonedElements.splice(clonedElements.indexOf(targetElement), 1, { ...targetElement, loading: false })
+                            }
+                        })
+                    }
+                    dispatch(elementsActions.setElements(clonedElements))
+                    newElements = []
+                } else {
+                    dispatch(createToastThunk(data.message))
+                }
+            } catch (error) {
+                console.log(error)
+                dispatch(createToastThunk('An error occured!'))
+            }
+        }
 
 
     })
@@ -63,7 +116,6 @@ export const updateElementThunk = createAsyncThunk<void, { elementId: string, up
     { state: AppState }>
     ('elementsSlice/updateElementThunk', async (params, thunkAPI) => {
         const dispatch = thunkAPI.dispatch
-        const state = thunkAPI.getState()
         console.log(params)
 
         dispatch(elementsActions.updateElement({

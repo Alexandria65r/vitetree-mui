@@ -7,7 +7,8 @@ import { mainActions } from '../../../reducers/main-reducer'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { DeleteElementThunk, deleteBulkElementsThunk } from '../../../reducers/elements-reducer/elements-thunks'
 import { elementsActions } from '../../../reducers/elements-reducer'
-import { deleteListGroupThunk } from '../../../reducers/list-group-reducer/list-group-thunks'
+import { deleteBulkListGroupsThunk, deleteListGroupThunk } from '../../../reducers/list-group-reducer/list-group-thunks'
+import { listGroupActions } from '../../../reducers/list-group-reducer'
 
 
 type Props = {}
@@ -37,6 +38,21 @@ export default function ReusableModal({ }: Props) {
                         }}
                         proccedIcon={<DeleteOutlineIcon />}
                         procceedAction={() => dispatch(deleteListGroupThunk(modal?.itemId??''))}
+                        message='Are you sure you want to delete?'
+                    />
+                )}
+                {modal.component === 'delete-bulk-list-groups' && (
+                    <ReusableAlert
+                        title='Selected List Groups will be deleted'
+                        type='delete'
+                        loading={elementNetworkStatus === 'deleting-element'}
+                        cancelHandler={() => {
+                            dispatch(mainActions.closeModal())
+                            dispatch(listGroupActions.clearCheckedGroups())
+                            dispatch(listGroupActions.clearGroupAction())
+                        }}
+                        proccedIcon={<DeleteOutlineIcon />}
+                        procceedAction={() => dispatch(deleteBulkListGroupsThunk())}
                         message='Are you sure you want to delete?'
                     />
                 )}

@@ -1,5 +1,5 @@
 import { Box, Tooltip, colors, styled, useTheme } from "@mui/material"
-import { useAppDispatch, useAppSelector, useElementAction, useGroupColorByElementId } from "../../../store/hooks"
+import { useAppDispatch, useAppSelector, useElementAction, useGroupColorByElementId, useSelectedGroup } from "../../../store/hooks"
 import { ThemedText, colorScheme } from "../../theme"
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import { BiDuplicate } from 'react-icons/bi'
@@ -99,7 +99,12 @@ const IconButton = styled(ButtonIcon)(({ theme }) => ({
 }))
 
 type Props = {
-
+    mode: 'mark-groups' | 'mark-elements'
+    checkItems: string[]
+    moveTo: () => void
+    duplicate?: () => void
+    deleteSelected: () => void
+    clearSelected: () => void
 }
 type StatusPickerButtonProps = {
     bindTrigger: any
@@ -107,9 +112,9 @@ type StatusPickerButtonProps = {
     picker: 'status' | 'priority'
 }
 
-export default function BulkActionsMenu({ }: Props) {
+export default function BulkActionsMenu({ mode, checkItems, moveTo, duplicate, deleteSelected, clearSelected }: Props) {
     const dispatch = useAppDispatch()
-    const checkItems = useAppSelector((state) => state.ElementsReducer.checkedItems)
+
     const _theme = useTheme()
 
 
@@ -143,14 +148,17 @@ export default function BulkActionsMenu({ }: Props) {
                     {checkItems.length} Item{checkItems.length > 1 && 's'} Selected
                 </ThemedText>
                 <MappedCheckedCountItems className={styles.MappedCheckedCountItems}>
-                    {checkItems.map((checkedId) => <RenderCheckedCountItem checkedId={checkedId} />)}
+                    {checkItems.map((checkedId) => <RenderCheckedCountItem mode={mode} checkedId={checkedId} />)}
                 </MappedCheckedCountItems>
             </LeftCol>
             <MoreActions>
-                <Box sx={{ display: 'flex', gap: '10px' }}>
-                    <PriorityPickerPopper MainButton={pickerButton} onClick={onClick} />
-                    <StatusPickerPopper MainButton={pickerButton} onClick={onClick} />
-                </Box>
+                {mode === 'mark-elements' && (
+                    <Box sx={{ display: 'flex', gap: '10px' }}>
+                        <PriorityPickerPopper MainButton={pickerButton} onClick={onClick} />
+                        <StatusPickerPopper MainButton={pickerButton} onClick={onClick} />
+                    </Box>
+                )}
+
                 <Tooltip title='Duplicate'>
                     <IconButton>
                         <BiDuplicate style={{ fontSize: 16 }} />
@@ -163,13 +171,13 @@ export default function BulkActionsMenu({ }: Props) {
                 </Tooltip>
 
                 <Tooltip title='Delete'>
-                    <IconButton onClick={() => dispatch(mainActions.setModal({ component: 'delete-bulk-elements' }))}>
+                    <IconButton onClick={deleteSelected}>
                         <DeleteOutlinedIcon sx={{ fontSize: 20 }} />
                     </IconButton>
                 </Tooltip>
 
                 <Tooltip title='Clear selected'>
-                    <IconButton onClick={() => dispatch(elementsActions.clearCheckedItems())}>
+                    <IconButton onClick={clearSelected}>
                         <DisabledByDefaultOutlinedIcon sx={{ fontSize: 20 }} />
                     </IconButton>
                 </Tooltip>
@@ -178,10 +186,12 @@ export default function BulkActionsMenu({ }: Props) {
     )
 }
 type RenderCheckedCountItemProps = {
+    mode: 'mark-groups' | 'mark-elements'
     checkedId: string
 }
-function RenderCheckedCountItem({ checkedId }: RenderCheckedCountItemProps) {
-    const color = useGroupColorByElementId(checkedId)
+function RenderCheckedCountItem({ checkedId, mode }: RenderCheckedCountItemProps) {
+    const color = mode === 'mark-elements' ? useGroupColorByElementId(checkedId) : useSelectedGroup(checkedId)?.color ?? ''
+
     return (
         <CheckedCountItem sx={{ bgcolor: color }}></CheckedCountItem>
     )

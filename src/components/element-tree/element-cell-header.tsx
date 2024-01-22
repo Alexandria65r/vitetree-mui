@@ -2,7 +2,7 @@ import { Box, Checkbox, SxProps, Theme, colors, styled } from "@mui/material"
 import element from "slate-react/dist/components/element"
 import PersonPickerPopper from "./poppers/person-picker-popper"
 import StatusAndPriorityPickers from "./poppers/status-and-priority-pickers"
-import { useAppDispatch, useAppSelector, useElementAction, useSelectedElement } from "../../../store/hooks"
+import { useAppDispatch, useAppSelector, useElementAction, useGroupAction, useSelectedElement } from "../../../store/hooks"
 import RadioButtonUncheckedOutlinedIcon from '@mui/icons-material/RadioButtonUncheckedOutlined';
 import RadioButtonCheckedOutlinedIcon from '@mui/icons-material/RadioButtonCheckedOutlined';
 import { UpdateElementPayload, elementsActions } from "../../../reducers/elements-reducer"
@@ -39,7 +39,7 @@ type StatusPickerButtonProps = {
 
 export default function ElementCellHeader({ color, id, avataSize, pickerBtnStyles }: Props) {
     const dispatch = useAppDispatch()
-    const isMarkEnabled = useElementAction({ action: 'mark-children' })
+    const isMarkEnabled = useGroupAction({ action: 'mark-children' })
     const checkItems = useAppSelector((state) => state.ElementsReducer.checkedItems)
     const element = useSelectedElement(id)
 

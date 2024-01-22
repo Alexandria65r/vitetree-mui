@@ -10,7 +10,7 @@ export type ElementAction = {
     action: 'sub-element' | 'edit-element' | 'edit-sub-element' |
     'add-sub-element' | 'element-detail' | 'show-element-update-edittor' |
     'show-element-delete-button'
-    | 'mark-parents' | 'mark-children' | ''
+     | 'mark-children' | ''
 }
 
 export type ElementNetworkStatus = 'updating' |
