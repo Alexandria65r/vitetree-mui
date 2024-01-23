@@ -1,41 +1,57 @@
 import { Box, colors, styled, useMediaQuery } from '@mui/material'
 import { useRouter } from 'next/router'
-import React, {  } from 'react'
-import { StyledButton } from '../reusable/styles'
-import { colorScheme, useColorScheme } from '../theme'
+import React, { } from 'react'
+import { ButtonIcon, StyledButton } from '../../reusable/styles'
+import { ThemedText, colorScheme, useColorScheme } from '../../theme'
 import Link from 'next/link'
-import { useAppSelector } from '../../store/hooks'
+import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import { getAuth, signOut } from 'firebase/auth'
 import Cookies from 'js-cookie'
-import * as types from '../reusable'
+import * as types from '../../reusable'
 import LoginIcon from '@mui/icons-material/Login';
-import InteractionPopper from './account/interaction-popper/interaction-popper'
-import WorkspacePopper from './element-tree/poppers/workspace-popper'
-import RenderBoardPanel from './render-board-panel'
-
-
-
+import InteractionPopper from '../account/interaction-popper/interaction-popper'
+import WorkspacePopper from '../element-tree/poppers/workspace-popper'
+import RenderBoardPanel from '../render-board-panel'
+import ChevronLeftOutlinedIcon from '@mui/icons-material/ChevronLeftOutlined';
+import ChevronRightOutlinedIcon from '@mui/icons-material/ChevronRightOutlined';
+import { mainActions } from '../../../reducers/main-reducer'
 
 
 const Container = styled(Box)(({ theme }) => ({
-  height: 'calc(100vh - 65px)',
+  position: 'relative',
+  height: 'calc(100vh - 0px)',
   borderRight: `1px solid ${colorScheme(theme).borderColor}`,
   backgroundColor: colorScheme(theme).lightToprimaryColor,
   [theme.breakpoints.down('sm')]: {
     flexBasis: '100%',
-    height: 'calc(100vh - 60px)',
+    height: 'calc(100vh - 0px)',
     overflowY: 'auto',
   }
 }))
 
-const AsideNav = styled(Box)(() => ({
+const SideBarHeader = styled(Box)(({ theme }) => ({
+  position: 'relative',
+  flexBasis: '100%',
+  height: 56,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: '0 25px',
+  borderBottom: `1px solid ${colorScheme(theme).greyToTertiary}`,
+  backgroundColor: colorScheme(theme).lightToprimaryColor
+}))
+
+const AsideNav = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexWrap: 'wrap',
   alignItems: 'flex-start',
   padding: 10,
   flexBasis: '100%',
   height: 'calc(100dvh - 120px)',
+  [theme.breakpoints.down('sm')]: {
+    height: 'calc(100dvh - 112px)',
+  }
 }))
 const NavButton = styled(StyledButton)(({ theme }) => ({
   justifyContent: 'flex-start',
@@ -69,11 +85,34 @@ const LogoutButton = styled(StyledButton)(({ theme }) => ({
 }))
 
 
+const BrandText = styled(ThemedText)(() => ({
+  fontSize: 22,
+  textAlign: 'center',
+  fontWeight: 600,
+  flexGrow: 1,
+  color: colors.teal[400]
+}))
+
+
+const ToggleSideBarButton = styled(ButtonIcon)(({ theme }) => ({
+  height: 30,
+  width: 30,
+  position: 'absolute',
+  right: -15,
+  top: 35,
+  zIndex: 10,
+  backgroundColor: colorScheme(theme).grayToSecondaryColor,
+  [theme.breakpoints.down('sm')]: {
+    display: 'none'
+  }
+}))
+
 
 
 type Props = {}
 
-export default function AsideNavbar({ }: Props) {
+export default function OpenStateSideBar({ }: Props) {
+  const dispatch = useAppDispatch()
   const router = useRouter()
   const user = useAppSelector((state) => state.AuthReducer.user)
   const isSidebarOpen = useAppSelector((state) => state.MainReducer.isSidebarOpen)
@@ -102,31 +141,39 @@ export default function AsideNavbar({ }: Props) {
 
 
 
-  return (<Container>
-    <WorkspacePopper />
-    <AsideNav
-      className="sideBarAnimated">
-      {user._id ? (<>
-        <RenderBoardPanel />
-        <Box sx={{ alignSelf: 'flex-end', width: '100%' }}>
-          <InteractionPopper />
-          <LogoutButton
-            onClick={logout}
-            sx={{ width: '100%', mt: 1 }}>
-            <LogoutOutlinedIcon sx={{ mr: isSidebarOpen && !isMobile ? 0 : 1 }} />
-            {isSidebarOpen && !isMobile ? '' : 'Log Out'}
-          </LogoutButton>
-        </Box>
-      </>) : <>
-        <NavItem
-          name={isSidebarOpen && !isMobile ? "" : "Sign In"}
-          route={`/signin`}
-          startIcon={<LoginIcon sx={{ mr: isSidebarOpen && !isMobile ? 0 : 1 }} />}
-          isActive={router.asPath.includes(`/signin`)}
-        />
-      </>}
-    </AsideNav>
-  </Container >
+  return (
+
+    <Container>
+
+      <ToggleSideBarButton onClick={() => dispatch(mainActions.setIsSideBarOpen(!isSidebarOpen))}>
+        {isSidebarOpen ? <ChevronRightOutlinedIcon /> : <ChevronLeftOutlinedIcon />}
+      </ToggleSideBarButton>
+
+      <SideBarHeader>
+        <BrandText>
+          <Link href='/'>
+            Vitetree
+          </Link>
+        </BrandText>
+      </SideBarHeader>
+      <WorkspacePopper />
+      <AsideNav
+        className="sideBarAnimated">
+        {user._id ? (<>
+          <RenderBoardPanel />
+          <Box sx={{ alignSelf: 'flex-end', width: '100%' }}>
+            <InteractionPopper />
+          </Box>
+        </>) : <>
+          <NavItem
+            name={isSidebarOpen && !isMobile ? "" : "Sign In"}
+            route={`/signin`}
+            startIcon={<LoginIcon sx={{ mr: isSidebarOpen && !isMobile ? 0 : 1 }} />}
+            isActive={router.asPath.includes(`/signin`)}
+          />
+        </>}
+      </AsideNav>
+    </Container >
   )
 }
 

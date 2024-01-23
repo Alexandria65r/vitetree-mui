@@ -9,7 +9,8 @@ import { useRouter } from 'next/router'
 import { getAuth, signOut } from "firebase/auth";
 import { mainActions } from '../../reducers/main-reducer'
 import Link from 'next/link'
-import AsideNavbar from './aside-navbar'
+import AsideNavbar from './side-bar/closed-state-side-bar'
+import RenderSideBar from './side-bar/render-side-bar'
 
 
 const SideBarContainer = styled(Box)(({ theme }) => ({
@@ -17,7 +18,7 @@ const SideBarContainer = styled(Box)(({ theme }) => ({
     transformOrigin: 'left',
     borderRight: `1px solid ${colorScheme(theme).borderColor}`,
     backgroundColor: colorScheme(theme).sideBarColor,
-   // height: 'calc(100vh - 0px)',
+    // height: 'calc(100vh - 0px)',
     display: 'flex',
     alignItems: 'start',
     flexWrap: 'wrap',
@@ -109,20 +110,8 @@ export default function SideBar({ }: Props) {
                     }
                 })}>
 
-                <SideBarHeader>
-                    <Typography
-                        sx={{
-                            fontSize: 22,
-                            textAlign: 'center',
-                            fontWeight: 600,
-                            flexGrow: 1, color: colors.teal[400]
-                        }}>
-                        <Link href={user?._id ? '/dashboard' : '/'}>
-                            Vitetree
-                        </Link>
-                    </Typography>
-                </SideBarHeader>
-                <AsideNavbar />
+
+                <RenderSideBar/>
             </SideBarContainer >
 
         </Modal>

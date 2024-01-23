@@ -27,12 +27,12 @@ import { elementsActions } from '../../../reducers/elements-reducer'
 
 const Container = styled(Box)(() => ({
   //position:'relative',
-  paddingInline: 10,
+  
 }))
 const Header = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
-  height: 50,
+  height: 56,
   gap: 8,
   paddingInline: 10,
   backgroundColor: colorScheme(theme).lightToprimaryColor,

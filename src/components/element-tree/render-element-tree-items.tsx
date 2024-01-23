@@ -12,12 +12,13 @@ import { ListGroup } from '../../models/list-group';
 
 const Container = styled(Box)(({ theme }) => ({
     position: 'relative',
-    height: 'calc(100vh - 160px)',
+    height: 'calc(100vh - 85px)',
     //width: '100vw',
+    paddingInline: 10,
     overflowX: 'auto',
     scrollBehavior: 'smooth',
     [theme.breakpoints.up('xl')]: {
-        width: 'calc(100vw - 120px)',
+     //   width: 'calc(100vw - 120px)',
         //border:'1px solid red'
     },
 }))
@@ -93,11 +94,11 @@ export default function RenderElementTreeItems({ listGroups }: Props) {
         {/* <ProjectTreeButton /> */}
         <Container ref={containerRef} sx={(theme) => ({
             [theme.breakpoints.up('md')]: {
-                width: isSidebarOpen ? 'calc(100vw - 120px)' : 'calc(100vw - 320px)',
+                width: isSidebarOpen ? 'calc(100vw - 80px)' : 'calc(100vw - 290px)',
                 //border:'1px solid red'
             },
             [theme.breakpoints.up('xl')]: {
-                width: isSidebarOpen ? 'calc(100vw - 120px)' : 'calc(100vw - 320px)',
+                width: isSidebarOpen ? 'calc(100vw - 78px)' : 'calc(100vw - 290px)',
                 //border:'1px solid red'
             },
         })}

@@ -34,7 +34,9 @@ const Boards = styled(Box)(() => ({
   width: '100%'
 }))
 const MappedBoards = styled(Box)(() => ({
-
+  display: 'flex',
+  justifyContent: 'center',
+  flexWrap: 'wrap',
 }))
 const BoardsHead = styled(Box)(() => ({
   display: 'flex',
@@ -153,7 +155,7 @@ function BoardItem({ board, isActive, color }: BoardItemProps) {
         dispatch(mainActions.setIsSideBarOpen(isMobile ? false : true))
       }}
       sx={(theme) => ({
-        width: '100%',
+        width: 45,
         justifyContent: isSidebarOpen && !isMobile ? 'center' : 'flex-start',
         backgroundColor: isActive ? colorScheme.lightToprimaryColor : isSidebarOpen
           && !isMobile ? theme.palette.mode === 'light' ? color :

@@ -7,7 +7,7 @@ import { useRouter } from 'next/router'
 import SideBar from './side-bar'
 import { mainActions } from '../../reducers/main-reducer'
 import { LinearProgress, styled, useMediaQuery, useTheme } from '@mui/material'
-import AsideNavbar from './aside-navbar'
+import AsideNavbar from './side-bar/closed-state-side-bar'
 import { checkAuthThunk } from '../../reducers/auth-reducer/auth-thunks'
 import Toast from './toasts/toast'
 import ReusableModal from './modals/reusable-modal'
@@ -17,6 +17,7 @@ import BoardForm from '../pages/w/board-form'
 import InvitePeopleModal from './modals/invite-people-modal'
 import { fetchActiveWorkspaceBoardAndBoardData, fetchBoardsThunk } from '../../reducers/boards-reducer/boards-thunks'
 import { fetchWorkspacesThunk } from '../../reducers/workspace-reducer/workspace-thunks'
+import RenderSideBar from './side-bar/render-side-bar'
 
 const FlexContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -136,13 +137,13 @@ export default function Layout({ children }: Props) {
                             flexBasis: isSidebarOpen ? '5%' : '28%',
                         },
                         [theme.breakpoints.up('xl')]: {
-                            flexBasis: isSidebarOpen ? '5%' : '15%',
+                            flexBasis: isSidebarOpen ? '4%' : '15%',
                         }
                     }}>
-                    <AsideNavbar />
+                    <RenderSideBar />
                 </Box>
                 <Box
-                    sx={{ flexBasis: isSidebarOpen ? '95%' : '90%', transition: '0.3s all' }}
+                    sx={{ flexBasis: isSidebarOpen ? '96%' : '90%', transition: '0.3s all' }}
                     className="sideBarAnimated">
                     {children}
                 </Box>

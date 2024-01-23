@@ -2,21 +2,22 @@ import { Box, Menu, SxProps, Theme, colors, styled, useMediaQuery, useTheme } fr
 import classes from '../../../styles/reusable.module.css'
 import React from 'react'
 import { ThemedText, colorScheme } from '../../../theme';
-import { StyledButton } from '../../../reusable/styles';
+import { ButtonIcon, StyledButton } from '../../../reusable/styles';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import { HiOutlineChevronDown } from "react-icons/hi2";
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 import IntractionMenu from './interaction-menu';
 import { mainActions } from '../../../../reducers/main-reducer';
 import UserAvatar from '../../user/user-avatar';
-
+import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined';
 
 const NavButton = styled(StyledButton)(({ theme }) => ({
     justifyContent: 'start',
     fontSize: 16,
-    flexBasis: '100%',
     marginBottom: 5,
-    borderRadius: 29,
+    borderRadius: 5,
+    width: '100%',
+    alignItems: 'center',
     height: 55,
     color: theme.palette.mode === 'light' ? '#000' : colorScheme(theme).TextColor,
     backgroundColor: 'transparent',
@@ -44,10 +45,11 @@ function InteractionPopper({ }: Props) {
     const isSidebarOpen = useAppSelector((state) => state.MainReducer.isSidebarOpen)
 
     const buttonStyles: SxProps<Theme> = {
-        width: '100%',
         justifyContent: isSidebarOpen && !isMobile ? 'center' : 'flex-start',
         backgroundColor: colors.teal[400],
         color: '#fff',
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
         '&:hover': {
             backgroundColor: colors.teal[400]
         }
@@ -61,19 +63,18 @@ function InteractionPopper({ }: Props) {
 
 
     const NavButtonValue = () => (
-        <Box>
+        <>
             <NavButtonText sx={{ fontWeight: 600 }}>
                 {user.interaction === 'employer ' ? user.pageInfo?.name : fullname}
             </NavButtonText>
-            <NavButtonText sx={{ fontSize: 13 }}>
-                {user.interaction === 'employer ' ? 'employer' : 'Member'}
-            </NavButtonText>
-        </Box>
+            {isSidebarOpen && !isMobile ? <HiOutlineChevronDown fontSize={20} /> :
+             !isSidebarOpen && isMobile ? <HiOutlineChevronDown fontSize={20} /> : <></>}
+        </>
     )
 
     const imageURL = user.interaction === 'employer ' ? user.pageInfo?.photoURL : user.imageAsset?.secureURL
     return (
-    <PopupState variant='popper'>
+        <PopupState variant='popper'>
             {(popupState) => (
 
                 <>
@@ -84,9 +85,10 @@ function InteractionPopper({ }: Props) {
                         >
                             <UserAvatar
                                 imageURL={imageURL}
-                                avatarStyles={{ mr: 1 }}
+                                avatarStyles={{ width: 30, height: 30, mr: isSidebarOpen ? 1 : 0 }}
                             />
-                            <NavButtonValue />
+                            {isSidebarOpen && <NavButtonValue />}
+
                         </NavButton>
                     ) : (
                         <NavButton
@@ -95,7 +97,7 @@ function InteractionPopper({ }: Props) {
                         >
                             <UserAvatar
                                 imageURL={imageURL}
-                                avatarStyles={{ mr: 1 }}
+                                avatarStyles={{ width: 30, height: 30, mr: !isSidebarOpen ? 1 : 0 }}
                             />
 
                             {!isSidebarOpen && <NavButtonValue />}
@@ -108,8 +110,8 @@ function InteractionPopper({ }: Props) {
                         }}
                         slotProps={{
                             paper: {
-                                style:{
-                                    width: '27ch' 
+                                style: {
+                                    width: '27ch'
                                 }
 
                             }
