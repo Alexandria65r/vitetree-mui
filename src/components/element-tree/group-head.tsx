@@ -123,7 +123,7 @@ export default function GroupHead({ id, parent }: Props) {
                     createIcon={<VerticalAlignTopIcon sx={{ color: `${group.color ?? ''}!important`, transform: 'rotate(90deg)' }} />}
                     create={update}
                     sx={{
-                        paddingBlock: '6px',
+                        paddingBlock: '7px',
                         borderBottomColor: `${group?.color}!important`,
                         border: `1px dashed ${group?.color}`,
                         borderRight: 0,

@@ -41,7 +41,7 @@ const Container = styled(Box)(({ theme }) => ({
         borderRadius: 0,
     },
     [theme.breakpoints.up("md")]: {
-        width: '53%',
+        width: '65%',
     },
     [theme.breakpoints.up("xl")]: {
         width: '50%',

@@ -51,6 +51,9 @@ const AsideNav = styled(Box)(({ theme }) => ({
   height: 'calc(100dvh - 120px)',
   [theme.breakpoints.down('sm')]: {
     height: 'calc(100dvh - 112px)',
+  },
+  [theme.breakpoints.up('md')]: {
+    height: 'calc(100dvh - 60px)',
   }
 }))
 const NavButton = styled(StyledButton)(({ theme }) => ({

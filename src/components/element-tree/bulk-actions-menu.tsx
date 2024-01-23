@@ -16,20 +16,33 @@ import { mainActions } from "../../../reducers/main-reducer";
 
 const Container = styled(Box)(({ theme }) => ({
     position: 'absolute',
-    width: '30%',
+    width: '100%',
     top: 30,
-    left: '50%',
+    left: 0,
+    //transform: 'translateX(-50%)',
+    [theme.breakpoints.down('sm')]: {
+        top: 5,
+    },
+    [theme.breakpoints.up('md')]: {
+        top: 5,
+    }
+}))
+const MenuWrapper = styled(Box)(({ theme }) => ({
+    minWidth: '30%',
+    margin: 'auto',
     display: 'flex',
     alignItems: 'center',
     borderRadius: 10,
-    transform: 'translateX(-50%)',
     backgroundColor: colorScheme(theme).lightToSecondaryColor,
     boxShadow: `0 1px 3px 0 ${colorScheme(theme).grayToSecondaryColor}`,
     border: `1px solid ${colorScheme(theme).greyToTertiary}!important`,
     [theme.breakpoints.down('sm')]: {
         flexWrap: 'wrap',
-        top: 5,
         width: '90%',
+    },
+    [theme.breakpoints.up('md')]: {
+        //width: '40%',
+        maxWidth: '45%',
     }
 }))
 
@@ -135,53 +148,55 @@ export default function BulkActionsMenu({ mode, checkItems, moveTo, duplicate, d
     if (!checkItems.length) return null
     return (
         <Container >
-            <LeftCol >
-                <ThemedText sx={{
-                    flexBasis: '100%',
-                    my: .8, mx: 1, fontSize: 16,
-                    whiteSpace: 'nowrap',
-                    fontWeight: 600,
-                    [_theme.breakpoints.down('sm')]: {
-                        mb: 0
-                    }
-                }}>
-                    {checkItems.length} Item{checkItems.length > 1 && 's'} Selected
-                </ThemedText>
-                <MappedCheckedCountItems className={styles.MappedCheckedCountItems}>
-                    {checkItems.map((checkedId) => <RenderCheckedCountItem mode={mode} checkedId={checkedId} />)}
-                </MappedCheckedCountItems>
-            </LeftCol>
-            <MoreActions>
-                {mode === 'mark-elements' && (
-                    <Box sx={{ display: 'flex', gap: '10px' }}>
-                        <PriorityPickerPopper MainButton={pickerButton} onClick={onClick} />
-                        <StatusPickerPopper MainButton={pickerButton} onClick={onClick} />
-                    </Box>
-                )}
+            <MenuWrapper className="toast">
+                <LeftCol >
+                    <ThemedText sx={{
+                        flexBasis: '100%',
+                        my: .8, mx: 1, fontSize: 16,
+                        whiteSpace: 'nowrap',
+                        fontWeight: 600,
+                        [_theme.breakpoints.down('sm')]: {
+                            mb: 0
+                        }
+                    }}>
+                        {checkItems.length} Item{checkItems.length > 1 && 's'} Selected
+                    </ThemedText>
+                    <MappedCheckedCountItems className={styles.MappedCheckedCountItems}>
+                        {checkItems.map((checkedId) => <RenderCheckedCountItem mode={mode} checkedId={checkedId} />)}
+                    </MappedCheckedCountItems>
+                </LeftCol>
+                <MoreActions>
+                    {mode === 'mark-elements' && (
+                        <Box sx={{ display: 'flex', gap: '10px' }}>
+                            <PriorityPickerPopper MainButton={pickerButton} onClick={onClick} />
+                            <StatusPickerPopper MainButton={pickerButton} onClick={onClick} />
+                        </Box>
+                    )}
 
-                <Tooltip title='Duplicate'>
-                    <IconButton>
-                        <BiDuplicate style={{ fontSize: 16 }} />
-                    </IconButton>
-                </Tooltip>
-                <Tooltip title='Move To'>
-                    <IconButton>
-                        <ImMoveUp style={{ fontSize: 16 }} />
-                    </IconButton>
-                </Tooltip>
+                    <Tooltip title='Duplicate'>
+                        <IconButton>
+                            <BiDuplicate style={{ fontSize: 16 }} />
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title='Move To'>
+                        <IconButton>
+                            <ImMoveUp style={{ fontSize: 16 }} />
+                        </IconButton>
+                    </Tooltip>
 
-                <Tooltip title='Delete'>
-                    <IconButton onClick={deleteSelected}>
-                        <DeleteOutlinedIcon sx={{ fontSize: 20 }} />
-                    </IconButton>
-                </Tooltip>
+                    <Tooltip title='Delete'>
+                        <IconButton onClick={deleteSelected}>
+                            <DeleteOutlinedIcon sx={{ fontSize: 20 }} />
+                        </IconButton>
+                    </Tooltip>
 
-                <Tooltip title='Clear selected'>
-                    <IconButton onClick={clearSelected}>
-                        <DisabledByDefaultOutlinedIcon sx={{ fontSize: 20 }} />
-                    </IconButton>
-                </Tooltip>
-            </MoreActions>
+                    <Tooltip title='Clear selected'>
+                        <IconButton onClick={clearSelected}>
+                            <DisabledByDefaultOutlinedIcon sx={{ fontSize: 20 }} />
+                        </IconButton>
+                    </Tooltip>
+                </MoreActions>
+            </MenuWrapper>
         </Container>
     )
 }

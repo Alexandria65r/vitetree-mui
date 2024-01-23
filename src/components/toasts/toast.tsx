@@ -17,6 +17,9 @@ const ToastContainer = styled(Stack)(({ theme }) => ({
     transform: 'translateX(50%)',
     [theme.breakpoints.down('sm')]: {
         width: 'calc(100% - 16px)',
+    },
+    [theme.breakpoints.up('md')]: {
+        width: '30%',
     }
 }))
 

@@ -32,10 +32,18 @@ const GroupHeadWrapper = styled(Box)(() => ({
 
 const SubElementWrapper = styled(Box)(({ theme }) => ({
     marginLeft: 0,
+    maxHeight: 'calc(100dvh - 160px)',
+    overflowY: 'auto',
     borderBottomLeftRadius: 0,
     borderLeft: `0px solid ${colors.grey[400]}`,
     borderRight: `0px solid ${colors.grey[400]}`,
-    //backgroundColor:colorScheme(theme).lightToprimaryColor
+    //backgroundColor:colorScheme(theme).lightToprimaryColor,
+    [theme.breakpoints.down('sm')]: {
+        maxHeight: 'calc(100dvh - 283px)',
+    },
+    [theme.breakpoints.up('md')]: {
+        maxHeight: 'calc(100dvh - 190px)',
+    },
 }))
 const MappedSubElements = styled(Box)(() => ({
     //overflowX: 'hidden',
@@ -77,7 +85,7 @@ export default function ElementTreeItem({ group, parent }: Props) {
 
     const [ref, { x, y, width, height, top, right, bottom, left }] = useMeasure();
 
-   
+
 
     return (
         <Container>
@@ -88,8 +96,6 @@ export default function ElementTreeItem({ group, parent }: Props) {
                 <SubElementWrapper sx={{
                     paddingInline: 0.5,
                     paddingBottom: .5,
-                    maxHeight: parent === 'main-tree' ? 'calc(100dvh - 160px)' : 'auto',
-                    overflowY: parent === 'element-detail' ? 'auto' : 'auto',
                     overflowX: 'hidden',
                     borderColor: group?.color
                 }}>

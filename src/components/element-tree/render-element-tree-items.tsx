@@ -17,9 +17,11 @@ const Container = styled(Box)(({ theme }) => ({
     paddingInline: 10,
     overflowX: 'auto',
     scrollBehavior: 'smooth',
-    [theme.breakpoints.up('xl')]: {
-     //   width: 'calc(100vw - 120px)',
-        //border:'1px solid red'
+    [theme.breakpoints.down('sm')]: {
+        height: 'calc(100vh - 120px)',
+    },
+    [theme.breakpoints.up('md')]: {
+        height: 'calc(100vh - 65px)',
     },
 }))
 const MappedElements = styled(Box)(({ theme }) => ({
