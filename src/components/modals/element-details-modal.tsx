@@ -77,7 +77,7 @@ export default function ElementDetailsModal({ }: Props) {
                     <ThemedText sx={{ fontSize: 16, fontWeight: 500 }}>Task Group Details</ThemedText>
                 </Header>
                 <InnerWrapper>
-                    <ElementTreeItem group={group} parent='element-detail' />
+                    {/* <ElementTreeItem group={group} parent='element-detail' /> */}
                 </InnerWrapper>
             </Container>
         </Modal>
