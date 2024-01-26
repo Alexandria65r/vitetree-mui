@@ -6,9 +6,11 @@ import ListGroupAPI from "../../src/api-services/list-group";
 import Randomstring from "randomstring";
 import randomColor from "randomcolor";
 import { fetchBoardThunk } from "../boards-reducer/boards-thunks";
-import { UpdateElementPayload } from "../elements-reducer";
+import { UpdateElementPayload, elementsActions } from "../elements-reducer";
 import { createToastThunk } from "../main-reducer/main-thunks";
 import { mainActions } from "../main-reducer";
+import { ElementsFactory } from "../../src/components/element-tree/elements-factory";
+import { Element } from "../../src/models/element";
 
 
 export const createListGroupThunk = createAsyncThunk<void, undefined, { state: AppState }>
@@ -179,12 +181,28 @@ export const fetchBoardAndListGroupsThunk = createAsyncThunk<void, { boardId: st
         }
     })
 
+export const prepareCustomElementsThunk = createAsyncThunk<any, { listGroups: ListGroup[], elements: Element[] },
+    { state: AppState }>
+    ('listGrouplice/prepareCustomElementsThunk', async (params, thunkAPI) => {
+        const dispatch = thunkAPI.dispatch
+        const state = thunkAPI.getState()
+        const listGroups = state.ListGroupReducer.listGroups
+        const elements = state.ElementsReducer.elements
+        const customElements =  ElementsFactory(params.listGroups, params.elements)
+        // debugger
+        console.log('called💖💖')
+        console.log(customElements)
+        dispatch(elementsActions.setcustomElements(customElements))
+    })
+
+
 export const deleteListGroupThunk = createAsyncThunk<any, string,
     { state: AppState }>
     ('listGrouplice/deleteListGroupThunk', async (id, thunkAPI) => {
         const dispatch = thunkAPI.dispatch
         dispatch(listGroupActions.deleteGroup(id))
         dispatch(mainActions.closeModal())
+
         try {
             const { data } = await ListGroupAPI.delete(id)
             if (data.success) {
@@ -194,6 +212,32 @@ export const deleteListGroupThunk = createAsyncThunk<any, string,
             dispatch(createToastThunk('Opps,An error occured while deleting a group.'))
             dispatch(listGroupActions.setListGroupNetworkStatus(''))
         }
+
+    })
+
+//DragEnd
+export const onGroudDragEndThunk = createAsyncThunk<any, any,
+    { state: AppState }>
+    ('listGrouplice/onGroudDragEndThunk', async ({ source, destination }, thunkAPI) => {
+        const dispatch = thunkAPI.dispatch
+        const state = thunkAPI.getState()
+        const listGroups = state.ListGroupReducer.listGroups
+        console.log(source.droppableId)
+        console.log(destination)
+        if (source.droppableId === 'list-groups') {
+            const clonedGroups = [...listGroups]
+            const [removed] = clonedGroups.splice(source.index, 1)
+            clonedGroups.splice(destination.index, 0, removed)
+
+            dispatch(listGroupActions.setListGroups(clonedGroups))
+        } else {
+            const elements = state.ElementsReducer.elements
+            const clonedElements = [...elements]
+            const [removed] = clonedElements.splice(source.index, 1)
+            clonedElements.splice(destination.index, 0, removed)
+            dispatch(elementsActions.setElements(clonedElements))
+        }
+
     })
 
 
@@ -230,6 +274,7 @@ export const deleteBulkListGroupsThunk = createAsyncThunk<void, undefined,
             dispatch(listGroupActions.setListGroupNetworkStatus('deleting-error'))
         }
     })
+
 
 
 

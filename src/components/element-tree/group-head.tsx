@@ -129,7 +129,7 @@ export default function GroupHead({ id, parent }: Props) {
                         borderRight: 0,
                         '&:focus': { borderBottomColor: `${group?.color}!important` }
                     }}
-                    btnSx={{ height: '30px', border: `1px dashed ${group?.color}`, borderLeft: 0, boxShadow: 'none' }}
+                    btnSx={{ height: '32px', border: `1px dashed ${group?.color}`, borderLeft: 0, boxShadow: 'none' }}
                 />
             ) : (<Box sx={{ flex: 1, cursor: 'pointer' }} onClick={() => {
                 dispatch(listGroupActions.setGroupAction({

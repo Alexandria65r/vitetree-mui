@@ -10,6 +10,7 @@ import { elementsActions } from '../../../reducers/elements-reducer'
 import { mainActions } from '../../../reducers/main-reducer'
 import ElementCellHeader from './element-cell-header'
 import { AppSpinner } from '../activity-indicators'
+import { DraggableProvided, DraggableStateSnapshot } from 'react-beautiful-dnd'
 
 
 const Container = styled(Box)(() => ({
@@ -62,9 +63,11 @@ type Props = {
   elemetStyles?: SxProps<Theme>
   subElRef?: MutableRefObject<HTMLDivElement | any>
   parent: 'main-tree' | 'element-detail'
+  provided?:DraggableProvided
+  snapshot?: DraggableStateSnapshot
 }
 
-export default function GroupedSubItem({ id, parent, subElRef, elemetStyles }: Props) {
+export default function GroupedSubItem({ id, parent, subElRef, elemetStyles,provided, snapshot }: Props) {
   const dispatch = useAppDispatch()
   const element = useSelectedElement(id)
   const color = useGroupColorByElementId(id)
@@ -74,7 +77,7 @@ export default function GroupedSubItem({ id, parent, subElRef, elemetStyles }: P
 
 
   return (
-    <Container>
+    <Container ref={provided?.innerRef} {...provided?.draggableProps} {...provided?.dragHandleProps} style={provided?.draggableProps.style}>
       {/* <ChildRootLine color={color ?? ''} /> */}
       <PopupState variant='popper' >
         {(popupState) => (<>

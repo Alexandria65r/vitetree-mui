@@ -113,17 +113,6 @@ export default function ClosedStateSidBar({ }: Props) {
 
   const isMobile = useMediaQuery('(max-width:600px)')
 
-  console.log(router.query.params)
-
-
-
-
-
-
-
-
-
-
 
   return (
 

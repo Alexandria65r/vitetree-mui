@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Element, ElementSchema, SubFeature, SubFeatureSchema } from '../../src/models/element'
+import { CustomElement } from '../../src/components/element-tree/elements-factory'
 
 export type UpdateElementPayload = {
     key: string, value: any
@@ -19,6 +20,7 @@ export type ElementNetworkStatus = 'updating' |
 
 type InitialState = {
     elements: Element[]
+    customElements: CustomElement[]
     element: Element
     selectedElementId: string
     isAddingFeature: boolean,
@@ -56,7 +58,8 @@ const initialState: InitialState = {
     collapedItems: [],
     elementNetworkStatus: '',
     selectedElementId: '',
-    checkedItems: []
+    checkedItems: [],
+    customElements: []
 }
 
 const elementsSlice = createSlice({
@@ -78,10 +81,12 @@ const elementsSlice = createSlice({
         },
         setElements(state, { payload }: PayloadAction<Element[]>) {
             state.elements = payload
-
         },
         setElement(state, { payload }: PayloadAction<Element>) {
             state.element = payload
+        },
+        setcustomElements(state, { payload }: PayloadAction<CustomElement[]>) {
+            state.customElements = payload
         },
         updateElement(state, { payload }: PayloadAction<{ id: string, update: UpdateElementPayload }>) {
             const element = state.elements.find((el) => el._id === payload.id)

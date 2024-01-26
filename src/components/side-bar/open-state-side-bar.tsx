@@ -48,12 +48,14 @@ const AsideNav = styled(Box)(({ theme }) => ({
   alignItems: 'flex-start',
   padding: 10,
   flexBasis: '100%',
-  height: 'calc(100dvh - 120px)',
   [theme.breakpoints.down('sm')]: {
     height: 'calc(100dvh - 112px)',
   },
   [theme.breakpoints.up('md')]: {
-    height: 'calc(100dvh - 60px)',
+    height: 'calc(100dvh - 110px)',
+  },
+  [theme.breakpoints.up('xl')]: {
+    height: 'calc(100dvh - 120px)',
   }
 }))
 const NavButton = styled(StyledButton)(({ theme }) => ({
@@ -122,7 +124,7 @@ export default function OpenStateSideBar({ }: Props) {
 
   const isMobile = useMediaQuery('(max-width:600px)')
 
-  console.log(router.query.params)
+
 
 
 

@@ -30,6 +30,7 @@ type ListGroupState = {
     isNewGroupInputOpen: boolean;
     listGroupNetworkStatus: ListGroupNetworkStatus
     groupAction: GroupAction
+    droppableId: 'list-groups' | 'elements' | string
 }
 
 
@@ -43,7 +44,8 @@ const initialState: ListGroupState = {
         groupId: undefined,
         action: ''
     },
-    checkedGroups: []
+    checkedGroups: [],
+    droppableId: ''
 }
 
 
@@ -101,6 +103,9 @@ const listGroupSlice = createSlice({
         },
         setListGroupNetworkStatus: (state, { payload }: PayloadAction<ListGroupNetworkStatus>) => {
             state.listGroupNetworkStatus = payload
+        },
+        setDroppableId: (state, { payload }: PayloadAction<'list-groups' | 'elements' | string>) => {
+            state.droppableId = payload
         }
     }
 })

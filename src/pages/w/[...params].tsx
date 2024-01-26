@@ -4,7 +4,7 @@ import RenderElementTreeItems from '../../components/element-tree/render-element
 import { useAppDispatch, useAppSelector, useListGroups, useParentElements, useSelectedBoard } from '../../../store/hooks'
 import { useRouter } from 'next/router'
 import { Box, colors, styled, useMediaQuery } from '@mui/material'
-import { createListGroupThunk, createManyListGroupsThunk } from '../../../reducers/list-group-reducer/list-group-thunks'
+import { createListGroupThunk, createManyListGroupsThunk, prepareCustomElementsThunk } from '../../../reducers/list-group-reducer/list-group-thunks'
 import { colorScheme } from '../../theme'
 import NewItemInput from '../../components/element-tree/new-item-input'
 import { Add } from '@mui/icons-material'
@@ -65,7 +65,7 @@ type Props = {}
 export default function WorkspaceSettings({ }: Props) {
   const router = useRouter()
   const dispatch = useAppDispatch()
-  const elements = useParentElements().reverse()
+  const elements = useParentElements()
   const listGroups = useListGroups()
   const [workspaceId, boardIdParam, boardId]: any = router.query.params || []
   const board = useSelectedBoard()
@@ -82,6 +82,11 @@ export default function WorkspaceSettings({ }: Props) {
   function create() {
     dispatch(createListGroupThunk())
   }
+
+  useEffect(() => {
+    console.log('re-renders')
+    //dispatch(prepareCustomElementsThunk({ listGroups: listGroups, elements: elements }))
+  }, [listGroups, elements, board])
 
 
   async function createMultipleGroupsOnPaste() {
@@ -166,7 +171,7 @@ export default function WorkspaceSettings({ }: Props) {
           <AppSpinner visible={true} size={50} />
         </Box>
         ) : !board._id ? <RenderWorkspace /> : (
-          <RenderElementTreeItems listGroups={listGroups} elements={elements} />
+          <RenderElementTreeItems  />
         )}
       </Container>
       <ElementDetailModal />

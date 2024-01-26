@@ -9,7 +9,7 @@ import Randomstring from "randomstring";
 import { workspaceActions } from "../workspace-reducer";
 import { elementsActions } from "../elements-reducer";
 import { listGroupActions } from "../list-group-reducer";
-
+import { prepareCustomElementsThunk } from "../list-group-reducer/list-group-thunks";
 
 
 export const createBoardThunk = createAsyncThunk<void, undefined, { state: AppState }>
@@ -77,14 +77,15 @@ export const fetchActiveWorkspaceBoardAndBoardData = createAsyncThunk<Board | un
     ('cartSlice/fetchActiveWorkspaceBoardAndBoardData', async (path, thunkAPI) => {
         const dispatch = thunkAPI.dispatch
         const state = thunkAPI.getState()
-
         const selectedWorkspace = state.WorkspaceReducer.selectedWorkspace
         dispatch(boardActions.setBoardNetworkStatus('fetching-board-data'))
+        console.log('called!🎉')
         try {
             const data = await BoardAPI.fetchActiveWorkspaceBoardAndBoardData(path)
             //const workspaceId = localStorage.getItem('workspaceId')
             if (data) {
                 dispatch(boardActions.setBoardNetworkStatus('fetching-board-data-success'))
+                dispatch(prepareCustomElementsThunk({ listGroups: data?.listGroups, elements: data.elements }))
                 dispatch(boardActions.setSelectedBoard(data?.board))
                 dispatch(boardActions.setBoards(data?.boards))
                 if (selectedWorkspace._id !== data.workspace._id) {
@@ -93,6 +94,7 @@ export const fetchActiveWorkspaceBoardAndBoardData = createAsyncThunk<Board | un
                 }
                 dispatch(listGroupActions.setListGroups(data?.listGroups))
                 dispatch(elementsActions.setElements(data.elements))
+
                 localStorage.setItem('workspaceId', data.workspace?._id ?? '')
                 return data.board
             }
@@ -106,7 +108,7 @@ export const fetchBoardsThunk = createAsyncThunk<void, string, { state: AppState
     ('cartSlice/fetchBoardsThunk', async (workspaceId, thunkAPI) => {
         const dispatch = thunkAPI.dispatch
         const state = thunkAPI.getState()
-        
+
         try {
             dispatch(boardActions.setBoardNetworkStatus('fetching-boards'))
             const boards = await BoardAPI.fetchBoards(workspaceId ?? '')

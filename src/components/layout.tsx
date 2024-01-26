@@ -56,12 +56,11 @@ export default function Layout({ children }: Props) {
         }
     }, [router.pathname])
 
-    console.log(router)
+    
 
 
     const loadData = useCallback(() => {
         if (router.pathname === '/w/[...params]') {
-            console.log(workspaceId)
             dispatch(fetchActiveWorkspaceBoardAndBoardData(router.asPath))
         }
     }, [router.asPath])

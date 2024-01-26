@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector, useElementAction, useGroupAction, useGr
 import { useMeasure } from "react-use";
 import { subLimit } from '../../reusable/helpers';
 import { ListGroup } from '../../models/list-group';
+import { Droppable, Draggable, DraggableStateSnapshot, DraggableProvided, } from 'react-beautiful-dnd';
 
 
 const Container = styled(Box)(() => ({
@@ -73,24 +74,27 @@ const GroupFooter = styled(Box)(({ theme }) => ({
 
 
 type Props = {
+    provided: DraggableProvided
+    snapshot: DraggableStateSnapshot
     group: ListGroup
     parent: 'main-tree' | 'element-detail'
 }
 
-export default function ElementTreeItem({ group, parent }: Props) {
+export default function ElementTreeItem({ provided, snapshot, group, parent }: Props) {
     const dispatch = useAppDispatch()
     const collapedItems = useAppSelector((state) => state.ElementsReducer.collapedItems)
     const groupListElements = useGroupListElements(group?._id ?? '');
     const isAddNewSubElement = useGroupAction({ action: 'add-sub-element', groupId: group?._id ?? '' })
+    const droppableId = useAppSelector((state) => state.ListGroupReducer.droppableId)
 
     const [ref, { x, y, width, height, top, right, bottom, left }] = useMeasure();
 
 
 
     return (
-        <Container>
-            <ListGroup>
-                <GroupHeadWrapper>
+        <Container ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} style={provided.draggableProps.style}>
+            <ListGroup >
+                <GroupHeadWrapper >
                     <GroupHead parent={parent} id={group?._id ?? ''} />
                 </GroupHeadWrapper>
                 <SubElementWrapper sx={{
@@ -100,11 +104,24 @@ export default function ElementTreeItem({ group, parent }: Props) {
                     borderColor: group?.color
                 }}>
                     {!collapedItems.includes(group?._id ?? '') && (
-                        <>
-                            {groupListElements?.map((subElement) => (
-                                <GroupedSubItem key={subElement._id} parent={parent} id={subElement._id} />
-                            ))}
-                        </>)}
+                        <Droppable key={`${group._id}-key`} droppableId='elements' isDropDisabled={droppableId === 'list-groups'}>
+                            {({ droppableProps, innerRef }) => (
+                                <Box {...droppableProps} ref={innerRef}>
+                                    {groupListElements?.map((subElement, index) => (
+                                        <Draggable key={`${subElement._id}`} draggableId={subElement._id} index={index} >
+                                            {(elementProvided, _snapshot) => (
+                                                <GroupedSubItem
+                                                    provided={elementProvided}
+                                                    snapshot={_snapshot}
+                                                    parent={parent}
+                                                    id={subElement._id}
+                                                />
+                                            )}
+                                        </Draggable>
+                                    ))}
+                                </Box>
+                            )}
+                        </Droppable>)}
                     {isAddNewSubElement && (
                         <SubItemInput id={group?._id ?? ''} />
                     )}

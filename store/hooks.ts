@@ -7,6 +7,7 @@ import { getGroupById } from '../reducers/list-group-reducer/list-group-thunks'
 import { ListGroupSchema } from '../src/models/list-group'
 import { GroupAction } from '../reducers/list-group-reducer'
 import { getBoardById } from '../reducers/boards-reducer/boards-thunks'
+import { CunstomElementType, CustomElement } from '../src/components/element-tree/elements-factory'
 
 
 
@@ -57,7 +58,15 @@ export const useListGroups = () => {
 }
 export const useParentElements = () => {
     const elements = useAppSelector((state) => state.ElementsReducer.elements)
-    return elements.filter((element) => element.elementType === 'list-group-element')
+    return elements
+}
+export const useCustomElements = () => {
+    const customElements = useAppSelector((state) => state.ElementsReducer.customElements)
+    return customElements
+}
+export const useCustomElementByType = (type: CunstomElementType) => {
+    const customElements = useAppSelector((state) => state.ElementsReducer.customElements)
+    return customElements.filter((element) => element.type === type)
 }
 export const useGroupListElements = (groupId: string) => {
     const elements = useAppSelector((state) => state.ElementsReducer.elements)

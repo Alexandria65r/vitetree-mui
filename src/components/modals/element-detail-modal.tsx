@@ -217,7 +217,7 @@ export default function ElementDetailModal({ }: Props) {
                                 borderRadius: 0,
                                 boxShadow: 0,
                                 '&:hover': { transform: 'scale(1)' },
-                                border:0,
+                                border: 0,
                                 borderBottom: `1px solid ${_colorScheme.greyToTertiary}`,
                             }} />
                         <MoreActions>

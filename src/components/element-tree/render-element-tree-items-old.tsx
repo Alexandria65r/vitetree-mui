@@ -4,7 +4,7 @@ import { ButtonIcon } from '../../reusable/styles';
 import { colorScheme } from '../../theme';
 import ElementTreeItem from './element-tree-item';
 import { Element } from '../../models/element';
-import { useAppDispatch, useAppSelector, useListGroups, useParentElements } from '../../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import styles from './styles/element-tree.module.css'
 import { BsChevronLeft } from "react-icons/bs";
 import { BsChevronRight } from "react-icons/bs";
@@ -72,15 +72,15 @@ const ScrollButton = styled(ButtonIcon)(({ theme }) => ({
 }))
 
 type Props = {
-  
+    listGroups: ListGroup[]
+    elements: Element[]
 }
 
-export default function RenderElementTreeItems({ }: Props) {
+export default function RenderElementTreeItems({ listGroups, elements }: Props) {
     const dispatch = useAppDispatch()
     const isSidebarOpen = useAppSelector((state) => state.MainReducer.isSidebarOpen)
     const droppableId = useAppSelector((state) => state.ListGroupReducer.droppableId)
-    const elements = useParentElements()
-    const listGroups = useListGroups()
+
     const containerRef: MutableRefObject<HTMLDivElement> | any = useRef()
 
 
@@ -116,7 +116,7 @@ export default function RenderElementTreeItems({ }: Props) {
 
 
     return (<DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart} onBeforeDragStart={onBeforeDragStart}>
-       
+        {/* <ProjectTreeButton /> */}
         <Container ref={containerRef} sx={(theme) => ({
             [theme.breakpoints.up('md')]: {
                 width: isSidebarOpen ? 'calc(100vw - 80px)' : 'calc(100vw - 290px)',
@@ -128,7 +128,7 @@ export default function RenderElementTreeItems({ }: Props) {
             className={styles.renderElementTreeItems}>
 
 
-            <Droppable mode='standard' key={'list-groups'} direction='horizontal' droppableId='list-groups' isDropDisabled={droppableId !== 'list-groups'}>
+            <Droppable mode='standard' direction='horizontal' droppableId='list-groups' isDropDisabled={droppableId !== 'list-groups'}>
                 {({ droppableProps, innerRef, placeholder }) => (
                     <MappedElements {...droppableProps} ref={innerRef}>
                         {listGroups?.map((group, index) => (

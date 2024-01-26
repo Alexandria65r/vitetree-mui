@@ -88,7 +88,7 @@ export default function WorkSpaceForm({ }: Props) {
     const [workspaceId, ...params]: any = router.query.params || []
     const isUpdate = params.includes('update')
 
-    console.log(params)
+
 
     function handleInputChange({ target }: any) {
         dispatch(workspaceActions.setWorkspaceData({ ...workspace, [target.name]: target.value }))

@@ -92,7 +92,7 @@ export default function BoardForm({ }: Props) {
     const [boardId, ...params]: any = router.query.params || []
     const isUpdate = params.includes('update')
 
-    console.log(params)
+   
 
     function handleInputChange({ target }: any) {
         dispatch(boardActions.setBoardData({ ...board, [target.name]: target.value }))
