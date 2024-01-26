@@ -23,6 +23,7 @@ import BulkActionsMenu from '../../components/element-tree/bulk-actions-menu'
 import { mainActions } from '../../../reducers/main-reducer'
 import { elementsActions } from '../../../reducers/elements-reducer'
 import RenderWorkspace from '../../components/workspace/render-workspace'
+import WorkspacePeople from '../../components/workspace/workspace-people'
 
 
 
@@ -150,6 +151,9 @@ export default function WorkspaceSettings({ }: Props) {
                 ) : <></>}
           </NewElementWrapper>
         </Box>
+
+        <WorkspacePeople />
+        
         <NewElementButton
           sx={{ gap: .5 }}
           onClick={() => dispatch(workspaceActions.toggleInvitePeopleModal(true))}>
@@ -171,7 +175,7 @@ export default function WorkspaceSettings({ }: Props) {
           <AppSpinner visible={true} size={50} />
         </Box>
         ) : !board._id ? <RenderWorkspace /> : (
-          <RenderElementTreeItems  />
+          <RenderElementTreeItems />
         )}
       </Container>
       <ElementDetailModal />
