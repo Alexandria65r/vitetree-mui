@@ -21,8 +21,8 @@ export default function WorkspacePeople({ }: Props) {
     return (
         <Container>
             <MappedAvatars>
-                {[1, 2, 3, 4,5,6,7].map(() => (
-                    <UserAvatar avatarStyles={{
+                {[1, 2, 3, 4,5,6,7].map((person) => (
+                    <UserAvatar key={person} avatarStyles={{
                         marginLeft:-1,
                         cursor:'pointer',
                         transition:'0.3s',

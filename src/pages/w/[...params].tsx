@@ -3,7 +3,7 @@ import Layout from '../../components/layout'
 import RenderElementTreeItems from '../../components/element-tree/render-element-tree-items'
 import { useAppDispatch, useAppSelector, useListGroups, useParentElements, useSelectedBoard } from '../../../store/hooks'
 import { useRouter } from 'next/router'
-import { Box, colors, styled, useMediaQuery } from '@mui/material'
+import { Box, IconButton, colors, styled, useMediaQuery, useTheme } from '@mui/material'
 import { createListGroupThunk, createManyListGroupsThunk, prepareCustomElementsThunk } from '../../../reducers/list-group-reducer/list-group-thunks'
 import { colorScheme } from '../../theme'
 import NewItemInput from '../../components/element-tree/new-item-input'
@@ -24,7 +24,8 @@ import { mainActions } from '../../../reducers/main-reducer'
 import { elementsActions } from '../../../reducers/elements-reducer'
 import RenderWorkspace from '../../components/workspace/render-workspace'
 import WorkspacePeople from '../../components/workspace/workspace-people'
-
+import MenuIcon from '@mui/icons-material/Menu';
+import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 
 
 const Container = styled(Box)(() => ({
@@ -65,11 +66,13 @@ type Props = {}
 
 export default function WorkspaceSettings({ }: Props) {
   const router = useRouter()
+  const _theme = useTheme()
   const dispatch = useAppDispatch()
   const elements = useParentElements()
   const listGroups = useListGroups()
   const [workspaceId, boardIdParam, boardId]: any = router.query.params || []
   const board = useSelectedBoard()
+  const isSidebarOpen = useAppSelector((state) => state.MainReducer.isSidebarOpen)
   const boards = useAppSelector((state) => state.BoardReducer.boards)
   const boardNetworkStatus = useAppSelector((state) => state.BoardReducer.boardNetworkStatus)
   const headerRef: MutableRefObject<HTMLDivElement> | any = useRef()
@@ -107,7 +110,7 @@ export default function WorkspaceSettings({ }: Props) {
 
   function autoScroll() {
     headerRef.current.scrollTo({
-      left: headerRef.current.scrollWidth,
+      left: 130,
       behavior: 'smooth'
     })
   }
@@ -121,6 +124,16 @@ export default function WorkspaceSettings({ }: Props) {
     <Layout>
       <Header ref={headerRef}>
         <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <IconButton
+            onClick={() => dispatch(mainActions.setIsSideBarOpen(!isSidebarOpen))}
+            size="small"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2, display: 'none', [_theme.breakpoints.down('sm')]: { display: 'flex' } }}
+          >
+            {!isSidebarOpen ? <MenuOpenIcon /> : <MenuIcon />}
+          </IconButton>
           {boardNetworkStatus !== 'fetching-board-data' && (<>
             {boards.length ? <ProjectTreeButton /> : (
               <StyledButton
@@ -153,7 +166,7 @@ export default function WorkspaceSettings({ }: Props) {
         </Box>
 
         <WorkspacePeople />
-        
+
         <NewElementButton
           sx={{ gap: .5 }}
           onClick={() => dispatch(workspaceActions.toggleInvitePeopleModal(true))}>

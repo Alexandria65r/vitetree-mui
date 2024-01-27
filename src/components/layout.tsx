@@ -18,6 +18,7 @@ import InvitePeopleModal from './modals/invite-people-modal'
 import { fetchActiveWorkspaceBoardAndBoardData, fetchBoardsThunk } from '../../reducers/boards-reducer/boards-thunks'
 import { fetchWorkspacesThunk } from '../../reducers/workspace-reducer/workspace-thunks'
 import RenderSideBar from './side-bar/render-side-bar'
+import BottomCardMenu from './menus/bottom-card-menu'
 
 const FlexContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -56,7 +57,7 @@ export default function Layout({ children }: Props) {
         }
     }, [router.pathname])
 
-    
+
 
 
     const loadData = useCallback(() => {
@@ -120,7 +121,9 @@ export default function Layout({ children }: Props) {
             <Box sx={{ width: '100%', position: 'absolute', top: 0, zIndex: 9999 }}>
                 {isRouteChange && <LinearProgress />}
             </Box>
-            <NavBar />
+            {isMobile && router.pathname === '/w/[...params]' ? (
+                <></>
+            ) : <NavBar />}
             <Toast />
             <WorkSpaceForm />
             <BoardForm />
@@ -148,6 +151,7 @@ export default function Layout({ children }: Props) {
                 </Box>
             </FlexContainer>
             <SideBar />
+            <BottomCardMenu />
             <ReusableModal />
             <ElementDetailsModal />
             <InvitePeopleModal />

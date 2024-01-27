@@ -80,10 +80,14 @@ export default function IntractionMenu({ popupState }: Props) {
             </Link>
 
             <MenuItem
-                onClick={toggleColorMode}
+                onClick={() => {
+                    toggleColorMode()
+                    dispatch(mainActions.setCardMenu({ component: '', title: '' }))
+                    popupState?.close()
+                }}
                 sx={(theme) => ({ height: 45, borderTop: `1px solid ${colorScheme(theme).greyToTertiary}` })}>
-                {_theme.palette.mode === 'light' ? <DarkModeOutlinedIcon sx={{mr:1}} /> : <LightModeOutlinedIcon sx={{mr:1}} />}
-                <ThemedText sx={{  fontWeight: 600, fontSize: 14, textTransform: 'capitalize' }}>
+                {_theme.palette.mode === 'light' ? <DarkModeOutlinedIcon sx={{ mr: 1 }} /> : <LightModeOutlinedIcon sx={{ mr: 1 }} />}
+                <ThemedText sx={{ fontWeight: 600, fontSize: 14, textTransform: 'capitalize' }}>
                     Switch to {_theme.palette.mode === 'light' ? 'Dark' : 'Light'} Mode
                 </ThemedText>
 

@@ -1,4 +1,4 @@
-import { Modal, Box, styled, TextField, useTheme, colors } from '@mui/material'
+import { Modal, Box, styled, TextField, useTheme, colors, Tooltip } from '@mui/material'
 import React, { useState } from 'react'
 import { useAppSelector, useSelectedBoard, useSelectedGroup } from '../../../store/hooks'
 import { useDispatch } from 'react-redux'
@@ -14,9 +14,8 @@ import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 
 const Container = styled(Box)(({ theme }) => ({
     position: 'absolute',
-
     width: '40%',
-    height: 600,
+    // height: 600,
     borderRadius: 19,
     border: `1px solid ${colorScheme(theme).lightToTertiary}`,
     backgroundColor: colorScheme(theme).lightToSecondaryColor,
@@ -24,6 +23,7 @@ const Container = styled(Box)(({ theme }) => ({
         width: '100%',
         height: '100dvh',
         border: 0,
+        borderRadius: 0,
     },
     [theme.breakpoints.up("md")]: {
         width: '53%',
@@ -41,7 +41,10 @@ const Header = styled(Box)(({ theme }) => ({
     paddingInline: 10,
     borderTopLeftRadius: 19,
     borderTopRightRadius: 19,
-    boxShadow: `0 1px 3px 0 ${colorScheme(theme).darkGreyToSecondary}`,
+    //boxShadow: `0 1px 3px 0 ${colorScheme(theme).darkGreyToSecondary}`,
+    [theme.breakpoints.down('sm')]: {
+        borderBottom: `1px solid ${colorScheme(theme).greyToTertiary}`,
+    }
 }))
 const InnerWrapper = styled(Box)(({ theme }) => ({
     [theme.breakpoints.up('xl')]: {
@@ -50,16 +53,29 @@ const InnerWrapper = styled(Box)(({ theme }) => ({
 }))
 const FormCol = styled(Box)(({ theme }) => ({
     flex: 1,
-    padding: 10,
-    [theme.breakpoints.up('xl')]: {
-
+    padding: 20,
+    height: 340,
+    overflow: 'auto',
+    [theme.breakpoints.down('sm')]: {
+        height: 'calc(100dvh - 120px)',
     }
 }))
-const EmailItem = styled(Box)(({ theme }) => ({
+
+const MappedEmails = styled('ul')(({ theme }) => ({
+    flexBasis: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+    gap: 10,
+    [theme.breakpoints.down('sm')]: {
+        flexBasis: '100%',
+    }
+}))
+const EmailItem = styled('li')(({ theme }) => ({
     display: 'flex',
     width: 'fit-content',
     alignItems: 'center',
-    height: 35,
+    height: 38,
     padding: 10,
     cursor: 'pointer',
     borderRadius: 29,
@@ -90,19 +106,7 @@ const FormControl = styled(Box)(() => ({
     marginBlock: 10
 }))
 
-const MappedEmails = styled(Box)(({ theme }) => ({
-    width: '90%',
-    display: 'flex',
-    alignItems: 'start',
-    flexWrap: 'wrap',
-    gap: 10,
-    height: 340,
-    overflow: 'auto',
-    [theme.breakpoints.down('sm')]: {
-        width: '100%',
-        height: 'calc(100dvh - 250px)',
-    }
-}))
+
 
 
 const Footer = styled(Box)(({ theme }) => ({
@@ -110,9 +114,11 @@ const Footer = styled(Box)(({ theme }) => ({
     padding: 10,
     display: 'flex',
     justifyContent: 'center',
-    borderTop: `1px solid ${colorScheme(theme).greyToTertiary}`,
-    [theme.breakpoints.up('xl')]: {
-        justifyContent: 'flex-end',
+    [theme.breakpoints.down('sm')]: {
+        borderTop: `1px solid ${colorScheme(theme).greyToTertiary}`,
+    },
+    [theme.breakpoints.up('md')]: {
+        justifyContent: 'right',
     }
 }))
 
@@ -181,16 +187,21 @@ export default function InvitePeopleModal({ }: Props) {
                                 </StyledButton>
                             </InputWrapper>
                         </FormControl>
-                        <FormControl sx={{ display: 'flex', justifyContent: 'center', alignItems:'start', flexWrap: 'wrap' }}>
+                        <FormControl sx={{ display: 'flex', justifyContent: 'center', alignItems: 'start', flexWrap: 'wrap' }}>
                             <MappedEmails>
                                 {emailList.map((email) => (
                                     <EmailItem>
-                                        <ThemedText sx={{ fontSize: 14, fontWeight: 600 }}>{email}</ThemedText>
-                                        <ButtonIcon
-                                            onClick={() => removeEmail(email)}
-                                            sx={{ width: 30, height: 30, ml: .5 }}>
-                                            <DeleteOutlinedIcon sx={{ fontSize: 16 }} />
-                                        </ButtonIcon>
+                                        <ThemedText sx={{ fontSize: 14, fontWeight: 500 }}>{email}</ThemedText>
+                                        <Tooltip title='Remove'>
+                                            <ButtonIcon
+                                                onClick={() => removeEmail(email)}
+                                                sx={{
+                                                    width: 25, height: 25, ml: .5,
+                                                    border: `1px solid ${colorScheme(_theme).grayToSecondaryColor}`
+                                                }}>
+                                                <CloseOutlinedIcon sx={{ fontSize: 16 }} />
+                                            </ButtonIcon>
+                                        </Tooltip>
                                     </EmailItem>
                                 ))}
                             </MappedEmails>
@@ -199,9 +210,8 @@ export default function InvitePeopleModal({ }: Props) {
                     <Footer>
                         <StyledButton
                             sx={{
-
                                 flexBasis: '30%',
-                                fontSize: 14, fontWeight: 500,
+                                fontSize: 15, fontWeight: 500,
                                 [_theme.breakpoints.down('sm')]: { flexBasis: '100%' }
                             }}>
                             <ForwardToInboxOutlinedIcon sx={{ mr: .5, fontSize: 16 }} /> Send Invites
