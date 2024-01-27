@@ -40,10 +40,10 @@ const SubElementWrapper = styled(Box)(({ theme }) => ({
     borderRight: `0px solid ${colors.grey[400]}`,
     //backgroundColor:colorScheme(theme).lightToprimaryColor,
     [theme.breakpoints.down('sm')]: {
-        maxHeight: 'calc(100dvh - 283px)',
+        maxHeight: 'calc(100dvh - 210px)',
     },
     [theme.breakpoints.up('md')]: {
-        maxHeight: 'calc(100dvh - 190px)',
+        maxHeight: 'calc(100dvh - 117px)',
     },
 }))
 const MappedSubElements = styled(Box)(() => ({

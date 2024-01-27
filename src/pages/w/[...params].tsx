@@ -110,7 +110,7 @@ export default function WorkspaceSettings({ }: Props) {
 
   function autoScroll() {
     headerRef.current.scrollTo({
-      left: 130,
+      left: 300,
       behavior: 'smooth'
     })
   }
