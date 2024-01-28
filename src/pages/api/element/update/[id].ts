@@ -9,7 +9,7 @@ async function updateElement(req: NextApiRequest, res: NextApiResponse) {
     try {
         const updated: Element | null = await ElementModel.findOneAndUpdate({ _id }, update);
         if (updated) {
-            return res.json({ success: true })
+            return res.json({ success: true,updated })
         }
     } catch (error: any) {
         return res.json({ error: true, message: error?.message })

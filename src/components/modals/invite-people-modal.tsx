@@ -1,6 +1,6 @@
 import { Modal, Box, styled, TextField, useTheme, colors, Tooltip } from '@mui/material'
 import React, { useState } from 'react'
-import { useAppSelector, useSelectedBoard, useSelectedGroup } from '../../../store/hooks'
+import { useAppSelector, useSelectedBoard, useSelectedGroup, useSelectedWorkspace } from '../../../store/hooks'
 import { useDispatch } from 'react-redux'
 import { useRouter } from 'next/router'
 import { ThemedText, colorScheme } from '../../theme'
@@ -11,6 +11,7 @@ import GroupAddOutlinedIcon from '@mui/icons-material/GroupAddOutlined';
 import ForwardToInboxOutlinedIcon from '@mui/icons-material/ForwardToInboxOutlined';
 import { Add } from '@mui/icons-material'
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
+import { AddWorkspacePersonThunk } from '../../../reducers/workspace-reducer/workspace-thunks'
 
 const Container = styled(Box)(({ theme }) => ({
     position: 'absolute',
@@ -131,6 +132,7 @@ export default function InvitePeopleModal({ }: Props) {
     const open = Boolean(router.query.view)
     const dispatch = useDispatch()
     const id: any = router.query.view;
+    const selectedWorkspace = useSelectedWorkspace()
     const isInvitePeopleModalOpen = useAppSelector((state) => state.WorkspaceReducer.isInvitePeopleModalOpen)
     const _theme = useTheme()
     const [email, setEmail] = useState<string>('')
@@ -145,6 +147,12 @@ export default function InvitePeopleModal({ }: Props) {
     function removeEmail(_email: string) {
         const filltered = emailList.filter((email) => email !== _email)
         setEmailList(filltered)
+    }
+    function sendInvites() {
+        dispatch(AddWorkspacePersonThunk({
+            workspaceId: selectedWorkspace._id ?? '',
+            email
+        }))
     }
 
 
@@ -183,7 +191,7 @@ export default function InvitePeopleModal({ }: Props) {
                                         color: colorScheme(_theme).TextColor,
                                         mr: 1, backgroundColor: colorScheme(_theme).lightToTertiary
                                     }}>
-                                    <Add /> Add Email
+                                    <Add /> Add
                                 </StyledButton>
                             </InputWrapper>
                         </FormControl>
@@ -209,12 +217,14 @@ export default function InvitePeopleModal({ }: Props) {
                     </FormCol>
                     <Footer>
                         <StyledButton
+                            onClick={sendInvites}
                             sx={{
                                 flexBasis: '30%',
                                 fontSize: 15, fontWeight: 500,
                                 [_theme.breakpoints.down('sm')]: { flexBasis: '100%' }
                             }}>
-                            <ForwardToInboxOutlinedIcon sx={{ mr: .5, fontSize: 16 }} /> Send Invites
+                            <ForwardToInboxOutlinedIcon sx={{ mr: .5, fontSize: 16 }} />
+                            Send Invites {emailList?.length ? `(${emailList?.length})` : <></>}
                         </StyledButton>
                     </Footer>
                 </InnerWrapper>

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { Workspace, WorkspaceSchema } from '../../src/models/workspace';
+import { Person, Workspace, WorkspaceSchema } from '../../src/models/workspace';
 
 export type WorkspaceNetworkStatus =
     'creating' |
@@ -13,7 +13,16 @@ export type WorkspaceNetworkStatus =
     'updating-success' |
     'deleting' |
     'deleting-error' |
-    'deleting-success'|''
+    'deleting-success'|
+    'adding-person' |
+    'adding-person-error' |
+    'adding-person-success'|
+    'removing-person' |
+    'removing-person-error' |
+    'removing-person-success'|
+    'fetching-workspace-people' |
+    'fetching-workspace-people-error' |
+    'fetching-workspace-people-success'|''
 
 
 
@@ -21,6 +30,7 @@ type WorkspaceState = {
     selectedWorkspace: Workspace;
     workspace: Workspace;
     workspaces:Workspace[];
+    people:Person[];
     isFormOpen: boolean;
     isInvitePeopleModalOpen: boolean;
     workspaceNetworkStatus: WorkspaceNetworkStatus
@@ -33,7 +43,8 @@ const initialState: WorkspaceState = {
     workspaces: [],
     isFormOpen: false,
     workspaceNetworkStatus: '',
-    isInvitePeopleModalOpen: false
+    isInvitePeopleModalOpen: false,
+    people: []
 }
 
 
@@ -54,6 +65,9 @@ const workspaceSlice = createSlice({
         },
         setWorkspaces: (state, { payload }: PayloadAction<Workspace[]>) => {
             state.workspaces = payload
+        },
+        setWorkspacePeople: (state, { payload }: PayloadAction<Person[]>) => {
+            state.people = payload
         },
         toggleInvitePeopleModal: (state, { payload }: PayloadAction<boolean>) => {
             state.isInvitePeopleModalOpen = payload

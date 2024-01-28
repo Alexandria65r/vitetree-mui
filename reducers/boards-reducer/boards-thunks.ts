@@ -90,7 +90,7 @@ export const fetchActiveWorkspaceBoardAndBoardData = createAsyncThunk<Board | un
                 dispatch(boardActions.setBoards(data?.boards))
                 if (selectedWorkspace._id !== data.workspace._id) {
                     dispatch(workspaceActions.setSelectedWorkspace(data?.workspace))
-                    // dispatch(fetchBoardsThunk(data.workspace?._id ?? ''))
+                    dispatch(workspaceActions.setWorkspacePeople(data.people))
                 }
                 dispatch(listGroupActions.setListGroups(data?.listGroups))
                 dispatch(elementsActions.setElements(data.elements))

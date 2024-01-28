@@ -39,7 +39,7 @@ export const selectWorkspaceThunk = createAsyncThunk<void, Workspace, { state: A
         const dispatch = thunkAPI.dispatch
         const state = thunkAPI.getState()
         dispatch(workspaceActions.setSelectedWorkspace(workspace))
-      //  dispatch(fetchBoardsThunk(workspace?._id ?? ''))
+        //  dispatch(fetchBoardsThunk(workspace?._id ?? ''))
         dispatch(mainActions.setIsSideBarOpen(false))
         localStorage.setItem('workspaceId', workspace?._id ?? '')
         router.replace(`/w/${workspace._id}`)
@@ -102,5 +102,53 @@ export const updateWorkspaceThunk = createAsyncThunk<any, {
             }
         } catch (error) {
             dispatch(workspaceActions.setWorkspaceNetworkStatus(''))
+        }
+    })
+
+
+//manage workspace people
+
+export const AddWorkspacePersonThunk = createAsyncThunk<void, { workspaceId: string, email: string },
+    { state: AppState }>
+    ('cartSlice/AddWorkspacePersonThunk', async (params, thunkAPI) => {
+        const dispatch = thunkAPI.dispatch
+        try {
+            dispatch(workspaceActions.setWorkspaceNetworkStatus('adding-person'))
+            const workspaceData = await WorkspaceAPI.addWorkspacePerson(params.workspaceId, params.email)
+            if (workspaceData) {
+                dispatch(workspaceActions.setWorkspaceNetworkStatus('adding-person-success'))
+            }
+        } catch (error) {
+            dispatch(workspaceActions.setWorkspaceNetworkStatus('adding-person-error'))
+        }
+    })
+export const RemoveWorkspacePersonThunk = createAsyncThunk<void, { workspaceId: string, personId: string },
+    { state: AppState }>
+    ('cartSlice/AddWorkspacePersonThunk', async (params, thunkAPI) => {
+        const dispatch = thunkAPI.dispatch
+        try {
+            dispatch(workspaceActions.setWorkspaceNetworkStatus('removing-person'))
+            const workspaceData = await WorkspaceAPI.removeWorkspacePerson(params.workspaceId, params.personId)
+            if (workspaceData) {
+                dispatch(workspaceActions.setWorkspaceNetworkStatus('removing-person-success'))
+            }
+        } catch (error) {
+            dispatch(workspaceActions.setWorkspaceNetworkStatus('removing-person-error'))
+        }
+    })
+
+
+export const FetchWorkspacePeopleThunk = createAsyncThunk<void, { workspaceId: string, personId: string },
+    { state: AppState }>
+    ('cartSlice/FetchWorkspacePeopleThunk', async (params, thunkAPI) => {
+        const dispatch = thunkAPI.dispatch
+        try {
+            dispatch(workspaceActions.setWorkspaceNetworkStatus('fetching-workspace-people'))
+            const workspaceData = await WorkspaceAPI.removeWorkspacePerson(params.workspaceId, params.personId)
+            if (workspaceData) {
+                dispatch(workspaceActions.setWorkspaceNetworkStatus('fetching-workspace-people-success'))
+            }
+        } catch (error) {
+            dispatch(workspaceActions.setWorkspaceNetworkStatus('fetching-workspace-people-error'))
         }
     })

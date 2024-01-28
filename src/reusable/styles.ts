@@ -48,11 +48,11 @@ export const Avatar = styled(Box)(({ theme }) => ({
     width: 45,
     height: 45,
     borderRadius: '50%',
-    backgroundColor: colorScheme(theme).chatSecondaryColor,
+    backgroundColor: colorScheme(theme).lightGreyToSecondaryColor,
     boxShadow: `0 1px 3px 0 ${colorScheme(theme).chatBoarderColor}`,
     [theme.breakpoints.down('sm')]: {
-        width: 43,
-        height: 43,
+        // width: 43,
+        // height: 43,
     }
 }))
 

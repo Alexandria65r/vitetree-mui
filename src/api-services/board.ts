@@ -3,7 +3,7 @@ import path from "path/posix";
 import axios from 'axios'
 import { setAxiosDefaults } from "./helpers";
 import { Board } from "../models/board";
-import { Workspace } from "../models/workspace";
+import { Person, Workspace } from "../models/workspace";
 import { ListGroup } from "../models/list-group";
 import { Element } from "../models/element";
 
@@ -26,6 +26,7 @@ export default class BoardAPI {
                 board: data.board as Board,
                 boards: data.boards as Board[],
                 workspace: data.workspace as Workspace,
+                people: data.people as Person[],
                 listGroups: data.listGroups as ListGroup[],
                 elements: data.elements as Element[]
             }

@@ -43,7 +43,7 @@ const SubElementWrapper = styled(Box)(({ theme }) => ({
         maxHeight: 'calc(100dvh - 210px)',
     },
     [theme.breakpoints.up('md')]: {
-        maxHeight: 'calc(100dvh - 117px)',
+        maxHeight: 'calc(100dvh - 180px)',
     },
 }))
 const MappedSubElements = styled(Box)(() => ({

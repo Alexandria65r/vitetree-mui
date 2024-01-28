@@ -1,5 +1,14 @@
 import mongoose from "mongoose"
 
+export type Person = {
+    id?: string,
+    email?: string,
+    username?: string,
+    initials?: string
+    publicId?: string,
+    createdAt: string
+}
+
 export type Workspace = {
     _id?: string;
     cartegory: 'task' | 'feature' | '',
@@ -7,6 +16,7 @@ export type Workspace = {
     author: {
         id: string
     },
+    people: Person[]
     description: string
     createdAt?: string
     updatedAt?: string
@@ -22,6 +32,7 @@ const _WorkspaceSchema = new mongoose.Schema<Workspace>({
     author: {
         id: String
     },
+    people: Array,
     description: String,
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
@@ -35,5 +46,6 @@ export const WorkspaceSchema: Workspace = {
     author: {
         id: ""
     },
-    description: ""
+    description: "",
+    people: []
 }

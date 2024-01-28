@@ -1,5 +1,6 @@
 import mongoose from "mongoose"
 import { PickerBtn } from "../reusable/interfaces"
+import { Person } from "./workspace"
 export type ElementType = 'list-group-element' | ''
 
 
@@ -10,11 +11,7 @@ export type SubFeature = {
     createdAt?: string,
     color?: string
 }
-export type Person = {
-    id: string,
-    username: string,
-    publicId: string,
-}
+
 export type Element = {
     _id: string;
     elementType: ElementType,
@@ -56,11 +53,7 @@ const _ElementSchema = new mongoose.Schema<Element>({
         value: String,
         accent: String,
     },
-    person: {
-        id: String,
-        username: String,
-        publicId: String,
-    },
+    person: {type:Object, required:false},
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
 });
@@ -80,3 +73,5 @@ export const SubFeatureSchema: SubFeature = {
     name: "",
     description: "",
 }
+
+

@@ -22,6 +22,9 @@ export const useSelectBoardById = (id: string) => {
 export const useSelectedWorkspace = () => {
     return useAppSelector((state) => state.WorkspaceReducer.selectedWorkspace)
 }
+export const useWorkspacePeople = () => {
+    return useAppSelector((state) => state.WorkspaceReducer.people)
+}
 export const useSelectedBoard = () => {
     return useAppSelector((state) => state.BoardReducer.selectedBoard)
 }

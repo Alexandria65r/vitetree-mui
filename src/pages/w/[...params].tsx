@@ -41,8 +41,21 @@ const Header = styled(Box)(({ theme }) => ({
   backgroundColor: colorScheme(theme).lightToprimaryColor,
   borderBottom: `1px solid ${colorScheme(theme).grayToSecondaryColor}`,
   [theme.breakpoints.down('sm')]: {
+    width: '100%',
+    paddingInline: 0,
+  }
+}))
+const HeaderInnerWrapper = styled(Box)(({ theme }) => ({
+  flex: 1,
+  display: 'flex',
+  alignItems: 'center',
+  height: 56,
+  gap: 8,
+  backgroundColor: colorScheme(theme).lightToprimaryColor,
+  [theme.breakpoints.down('sm')]: {
     width: '100vw',
-    overflowX: 'auto'
+    overflowX: 'auto',
+    borderLeft: `1px solid ${colorScheme(theme).grayToSecondaryColor}`,
   }
 }))
 
@@ -109,8 +122,8 @@ export default function WorkspaceSettings({ }: Props) {
 
 
   function autoScroll() {
-    headerRef.current.scrollTo({
-      left: 300,
+    headerRef.current?.scrollTo({
+      left: 200,
       behavior: 'smooth'
     })
   }
@@ -122,60 +135,66 @@ export default function WorkspaceSettings({ }: Props) {
 
   return (
     <Layout>
-      <Header ref={headerRef}>
-        <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', gap: '8px' }}>
+      <Header>
+        
           <IconButton
             onClick={() => dispatch(mainActions.setIsSideBarOpen(!isSidebarOpen))}
             size="small"
             edge="start"
             color="inherit"
             aria-label="menu"
-            sx={{ mr: 2, display: 'none', [_theme.breakpoints.down('sm')]: { display: 'flex' } }}
+            sx={{ ml: 1, display: 'none', [_theme.breakpoints.down('sm')]: { display: 'flex' } }}
           >
-            {!isSidebarOpen ? <MenuOpenIcon /> : <MenuIcon />}
+            {isSidebarOpen ? <MenuOpenIcon /> : <MenuIcon />}
           </IconButton>
-          {boardNetworkStatus !== 'fetching-board-data' && (<>
-            {boards.length ? <ProjectTreeButton /> : (
-              <StyledButton
-                onClick={() => { dispatch(boardActions.setIsFormOpen(true)) }}
-                sx={{ fontSize: 14, height: 35, }}>
-                <Add /> Create A Board
-              </StyledButton>
-            )}
-          </>)}
-          <NewElementWrapper>
-            {isNewGroupInputOpen ?
-              (<NewItemInput
-                value={newListGroupName}
-                create={create}
-                onPaste={createMultipleGroupsOnPaste}
-                onChange={(target: any) => dispatch(listGroupActions.setListGroupName(target.value))}
-                placeholder='New group'
-                sx={{ paddingBlock: '9px', borderBottomColor: `${board.color}`, '&:focus': { borderBottomColor: `${board.color}!important` } }}
-                btnSx={{ height: 36 }}
-                createIcon={<VerticalAlignTopIcon
-                  sx={{ transform: 'rotate(90deg)', color: board.color ?? colors.teal[400], }}
-                />} />) : boards.length && board?._id ? (
-                  <NewElementButton
-                    sx={{ bgcolor: board.color }}
-                    onClick={() => dispatch(listGroupActions.setIsNewGroupInputOpen(true))}>
-                    <Add sx={{ mt: 0 }} /> {!isMobile ? 'New list group' : ''}
-                  </NewElementButton>
-                ) : <></>}
-          </NewElementWrapper>
-        </Box>
+        
 
-        <WorkspacePeople />
+        <HeaderInnerWrapper ref={headerRef}>
+          <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', gap: '8px' }}>
+            {boardNetworkStatus !== 'fetching-board-data' && (<Box sx={{ml:.8}}>
+              {boards.length ? <ProjectTreeButton /> : (
+                <StyledButton
+                  onClick={() => { dispatch(boardActions.setIsFormOpen(true)) }}
+                  sx={{ fontSize: 14, height: 35, }}>
+                  <Add /> Create A Board
+                </StyledButton>
+              )}
+            </Box>)}
+            <NewElementWrapper>
+              {isNewGroupInputOpen ?
+                (<NewItemInput
+                  value={newListGroupName}
+                  create={create}
+                  onPaste={createMultipleGroupsOnPaste}
+                  onChange={(target: any) => dispatch(listGroupActions.setListGroupName(target.value))}
+                  placeholder='New group'
+                  sx={{ paddingBlock: '9px', borderBottomColor: `${board.color}`, '&:focus': { borderBottomColor: `${board.color}!important` } }}
+                  btnSx={{ height: 36 }}
+                  createIcon={<VerticalAlignTopIcon
+                    sx={{ transform: 'rotate(90deg)', color: board.color ?? colors.teal[400], }}
+                  />} />) : boards.length && board?._id ? (
+                    <NewElementButton
+                      sx={{ bgcolor: board.color }}
+                      onClick={() => dispatch(listGroupActions.setIsNewGroupInputOpen(true))}>
+                      <Add sx={{ mt: 0 }} /> {!isMobile ? 'New list group' : ''}
+                    </NewElementButton>
+                  ) : <></>}
+            </NewElementWrapper>
+          </Box>
 
-        <NewElementButton
-          sx={{ gap: .5 }}
-          onClick={() => dispatch(workspaceActions.toggleInvitePeopleModal(true))}>
-          <GroupAddOutlinedIcon sx={{ mt: 0 }} /> {!isMobile ? 'Invite People' : ''}
-        </NewElementButton>
+          <WorkspacePeople />
 
-        <ButtonIcon onClick={() => dispatch(boardActions.toggleBoardInfoModal(true))} sx={{ width: 35, height: 35 }}>
-          <MoreVertOutlinedIcon />
-        </ButtonIcon>
+          <NewElementButton
+            sx={{ gap: .5 }}
+            onClick={() => dispatch(workspaceActions.toggleInvitePeopleModal(true))}>
+            <GroupAddOutlinedIcon sx={{ mt: 0 }} /> {!isMobile ? 'Invite People' : ''}
+          </NewElementButton>
+
+          <ButtonIcon onClick={() => dispatch(boardActions.toggleBoardInfoModal(true))} sx={{ width: 35, height: 35 }}>
+            <MoreVertOutlinedIcon />
+          </ButtonIcon>
+
+        </HeaderInnerWrapper>
       </Header>
       <Container>
         {boardNetworkStatus === 'fetching-board-data' ? (<Box
@@ -207,6 +226,6 @@ export default function WorkspaceSettings({ }: Props) {
         moveTo={() => { }}
         deleteSelected={() => dispatch(mainActions.setModal({ component: 'delete-bulk-elements' }))}
         clearSelected={() => dispatch(elementsActions.clearCheckedItems())} mode={'mark-elements'} />
-    </Layout>
+    </Layout >
   )
 }

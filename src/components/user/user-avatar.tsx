@@ -5,8 +5,9 @@ import { Asset, UserAvatarAsset } from '../../reusable/interfaces'
 import { useAppDispatch } from '../../../store/hooks'
 import { fetchUserAvatarThunk } from '../../../reducers/auth-reducer/auth-thunks'
 import ImageIcon from '@mui/icons-material/Image';
-import { colorScheme } from '../../theme'
-import {uploadFileThunk } from '../../../reducers/main-reducer/main-thunks'
+import { ThemedText, colorScheme } from '../../theme'
+import { uploadFileThunk } from '../../../reducers/main-reducer/main-thunks'
+import { Image, Transformation } from 'cloudinary-react'
 
 import styles from './user-avatar.module.css'
 
@@ -34,6 +35,8 @@ type Props = {
     mode?: 'author' | 'read-only' | ''
     userId?: string
     imageURL?: string
+    publicId?: string
+    initials?: string
     changeImagePreview?: any
     avatarStyles: SxProps<Theme>
     changeProfileImage?: () => void
@@ -41,7 +44,7 @@ type Props = {
 
 
 
-export default function UserAvatar({ userId, imageURL, changeImagePreview, avatarStyles, changeProfileImage, mode }: Props) {
+export default function UserAvatar({ userId, imageURL, publicId, initials, changeImagePreview, avatarStyles, changeProfileImage, mode }: Props) {
     const dispatch = useAppDispatch()
     const [userAvatar, setUserAvatar] = useState<UserAvatarAsset>({
         publicId: '',
@@ -62,7 +65,7 @@ export default function UserAvatar({ userId, imageURL, changeImagePreview, avata
 
 
     useEffect(() => {
-       // loadAvatarData()
+        // loadAvatarData()
     }, [dispatch])
 
     const fileRef: any = useRef()
@@ -79,39 +82,71 @@ export default function UserAvatar({ userId, imageURL, changeImagePreview, avata
             }))
 
             if (response.payload.publicId) {
-              
+
             }
         }
         reader.readAsDataURL(files[0])
     }
 
-
+    const _avatarStyles: any = avatarStyles
+    const avatarSize: any = _avatarStyles?.width - 4
     return (
         <Box onClick={changeProfileImage} className={styles.avatar}>
-            {changeImagePreview || base64 || userAvatar.secureURL || imageURL ? (
+            {changeImagePreview || base64 || userAvatar.secureURL || imageURL || publicId ? (
                 <Box>
                     <Avatar sx={avatarStyles}>
-                        <img src={changeImagePreview || base64 || userAvatar.secureURL || imageURL} alt="" height='100%' width='100%'
-                            style={{ borderRadius: '50%', objectFit: 'cover' }}
-                        />
+                        {publicId ? (<>
+                            <Image
+                                cloudName="alexandriah65"
+                                publicId={publicId}
+                                style={{ borderRadius: '50%', width: '100%', height: '100%' }}
+                            >
+                                <Transformation width="200" height="200" crop="fill" />
+                                <Transformation fetchFormat="webp" />
+                            </Image>
+                        </>) : (
+                            <img src={changeImagePreview || base64 || userAvatar.secureURL || imageURL} alt="" height='100%' width='100%'
+                                style={{ borderRadius: '50%', objectFit: 'cover' }}
+                            />
+                        )}
                         {mode === 'author' ? (
                             <BrowseImage className={styles.profileButton} onClick={() => fileRef.current.click()}>
                                 <ImageIcon />
                             </BrowseImage>
                         ) : <></>}
                     </Avatar>
-                </Box>) : (
-                <Box >
-                    <AvatarIcon sx={avatarStyles}>
-                    </AvatarIcon>
+                </Box>) : initials !== undefined ? (
+                    <Avatar sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        textTransform: 'uppercase',
+                        ...avatarStyles
+                    }}>
+
+                        {initials}
+                    </Avatar>
+                ) : (
+                <Box>
+                    <Avatar sx={{
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        ...avatarStyles
+                    }}>
+                        <AvatarIcon sx={{
+                            m: .1,
+                            width: avatarSize, height: avatarSize
+                        }} />
+                    </Avatar>
+
                     {mode === 'author' ? (
                         <BrowseImage className={styles.profileButton} onClick={() => fileRef.current.click()}>
                             <ImageIcon />
                         </BrowseImage>
                     ) : <></>}
                 </Box>
-            )}
+            )
+            }
             <input type='file' ref={fileRef} hidden onChange={fileOnChange} />
-        </Box>
+        </Box >
     )
 }
