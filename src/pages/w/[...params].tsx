@@ -38,8 +38,8 @@ const Header = styled(Box)(({ theme }) => ({
   height: 56,
   gap: 8,
   paddingInline: 10,
-  backgroundColor: colorScheme(theme).lightToprimaryColor,
   borderBottom: `1px solid ${colorScheme(theme).grayToSecondaryColor}`,
+  backgroundColor: colorScheme(theme).lightToprimaryColor,
   [theme.breakpoints.down('sm')]: {
     width: '100%',
     paddingInline: 0,
@@ -49,7 +49,7 @@ const HeaderInnerWrapper = styled(Box)(({ theme }) => ({
   flex: 1,
   display: 'flex',
   alignItems: 'center',
-  height: 56,
+  height: 54,
   gap: 8,
   backgroundColor: colorScheme(theme).lightToprimaryColor,
   [theme.breakpoints.down('sm')]: {
