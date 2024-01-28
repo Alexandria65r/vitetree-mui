@@ -17,7 +17,7 @@ type Props = {}
 export default function RoleInfo({ }: Props) {
   const user = useAppSelector((state) => state.AuthReducer.user)
   return (
-    <Layout>
+    <Layout page=''>
       <Container>
         <DetailHeader title={`${user.role} Information`} />
       </Container>

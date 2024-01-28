@@ -56,7 +56,7 @@ export default function IntractionMenu({ popupState }: Props) {
     return (
         <>
 
-            <Link href={`/account-setup`}>
+            <Link href={`/pricing`}>
                 <MenuItem
                     sx={(theme) => ({ borderBottom: `1px solid ${colorScheme(theme).greyToTertiary}` })}>
                     <Box sx={{ flex: 1 }}>

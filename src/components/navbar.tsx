@@ -10,7 +10,7 @@ import { ButtonIcon } from '../reusable/styles';
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import { ButtonBase, colors, styled, useMediaQuery, useTheme } from '@mui/material';
-import { ColorModeContext, colorScheme, isDarkMode } from '../theme';
+import { ColorModeContext, ThemedText, colorScheme, isDarkMode } from '../theme';
 import { CSS_PROPERTIES } from '../reusable';
 import { useRouter } from 'next/router';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
@@ -36,19 +36,24 @@ const Button = styled(ButtonBase)(({ theme }) => ({
 }))
 
 const AppBar = styled(AppNavigationBar)(({ theme }) => ({
-    height:55,
-    justifyContent:'center',
+    height: 55,
+    justifyContent: 'center',
     //boxShadow: `0 1px 3px 0 ${isDarkMode(theme) ? colors.grey[800] :'transparent'}`,
     borderBottom: `1px solid ${colorScheme(theme).grayToSecondaryColor}`,
     backgroundColor: colorScheme(theme).lightToprimaryColor,
-    display:'none',
+    // display:'none',
     [theme.breakpoints.down('sm')]: {
-        display:'flex'
+        display: 'flex'
     }
 }))
 
 
-export default function NavBar() {
+type Props = {
+    page: string
+}
+
+
+export default function NavBar({ page }: Props) {
     const dispatch = useAppDispatch()
     const router = useRouter()
     const theme = useTheme()
@@ -67,30 +72,33 @@ export default function NavBar() {
         <Box sx={{ flexGrow: 1, position: 'relative' }}>
             <AppBar position="static" color='default' elevation={0}>
                 <Toolbar >
-
                     <IconButton
                         onClick={toggleSideBar}
                         size="large"
                         edge="start"
                         color="inherit"
                         aria-label="menu"
-                        sx={{ mr: 2 }}
+                        sx={{
+                            display:'none',
+                            mr: 2,
+                            [theme.breakpoints.down('sm')]: {
+                                display:'flex'
+                            }
+                        }}
                     >
                         {!isSidebarOpen ? <MenuOpenIcon /> : <MenuIcon />}
                     </IconButton>
 
-
-                    <Typography
+                    <ThemedText
                         sx={{
-                            fontSize: 22,
+                            fontSize: 20,
                             textAlign: isMobile ? 'center' : 'left',
                             fontWeight: 600,
-                            flexGrow: 1, color: colors.teal[400]
+                            textTransform: 'capitalize',
+                            flexGrow: 1,
                         }}>
-                        <Link href={'/'}>
-                            Vitetree
-                        </Link>
-                    </Typography>
+                        {page}
+                    </ThemedText>
 
                     {!isMobile && user?._id && (<>
                         <ButtonIcon onClick={() => router.push('/conversations/conv-list')} sx={{ position: 'relative' }}>

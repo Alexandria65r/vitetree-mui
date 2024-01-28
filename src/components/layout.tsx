@@ -1,5 +1,5 @@
 import { Box } from '@mui/joy'
-import React, { useCallback, useEffect } from 'react'
+import React, { ReactNode, useCallback, useEffect } from 'react'
 import NavBar from './navbar'
 import _app from '../pages/_app'
 import { useAppDispatch, useAppSelector, useSelectedWorkspace } from '../../store/hooks'
@@ -31,10 +31,11 @@ const FlexContainer = styled(Box)(({ theme }) => ({
 
 
 type Props = {
-    children: any
+    children: ReactNode
+    page?: string
 }
 
-export default function Layout({ children }: Props) {
+export default function Layout({ children, page }: Props) {
     const dispatch = useAppDispatch()
     const router = useRouter()
     const isSidebarOpen = useAppSelector((state) => state.MainReducer.isSidebarOpen)
@@ -121,9 +122,7 @@ export default function Layout({ children }: Props) {
             <Box sx={{ width: '100%', position: 'absolute', top: 0, zIndex: 9999 }}>
                 {isRouteChange && <LinearProgress />}
             </Box>
-            {isMobile && router.pathname === '/w/[...params]' ? (
-                <></>
-            ) : <NavBar />}
+
             <Toast />
             <WorkSpaceForm />
             <BoardForm />
@@ -147,6 +146,9 @@ export default function Layout({ children }: Props) {
                 <Box
                     sx={{ flexBasis: isSidebarOpen ? '96%' : '90%', transition: '0.3s all' }}
                     className="sideBarAnimated">
+                    { router.pathname === '/w/[...params]' ? (
+                        <></>
+                    ) : <NavBar page={page ?? ''} />}
                     {children}
                 </Box>
             </FlexContainer>

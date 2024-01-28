@@ -15,9 +15,9 @@ type Props = {}
 
 export default function PrimaryInfo({ }: Props) {
   return (
-    <Layout>
+    <Layout page='Primary information'>
       <Container>
-        <DetailHeader title='Primary Information' />
+        {/* <DetailHeader title='Primary Information' /> */}
       </Container>
     </Layout>
   )

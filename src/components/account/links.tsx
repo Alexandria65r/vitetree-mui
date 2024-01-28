@@ -7,6 +7,7 @@ import InfoItem from './info-item'
 import { useAppSelector } from '../../../store/hooks'
 import Layout from '../../components/layout'
 import { Box, styled } from '@mui/material'
+import { useRouter } from 'next/router'
 
 const Container = styled(Box)(({ theme }) => ({
     width: '70%',
@@ -19,10 +20,13 @@ const Container = styled(Box)(({ theme }) => ({
 type Props = {}
 
 export default function AccountLinks({ }: Props) {
+    const router = useRouter()
     const user = useAppSelector((state) => state.AuthReducer.user)
     const isSidebarOpen = useAppSelector((state) => state.MainReducer.isSidebarOpen)
+    const [page, _]:any = router.query.params || []
+
     return (
-        <Layout>
+        <Layout >
             <Container
                 sx={(theme) => ({
                     width: !isSidebarOpen ? '70%' : '60%',

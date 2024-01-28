@@ -40,9 +40,9 @@ export default function PaymentMethods({ }: Props) {
   }, [dispatch, user])
 
   return (
-    <Layout>
+    <Layout page='Billing'>
       <Container>
-        <DetailHeader title='Billing Information' />
+        {/* <DetailHeader title='Billing Information' /> */}
         <br />
 
         {cards.map((card, index) => (
